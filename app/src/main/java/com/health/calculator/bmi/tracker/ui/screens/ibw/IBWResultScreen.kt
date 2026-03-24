@@ -274,6 +274,9 @@ private fun PrimaryResultCard(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.size(180.dp)
             ) {
+                val primaryColor = MaterialTheme.colorScheme.primary
+                val secondaryColor = MaterialTheme.colorScheme.secondary
+                
                 // Background Track
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     drawArc(
@@ -289,8 +292,8 @@ private fun PrimaryResultCard(
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     drawArc(
                         brush = Brush.sweepGradient(
-                            0f to MaterialTheme.colorScheme.primary,
-                            0.75f to MaterialTheme.colorScheme.secondary
+                            0f to primaryColor,
+                            0.75f to secondaryColor
                         ),
                         startAngle = 135f,
                         sweepAngle = 270f * (animatedWeight / (if(showInKg) 120f else 260f)).coerceAtMost(1f),
@@ -464,6 +467,15 @@ private fun VisualWeightScale(result: IBWResult, showInKg: Boolean) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Box(modifier = Modifier.fillMaxWidth().height(40.dp)) {
+                    val primaryColor = MaterialTheme.colorScheme.primary
+                    val secondaryColor = MaterialTheme.colorScheme.secondary
+                    
+                    // Compute all positions in composable scope BEFORE Canvas block
+                    val minBmiPos = getPos(minBmi)
+                    val maxBmiPos = getPos(maxBmi)
+                    val idealPos = getPos(ideal)
+                    val currentPos = getPos(current)
+                    
                     Canvas(modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp)) {
                         val trackHeight = 12.dp.toPx()
                         val y = size.height / 2
@@ -475,24 +487,24 @@ private fun VisualWeightScale(result: IBWResult, showInKg: Boolean) {
                             cornerRadius = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx())
                         )
                         
-                        val startX = getPos(minBmi) * size.width
-                        val endX = getPos(maxBmi) * size.width
+                        val startX = minBmiPos * size.width
+                        val endX = maxBmiPos * size.width
                         drawRect(
                             color = Color(0xFF4CAF50).copy(alpha = 0.4f),
                             topLeft = Offset(startX, y - trackHeight/2),
                             size = androidx.compose.ui.geometry.Size(maxOf(0f, endX - startX), trackHeight)
                         )
                         
-                        val idealX = getPos(ideal) * size.width
+                        val idealX = idealPos * size.width
                         drawCircle(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = primaryColor,
                             radius = 6.dp.toPx(),
                             center = Offset(idealX, y)
                         )
                         
-                        val currentX = getPos(current) * size.width
+                        val currentX = currentPos * size.width
                         drawRect(
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = secondaryColor,
                             size = androidx.compose.ui.geometry.Size(4.dp.toPx(), 24.dp.toPx()),
                             topLeft = Offset(currentX - 2.dp.toPx(), y - 12.dp.toPx())
                         )
