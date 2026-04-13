@@ -611,8 +611,9 @@ private fun openAppRating(context: android.content.Context, packageName: String)
 }
 
 private fun shareApp(context: android.content.Context, packageName: String) {
+    val appName = context.applicationInfo.loadLabel(context.packageManager).toString()
     val appLink = "https://play.google.com/store/apps/details?id=$packageName"
-    val shareText = "Track health metrics with Health Calculator: $appLink"
+    val shareText = "Track health metrics with $appName: $appLink"
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
         putExtra(Intent.EXTRA_TEXT, shareText)

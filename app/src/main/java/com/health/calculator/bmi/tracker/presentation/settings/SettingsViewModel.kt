@@ -215,7 +215,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 historyRepository.getAllEntries().first().map { it.toDisplayEntry() }
             }
             if (entries.isEmpty()) {
-                _uiState.update { it.copy(exportStatusMessage = "No data available to export yet") }
+                _uiState.update { it.copy(exportStatusMessage = "No data available to export") }
                 return@launch
             }
 

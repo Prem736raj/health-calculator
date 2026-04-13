@@ -51,7 +51,7 @@ fun BackupScreen(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri ->
         uri?.let {
-            viewModel.restoreFromFile(it, RestoreMode.MERGE)
+            viewModel.restoreFromFile(it, restoreMode)
         }
     }
 

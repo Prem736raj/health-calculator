@@ -22,6 +22,8 @@ import com.health.calculator.bmi.tracker.ui.components.*
 import java.io.File
 import java.io.FileOutputStream
 
+private const val PROFILE_IMAGE_QUALITY = 95
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -398,7 +400,7 @@ private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
             ?.forEach { it.delete() }
         val file = File(context.cacheDir, "profile_${System.currentTimeMillis()}.jpg")
         FileOutputStream(file).use { out ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)
         }
         FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
     } catch (_: Exception) {
