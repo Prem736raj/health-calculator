@@ -10,19 +10,19 @@ import androidx.compose.ui.unit.dp
 
 val HealthShapes = Shapes(
     // Small components: Chips, small buttons, toggles
-    extraSmall = RoundedCornerShape(4.dp),
+    extraSmall = RoundedCornerShape(8.dp),
 
     // Small components: Text fields, small cards
-    small = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(14.dp),
 
     // Medium components: Cards, dialogs, calculator input cards
-    medium = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(20.dp),
 
     // Large components: Bottom sheets, large cards, result panels
-    large = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(28.dp),
 
     // Extra large: Full-screen dialogs, modal bottoms, feature cards
-    extraLarge = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(36.dp),
 )
 
 // ============================================================================
@@ -30,15 +30,15 @@ val HealthShapes = Shapes(
 // ============================================================================
 
 // Calculator result card - more rounded for a "badge" feel
-val ResultCardShape = RoundedCornerShape(20.dp)
+val ResultCardShape = RoundedCornerShape(28.dp)
 
 // Gauge/meter background shapes
 val GaugeShape = RoundedCornerShape(50)            // Fully rounded (pill)
 
 // Bottom navigation bar
 val BottomNavShape = RoundedCornerShape(
-    topStart = 20.dp,
-    topEnd = 20.dp,
+    topStart = 28.dp,
+    topEnd = 28.dp,
     bottomStart = 0.dp,
     bottomEnd = 0.dp
 )
@@ -47,16 +47,16 @@ val BottomNavShape = RoundedCornerShape(
 val TopBarShape = RoundedCornerShape(
     topStart = 0.dp,
     topEnd = 0.dp,
-    bottomStart = 16.dp,
-    bottomEnd = 16.dp
+    bottomStart = 26.dp,
+    bottomEnd = 26.dp
 )
 
 // Input field shape
-val InputFieldShape = RoundedCornerShape(12.dp)
+val InputFieldShape = RoundedCornerShape(20.dp)
 
 // Button shapes
-val ButtonShape = RoundedCornerShape(12.dp)
-val SmallButtonShape = RoundedCornerShape(8.dp)
+val ButtonShape = RoundedCornerShape(18.dp)
+val SmallButtonShape = RoundedCornerShape(12.dp)
 val PillButtonShape = RoundedCornerShape(50)
 
 // Health category indicator (small rounded badge)

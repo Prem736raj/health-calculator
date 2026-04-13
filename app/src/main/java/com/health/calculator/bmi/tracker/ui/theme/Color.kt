@@ -7,48 +7,48 @@ import androidx.compose.ui.graphics.Color
 // ============================================================================
 
 // Light Theme Primary
-val PrimaryLight = Color(0xFF0D7C8F)          // Deep teal - main brand color
+val PrimaryLight = Color(0xFF5B5CFF)          // Electric indigo
 val OnPrimaryLight = Color(0xFFFFFFFF)         // White text on primary
-val PrimaryContainerLight = Color(0xFFB3E8F0)  // Soft teal container
-val OnPrimaryContainerLight = Color(0xFF053B44) // Dark teal text on container
+val PrimaryContainerLight = Color(0xFFE5E4FF)  // Soft violet container
+val OnPrimaryContainerLight = Color(0xFF1C1D7A) // Indigo text on container
 
 // Dark Theme Primary
-val PrimaryDark = Color(0xFF6DD4E5)            // Bright teal for dark backgrounds
-val OnPrimaryDark = Color(0xFF003640)          // Very dark teal text on primary
-val PrimaryContainerDark = Color(0xFF005F6E)   // Medium teal container
-val OnPrimaryContainerDark = Color(0xFFB3E8F0) // Light teal text on container
+val PrimaryDark = Color(0xFFB3B2FF)            // Soft indigo for dark surfaces
+val OnPrimaryDark = Color(0xFF27285E)
+val PrimaryContainerDark = Color(0xFF34358D)
+val OnPrimaryContainerDark = Color(0xFFE5E4FF)
 
 // ============================================================================
 // SECONDARY PALETTE - Warm Slate Blue (Complementary calm)
 // ============================================================================
 
 // Light Theme Secondary
-val SecondaryLight = Color(0xFF4A6572)         // Slate blue-gray
+val SecondaryLight = Color(0xFF00A6A6)         // Aqua accent
 val OnSecondaryLight = Color(0xFFFFFFFF)
-val SecondaryContainerLight = Color(0xFFCDE5ED) // Soft blue-gray container
-val OnSecondaryContainerLight = Color(0xFF1A2E38)
+val SecondaryContainerLight = Color(0xFFC6F8F7)
+val OnSecondaryContainerLight = Color(0xFF004C4C)
 
 // Dark Theme Secondary
-val SecondaryDark = Color(0xFFB4CAD6)          // Light slate
-val OnSecondaryDark = Color(0xFF1F333D)
-val SecondaryContainerDark = Color(0xFF354D58)
-val OnSecondaryContainerDark = Color(0xFFCDE5ED)
+val SecondaryDark = Color(0xFF7CE2E1)
+val OnSecondaryDark = Color(0xFF003737)
+val SecondaryContainerDark = Color(0xFF005E5E)
+val OnSecondaryContainerDark = Color(0xFFC6F8F7)
 
 // ============================================================================
 // TERTIARY PALETTE - Gentle Purple (Premium accent)
 // ============================================================================
 
 // Light Theme Tertiary
-val TertiaryLight = Color(0xFF6B5778)          // Muted purple
+val TertiaryLight = Color(0xFFFF6B8B)          // Energetic coral
 val OnTertiaryLight = Color(0xFFFFFFFF)
-val TertiaryContainerLight = Color(0xFFF0DBFF) // Soft lavender container
-val OnTertiaryContainerLight = Color(0xFF261432)
+val TertiaryContainerLight = Color(0xFFFFDCE5)
+val OnTertiaryContainerLight = Color(0xFF5B1025)
 
 // Dark Theme Tertiary
-val TertiaryDark = Color(0xFFD7BDE4)           // Light lavender
-val OnTertiaryDark = Color(0xFF3C2A48)
-val TertiaryContainerDark = Color(0xFF534060)
-val OnTertiaryContainerDark = Color(0xFFF0DBFF)
+val TertiaryDark = Color(0xFFFFB2C5)
+val OnTertiaryDark = Color(0xFF5A1230)
+val TertiaryContainerDark = Color(0xFF7C2A45)
+val OnTertiaryContainerDark = Color(0xFFFFDCE5)
 
 // ============================================================================
 // ERROR PALETTE
@@ -68,41 +68,41 @@ val OnErrorContainerDark = Color(0xFFFFDAD6)
 // BACKGROUND & SURFACE - Light Theme
 // ============================================================================
 
-val BackgroundLight = Color(0xFFF8FAFB)        // Very subtle cool white
-val OnBackgroundLight = Color(0xFF191C1D)       // Near-black text
-val SurfaceLight = Color(0xFFF8FAFB)
-val OnSurfaceLight = Color(0xFF191C1D)
-val SurfaceVariantLight = Color(0xFFDBE4E7)    // Subtle blue-gray surface
-val OnSurfaceVariantLight = Color(0xFF3F484B)
+val BackgroundLight = Color(0xFFF5F7FF)
+val OnBackgroundLight = Color(0xFF15173A)
+val SurfaceLight = Color(0xFFFCFCFF)
+val OnSurfaceLight = Color(0xFF1C1D3E)
+val SurfaceVariantLight = Color(0xFFE8EBFF)
+val OnSurfaceVariantLight = Color(0xFF4A4D73)
 val SurfaceTintLight = PrimaryLight
-val InverseSurfaceLight = Color(0xFF2E3132)
-val InverseOnSurfaceLight = Color(0xFFEFF1F2)
+val InverseSurfaceLight = Color(0xFF2A2D53)
+val InverseOnSurfaceLight = Color(0xFFF0F1FF)
 val InversePrimaryLight = PrimaryDark
 
 // ============================================================================
 // BACKGROUND & SURFACE - Dark Theme
 // ============================================================================
 
-val BackgroundDark = Color(0xFF0F1415)          // Very dark blue-black
-val OnBackgroundDark = Color(0xFFE1E3E4)        // Light gray text
-val SurfaceDark = Color(0xFF0F1415)
-val OnSurfaceDark = Color(0xFFE1E3E4)
-val SurfaceVariantDark = Color(0xFF3F484B)
-val OnSurfaceVariantDark = Color(0xFFBFC8CB)
+val BackgroundDark = Color(0xFF0D0F23)
+val OnBackgroundDark = Color(0xFFE5E7FF)
+val SurfaceDark = Color(0xFF12152B)
+val OnSurfaceDark = Color(0xFFE5E7FF)
+val SurfaceVariantDark = Color(0xFF2A2E4F)
+val OnSurfaceVariantDark = Color(0xFFBCC1E8)
 val SurfaceTintDark = PrimaryDark
-val InverseSurfaceDark = Color(0xFFE1E3E4)
-val InverseOnSurfaceDark = Color(0xFF2E3132)
+val InverseSurfaceDark = Color(0xFFE5E7FF)
+val InverseOnSurfaceDark = Color(0xFF24274B)
 val InversePrimaryDark = PrimaryLight
 
 // ============================================================================
 // OUTLINE
 // ============================================================================
 
-val OutlineLight = Color(0xFF6F797B)
-val OutlineVariantLight = Color(0xFFBFC8CB)
+val OutlineLight = Color(0xFF7A7FB0)
+val OutlineVariantLight = Color(0xFFCACFF5)
 
-val OutlineDark = Color(0xFF899295)
-val OutlineVariantDark = Color(0xFF3F484B)
+val OutlineDark = Color(0xFF9096C9)
+val OutlineVariantDark = Color(0xFF353A61)
 
 // ============================================================================
 // SCRIM
@@ -163,20 +163,20 @@ object HealthColors {
 // ============================================================================
 
 object ChartColors {
-    val Primary = Color(0xFF0D7C8F)
-    val Secondary = Color(0xFF4A6572)
-    val Tertiary = Color(0xFF6B5778)
-    val Accent1 = Color(0xFF26A69A)
-    val Accent2 = Color(0xFF5C6BC0)
-    val Accent3 = Color(0xFFFF7043)
+    val Primary = Color(0xFF5B5CFF)
+    val Secondary = Color(0xFF00A6A6)
+    val Tertiary = Color(0xFFFF6B8B)
+    val Accent1 = Color(0xFF7F6BFF)
+    val Accent2 = Color(0xFF2DC5FF)
+    val Accent3 = Color(0xFFFF9852)
 
     val GridLine = Color(0xFFE0E0E0)
     val GridLineDark = Color(0xFF424242)
 
-    val GradientStart = Color(0xFF0D7C8F)
-    val GradientEnd = Color(0x330D7C8F)
-    val GradientStartDark = Color(0xFF6DD4E5)
-    val GradientEndDark = Color(0x336DD4E5)
+    val GradientStart = Color(0xFF5B5CFF)
+    val GradientEnd = Color(0x335B5CFF)
+    val GradientStartDark = Color(0xFFB3B2FF)
+    val GradientEndDark = Color(0x33B3B2FF)
 }
 
 // ============================================================================
