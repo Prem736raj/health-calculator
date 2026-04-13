@@ -6,10 +6,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -28,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.core.navigation.BottomNavItem
+import com.health.calculator.bmi.tracker.ui.theme.BottomNavShape
 import com.health.calculator.bmi.tracker.ui.theme.HealthCalculatorTheme
 
 @Composable
@@ -38,13 +37,12 @@ fun BottomNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier
-            .padding(horizontal = 12.dp, vertical = 10.dp)
             .shadow(
-                elevation = 14.dp,
-                shape = RoundedCornerShape(28.dp),
+                elevation = 10.dp,
+                shape = BottomNavShape,
                 clip = false
             )
-            .clip(RoundedCornerShape(28.dp))
+            .clip(BottomNavShape)
             .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
         containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f),
         contentColor = MaterialTheme.colorScheme.onSurface,
