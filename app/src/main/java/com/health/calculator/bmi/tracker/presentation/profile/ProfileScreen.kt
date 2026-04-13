@@ -203,15 +203,34 @@ fun ProfileScreen(
 
     // Dialogs & Pickers
     if (uiState.showImagePickerDialog) {
+        val cameraLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview()
+        ) { bitmap ->
+            if (bitmap != null) {
+                // Would normally implement file saving here, omitting for now
+                viewModel.dismissImagePickerDialog()
+            }
+        }
+        val galleryLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
+        ) { uri ->
+            if (uri != null) {
+                viewModel.updateProfilePicture(uri.toString())
+            }
+            viewModel.dismissImagePickerDialog()
+        }
+
         ProfileImagePickerDialog(
             onDismiss = viewModel::dismissImagePickerDialog,
             onCameraClick = {
                 cameraLauncher.launch(null)
+                viewModel.dismissImagePickerDialog()
             },
             onGalleryClick = {
                 galleryLauncher.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
+                viewModel.dismissImagePickerDialog()
             },
             onImageSelected = viewModel::updateProfilePicture
         )

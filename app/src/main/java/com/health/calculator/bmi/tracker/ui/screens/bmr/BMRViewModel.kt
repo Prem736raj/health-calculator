@@ -8,7 +8,7 @@ import com.health.calculator.bmi.tracker.data.calculator.BMRCalculator
 import com.health.calculator.bmi.tracker.data.model.*
 import com.health.calculator.bmi.tracker.data.model.MacroColors
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -68,7 +68,7 @@ class BMRViewModel(application: Application) : AndroidViewModel(application) {
 
     // History Repository
     private val historyRepository = HistoryRepository(
-        HealthDatabase.getInstance(application).historyDao()
+        AppDatabase.getDatabase(application).historyDao()
     )
 
     private val _bmrHistoryPoints = MutableStateFlow<List<BMRHistoryPoint>>(emptyList())

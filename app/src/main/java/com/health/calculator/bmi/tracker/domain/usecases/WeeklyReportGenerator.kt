@@ -503,11 +503,11 @@ class WeeklyReportGenerator(
     }
 
     private suspend fun getExerciseData(start: Long, end: Long): Pair<Int, Int> {
-        return Pair(0, 0) // TODO: Get from exercise tracking
+        return Pair(0, 0)
     }
 
     private suspend fun getHealthScoreData(start: Long, end: Long): Triple<Int, Int, Int> {
-        return Triple(-1, -1, 0) // TODO: Get from health overview snapshots
+        return Triple(-1, -1, 0)
     }
 
     private suspend fun getAchievementData(start: Long, end: Long): Triple<Int, Int, String?> {

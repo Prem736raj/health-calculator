@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.model.Gender
 import com.health.calculator.bmi.tracker.data.model.HeightUnit

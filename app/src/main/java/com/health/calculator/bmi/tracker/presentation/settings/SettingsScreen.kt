@@ -426,7 +426,7 @@ fun SettingsScreen(
                                 title = "Privacy Policy",
                                 subtitle = "How we handle your data",
                                 onClick = {
-                                    openUrl(context, "https://github.com/Prem736raj/health-calculator")
+                                    openUrl(context, "https://policies.google.com/privacy")
                                 }
                             )
 
@@ -438,7 +438,7 @@ fun SettingsScreen(
                                 title = "Terms of Service",
                                 subtitle = "Usage terms and conditions",
                                 onClick = {
-                                    openUrl(context, "https://github.com/Prem736raj/health-calculator/blob/main/LICENSE")
+                                    openUrl(context, "https://policies.google.com/terms")
                                 }
                             )
 

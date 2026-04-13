@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.calculator.IdealWeightCalculator
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.*
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import kotlinx.coroutines.delay
@@ -81,7 +81,7 @@ class IdealWeightViewModel(application: Application) : AndroidViewModel(applicat
     private var profilePopulated = false
 
     private val historyRepository = HistoryRepository(
-        HealthDatabase.getInstance(application).historyDao()
+        AppDatabase.getDatabase(application).historyDao()
     )
 
     // ============================================================
