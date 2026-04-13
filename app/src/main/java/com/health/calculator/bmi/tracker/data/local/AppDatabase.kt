@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
 import com.health.calculator.bmi.tracker.data.local.dao.BloodPressureDao
@@ -37,7 +38,7 @@ import com.health.calculator.bmi.tracker.data.dao.UrineColorDao
         com.health.calculator.bmi.tracker.data.models.Reminder::class,
         com.health.calculator.bmi.tracker.data.models.WeeklyReport::class
     ],
-    version = 12,
+    version = 13,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -91,7 +92,23 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "health_calculator_database"
                 )
-                    .fallbackToDestructiveMigration()
+                    // When schema changes during development, recreate tables to avoid
+                    // "no such table" / identity-hash mismatches.
+                    .fallbackToDestructiveMigration(dropAllTables = true)
+                    .addCallback(object : RoomDatabase.Callback() {
+                        override fun onOpen(db: SupportSQLiteDatabase) {
+                            super.onOpen(db)
+                            // Ensure favorite_quotes table exists (safety net)
+                            db.execSQL("""
+                                CREATE TABLE IF NOT EXISTS favorite_quotes (
+                                    quoteId INTEGER PRIMARY KEY,
+                                    quote TEXT NOT NULL,
+                                    author TEXT NOT NULL,
+                                    savedAt INTEGER NOT NULL
+                                )
+                            """.trimIndent())
+                        }
+                    })
                     .build()
                     .also { INSTANCE = it }
             }

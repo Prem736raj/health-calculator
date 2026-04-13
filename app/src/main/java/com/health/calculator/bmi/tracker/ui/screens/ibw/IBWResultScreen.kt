@@ -470,13 +470,16 @@ private fun VisualWeightScale(result: IBWResult, showInKg: Boolean) {
                     val primaryColor = MaterialTheme.colorScheme.primary
                     val secondaryColor = MaterialTheme.colorScheme.secondary
                     
-                    // Compute all positions in composable scope BEFORE Canvas block
-                    val minBmiPos = getPos(minBmi)
-                    val maxBmiPos = getPos(maxBmi)
-                    val idealPos = getPos(ideal)
-                    val currentPos = getPos(current)
+                    // 1. Ensure values are finite and valid
+                    val minBmiPos = getPos(minBmi).takeIf { it.isFinite() } ?: 0f
+                    val maxBmiPos = getPos(maxBmi).takeIf { it.isFinite() } ?: 0f
+                    val idealPos = getPos(ideal).takeIf { it.isFinite() } ?: 0f
+                    val currentPos = getPos(current).takeIf { it.isFinite() } ?: 0f
                     
                     Canvas(modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp)) {
+                        // 2. Extra safety: Check if width/height are valid before drawing
+                        if (size.width <= 0f || size.height <= 0f) return@Canvas
+
                         val trackHeight = 12.dp.toPx()
                         val y = size.height / 2
                         
@@ -489,25 +492,36 @@ private fun VisualWeightScale(result: IBWResult, showInKg: Boolean) {
                         
                         val startX = minBmiPos * size.width
                         val endX = maxBmiPos * size.width
-                        drawRect(
-                            color = Color(0xFF4CAF50).copy(alpha = 0.4f),
-                            topLeft = Offset(startX, y - trackHeight/2),
-                            size = androidx.compose.ui.geometry.Size(maxOf(0f, endX - startX), trackHeight)
-                        )
+                        val rectWidth = maxOf(0f, endX - startX)
                         
+                        // Draw only if width is valid
+                        if (rectWidth > 0f) {
+                            drawRect(
+                                color = Color(0xFF4CAF50).copy(alpha = 0.4f),
+                                topLeft = Offset(startX, y - trackHeight/2),
+                                size = androidx.compose.ui.geometry.Size(rectWidth, trackHeight)
+                            )
+                        }
+                        
+                        // Ensure idealX is a valid number before drawing circle
                         val idealX = idealPos * size.width
-                        drawCircle(
-                            color = primaryColor,
-                            radius = 6.dp.toPx(),
-                            center = Offset(idealX, y)
-                        )
+                        if (idealX.isFinite()) {
+                            drawCircle(
+                                color = primaryColor,
+                                radius = 6.dp.toPx(),
+                                center = Offset(idealX, y)
+                            )
+                        }
                         
+                        // Ensure currentX is a valid number before drawing rect
                         val currentX = currentPos * size.width
-                        drawRect(
-                            color = secondaryColor,
-                            size = androidx.compose.ui.geometry.Size(4.dp.toPx(), 24.dp.toPx()),
-                            topLeft = Offset(currentX - 2.dp.toPx(), y - 12.dp.toPx())
-                        )
+                        if (currentX.isFinite()) {
+                            drawRect(
+                                color = secondaryColor,
+                                size = androidx.compose.ui.geometry.Size(4.dp.toPx(), 24.dp.toPx()),
+                                topLeft = Offset(currentX - 2.dp.toPx(), y - 12.dp.toPx())
+                            )
+                        }
                     }
                 }
                 
