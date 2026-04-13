@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quick_calc_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/widget_quick_bg">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="⚡ Quick Calc"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@color/qw_text_primary" />
+
+        <ImageView
+            android:id="@+id/quick_calc_settings"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_widget_settings"
+            android:contentDescription="Settings" />
+
+    </LinearLayout>
+
+    <!-- 2x2 Grid -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Row 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <!-- Slot 1 -->
+            <LinearLayout
+                android:id="@+id/quick_slot_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/widget_quick_card"
+                android:padding="6dp">
+
+                <ImageView
+                    android:id="@+id/quick_icon_1"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_calc_bmi"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/quick_label_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BMI"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/qw_text_primary"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:id="@+id/quick_result_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="8sp"
+                    android:textColor="@color/qw_text_secondary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <!-- Slot 2 -->
+            <LinearLayout
+                android:id="@+id/quick_slot_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/widget_quick_card"
+                android:padding="6dp">
+
+                <ImageView
+                    android:id="@+id/quick_icon_2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_calc_bp"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/quick_label_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BP"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/qw_text_primary"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:id="@+id/quick_result_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="8sp"
+                    android:textColor="@color/qw_text_secondary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <!-- Slot 3 -->
+            <LinearLayout
+                android:id="@+id/quick_slot_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/widget_quick_card"
+                android:padding="6dp">
+
+                <ImageView
+                    android:id="@+id/quick_icon_3"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_calc_water"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/quick_label_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Water"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/qw_text_primary"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:id="@+id/quick_result_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="8sp"
+                    android:textColor="@color/qw_text_secondary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <!-- Slot 4 -->
+            <LinearLayout
+                android:id="@+id/quick_slot_4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/widget_quick_card"
+                android:padding="6dp">
+
+                <ImageView
+                    android:id="@+id/quick_icon_4"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_calc_calories"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/quick_label_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calories"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/qw_text_primary"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:id="@+id/quick_result_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="8sp"
+                    android:textColor="@color/qw_text_secondary"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

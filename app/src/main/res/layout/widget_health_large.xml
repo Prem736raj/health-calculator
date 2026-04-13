@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background_large"
+    android:padding="16dp">
+
+    <!-- Header / Score Section -->
+    <LinearLayout
+        android:id="@+id/score_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="80dp">
+
+            <ImageView
+                android:id="@+id/img_health_arc"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:contentDescription="@null"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/txt_health_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:text="--"
+                android:textColor="@color/widget_text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_health_score"
+                android:textColor="@color/widget_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_score_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Everything looking great!"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_last_sync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Last sync: Just now"
+                android:textColor="@color/widget_text_secondary"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Metrics Grid (2x3) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score_container"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <!-- Row 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/card_bmi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bmi" android:tint="@color/health_bmi_accent" />
+                <TextView android:id="@+id/bmi_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BMI" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+
+            <LinearLayout
+                android:id="@+id/card_bp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bp" android:tint="@color/health_bp_accent" />
+                <TextView android:id="@+id/bp_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BP" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+
+            <LinearLayout
+                android:id="@+id/card_water"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_water" android:tint="@color/health_water_accent" />
+                <TextView android:id="@+id/water_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Water" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View android:layout_width="0dp" android:layout_height="8dp" />
+
+        <!-- Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/card_calories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calories" android:tint="@color/health_calories_accent" />
+                <TextView android:id="@+id/calories_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cals" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+
+            <LinearLayout
+                android:id="@+id/card_hr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calc_heart_rate" android:tint="#E91E63" />
+                <TextView android:id="@+id/hr_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HR" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+
+            <LinearLayout
+                android:id="@+id/card_streak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/health_metric_card_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" android:tint="#FF9800" />
+                <TextView android:id="@+id/streak_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Streak" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

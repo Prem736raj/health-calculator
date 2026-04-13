@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/single_calc_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:background="@drawable/widget_single_bg">
+
+    <!-- Icon Container -->
+    <FrameLayout
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="10dp">
+
+        <View
+            android:id="@+id/single_icon_bg"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/widget_single_icon_bg" />
+
+        <ImageView
+            android:id="@+id/single_calc_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_calc_bmi"
+            android:contentDescription="@null" />
+
+    </FrameLayout>
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/single_calc_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BMI Calculator"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/qw_text_primary" />
+
+        <TextView
+            android:id="@+id/single_calc_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last: --"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/qw_accent"
+            android:layout_marginTop="1dp" />
+
+        <TextView
+            android:id="@+id/single_calc_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to calculate"
+            android:textSize="8sp"
+            android:textColor="@color/qw_text_secondary"
+            android:layout_marginTop="1dp" />
+
+    </LinearLayout>
+
+    <!-- Arrow -->
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_widget_arrow"
+        android:contentDescription="@null"
+        android:layout_marginStart="4dp" />
+
+</LinearLayout>

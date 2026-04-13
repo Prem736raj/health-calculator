@@ -7,4 +7,59 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Widget Colors -->
+    <color name="widget_background">#F8FFFE</color>
+    <color name="widget_background_dark">#1A2332</color>
+    <color name="widget_border">#E3F2FD</color>
+    <color name="widget_border_dark">#263547</color>
+    <color name="widget_text_primary">#1A237E</color>
+    <color name="widget_text_primary_dark">#E3F2FD</color>
+    <color name="widget_text_secondary">#546E7A</color>
+    <color name="widget_text_secondary_dark">#90A4AE</color>
+    <color name="widget_water_blue">#2196F3</color>
+    <color name="widget_water_blue_light">#BBDEFB</color>
+    <color name="widget_circle_bg">#E3F2FD</color>
+    <color name="widget_circle_bg_dark">#263547</color>
+    <color name="widget_btn_text">#FFFFFF</color>
+    <color name="widget_progress_track">#BBDEFB</color>
+    <color name="widget_progress_fill">#2196F3</color>
+    <color name="widget_progress_complete">#00BCD4</color>
+
+    <!-- Health Palette -->
+    <color name="health_score_good">#43A047</color>
+    <color name="health_score_fair">#FFB300</color>
+    <color name="health_score_poor">#E53935</color>
+    <color name="health_bmi_accent">#7C4DFF</color>
+    <color name="health_bp_accent">#FF5252</color>
+    <color name="health_water_accent">#448AFF</color>
+    <color name="health_cal_accent">#FFAB40</color>
+    <color name="health_weight_accent">#00B8D4</color>
+    <color name="health_streak_accent">#FFD600</color>
+    <color name="health_card_bg">#FFFFFF</color>
+    <color name="health_card_bg_dark">#2C3E50</color>
+    <!-- Quick Widget Colors -->
+    <color name="qw_background">#F8FFFE</color>
+    <color name="qw_card_bg">#FFFFFF</color>
+    <color name="qw_border">#E3EDF7</color>
+    <color name="qw_text_primary">#1A237E</color>
+    <color name="qw_text_secondary">#607D8B</color>
+    <color name="qw_accent">#2196F3</color>
+
+    <!-- Streak Colors -->
+    <color name="streak_count_color">#FF5722</color>
+    <color name="streak_milestone_color">#FF9800</color>
+
+    <!-- Config Colors -->
+    <color name="config_bg">#F5F7FA</color>
+    <color name="config_card_bg">#FFFFFF</color>
+    <color name="config_text_primary">#1A237E</color>
+    <color name="config_text_secondary">#607D8B</color>
+    <color name="config_accent">#2196F3</color>
+    <color name="config_preview_bg">#EEF2F7</color>
+
+    <!-- Preview drawables placeholders -->
+    <color name="ic_quick_calc_preview">#E3F2FD</color>
+    <color name="ic_single_calc_preview">#E3F2FD</color>
+    <color name="ic_streak_preview">#FFF3E0</color>
 </resources>

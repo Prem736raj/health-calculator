@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/config_bg">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculator Widget"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/config_text_primary"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select a calculator for this widget"
+        android:textSize="13sp"
+        android:textColor="@color/config_text_secondary"
+        android:layout_marginBottom="28dp" />
+
+    <!-- Calculator Options -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SELECT CALCULATOR"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="@color/config_accent"
+        android:letterSpacing="0.1"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Calculator List (RadioGroup) -->
+    <RadioGroup
+        android:id="@+id/rg_calculator_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <!-- BMI -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/config_item_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calc_bmi"
+                android:contentDescription="@null"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BMI Calculator"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/config_text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body Mass Index"
+                    android:textSize="11sp"
+                    android:textColor="@color/config_text_secondary" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_bmi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:buttonTint="@color/config_accent" />
+
+        </LinearLayout>
+
+        <!-- Blood Pressure -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/config_item_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calc_bp"
+                android:contentDescription="@null"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Pressure"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/config_text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BP checker &amp; tracker"
+                    android:textSize="11sp"
+                    android:textColor="@color/config_text_secondary" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_bp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/config_accent" />
+
+        </LinearLayout>
+
+        <!-- Water -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/config_item_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calc_water"
+                android:contentDescription="@null"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Water Intake"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/config_text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily hydration tracker"
+                    android:textSize="11sp"
+                    android:textColor="@color/config_text_secondary" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/config_accent" />
+
+        </LinearLayout>
+
+        <!-- Calories -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/config_item_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calc_calories"
+                android:contentDescription="@null"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calorie Tracker"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/config_text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily calorie goal"
+                    android:textSize="11sp"
+                    android:textColor="@color/config_text_secondary" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/config_accent" />
+
+        </LinearLayout>
+
+        <!-- Heart Rate -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/config_item_bg"
+            android:padding="14dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_calc_heart_rate"
+                android:contentDescription="@null"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Heart Rate Zones"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/config_text_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target HR zones"
+                    android:textSize="11sp"
+                    android:textColor="@color/config_text_secondary" />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/rb_heart_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/config_accent" />
+
+        </LinearLayout>
+
+    </RadioGroup>
+
+    <!-- Theme Row -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="THEME"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="@color/config_accent"
+        android:letterSpacing="0.1"
+        android:layout_marginBottom="12dp" />
+
+    <Spinner
+        android:id="@+id/single_theme_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/config_spinner_bg"
+        android:layout_marginBottom="28dp" />
+
+    <Button
+        android:id="@+id/btn_single_add_widget"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Add Widget"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/config_btn_add"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btn_single_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Cancel"
+        android:textSize="14sp"
+        android:textColor="@color/config_text_secondary"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>

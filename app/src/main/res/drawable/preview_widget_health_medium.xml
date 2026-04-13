@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FAFEFF" />
+            <corners android:radius="20dp" />
+            <stroke android:width="1dp" android:color="#E3EDF7" />
+        </shape>
+    </item>
+
+    <!-- Top bar accent -->
+    <item android:bottom="110dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#E3F2FD" />
+            <corners android:topLeftRadius="20dp" android:topRightRadius="20dp" />
+        </shape>
+    </item>
+
+    <!-- Card 1 (BMI) -->
+    <item android:left="10dp" android:top="36dp" android:right="90dp" android:bottom="74dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="10dp" />
+            <stroke android:width="0.5dp" android:color="#EEF2F7" />
+        </shape>
+    </item>
+
+    <!-- Card 2 (BP) -->
+    <item android:left="90dp" android:top="36dp" android:right="10dp" android:bottom="74dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="10dp" />
+            <stroke android:width="0.5dp" android:color="#EEF2F7" />
+        </shape>
+    </item>
+
+    <!-- Card 3 (Water) -->
+    <item android:left="10dp" android:top="74dp" android:right="90dp" android:bottom="10dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="10dp" />
+            <stroke android:width="0.5dp" android:color="#EEF2F7" />
+        </shape>
+    </item>
+
+    <!-- Card 4 (Calories) -->
+    <item android:left="90dp" android:top="74dp" android:right="10dp" android:bottom="10dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="10dp" />
+            <stroke android:width="0.5dp" android:color="#EEF2F7" />
+        </shape>
+    </item>
+
+</layer-list>

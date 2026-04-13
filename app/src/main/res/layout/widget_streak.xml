@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/streak_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:background="@drawable/widget_streak_bg">
+
+    <!-- Fire + Streak Number -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔥"
+            android:textSize="24sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/streak_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/streak_count_color"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Streak Info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/streak_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Active Streak"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/qw_text_primary" />
+
+        <TextView
+            android:id="@+id/streak_days_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="days in a row"
+            android:textSize="9sp"
+            android:textColor="@color/qw_text_secondary"
+            android:layout_marginTop="1dp" />
+
+        <TextView
+            android:id="@+id/streak_milestone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎯 3 days to next milestone"
+            android:textSize="8sp"
+            android:textColor="@color/streak_milestone_color"
+            android:layout_marginTop="3dp" />
+
+        <TextView
+            android:id="@+id/streak_motivation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Keep going, you're on fire!"
+            android:textSize="8sp"
+            android:textColor="@color/qw_text_secondary"
+            android:layout_marginTop="1dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-italic" />
+
+    </LinearLayout>
+
+</LinearLayout>

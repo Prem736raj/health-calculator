@@ -1,4 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Health Calculator</string>
+
+    <string name="widget_water_small_description">Shows your daily water intake progress</string>
+    <string name="widget_water_medium_description">Shows water intake with quick-add buttons</string>
+    <string name="widget_add_glass">Add Glass (250ml)</string>
+    <string name="widget_add_bottle">Add Bottle (500ml)</string>
+    <string name="widget_water_title">Water Intake</string>
+    <string name="widget_not_logged">Not logged today</string>
+
+    <!-- Health Summary Widget -->
+    <string name="widget_health_medium_description">Comprehensive health summary at a glance (3x2)</string>
+    <string name="widget_health_large_description">Detailed health dashboard with all metrics (4x3)</string>
+    <string name="widget_health_score">Health Score</string>
+    <string name="widget_score_label">Calculated Score</string>
+    <string name="widget_bmi_label">BMI</string>
+    <string name="widget_bp_label">BP</string>
+    <string name="widget_water_label">Water</string>
+    <string name="widget_calories_label">Calories</string>
+    <string name="widget_weight_label">Weight</string>
+    <string name="widget_streak_label">Streak</string>
+    <string name="widget_target">Target</string>
+    <string name="widget_today">Today</string>
+    <string name="widget_streak_days">days</string>
+    <string name="widget_quick_calc_description">⚡ Quick access to your 4 favourite calculators</string>
+    <string name="widget_single_calc_description">📊 Single calculator with last result</string>
+    <string name="widget_streak_description">🔥 View your current activity streak</string>
+
+    <!-- Widget error states -->
+    <string name="widget_error_no_data">Open app to get started</string>
+    <string name="widget_error_stale">Data outdated — tap to refresh</string>
+    <string name="widget_error_setup">Setup required — open app</string>
+    <string name="widget_error_generic">Something went wrong</string>
+
+    <!-- Widget accessibility -->
+    <string name="widget_a11y_open_tracker">Tap to open tracker in app</string>
+    <string name="widget_a11y_add_glass">Add 250ml glass of water</string>
+    <string name="widget_a11y_add_bottle">Add 500ml bottle of water</string>
+    <string name="widget_a11y_refresh">Refresh widget data</string>
+    <string name="widget_a11y_settings">Open widget settings</string>
+    <string name="widget_a11y_health_score">Overall health score indicator</string>
 </resources>
