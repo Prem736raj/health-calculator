@@ -67,6 +67,143 @@
             </intent-filter>
         </receiver>
 
+        <!-- Water Intake Widgets -->
+        <receiver
+            android:name=".widget.WaterIntakeSmallWidget"
+            android:exported="true"
+            android:label="@string/widget_water_small_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_GLASS" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_REFRESH" />
+                <action android:name="com.health.calculator.bmi.tracker.MIDNIGHT_RESET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_water_small_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WaterIntakeMediumWidget"
+            android:exported="true"
+            android:label="@string/widget_water_medium_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_GLASS" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_BOTTLE" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_REFRESH" />
+                <action android:name="com.health.calculator.bmi.tracker.MIDNIGHT_RESET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_water_medium_info" />
+        </receiver>
+
+        <!-- Boot & Change Receivers -->
+        <receiver
+            android:name=".widget.core.WidgetBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".widget.core.WidgetDataChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.health.calculator.bmi.tracker.SCHEDULED_WIDGET_REFRESH" />
+                <action android:name="com.health.calculator.bmi.tracker.MIDNIGHT_WIDGET_RESET" />
+                <action android:name="com.health.calculator.bmi.tracker.WIDGET_DATA_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Quick Calculate Widget (2x2) -->
+        <receiver
+            android:name=".widget.QuickCalculateWidget"
+            android:exported="true"
+            android:label="@string/widget_quick_calc_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.health.calculator.bmi.tracker.QUICK_CALC_REFRESH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_quick_calculate_info" />
+        </receiver>
+
+        <!-- Single Calculator Widget (2x1) -->
+        <receiver
+            android:name=".widget.SingleCalculatorWidget"
+            android:exported="true"
+            android:label="@string/widget_single_calc_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_single_calculator_info" />
+        </receiver>
+
+        <!-- Streak Widget (2x1) -->
+        <receiver
+            android:name=".widget.StreakWidget"
+            android:exported="true"
+            android:label="@string/widget_streak_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_streak_info" />
+        </receiver>
+
+        <!-- Health Summary Widgets (3x2, 4x3) -->
+        <receiver
+            android:name=".widget.HealthSummaryMediumWidget"
+            android:exported="true"
+            android:label="@string/widget_health_medium_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_health_medium_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HealthSummaryLargeWidget"
+            android:exported="true"
+            android:label="@string/widget_health_large_description">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_health_large_info" />
+        </receiver>
+
+        <!-- Config Activities -->
+        <activity
+            android:name=".widget.WidgetConfigActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HealthCalculator">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".widget.SingleWidgetConfigActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HealthCalculator">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.health.calculator.bmi.tracker.fileprovider"

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Widget background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F8FFFE" />
+            <corners android:radius="16dp" />
+            <stroke android:width="1dp" android:color="#E3F2FD" />
+        </shape>
+    </item>
+
+    <!-- Progress ring placeholder -->
+    <item
+        android:left="8dp"
+        android:top="8dp"
+        android:right="100dp"
+        android:bottom="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#E3F2FD" />
+        </shape>
+    </item>
+
+    <!-- Inner circle (hollow ring effect) -->
+    <item
+        android:left="22dp"
+        android:top="22dp"
+        android:right="114dp"
+        android:bottom="22dp">
+        <shape android:shape="oval">
+            <solid android:color="#F8FFFE" />
+        </shape>
+    </item>
+
+    <!-- Water icon dot -->
+    <item
+        android:left="44dp"
+        android:top="32dp"
+        android:right="134dp"
+        android:bottom="32dp">
+        <shape android:shape="oval">
+            <solid android:color="#2196F3" />
+        </shape>
+    </item>
+
+</layer-list>
