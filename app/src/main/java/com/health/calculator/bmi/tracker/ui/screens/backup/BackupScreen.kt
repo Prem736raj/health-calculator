@@ -51,13 +51,7 @@ fun BackupScreen(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri ->
         uri?.let {
-            // How to handle file picked from system?
-            // Currently, we'll just show a generic "Importing..." state
-            // and maybe suggest moving to appropriate folder first? 
-            // Or just restore directly.
-            // For now, let's assume we can restore directly.
-            viewModel.setRestoreMode(RestoreMode.MERGE) // Default to merge for external files
-            //viewModel.restoreFromLocal(it, RestoreMode.MERGE)
+            viewModel.restoreFromFile(it, RestoreMode.MERGE)
         }
     }
 
@@ -144,6 +138,14 @@ fun BackupScreen(
                         Spacer(Modifier.width(4.dp))
                         Text("Refresh")
                     }
+                }
+                TextButton(
+                    onClick = { filePickerLauncher.launch(arrayOf("*/*")) },
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Icon(Icons.Default.FileOpen, null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("Import Backup File")
                 }
             }
 

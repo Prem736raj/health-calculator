@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import com.health.calculator.bmi.tracker.ui.components.*
+import java.io.File
+import java.io.FileOutputStream
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +41,25 @@ fun ProfileScreen(
     val milestonesState by milestonesViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = androidx.compose.ui.platform.LocalContext.current
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { selectedUri ->
+        if (selectedUri != null) {
+            viewModel.updateProfilePicture(selectedUri)
+        } else {
+            viewModel.dismissImagePickerDialog()
+        }
+    }
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        val imageUri = bitmap?.let { saveBitmapToCache(context, it) }
+        if (imageUri != null) {
+            viewModel.updateProfilePicture(imageUri)
+        } else {
+            viewModel.dismissImagePickerDialog()
+        }
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -173,8 +202,14 @@ fun ProfileScreen(
     if (uiState.showImagePickerDialog) {
         ProfileImagePickerDialog(
             onDismiss = viewModel::dismissImagePickerDialog,
-            onCameraClick = { /* TODO: Launch Camera */ viewModel.dismissImagePickerDialog() },
-            onGalleryClick = { /* TODO: Launch Gallery */ viewModel.dismissImagePickerDialog() },
+            onCameraClick = {
+                cameraLauncher.launch(null)
+            },
+            onGalleryClick = {
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            },
             onImageSelected = viewModel::updateProfilePicture
         )
     }
@@ -354,5 +389,17 @@ fun ProfileScreen(
                 onDismissAll = milestonesViewModel::dismissAllCelebrations
             )
         }
+    }
+}
+
+private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
+    return try {
+        val file = File(context.cacheDir, "profile_${UUID.randomUUID()}.jpg")
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
+        }
+        FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+    } catch (_: Exception) {
+        null
     }
 }

@@ -5,16 +5,26 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
+import com.health.calculator.bmi.tracker.data.export.DataExportManager
+import com.health.calculator.bmi.tracker.data.export.ExportConfig
+import com.health.calculator.bmi.tracker.data.export.ExportFormat
+import com.health.calculator.bmi.tracker.data.export.ExportScope
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.SettingsData
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.model.UnitSystem
+import com.health.calculator.bmi.tracker.data.model.toDisplayEntry
+import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * UI state for the Settings screen.
@@ -43,14 +53,18 @@ data class SettingsUiState(
  * Manages settings state, persistence, and data management actions.
  */
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+    private val appContext = application.applicationContext
+    private val appDatabase = AppDatabase.getDatabase(appContext)
 
     private val settingsRepository = SettingsRepository(
-        SettingsDataStore(application.applicationContext)
+        SettingsDataStore(appContext)
     )
 
     private val profileRepository = ProfileRepository(
-        ProfileDataStore(application.applicationContext)
+        ProfileDataStore(appContext)
     )
+    private val historyRepository = HistoryRepository(appDatabase.historyDao())
+    private val exportManager = DataExportManager.getInstance(appContext)
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
@@ -157,7 +171,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearHistory() {
         viewModelScope.launch {
-            // TODO: Clear Room database history when implemented
+            withContext(Dispatchers.IO) {
+                historyRepository.clearAllHistory()
+            }
             _uiState.update {
                 it.copy(
                     showClearHistoryDialog = false,
@@ -177,11 +193,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearAllData() {
         viewModelScope.launch {
-            // Clear profile data
+            withContext(Dispatchers.IO) {
+                appDatabase.clearAllTables()
+            }
             profileRepository.clearProfile()
-            // Clear settings (resets to defaults)
             settingsRepository.clearSettings()
-            // TODO: Clear Room database when implemented
 
             _uiState.update {
                 it.copy(
@@ -194,8 +210,23 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun exportData() {
         viewModelScope.launch {
-            // TODO: Implement actual export when data layer is complete
-            _uiState.update { it.copy(showExportSuccessMessage = true) }
+            val entries = withContext(Dispatchers.IO) {
+                historyRepository.getAllEntries().first().map { it.toDisplayEntry() }
+            }
+            if (entries.isEmpty()) return@launch
+
+            exportManager.exportData(
+                entries = entries,
+                config = ExportConfig(
+                    format = ExportFormat.JSON,
+                    scope = ExportScope.ALL
+                )
+            )
+            val progress = exportManager.exportProgress.value
+            if (progress.isComplete && progress.resultUri != null) {
+                exportManager.shareFile(progress.resultUri, ExportFormat.JSON)
+                _uiState.update { it.copy(showExportSuccessMessage = true) }
+            }
         }
     }
 

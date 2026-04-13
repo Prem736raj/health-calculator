@@ -125,7 +125,12 @@ class BackupRepository(
 
     // === GOOGLE DRIVE BACKUP ===
 
-    suspend fun backupToGoogleDrive(entries: List<HistoryDisplayEntry>) {
+    suspend fun backupToGoogleDrive(
+        entries: List<HistoryDisplayEntry>,
+        profileData: Map<String, String> = emptyMap(),
+        settingsData: Map<String, String> = emptyMap(),
+        achievementsData: Map<String, Any> = emptyMap()
+    ) {
         _backupState.update {
             it.copy(isBackingUp = true, progress = 0f, statusMessage = "Preparing cloud backup...", isComplete = false, error = null)
         }
@@ -135,9 +140,9 @@ class BackupRepository(
             val file = withContext(Dispatchers.IO) {
                 localBackupManager.createLocalBackup(
                     historyEntries = entries,
-                    profileData = emptyMap(),
-                    settingsData = emptyMap(),
-                    achievementsData = emptyMap(),
+                    profileData = profileData,
+                    settingsData = settingsData,
+                    achievementsData = achievementsData,
                     onProgress = { p -> _backupState.update { it.copy(progress = p * 0.4f) } }
                 )
             }

@@ -195,7 +195,20 @@ fun HomeScreen(
                         RecommendationsSection(
                             recommendations = uiState.recommendations,
                             onActionClick = { route ->
-                                // Map route to navigation
+                                when (route) {
+                                    "bmi_calculator" -> onNavigateToBmi()
+                                    "bmr_calculator" -> onNavigateToBmr()
+                                    "blood_pressure_calculator", "blood_pressure_checker", "bp_calculator" -> onNavigateToBp()
+                                    "whr_calculator" -> onNavigateToWhr()
+                                    "water_calculator", "water_intake_calculator" -> onNavigateToWater()
+                                    "calorie_calculator" -> onNavigateToCalorie()
+                                    "heart_rate_calculator", "heart_rate_zone_calculator" -> onNavigateToHeartRate()
+                                    "metabolic_syndrome", "metabolic_syndrome_checker" -> onNavigateToMetabolic()
+                                    "bsa_calculator" -> onNavigateToBsa()
+                                    "ibw_calculator" -> onNavigateToIbw()
+                                    "history" -> onNavigateToHistory()
+                                    "profile" -> onNavigateToProfile()
+                                }
                             },
                             onDismiss = { id -> viewModel.dismissRecommendation(id) },
                             modifier = Modifier.padding(horizontal = 16.dp)

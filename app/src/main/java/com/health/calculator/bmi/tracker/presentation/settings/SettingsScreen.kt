@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.settings
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseOutBack
@@ -126,6 +129,7 @@ fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val packageName = context.packageName
 
     // ── Entrance Animation ────────────────────────────────────────────────
     var showContent by remember { mutableStateOf(false) }
@@ -138,7 +142,7 @@ fun SettingsScreen(
     LaunchedEffect(uiState.showExportSuccessMessage) {
         if (uiState.showExportSuccessMessage) {
             snackbarHostState.showSnackbar(
-                message = "📦 Export feature coming soon!",
+                message = "📦 Export completed successfully",
                 duration = SnackbarDuration.Short
             )
             viewModel.dismissSuccessMessage()
@@ -410,7 +414,9 @@ fun SettingsScreen(
                                 iconTint = Color(0xFF43A047),
                                 title = "Privacy Policy",
                                 subtitle = "How we handle your data",
-                                onClick = { /* TODO: Open privacy policy */ }
+                                onClick = {
+                                    openUrl(context, "https://github.com/Prem736raj/health-calculator")
+                                }
                             )
 
                             SettingsDivider()
@@ -420,7 +426,9 @@ fun SettingsScreen(
                                 iconTint = Color(0xFF1E88E5),
                                 title = "Terms of Service",
                                 subtitle = "Usage terms and conditions",
-                                onClick = { /* TODO: Open terms */ }
+                                onClick = {
+                                    openUrl(context, "https://github.com/Prem736raj/health-calculator/blob/main/LICENSE")
+                                }
                             )
 
                             SettingsDivider()
@@ -430,7 +438,7 @@ fun SettingsScreen(
                                 iconTint = Color(0xFFFFC107),
                                 title = "Rate the App",
                                 subtitle = "Share your feedback on Play Store",
-                                onClick = { /* TODO: Open Play Store */ }
+                                onClick = { openAppRating(context, packageName) }
                             )
 
                             SettingsDivider()
@@ -440,7 +448,7 @@ fun SettingsScreen(
                                 iconTint = Color(0xFF7B1FA2),
                                 title = "Share the App",
                                 subtitle = "Recommend to friends and family",
-                                onClick = { /* TODO: Share intent */ }
+                                onClick = { shareApp(context, packageName) }
                             )
                         }
                     }
@@ -573,6 +581,33 @@ private fun SettingsDivider() {
         thickness = 0.5.dp,
         color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
     )
+}
+
+private fun openUrl(context: android.content.Context, url: String) {
+    runCatching {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
+    }
+}
+
+private fun openAppRating(context: android.content.Context, packageName: String) {
+    val marketUri = Uri.parse("market://details?id=$packageName")
+    val webUri = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    try {
+        context.startActivity(Intent(Intent.ACTION_VIEW, marketUri))
+    } catch (_: ActivityNotFoundException) {
+        context.startActivity(Intent(Intent.ACTION_VIEW, webUri))
+    }
+}
+
+private fun shareApp(context: android.content.Context, packageName: String) {
+    val appLink = "https://play.google.com/store/apps/details?id=$packageName"
+    val shareText = "Track health metrics with Health Calculator: $appLink"
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, shareText)
+    }
+    context.startActivity(Intent.createChooser(intent, "Share Health Calculator"))
 }
 
 // ─── Clickable Settings Item ──────────────────────────────────────────────────
