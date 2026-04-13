@@ -39,8 +39,8 @@ val GaugeShape = RoundedCornerShape(50)            // Fully rounded (pill)
 val BottomNavShape = RoundedCornerShape(
     topStart = 28.dp,
     topEnd = 28.dp,
-    bottomStart = 18.dp,
-    bottomEnd = 18.dp
+    bottomStart = 0.dp,
+    bottomEnd = 0.dp
 )
 
 // Top app bar with subtle rounding at bottom
