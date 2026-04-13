@@ -393,7 +393,10 @@ fun ProfileScreen(
 
 private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
     return try {
-        val file = File(context.cacheDir, "profile_picture.jpg")
+        context.cacheDir.listFiles()
+            ?.filter { it.name.startsWith("profile_") && it.extension.equals("jpg", ignoreCase = true) }
+            ?.forEach { it.delete() }
+        val file = File(context.cacheDir, "profile_${System.currentTimeMillis()}.jpg")
         FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
         }
