@@ -399,7 +399,11 @@ private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
     return try {
         context.cacheDir.listFiles()
             ?.filter { it.name.startsWith("profile_") && it.extension.equals("jpg", ignoreCase = true) }
-            ?.forEach { it.delete() }
+            ?.forEach {
+                if (!it.delete()) {
+                    Log.w(PROFILE_SCREEN_TAG, "Failed to delete stale profile image: ${it.absolutePath}")
+                }
+            }
         val file = File(context.cacheDir, "profile_${System.currentTimeMillis()}.jpg")
         FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)

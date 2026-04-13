@@ -172,13 +172,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearHistory() {
         viewModelScope.launch {
-            val success = runCatching {
+            val result = runCatching {
                 withContext(Dispatchers.IO) {
                     historyRepository.clearAllHistory()
                 }
-            }.isSuccess
+            }
 
-            if (success) {
+            if (result.isSuccess) {
                 _uiState.update {
                     it.copy(
                         showClearHistoryDialog = false,
@@ -189,7 +189,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 _uiState.update {
                     it.copy(
                         showClearHistoryDialog = false,
-                        exportStatusMessage = "Failed to clear history. Please try again."
+                        exportStatusMessage = "Failed to clear history: ${result.exceptionOrNull()?.localizedMessage ?: "Unknown error"}"
                     )
                 }
             }
@@ -206,15 +206,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearAllData() {
         viewModelScope.launch {
-            val success = runCatching {
+            val result = runCatching {
                 withContext(Dispatchers.IO) {
                     appDatabase.clearAllTables()
                 }
                 profileRepository.clearProfile()
                 settingsRepository.clearSettings()
-            }.isSuccess
+            }
 
-            if (success) {
+            if (result.isSuccess) {
                 _uiState.update {
                     it.copy(
                         showClearAllDataDialog = false,
@@ -225,7 +225,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 _uiState.update {
                     it.copy(
                         showClearAllDataDialog = false,
-                        exportStatusMessage = "Failed to clear all data. Please try again."
+                        exportStatusMessage = "Failed to clear all data: ${result.exceptionOrNull()?.localizedMessage ?: "Unknown error"}"
                     )
                 }
             }

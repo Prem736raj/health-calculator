@@ -140,7 +140,11 @@ fun BackupScreen(
                     }
                 }
                 TextButton(
-                    onClick = { filePickerLauncher.launch(arrayOf("*/*")) },
+                    onClick = {
+                        filePickerLauncher.launch(
+                            arrayOf("application/octet-stream", "application/json")
+                        )
+                    },
                     modifier = Modifier.align(Alignment.End)
                 ) {
                     Icon(Icons.Default.FileOpen, null, modifier = Modifier.size(18.dp))
