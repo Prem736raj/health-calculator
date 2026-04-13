@@ -21,7 +21,6 @@ import androidx.core.content.FileProvider
 import com.health.calculator.bmi.tracker.ui.components.*
 import java.io.File
 import java.io.FileOutputStream
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -394,7 +393,7 @@ fun ProfileScreen(
 
 private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
     return try {
-        val file = File(context.cacheDir, "profile_${UUID.randomUUID()}.jpg")
+        val file = File(context.cacheDir, "profile_picture.jpg")
         FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out)
         }

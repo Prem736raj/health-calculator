@@ -43,6 +43,7 @@ data class SettingsUiState(
     val showClearHistoryDialog: Boolean = false,
     val showClearAllDataDialog: Boolean = false,
     val showExportSuccessMessage: Boolean = false,
+    val exportStatusMessage: String? = null,
     val showClearSuccessMessage: Boolean = false,
     val showUnitSystemPicker: Boolean = false,
     val showThemePicker: Boolean = false
@@ -213,7 +214,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             val entries = withContext(Dispatchers.IO) {
                 historyRepository.getAllEntries().first().map { it.toDisplayEntry() }
             }
-            if (entries.isEmpty()) return@launch
+            if (entries.isEmpty()) {
+                _uiState.update { it.copy(exportStatusMessage = "No data available to export yet") }
+                return@launch
+            }
 
             exportManager.exportData(
                 entries = entries,
@@ -226,6 +230,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             if (progress.isComplete && progress.resultUri != null) {
                 exportManager.shareFile(progress.resultUri, ExportFormat.JSON)
                 _uiState.update { it.copy(showExportSuccessMessage = true) }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        exportStatusMessage = progress.error ?: "Export failed. Please try again."
+                    )
+                }
             }
         }
     }
@@ -237,5 +247,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 showClearSuccessMessage = false
             )
         }
+    }
+
+    fun dismissExportStatusMessage() {
+        _uiState.update { it.copy(exportStatusMessage = null) }
     }
 }

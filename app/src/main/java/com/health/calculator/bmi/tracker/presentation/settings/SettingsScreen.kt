@@ -159,6 +159,16 @@ fun SettingsScreen(
         }
     }
 
+    LaunchedEffect(uiState.exportStatusMessage) {
+        uiState.exportStatusMessage?.let { message ->
+            snackbarHostState.showSnackbar(
+                message = message,
+                duration = SnackbarDuration.Short
+            )
+            viewModel.dismissExportStatusMessage()
+        }
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
