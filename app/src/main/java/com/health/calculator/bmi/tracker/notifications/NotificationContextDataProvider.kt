@@ -32,7 +32,13 @@ class NotificationContextDataProvider(
         }.timeInMillis - 1
 
         val profile = profileRepo.getProfile().firstOrNull()
-        val waterIntake = waterRepo.getTotalWaterForDay(startOfDay, endOfDay).firstOrNull() ?: 0
+        val waterIntake = try {
+            waterRepo.getTotalWaterForDay(startOfDay, endOfDay).firstOrNull() ?: 0
+        } catch (_: Exception) {
+            // If Room is mid-migration / schema changed, DAO queries may fail with
+            // "no such table". For startup, treat it as "no water logged".
+            0
+        }
         val foodLog = foodRepo.todayLog.value
         
         // Calculate streaks

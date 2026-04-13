@@ -5,6 +5,7 @@ import com.health.calculator.bmi.tracker.data.dao.WaterIntakeDao
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculation
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 
 class WaterIntakeRepository(private val waterIntakeDao: WaterIntakeDao) {
 
@@ -37,7 +38,10 @@ class WaterIntakeRepository(private val waterIntakeDao: WaterIntakeDao) {
     }
 
     fun getTotalWaterForDay(startOfDay: Long, endOfDay: Long): Flow<Int?> {
+        // Defensive: during development DB version/table changes can temporarily
+        // produce "no such table" crashes. Treat that as "no water logged".
         return waterIntakeDao.getTotalWaterForDay(startOfDay, endOfDay)
+            .catch { emit(null) }
     }
 
     suspend fun deleteWaterLog(log: WaterIntakeLog) {

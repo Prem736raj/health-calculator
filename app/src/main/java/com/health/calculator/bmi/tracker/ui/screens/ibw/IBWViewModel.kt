@@ -171,7 +171,7 @@ class IBWViewModel(application: Application) : AndroidViewModel(application) {
             (feet * 30.48) + (inches * 2.54)
         }
 
-        if (heightCm == null || heightCm < 50 || heightCm > 300) {
+        if (heightCm == null || !heightCm.isFinite() || heightCm < 50 || heightCm > 300) {
             _uiState.value = state.copy(errorMessage = "Please enter a valid height (50-300 cm)")
             return
         }
@@ -184,8 +184,9 @@ class IBWViewModel(application: Application) : AndroidViewModel(application) {
 
         val currentWeightKg = if (state.currentWeight.isNotBlank()) {
             val weight = state.currentWeight.toDoubleOrNull()
-            if (weight != null && weight > 0) {
-                if (state.isMetricWeight) weight else weight / 2.20462
+            if (weight != null && weight > 0 && weight.isFinite()) {
+                val convertedWeight = if (state.isMetricWeight) weight else weight / 2.20462
+                if (convertedWeight.isFinite() && convertedWeight > 0) convertedWeight else null
             } else null
         } else null
 

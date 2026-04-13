@@ -14,67 +14,114 @@ import androidx.navigation.compose.rememberNavController
 import com.health.calculator.bmi.tracker.core.navigation.NavGraph
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.ui.theme.HealthCalculatorTheme
+import java.io.File
+import java.io.FileOutputStream
+import java.io.PrintWriter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Get the Application instance for theme flow access
-        val app = application as HealthCalculatorApp
+        try {
+            // Get the Application instance for theme flow access
+            val app = application as HealthCalculatorApp
 
-        // Initialize Notification Channels
-        com.health.calculator.bmi.tracker.notifications.NotificationChannelsManager.createAllChannels(this)
-        
-        // Start App Usage Tracking for Notification Rate Limiting
-        com.health.calculator.bmi.tracker.notifications.AppUsageTracker(this).startTracking()
+            // Initialize Notification Channels
+            try {
+                com.health.calculator.bmi.tracker.notifications.NotificationChannelsManager.createAllChannels(this)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            
+            // Start App Usage Tracking for Notification Rate Limiting
+            try {
+                com.health.calculator.bmi.tracker.notifications.AppUsageTracker(this).startTracking()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
-        // Initialize Re-engagement Schedulers
-        com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler(this).scheduleDaily()
-        com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler(this).scheduleEvening()
+            // Initialize Re-engagement Schedulers
+            try {
+                com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler(this).scheduleDaily()
+                com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler(this).scheduleEvening()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
-        // Record App Open for Inactivity tracking
-        val inactivityRepo = com.health.calculator.bmi.tracker.data.repository.InactivityRepository(this)
-        inactivityRepo.saveLastAppOpenTimeQuick()
+            // Record App Open for Inactivity tracking
+            var inactivityRepo: com.health.calculator.bmi.tracker.data.repository.InactivityRepository? = null
+            try {
+                inactivityRepo = com.health.calculator.bmi.tracker.data.repository.InactivityRepository(this)
+                inactivityRepo.saveLastAppOpenTimeQuick()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
-        setContent {
-            // Observe theme mode from DataStore — recomposes entire theme on change
-            val themeMode by app.themeModeFlow.collectAsState(initial = ThemeMode.SYSTEM)
+            setContent {
+                // Observe theme mode from DataStore — recomposes entire theme on change
+                val themeMode by app.themeModeFlow.collectAsState(initial = ThemeMode.SYSTEM)
 
-            HealthCalculatorTheme(themeMode = themeMode) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val navController = rememberNavController()
+                HealthCalculatorTheme(themeMode = themeMode) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        val navController = rememberNavController()
 
-                    val context = androidx.compose.ui.platform.LocalContext.current
-                    androidx.compose.runtime.LaunchedEffect(Unit) {
-                        // Mark for Welcome Back check
-                        val fromInactivity = intent.getBooleanExtra("from_inactivity", false)
-                        val lastOpen = inactivityRepo.getLastAppOpenTime()
-                        val daysInactive = ((System.currentTimeMillis() - lastOpen) / (24 * 60 * 60 * 1000)).toInt()
+                        val context = androidx.compose.ui.platform.LocalContext.current
+                        androidx.compose.runtime.LaunchedEffect(Unit) {
+                            try {
+                                // Mark for Welcome Back check
+                                if (inactivityRepo != null) {
+                                    val fromInactivity = intent.getBooleanExtra("from_inactivity", false)
+                                    val lastOpen = inactivityRepo.getLastAppOpenTime()
+                                    val daysInactive = ((System.currentTimeMillis() - lastOpen) / (24 * 60 * 60 * 1000)).toInt()
 
-                        if (daysInactive >= 2 || fromInactivity) {
-                            inactivityRepo.markNeedsWelcomeBack()
+                                    if (daysInactive >= 2 || fromInactivity) {
+                                        inactivityRepo.markNeedsWelcomeBack()
+                                    }
+                                }
+
+                                // Perform water data integrity check on app start
+                                try {
+                                    val dataIntegrity = com.health.calculator.bmi.tracker.data.util.WaterDataIntegrity(context)
+                                    dataIntegrity.performIntegrityCheck()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                
+                                // Refresh widget cache
+                                try {
+                                    val widgetProvider = com.health.calculator.bmi.tracker.widget.WaterWidgetDataProvider(context)
+                                    widgetProvider.refreshData()
+                                } catch (e: Exception) {
+                                    // Widget provider not critical
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
 
-                        // Perform water data integrity check on app start
-                        val dataIntegrity = com.health.calculator.bmi.tracker.data.util.WaterDataIntegrity(context)
-                        dataIntegrity.performIntegrityCheck()
-                        
-                        // Refresh widget cache
-                        try {
-                            val widgetProvider = com.health.calculator.bmi.tracker.widget.WaterWidgetDataProvider(context)
-                            widgetProvider.refreshData()
-                        } catch (e: Exception) {
-                            // Widget provider not critical
-                        }
+                        NavGraph(navController = navController)
                     }
-
-                    NavGraph(navController = navController)
                 }
             }
+        } catch (t: Throwable) {
+            // Write crash log to file
+            try {
+                val file = File(cacheDir, "crash_log.txt")
+                FileOutputStream(file, true).use { fos ->
+                    PrintWriter(fos).use { pw ->
+                        pw.println("Crash at ${java.util.Date()}")
+                        t.printStackTrace(pw)
+                        pw.println()
+                    }
+                }
+            } catch (e: Exception) {
+                // ignore
+            }
+            throw t
         }
     }
 }
