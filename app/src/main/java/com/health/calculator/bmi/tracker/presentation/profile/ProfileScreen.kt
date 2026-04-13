@@ -1,5 +1,12 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import com.health.calculator.bmi.tracker.ui.components.*
+import java.io.File
+import java.io.FileOutputStream
+
+private const val PROFILE_IMAGE_QUALITY = 95
+private const val PROFILE_SCREEN_TAG = "ProfileScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +44,25 @@ fun ProfileScreen(
     val milestonesState by milestonesViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = androidx.compose.ui.platform.LocalContext.current
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { selectedUri ->
+        if (selectedUri != null) {
+            viewModel.updateProfilePicture(selectedUri)
+        } else {
+            viewModel.dismissImagePickerDialog()
+        }
+    }
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        val imageUri = bitmap?.let { saveBitmapToCache(context, it) }
+        if (imageUri != null) {
+            viewModel.updateProfilePicture(imageUri)
+        } else {
+            viewModel.dismissImagePickerDialog()
+        }
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -173,8 +205,14 @@ fun ProfileScreen(
     if (uiState.showImagePickerDialog) {
         ProfileImagePickerDialog(
             onDismiss = viewModel::dismissImagePickerDialog,
-            onCameraClick = { /* TODO: Launch Camera */ viewModel.dismissImagePickerDialog() },
-            onGalleryClick = { /* TODO: Launch Gallery */ viewModel.dismissImagePickerDialog() },
+            onCameraClick = {
+                cameraLauncher.launch(null)
+            },
+            onGalleryClick = {
+                galleryLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            },
             onImageSelected = viewModel::updateProfilePicture
         )
     }
@@ -354,5 +392,25 @@ fun ProfileScreen(
                 onDismissAll = milestonesViewModel::dismissAllCelebrations
             )
         }
+    }
+}
+
+private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
+    return try {
+        context.cacheDir.listFiles()
+            ?.filter { it.name.startsWith("profile_") && it.extension.equals("jpg", ignoreCase = true) }
+            ?.forEach {
+                if (!it.delete()) {
+                    Log.w(PROFILE_SCREEN_TAG, "Failed to delete stale profile image: ${it.absolutePath}")
+                }
+            }
+        val file = File(context.cacheDir, "profile_${System.currentTimeMillis()}.jpg")
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)
+        }
+        FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+    } catch (e: Exception) {
+        Log.e(PROFILE_SCREEN_TAG, "Failed to save profile image", e)
+        null
     }
 }

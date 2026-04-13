@@ -1345,25 +1345,6 @@ fun NavGraph(
             )
         }
         composable(
-            route = Screen.BloodPressureReminders.route,
-            enterTransition = {
-                slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(350)
-                ) + fadeIn(animationSpec = tween(350))
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(350)
-                ) + fadeOut(animationSpec = tween(350))
-            }
-        ) {
-            BpReminderScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-        composable(
             route = Screen.BloodPressureExport.route,
             enterTransition = {
                 slideIntoContainer(
@@ -1383,10 +1364,95 @@ fun NavGraph(
             )
         }
         composable(route = Screen.HealthArticles.route) {
-            PlaceholderScreen("Health Articles") { navController.popBackStack() }
+            HealthArticlesScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onOpenBloodPressureEducation = { navController.navigate(Screen.BloodPressureEducation.route) },
+                onOpenWaterEducation = { navController.navigate(WATER_EDUCATION_ROUTE) }
+            )
         }
         composable(route = Screen.ExportData.route) {
-            PlaceholderScreen("Export Data") { navController.popBackStack() }
+            ExportDataScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onOpenHistoryExport = { navController.navigate(Screen.History.route) },
+                onOpenBackup = { navController.navigate(Screen.Backup.route) },
+                onOpenDataManagement = { navController.navigate(Screen.DataManagement.route) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun HealthArticlesScreen(
+    onNavigateBack: () -> Unit,
+    onOpenBloodPressureEducation: () -> Unit,
+    onOpenWaterEducation: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Health Articles",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "Explore evidence-based learning sections",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            TextButton(onClick = onOpenBloodPressureEducation) {
+                Text("Blood Pressure Education")
+            }
+            TextButton(onClick = onOpenWaterEducation) {
+                Text("Hydration Education")
+            }
+            TextButton(onClick = onNavigateBack) {
+                Text("← Go Back")
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExportDataScreen(
+    onNavigateBack: () -> Unit,
+    onOpenHistoryExport: () -> Unit,
+    onOpenBackup: () -> Unit,
+    onOpenDataManagement: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Export & Backup",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Text(
+                text = "Choose where to export or back up your health data",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            TextButton(onClick = onOpenHistoryExport) {
+                Text("History Export")
+            }
+            TextButton(onClick = onOpenBackup) {
+                Text("Backup & Restore")
+            }
+            TextButton(onClick = onOpenDataManagement) {
+                Text("Data Management")
+            }
+            TextButton(onClick = onNavigateBack) {
+                Text("← Go Back")
+            }
         }
     }
 }

@@ -11,6 +11,10 @@ import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.ParsedHistoryEntry
 import com.health.calculator.bmi.tracker.data.model.toDisplayEntry
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
+import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
+import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
+import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
+import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import kotlinx.coroutines.flow.first
 
@@ -26,6 +30,8 @@ class AutoBackupWorker(
             val localBackupManager = LocalBackupManager(context)
             val googleDriveManager = GoogleDriveBackupManager.getInstance(context)
             val backupPreferences = BackupPreferences.getInstance(context)
+            val profileRepository = ProfileRepository(ProfileDataStore(context))
+            val settingsRepository = SettingsRepository(SettingsDataStore(context))
 
             val entries = historyRepository.getAllEntries().first()
             if (entries.isEmpty()) return Result.success()
@@ -33,11 +39,25 @@ class AutoBackupWorker(
             val displayEntries = entries.map { it.toDisplayEntry() }
 
             // Create local backup first
+            val profile = profileRepository.getProfile().first()
+            val settings = settingsRepository.settingsFlow.first()
             val backupFile = localBackupManager.createLocalBackup(
                 historyEntries =
                     displayEntries,
-                profileData = emptyMap(), // TODO: Get from profile repo if implemented
-                settingsData = emptyMap(), 
+                profileData = mapOf(
+                    "name" to profile.name,
+                    "gender" to profile.gender.name,
+                    "heightCm" to (profile.heightCm ?: 0f).toString(),
+                    "weightKg" to (profile.weightKg ?: 0f).toString(),
+                    "goalWeightKg" to (profile.goalWeightKg ?: 0f).toString()
+                ),
+                settingsData = mapOf(
+                    "unitSystem" to settings.unitSystem.name,
+                    "themeMode" to settings.themeMode.name,
+                    "remindersEnabled" to settings.remindersEnabled.toString(),
+                    "waterReminderEnabled" to settings.waterReminderEnabled.toString(),
+                    "weightReminderEnabled" to settings.weightReminderEnabled.toString()
+                ),
                 achievementsData = emptyMap(),
                 onProgress = { }
             )
