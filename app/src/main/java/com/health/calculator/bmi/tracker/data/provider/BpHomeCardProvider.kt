@@ -1,7 +1,7 @@
 package com.health.calculator.bmi.tracker.data.provider
 
 import android.content.Context
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.BpCategory
 import com.health.calculator.bmi.tracker.data.model.BpHomeCardInfo
 import com.health.calculator.bmi.tracker.data.preferences.BpReminderPreferences
@@ -18,7 +18,7 @@ import java.time.temporal.ChronoUnit
 
 class BpHomeCardProvider(context: Context) {
 
-    private val database = HealthDatabase.getInstance(context)
+    private val database = AppDatabase.getDatabase(context)
     private val dao = database.bloodPressureDao()
     private val bpPreferences = BpReminderPreferences(context)
 

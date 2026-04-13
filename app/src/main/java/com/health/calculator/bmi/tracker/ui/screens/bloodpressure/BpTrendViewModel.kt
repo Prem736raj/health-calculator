@@ -3,7 +3,7 @@ package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
 import com.health.calculator.bmi.tracker.data.model.*
 import com.health.calculator.bmi.tracker.data.repository.BloodPressureRepository
@@ -91,7 +91,7 @@ data class BpTrendUiState(
 
 class BpTrendViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val database = HealthDatabase.getInstance(application)
+    private val database = AppDatabase.getDatabase(application)
     private val repository = BloodPressureRepository(database.bloodPressureDao())
 
     private val _uiState = MutableStateFlow(BpTrendUiState())

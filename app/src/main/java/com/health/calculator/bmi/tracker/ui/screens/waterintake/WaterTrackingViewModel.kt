@@ -26,6 +26,9 @@ import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import org.json.JSONObject
 import java.util.Calendar
+import com.health.calculator.bmi.tracker.widget.WaterWidgetSyncManager
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.first
 
 class WaterTrackingViewModel(
     application: Application,
@@ -167,8 +170,25 @@ class WaterTrackingViewModel(
 
             // Trigger plant animation
             _justWatered.value = true
+            
+            // Sync to widget
+            syncToWidget()
+            
             delay(1500)
             _justWatered.value = false
+        }
+    }
+
+    private fun syncToWidget() {
+        viewModelScope.launch {
+            val total = todayTotal.first()
+            val logs = todayLogs.first()
+            WaterWidgetSyncManager.syncToWidgets(
+                context = getApplication(),
+                todayIntakeMl = total,
+                glassesCount = logs.size,
+                goalMl = dailyGoalMl
+            )
         }
     }
 
@@ -178,6 +198,7 @@ class WaterTrackingViewModel(
                 val entry = repository.getWaterLogById(id)
                 if (entry != null) {
                     repository.deleteWaterLog(entry)
+                    syncToWidget()
                 }
                 lastAddedId = null
             }
@@ -187,6 +208,7 @@ class WaterTrackingViewModel(
     fun deleteEntry(log: WaterIntakeLog) {
         viewModelScope.launch {
             repository.deleteWaterLog(log)
+            syncToWidget()
         }
     }
 

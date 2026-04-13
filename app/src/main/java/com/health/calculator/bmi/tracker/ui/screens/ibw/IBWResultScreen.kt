@@ -6,6 +6,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.*
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.TrendingDown
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,12 +19,10 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
-import kotlin.math.abs
-import com.health.calculator.bmi.tracker.data.model.IBWResult
-import com.health.calculator.bmi.tracker.domain.usecase.AdjustedWeightMetrics
-import com.health.calculator.bmi.tracker.ui.components.InfoCard
 import com.health.calculator.bmi.tracker.data.model.IBWHistoryEntry
+import com.health.calculator.bmi.tracker.data.model.IBWResult
 import com.health.calculator.bmi.tracker.data.repository.IBWStatistics
+import com.health.calculator.bmi.tracker.domain.usecase.AdjustedWeightMetrics
 
 @Composable
 fun IBWResultScreen(
@@ -52,8 +53,17 @@ fun IBWResultScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.surface,
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                    )
+                )
+            )
             .verticalScroll(scrollState)
-            .padding(16.dp)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Height warning banner (edge cases)
         result.heightWarning?.let { warning ->
@@ -64,27 +74,35 @@ fun IBWResultScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    shape = RoundedCornerShape(12.dp),
+                        .padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFFF9800).copy(alpha = 0.1f)
-                    )
+                        containerColor = Color(0xFFFFF3E0)
+                    ),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(12.dp),
-                        verticalAlignment = Alignment.Top
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            Icons.Default.Warning,
-                            contentDescription = null,
-                            tint = Color(0xFFFF9800),
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .background(Color(0xFFFF9800).copy(alpha = 0.2f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.Warning,
+                                contentDescription = null,
+                                tint = Color(0xFFFF9800),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
                         Text(
                             text = warning,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color(0xFFFF9800).copy(alpha = 0.9f),
+                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
+                            color = Color(0xFFE65100),
                             lineHeight = 18.sp
                         )
                     }
@@ -99,7 +117,7 @@ fun IBWResultScreen(
         ) { PrimaryResultCard(result, showInKg, onToggleUnit) }
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Motivational Weight Comparison (replaces old WeightDifference + VisualScale)
+        // Motivational Weight Comparison
         AnimatedVisibility(
             visible = visible && result.currentWeightKg != null,
             enter = fadeIn(tween(600, 200)) + slideInVertically(tween(600, 200))
@@ -183,7 +201,7 @@ fun IBWResultScreen(
                     else Color.Transparent
                 )
             ) {
-                Icon(Icons.Default.MenuBook, null, Modifier.size(16.dp))
+                Icon(Icons.AutoMirrored.Filled.MenuBook, null, Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("Learn", style = MaterialTheme.typography.labelMedium)
             }
@@ -248,298 +266,122 @@ private fun PrimaryResultCard(
         label = "weight_anim"
     )
 
+    val colorPrimary = MaterialTheme.colorScheme.primary
+    val colorSecondary = MaterialTheme.colorScheme.secondary
+    val colorTertiary = MaterialTheme.colorScheme.tertiary
+
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
-        )
+        shape = RoundedCornerShape(32.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Ideal Body Weight",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Animated Weight Gauge
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.size(180.dp)
-            ) {
-                val primaryColor = MaterialTheme.colorScheme.primary
-                val secondaryColor = MaterialTheme.colorScheme.secondary
-                
-                // Background Track
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    drawArc(
-                        color = Color.White.copy(alpha = 0.5f),
-                        startAngle = 135f,
-                        sweepAngle = 270f,
-                        useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
-                    )
-                }
-                
-                // Progress
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    drawArc(
-                        brush = Brush.sweepGradient(
-                            0f to primaryColor,
-                            0.75f to secondaryColor
-                        ),
-                        startAngle = 135f,
-                        sweepAngle = 270f * (animatedWeight / (if(showInKg) 120f else 260f)).coerceAtMost(1f),
-                        useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
-                    )
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "%.1f".format(animatedWeight),
-                        style = MaterialTheme.typography.displayMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.secondaryContainer
                         )
                     )
-                    Text(
-                        text = unit.uppercase(),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
+                )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Your Ideal Body Weight",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Animated Weight Gauge
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.size(220.dp)
+                ) {
+                    // Background Track
+                    Canvas(modifier = Modifier.fillMaxSize()) {
+                        drawArc(
+                            color = Color.White.copy(alpha = 0.5f),
+                            startAngle = 135f,
+                            sweepAngle = 270f,
+                            useCenter = false,
+                            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+                        )
+                    }
+
+                    // Progress
+                    Canvas(modifier = Modifier.fillMaxSize()) {
+                        drawArc(
+                            brush = Brush.sweepGradient(
+                                0f to colorPrimary,
+                                0.5f to colorSecondary,
+                                1f to colorTertiary
+                            ),
+                            startAngle = 135f,
+                            sweepAngle = 270f * (animatedWeight / (if(showInKg) 120f else 260f)).coerceAtMost(1f),
+                            useCenter = false,
+                            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+                        )
+                    }
+
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "%.1f".format(animatedWeight),
+                            style = MaterialTheme.typography.displayLarge.copy(
+                                fontWeight = FontWeight.Black,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        )
+                        Text(
+                            text = unit.uppercase(),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Surface(
+                    onClick = onToggleUnit,
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.Tune,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            "Switch to ${if (showInKg) "lbs" else "kg"}",
+                            style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
-                    )
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Surface(
-                onClick = onToggleUnit,
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        Icons.Default.Tune,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Switch to ${if (showInKg) "lbs" else "kg"}",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-            
-            Text(
-                text = "Adjusted for ${result.frameSize} frame",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
-                modifier = Modifier.padding(top = 12.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun WeightDifferenceCard(result: IBWResult, showInKg: Boolean) {
-    val currentWeight = result.currentWeightKg ?: return
-    val idealWeight = result.frameAdjustedDevineKg
-    val diff = idealWeight - currentWeight
-    val absDiff = abs(diff)
-    val unit = if (showInKg) "kg" else "lbs"
-    val displayDiff = if (showInKg) absDiff else absDiff * 2.20462
-    
-    val isUnderIdeal = diff > 0.5
-    val isOverIdeal = diff < -0.5
-    val isPerfect = !isUnderIdeal && !isOverIdeal
-
-    val cardColor = when {
-        isUnderIdeal -> Color(0xFF2196F3).copy(alpha = 0.1f)
-        isOverIdeal -> Color(0xFFFF9800).copy(alpha = 0.1f)
-        else -> Color(0xFF4CAF50).copy(alpha = 0.1f)
-    }
-
-    val icon = when {
-        isUnderIdeal -> Icons.Default.TrendingUp
-        isOverIdeal -> Icons.Default.TrendingDown
-        else -> Icons.Default.EmojiEvents
-    }
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = cardColor)
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.8f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    icon,
-                    contentDescription = null,
-                    tint = if (isPerfect) Color(0xFF4CAF50) else if (isUnderIdeal) Color(0xFF2196F3) else Color(0xFFFF9800)
-                )
-            }
-            
-            Spacer(modifier = Modifier.width(16.dp))
-            
-            Column {
                 Text(
-                    text = when {
-                        isUnderIdeal -> "You're below your ideal weight"
-                        isOverIdeal -> "You're above your ideal weight"
-                        else -> "You're at your ideal weight!"
-                    },
-                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
+                    text = "Adjusted for ${result.frameSize} frame",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                    modifier = Modifier.padding(top = 12.dp)
                 )
-                if (!isPerfect) {
-                    Text(
-                        text = "Difference: ${"%.1f".format(displayDiff)} $unit",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun VisualWeightScale(result: IBWResult, showInKg: Boolean) {
-    val current = result.currentWeightKg ?: return
-    val ideal = result.frameAdjustedDevineKg
-    val minBmi = result.bmiLowerKg
-    val maxBmi = result.bmiUpperKg
-    
-    val minScale = (minOf(current, minBmi, ideal) - 5).coerceAtLeast(30.0)
-    val maxScale = (maxOf(current, maxBmi, ideal) + 5).coerceAtMost(200.0)
-    val scaleRange = maxOf(0.1, maxScale - minScale)
-
-    fun getPos(value: Double) = ((value - minScale) / scaleRange).toFloat().coerceIn(0f, 1f)
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            "Weight Comparison Scale",
-            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("BMI Healthy Zone", style = MaterialTheme.typography.labelSmall)
-                    Text(
-                        "${"%.1f".format(if(showInKg) minBmi else minBmi*2.20462)} - ${"%.1f".format(if(showInKg) maxBmi else maxBmi*2.20462)} ${if(showInKg) "kg" else "lbs"}",
-                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Box(modifier = Modifier.fillMaxWidth().height(40.dp)) {
-                    val primaryColor = MaterialTheme.colorScheme.primary
-                    val secondaryColor = MaterialTheme.colorScheme.secondary
-                    
-                    // 1. Ensure values are finite and valid
-                    val minBmiPos = getPos(minBmi).takeIf { it.isFinite() } ?: 0f
-                    val maxBmiPos = getPos(maxBmi).takeIf { it.isFinite() } ?: 0f
-                    val idealPos = getPos(ideal).takeIf { it.isFinite() } ?: 0f
-                    val currentPos = getPos(current).takeIf { it.isFinite() } ?: 0f
-                    
-                    Canvas(modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp)) {
-                        // 2. Extra safety: Check if width/height are valid before drawing
-                        if (size.width <= 0f || size.height <= 0f) return@Canvas
-
-                        val trackHeight = 12.dp.toPx()
-                        val y = size.height / 2
-                        
-                        drawRoundRect(
-                            color = Color.LightGray.copy(alpha = 0.3f),
-                            size = size.copy(height = trackHeight),
-                            topLeft = Offset(0f, y - trackHeight/2),
-                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx())
-                        )
-                        
-                        val startX = minBmiPos * size.width
-                        val endX = maxBmiPos * size.width
-                        val rectWidth = maxOf(0f, endX - startX)
-                        
-                        // Draw only if width is valid
-                        if (rectWidth > 0f) {
-                            drawRect(
-                                color = Color(0xFF4CAF50).copy(alpha = 0.4f),
-                                topLeft = Offset(startX, y - trackHeight/2),
-                                size = androidx.compose.ui.geometry.Size(rectWidth, trackHeight)
-                            )
-                        }
-                        
-                        // Ensure idealX is a valid number before drawing circle
-                        val idealX = idealPos * size.width
-                        if (idealX.isFinite()) {
-                            drawCircle(
-                                color = primaryColor,
-                                radius = 6.dp.toPx(),
-                                center = Offset(idealX, y)
-                            )
-                        }
-                        
-                        // Ensure currentX is a valid number before drawing rect
-                        val currentX = currentPos * size.width
-                        if (currentX.isFinite()) {
-                            drawRect(
-                                color = secondaryColor,
-                                size = androidx.compose.ui.geometry.Size(4.dp.toPx(), 24.dp.toPx()),
-                                topLeft = Offset(currentX - 2.dp.toPx(), y - 12.dp.toPx())
-                            )
-                        }
-                    }
-                }
-                
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Ideal", style = MaterialTheme.typography.labelSmall)
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = Modifier.size(8.dp).background(MaterialTheme.colorScheme.secondary))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Current", style = MaterialTheme.typography.labelSmall)
-                    }
-                }
             }
         }
     }
@@ -642,11 +484,11 @@ private fun ActionButtonsRow(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Button(
                 onClick = onSave,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).height(56.dp),
                 enabled = !isSaved,
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -665,7 +507,7 @@ private fun ActionButtonsRow(
 
             OutlinedButton(
                 onClick = onShare,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).height(56.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(18.dp))
@@ -678,8 +520,8 @@ private fun ActionButtonsRow(
             onClick = onSetGoal,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
+                .height(56.dp),
+            shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary
             )
@@ -694,8 +536,8 @@ private fun ActionButtonsRow(
 
         OutlinedButton(
             onClick = onRecalculate,
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp)
+            modifier = Modifier.fillMaxWidth().height(56.dp),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(6.dp))

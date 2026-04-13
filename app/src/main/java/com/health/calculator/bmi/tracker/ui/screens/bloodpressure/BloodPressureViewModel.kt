@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
-import com.health.calculator.bmi.tracker.data.local.HealthDatabase
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.*
 import com.health.calculator.bmi.tracker.data.repository.BloodPressureRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository as MainHistoryRepository
-import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -100,7 +99,7 @@ class BloodPressureViewModel(
 ) : AndroidViewModel(application) {
 
     private val profileRepository = ProfileRepository(ProfileDataStore(application))
-    private val database = HealthDatabase.getInstance(application)
+    private val database = AppDatabase.getDatabase(application)
     private val repository = BloodPressureRepository(database.bloodPressureDao())
     private val mainHistoryRepository = MainHistoryRepository(AppDatabase.getDatabase(application).historyDao())
     private val bpPrefs = com.health.calculator.bmi.tracker.data.preferences.BpReminderPreferences(application)
