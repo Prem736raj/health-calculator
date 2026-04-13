@@ -3,6 +3,7 @@ package com.health.calculator.bmi.tracker.presentation.profile
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 private const val PROFILE_IMAGE_QUALITY = 95
+private const val PROFILE_SCREEN_TAG = "ProfileScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -403,7 +405,8 @@ private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
             bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)
         }
         FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+        Log.e(PROFILE_SCREEN_TAG, "Failed to save profile image", e)
         null
     }
 }

@@ -172,14 +172,26 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearHistory() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                historyRepository.clearAllHistory()
-            }
-            _uiState.update {
-                it.copy(
-                    showClearHistoryDialog = false,
-                    showClearSuccessMessage = true
-                )
+            val success = runCatching {
+                withContext(Dispatchers.IO) {
+                    historyRepository.clearAllHistory()
+                }
+            }.isSuccess
+
+            if (success) {
+                _uiState.update {
+                    it.copy(
+                        showClearHistoryDialog = false,
+                        showClearSuccessMessage = true
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        showClearHistoryDialog = false,
+                        exportStatusMessage = "Failed to clear history. Please try again."
+                    )
+                }
             }
         }
     }
@@ -194,17 +206,28 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun confirmClearAllData() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                appDatabase.clearAllTables()
-            }
-            profileRepository.clearProfile()
-            settingsRepository.clearSettings()
+            val success = runCatching {
+                withContext(Dispatchers.IO) {
+                    appDatabase.clearAllTables()
+                }
+                profileRepository.clearProfile()
+                settingsRepository.clearSettings()
+            }.isSuccess
 
-            _uiState.update {
-                it.copy(
-                    showClearAllDataDialog = false,
-                    showClearSuccessMessage = true
-                )
+            if (success) {
+                _uiState.update {
+                    it.copy(
+                        showClearAllDataDialog = false,
+                        showClearSuccessMessage = true
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        showClearAllDataDialog = false,
+                        exportStatusMessage = "Failed to clear all data. Please try again."
+                    )
+                }
             }
         }
     }

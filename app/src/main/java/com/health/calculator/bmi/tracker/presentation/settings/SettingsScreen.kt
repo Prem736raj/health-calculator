@@ -3,6 +3,7 @@ package com.health.calculator.bmi.tracker.presentation.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseOutBack
@@ -597,6 +598,8 @@ private fun openUrl(context: android.content.Context, url: String) {
     runCatching {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(intent)
+    }.onFailure {
+        Log.e("SettingsScreen", "Failed to open URL: $url", it)
     }
 }
 
