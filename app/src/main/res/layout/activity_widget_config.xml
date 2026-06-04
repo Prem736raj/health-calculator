@@ -177,7 +177,7 @@
                 <View
                     android:layout_width="40dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/config_theme_preview_light" />
+                    android:background="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                 <View
                     android:layout_width="40dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/config_theme_preview_dark" />
+                    android:background="@color/widget_background_dark" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                 <View
                     android:layout_width="40dp"
                     android:layout_height="28dp"
-                    android:background="@drawable/config_theme_preview_transparent" />
+                    android:background="@android:color/transparent" />
 
                 <TextView
                     android:layout_width="wrap_content"

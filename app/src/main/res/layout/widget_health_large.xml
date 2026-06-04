@@ -148,7 +148,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calories" android:tint="@color/health_calories_accent" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calories" android:tint="@color/health_cal_accent" />
                 <TextView android:id="@+id/calories_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cals" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -164,7 +164,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calc_heart_rate" android:tint="#E91E63" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" android:tint="#E91E63" />
                 <TextView android:id="@+id/hr_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HR" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>

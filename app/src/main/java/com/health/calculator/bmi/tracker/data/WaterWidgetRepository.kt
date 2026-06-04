@@ -2,14 +2,20 @@ package com.health.calculator.bmi.tracker.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WaterWidgetRepository(private val context: Context) {
+class WaterWidgetRepository private constructor(context: Context) {
+
+    private val applicationContext = context.applicationContext
+    private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     companion object {
         private const val PREFS_NAME = "water_widget_prefs"
@@ -34,7 +40,7 @@ class WaterWidgetRepository(private val context: Context) {
     }
 
     private val prefs: SharedPreferences
-        get() = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        get() = applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     // ─── Data Classes ────────────────────────────────────────────────
 
@@ -55,12 +61,11 @@ class WaterWidgetRepository(private val context: Context) {
         val lastDate = prefs.getString(KEY_LAST_DATE, "")
 
         if (lastDate != today) {
-            prefs.edit().apply {
+            prefs.edit {
                 putInt(KEY_TODAY_INTAKE_ML, 0)
                 putInt(KEY_GLASSES_COUNT, 0)
                 putString(KEY_LAST_LOGGED, "")
                 putString(KEY_LAST_DATE, today)
-                apply()
             }
         }
     }
@@ -106,11 +111,10 @@ class WaterWidgetRepository(private val context: Context) {
         val newGlasses = currentGlasses + 1
         val currentTime = getCurrentTime()
 
-        prefs.edit().apply {
+        prefs.edit {
             putInt(KEY_TODAY_INTAKE_ML, newIntake)
             putInt(KEY_GLASSES_COUNT, newGlasses)
             putString(KEY_LAST_LOGGED, currentTime)
-            apply()
         }
 
         // Also sync with Room database
@@ -122,7 +126,7 @@ class WaterWidgetRepository(private val context: Context) {
     // ─── Sync from App ───────────────────────────────────────────────
 
     fun syncFromApp(intakeMl: Int, glassesCount: Int, goalMl: Int) {
-        prefs.edit().apply {
+        prefs.edit {
             putInt(KEY_TODAY_INTAKE_ML, intakeMl)
             putInt(KEY_GLASSES_COUNT, glassesCount)
             putInt(KEY_GOAL_ML, goalMl)
@@ -133,12 +137,11 @@ class WaterWidgetRepository(private val context: Context) {
                     putString(KEY_LAST_LOGGED, getCurrentTime())
                 }
             }
-            apply()
         }
     }
 
     fun updateGoal(goalMl: Int) {
-        prefs.edit().putInt(KEY_GOAL_ML, goalMl).apply()
+        prefs.edit { putInt(KEY_GOAL_ML, goalMl) }
     }
 
     // ─── Helpers ─────────────────────────────────────────────────────
@@ -150,7 +153,7 @@ class WaterWidgetRepository(private val context: Context) {
                 if (liters == liters.toLong().toFloat()) {
                     "${liters.toLong()}L"
                 } else {
-                    String.format("%.1fL", liters)
+                    String.format(Locale.getDefault(), "%.1fL", liters)
                 }
             }
             else -> "${ml}ml"
@@ -163,23 +166,19 @@ class WaterWidgetRepository(private val context: Context) {
     }
 
     private fun syncToDatabase(amountMl: Int) {
-        // Fire-and-forget sync to Room DB via background thread
-        try {
-            val db = AppDatabase.getDatabase(context)
-            Thread {
-                try {
-                    val log = WaterIntakeLog(
-                        amountMl = amountMl,
-                        timestamp = System.currentTimeMillis(),
-                        note = "Quick add from widget"
-                    )
-                    db.waterIntakeDao().insertWaterLog(log)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }.start()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        // Fire-and-forget sync to Room DB via coroutine
+        repositoryScope.launch {
+            try {
+                val db = AppDatabase.getDatabase(applicationContext)
+                val log = WaterIntakeLog(
+                    amountMl = amountMl,
+                    timestamp = System.currentTimeMillis(),
+                    note = "Quick add from widget"
+                )
+                db.waterIntakeDao().insertWaterLog(log)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

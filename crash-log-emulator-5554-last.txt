@@ -1,0 +1,484 @@
+﻿--------- beginning of main
+03-25 21:51:52.314 W/libbinder.BackendUnifiedServiceManager( 8506): Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: package
+--------- beginning of system
+03-25 21:51:52.436 D/ActivityManager(  783): freezing 8424 com.google.android.contacts
+03-25 21:51:52.446 D/ActivityManager(  783): freezing 8269 android.process.acore
+03-25 21:51:52.460 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:51:52.467 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:51:52.468 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={10164} in 8ms
+03-25 21:51:52.630 I/ActivityManager(  783): Force stopping com.health.calculator.bmi.tracker appid=10235 user=0: from pid 8511
+03-25 21:51:52.624 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/base.odex) is kOatUpToDate with filter 'speed-profile' executable 'false'
+03-25 21:51:52.628 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_AdsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.638 I/ActivityManager(  783): Killing 8408:com.health.calculator.bmi.tracker/u0a235 (adj 0): stop com.health.calculator.bmi.tracker due to from pid 8511
+03-25 21:51:52.637 W/libbinder.IPCThreadState(  615): Sending oneway calls to frozen process.
+03-25 21:51:52.646 D/CompatChangeReporter(  783): Compat change id reported: 151861875; UID 10235; state: ENABLED
+03-25 21:51:52.644 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_CronetDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.652 W/ActivityTaskManager(  783): Force removing ActivityRecord{6229518 u0 com.health.calculator.bmi.tracker/.MainActivity t28 f}}: app died, no saved state
+03-25 21:51:52.656 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteLoader_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.672 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesA_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.680 D/ViewRootImpl( 6640): Skipping stats log for color mode
+03-25 21:51:52.680 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesC_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.690 V/WindowManagerShell( 1063): Transition requested (#25): android.os.BinderProxy@41077d5 TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=28 effectiveUid=10235 displayId=0 isRunning=false baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=0 lastActiveTime=3370047 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.os.BinderProxy@cd94601} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=true lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 0, 0) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 0, debugId = 25 }
+03-25 21:51:52.692 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_GoogleCertificates_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.692 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{c9dfd0a com.healthapp.bmi/10233} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{f34e398 com.android.microdroid.empty_payload/10215} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{66d67f1 com.ludostar.king.boardgame/10229} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{7a6dfd6 com.example.tictactoe/10234} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{fc4b257 com.statussaver.videodownloader.wa/10231} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{b60a144 com.docviewer.smart/10228} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.698 I/AppsFilter(  783): interaction: PackageSetting{7df922d com.pdf.document.reader.viewer/10230} -> PackageSetting{f7b9427 com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:52.700 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MapsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.704 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MeasurementDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:51:52.714 V/ShellDesktopMode( 1063): DesktopTasksController: handleRequest request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=28 effectiveUid=10235 displayId=0 isRunning=false baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=0 lastActiveTime=3370047 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.os.BinderProxy@cd94601} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=true lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 0, 0) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 0, debugId = 25 }
+03-25 21:51:52.716 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:51:52.720 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:52.720 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:52.720 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:52.736 V/ShellDesktopMode( 1063): DesktopTasksController: skipping handleRequest reason=triggerTask's display doesn't support desktop mode
+03-25 21:51:52.754 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:51:52.755 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={10235} in 80ms
+03-25 21:51:52.756 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000b/dl-MlkitBarcodeUi.optional_253434100800.apk has no usable artifacts
+03-25 21:51:52.759 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:51:52.760 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:51:52.764 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000021/dl-PlayCloudSearch.optional_261133100000.apk has no usable artifacts
+03-25 21:51:52.772 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.776 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000001/CronetDynamite.apk has no usable artifacts
+03-25 21:51:52.776 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.789 D/CarrierSvcBindHelper( 1201): onHandleForceStop: [com.health.calculator.bmi.tracker]
+03-25 21:51:52.788 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000002/DynamiteLoader.apk has no usable artifacts
+03-25 21:51:52.796 I/libbinder.BpBinder(  615): onLastStrongRef automatically unlinking death recipients for descriptor: '(not cached)'
+03-25 21:51:52.808 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000005/GoogleCertificates.apk has no usable artifacts
+03-25 21:51:52.808 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.816 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000e/dl-MlkitOcrCommon.optional_253434100800.apk has no usable artifacts
+03-25 21:51:52.833 D/CarrierSvcBindHelper( 1201): No carrier app for: 0
+03-25 21:51:52.828 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000020/dl-VisionOcr.optional_261133100000.apk has no usable artifacts
+03-25 21:51:52.840 I/adbd    (  623): Remote process closed the socket (on MSG_PEEK)
+03-25 21:51:52.840 I/artd    ( 2286): GetBestInfo: /data/user/0/com.google.android.gms/app_dg_cache/D7ECB6ECAAAB0DCD8DECD74AE43F16D2EC2B3A20/the.apk has no usable artifacts
+03-25 21:51:52.854 W/InputDispatcher(  783): channel '3630e39 com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity' ~ Consumer closed input channel or an error occurred.  events=0x9
+03-25 21:51:52.855 E/InputDispatcher(  783): channel '3630e39 com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity' ~ Channel is unrecoverably broken and will be disposed!
+03-25 21:51:52.855 I/WindowManager(  783): WINDOW DIED Window{3630e39 u0 com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity}
+03-25 21:51:52.863 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={20235} in 107ms
+03-25 21:51:52.868 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.876 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.884 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.892 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.897 V/ActivityManager(  783): Got obituary of 8408:com.health.calculator.bmi.tracker
+03-25 21:51:52.892 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000001a/dl-TfliteDynamiteDynamite.integ_252130102100800.apk has no usable artifacts
+03-25 21:51:52.892 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:52.892 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.900 I/libprocessgroup(  783): Removed cgroup /sys/fs/cgroup/apps/uid_10235/pid_8408
+03-25 21:51:52.908 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000008/dl-Appsearch.optional_253434100800.apk has no usable artifacts
+03-25 21:51:52.916 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000022/dl-Appsearch.optional_261133100800.apk has no usable artifacts
+03-25 21:51:52.919 W/ActivityManager(  783): setHasOverlayUi called on unknown pid: 8408
+03-25 21:51:52.923 I/Zygote  (  546): Process 8408 exited due to signal 9 (Killed)
+03-25 21:51:52.924 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.984 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:52.998 W/ActivityTaskManager(  783): callingPackage for (uid=2000, pid=8517) has no WPC
+03-25 21:51:53.001 V/WindowManager(  783): DesktopModeLaunchParamsModifier: phase= 0 task=null activity=null display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 task null, skipping
+03-25 21:51:53.002 V/WindowManager(  783): TaskLaunchParamsModifier:phase=0 task=null activity=null display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810
+03-25 21:51:53.004 V/GrammaticalInflectionUtils(  783): AttributionSource: android.content.AttributionSource@259f0d86 does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+03-25 21:51:53.010 W/TransitionChain(  783): Combining startAct into #25(CLOSE|R|0x0) from appDied
+03-25 21:51:53.011 V/WindowManager(  783): DesktopModeLaunchParamsModifier: phase= 0 task=null activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 task null, skipping
+03-25 21:51:53.012 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000d/dl-VisionOcr.optional_253434100000.apk has no usable artifacts
+03-25 21:51:53.014 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:53.016 V/WindowManager(  783): TaskLaunchParamsModifier:phase=0 task=null activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1} display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810
+03-25 21:51:53.017 V/WindowManager(  783): DesktopModeLaunchParamsModifier: phase= 3 task=null activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1} display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 task null, skipping
+03-25 21:51:53.018 V/WindowManager(  783): TaskLaunchParamsModifier:phase=3 task=null activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1} display-area-from-current-params=null display-area-from-default-fallback=DefaultTaskDisplayArea@129225810 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 non-freeform-task-display-area display-area=DefaultTaskDisplayArea@129225810 skip-bounds-fullscreen
+03-25 21:51:53.029 I/artd    ( 2286): GetBestInfo: vdex next to the dex file (/data/user/0/com.google.android.gms/app_dg_cache/E054CA794C125F959C88D4849C82AB3F226237E6/oat/x86_64/the.vdex) is kOatUpToDate with filter 'verify' executable 'false'
+03-25 21:51:53.031 V/WindowManager(  783): DesktopModeLaunchParamsModifier: phase= 3 task=Task{320c67a #29 type=standard A=10235:com.health.calculator.bmi.tracker} activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1} display-from-task=0 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 not entering desktop mode, skipping
+03-25 21:51:53.031 V/WindowManager(  783): TaskLaunchParamsModifier:phase=3 task=Task{320c67a #29 type=standard A=10235:com.health.calculator.bmi.tracker} activity=ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1} display-from-task=0 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@129225810 inherit-from-task=fullscreen non-freeform-task-display-area display-area=DefaultTaskDisplayArea@129225810 skip-bounds-fullscreen
+03-25 21:51:53.047 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000023/dl-MlkitBarcodeUi.optional_261133100800.apk has no usable artifacts
+03-25 21:51:53.040 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:51:53.052 D/CompatChangeReporter(  783): Compat change id reported: 309578419; UID 10235; state: ENABLED
+03-25 21:51:53.057 I/ActivityTaskManager(  783): Add Task{d01fd1a #28 type=standard A=10235:com.health.calculator.bmi.tracker} to hidden list because adding Task{320c67a #29 type=standard A=10235:com.health.calculator.bmi.tracker}
+03-25 21:51:53.076 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000024/dl-MlkitOcrCommon.optional_261133100800.apk has no usable artifacts
+03-25 21:51:53.095 I/ActivityTaskManager(  783): START u0 {flg=0x10000000 xflg=0x5 cmp=com.health.calculator.bmi.tracker/.MainActivity} with LAUNCH_MULTIPLE from uid 2000 (com.android.shell) (BAL_ALLOW_PERMISSION) result code=0
+03-25 21:51:53.096 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000f/dl-PlayCloudSearch.optional_253434100000.apk has no usable artifacts
+03-25 21:51:53.108 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~tusM_rX-YqY2h8cLJSwPOw==/com.android.vending-KiXUqvaX__ZcqgcN2080HQ==/base.apk, fd=-1
+03-25 21:51:53.112 D/RecentsView( 1210): onTaskDisplayChanged: 29, new displayId = 0
+03-25 21:51:53.121 W/AiAiVC  ( 1697): Unexpected capture event type: 11
+03-25 21:51:53.141 V/GrammaticalInflectionUtils(  783): AttributionSource: android.content.AttributionSource@259f0d86 does not have READ_SYSTEM_GRAMMATICAL_GENDER permission.
+03-25 21:51:53.144 D/WindowOnBackDispatcher( 1063): setTopOnBackInvokedCallback (unwrapped): android.view.ViewRootImpl$$ExternalSyntheticLambda12@b93539a
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{c9dfd0a com.healthapp.bmi/10233} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{f34e398 com.android.microdroid.empty_payload/10215} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{66d67f1 com.ludostar.king.boardgame/10229} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{7a6dfd6 com.example.tictactoe/10234} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{fc4b257 com.statussaver.videodownloader.wa/10231} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{b60a144 com.docviewer.smart/10228} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.149 I/AppsFilter(  783): interaction: PackageSetting{7df922d com.pdf.document.reader.viewer/10230} -> PackageSetting{3ecd15d com.health.calculator.bmi.tracker/10235} BLOCKED
+03-25 21:51:53.157 D/ShellDesktopMode( 1063): DesktopRepository: Removes freeform task: taskId=28
+03-25 21:51:53.163 W/ShellDesktopMode( 1063): DesktopRepository: No display id found for task: taskId=28
+03-25 21:51:53.168 D/CoreBackPreview(  783): Window{e4d046 u0 Splash Screen com.health.calculator.bmi.tracker}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@cc9e7a3, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+03-25 21:51:53.184 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:53.184 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:53.188 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:53.269 D/Zygote  (  546): Forked child process 8521
+03-25 21:51:53.356 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:53.361 W/ActivityManager(  783): Slow operation: 219ms so far, now at startProcess: returned from zygote!
+03-25 21:51:53.364 W/ActivityManager(  783): Slow operation: 222ms so far, now at startProcess: done updating battery stats
+03-25 21:51:53.364 W/ActivityManager(  783): Slow operation: 222ms so far, now at startProcess: building log message
+03-25 21:51:53.364 I/ActivityManager(  783): Start proc 8521:com.health.calculator.bmi.tracker/u0a235 for next-top-activity {com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity}
+03-25 21:51:53.364 W/ActivityManager(  783): Slow operation: 222ms so far, now at startProcess: starting to update pids map
+03-25 21:51:53.365 W/ActivityManager(  783): Slow operation: 223ms so far, now at startProcess: done updating pids map
+03-25 21:51:53.397 I/Zygote  ( 8521): Process 8521 created for com.health.calculator.bmi.tracker
+03-25 21:51:53.398 I/tor.bmi.tracker( 8521): Late-enabling -Xcheck:jni
+03-25 21:51:53.478 I/tor.bmi.tracker( 8521): Using CollectorTypeCMC GC.
+03-25 21:51:53.484 W/tor.bmi.tracker( 8521): Unexpected CPU variant for x86: x86_64.
+03-25 21:51:53.484 W/tor.bmi.tracker( 8521): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, default
+03-25 21:51:53.490 D/SatelliteController( 1201): iisInCarrierRoamingNbIotNtn: satellite is disabled
+03-25 21:51:53.500 D/SatelliteController( 1201): getCarrierRoamingNtnConnectType: Falling back to global carrier config connect type: 0
+03-25 21:51:53.524 I/adbd    (  623): jdwp connection from 8521
+03-25 21:51:53.588 D/nativeloader( 8521): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+03-25 21:51:53.665 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:51:53.677 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:51:53.677 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={10104} in 16ms
+03-25 21:51:53.681 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:53.791 I/ndroid.systemui( 1063): CollectorTransition concurrent mark compact GC freed 9034KB AllocSpace bytes, 1(132KB) LOS objects, 45% free, 28MB/52MB, paused 1.955ms,29.536ms total 5.299s
+03-25 21:51:54.033 W/System  ( 1063): A resource failed to call release. 
+03-25 21:51:54.616 W/libbinder.Binder(  615): Binder transaction to android.ui.ISurfaceComposer code 8 took 18446744073709551614ms. Data bytes: 1192 Reply bytes: 0 Flags: 17
+03-25 21:51:54.861 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:51:56.017 D/nativeloader( 8521): Configuring clns-9 for other apk /data/app/~~aK7L3qCWaw_mzdpzi3hMqg==/com.health.calculator.bmi.tracker-17KCLrhL-Jxc3PgUCF15LQ==/base.apk. target_sdk_version=35, uses_libraries=, library_path=/data/app/~~aK7L3qCWaw_mzdpzi3hMqg==/com.health.calculator.bmi.tracker-17KCLrhL-Jxc3PgUCF15LQ==/lib/x86_64:/data/app/~~aK7L3qCWaw_mzdpzi3hMqg==/com.health.calculator.bmi.tracker-17KCLrhL-Jxc3PgUCF15LQ==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.health.calculator.bmi.tracker
+03-25 21:51:56.033 D/CompatChangeReporter( 8521): Compat change id reported: 202956589; UID 10235; state: ENABLED
+03-25 21:51:56.071 V/GraphicsEnvironment( 8521): Currently set values for:
+03-25 21:51:56.072 V/GraphicsEnvironment( 8521):   angle_gl_driver_selection_pkgs=[]
+03-25 21:51:56.072 V/GraphicsEnvironment( 8521):   angle_gl_driver_selection_values=[]
+03-25 21:51:56.072 V/GraphicsEnvironment( 8521): com.health.calculator.bmi.tracker is not listed in per-application setting
+03-25 21:51:56.076 V/GraphicsEnvironment( 8521): ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+03-25 21:51:56.076 V/GraphicsEnvironment( 8521): No special selections for ANGLE, returning default driver choice
+03-25 21:51:56.076 V/GraphicsEnvironment( 8521): Neither updatable production driver nor prerelease driver is supported.
+03-25 21:51:56.168 D/WM-WrkMgrInitializer( 8521): Initializing WorkManager with default configuration.
+03-25 21:51:56.320 D/WM-PackageManagerHelper( 8521): Skipping component enablement for androidx.work.impl.background.systemjob.SystemJobService
+03-25 21:51:56.320 D/WM-Schedulers( 8521): Created SystemJobScheduler and enabled SystemJobService
+03-25 21:51:56.347 D/WM-ForceStopRunnable( 8521): The default process name was not specified.
+03-25 21:51:56.351 D/WM-ForceStopRunnable( 8521): Performing cleanup operations.
+03-25 21:51:56.379 E/ashmem  ( 8521): Pinning is deprecated since Android Q. Please use trim or other methods.
+03-25 21:51:56.429 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:56.431 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:56.459 V/WindowManager(  783): Sent Transition (#25) createdAt=03-25 21:51:52.654 via request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=28 effectiveUid=10235 displayId=0 isRunning=false baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=0 lastActiveTime=3370047 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{c4e9934 Task{d01fd1a #28 type=standard A=10235:com.health.calculator.bmi.tracker}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=true lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 0, 0) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 0, debugId = 25 }
+03-25 21:51:56.459 V/WindowManager(  783):     startWCT=WindowContainerTransaction { changes= {} hops= [] errorCallbackToken=null taskFragmentOrganizer=null }
+03-25 21:51:56.459 V/WindowManager(  783):     info={id=25 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+03-25 21:51:56.459 V/WindowManager(  783):         {WCT{RemoteToken{581a785 Task{320c67a #29 type=standard A=10235:com.health.calculator.bmi.tracker}}} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=29#252)/@0x5b501ef sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},
+03-25 21:51:56.459 V/WindowManager(  783):         {WCT{RemoteToken{c4e9934 Task{d01fd1a #28 type=standard A=10235:com.health.calculator.bmi.tracker}}} m=CLOSE f=NONE leash=Surface(name=Task=28#234)/@0x21e24a5 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}
+03-25 21:51:56.459 V/WindowManager(  783):     ]}
+03-25 21:51:56.487 D/WM-ForceStopRunnable( 8521): Application was force-stopped, rescheduling.
+03-25 21:51:56.494 V/WindowManagerShell( 1063): onTransitionReady(transaction=3362959394315)
+03-25 21:51:56.496 V/WindowManagerShell( 1063): onTransitionReady (#25) android.os.BinderProxy@41077d5: {id=25 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[
+03-25 21:51:56.496 V/WindowManagerShell( 1063):         {m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=29#252)/@0x21ff243 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},
+03-25 21:51:56.496 V/WindowManagerShell( 1063):         {m=CLOSE f=NONE leash=Surface(name=Task=28#234)/@0x63cc0c0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}
+03-25 21:51:56.496 V/WindowManagerShell( 1063):     ]}
+03-25 21:51:56.498 V/WindowManagerShell( 1063): Playing animation for (#25) android.os.BinderProxy@41077d5@0
+03-25 21:51:56.498 V/ShellRecents( 1063): RecentsTransitionHandler.startAnimation: no controller found
+03-25 21:51:56.499 V/ShellDesktopMode( 1063): DesktopMixedTransitionHandler: No pending desktop transition
+03-25 21:51:56.499 V/WindowManagerShell( 1063): Transition doesn't have explicit remote, search filters for match for {id=25 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=29#252)/@0x21ff243 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},{m=CLOSE f=NONE leash=Surface(name=Task=28#234)/@0x63cc0c0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}]}
+03-25 21:51:56.500 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null taskFragmentToken=android.os.BinderProxy@14994a0 windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@b5d3859, appThread = android.app.IApplicationThread$Stub$Proxy@bb24c1e, debugName = overlayBackTransition }}
+03-25 21:51:56.504 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@b4fbcff, appThread = android.app.IApplicationThread$Stub$Proxy@8c35acc, debugName = LauncherToDream }}
+03-25 21:51:56.507 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{NOT atype=undefined independent=true modes=[] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null customAnim=true windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@6a00115, appThread = android.app.IApplicationThread$Stub$Proxy@db30c2a, debugName = QuickstepLaunchHome }}
+03-25 21:51:56.507 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[OPEN,TO_FRONT] flags=0x0] notFlags=0x0 checks=[{atype=standard independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null windowingMode=freeform isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@365f640, appThread = null, debugName = DesktopWindowLimitUnminimize }}
+03-25 21:51:56.507 V/WindowManagerShell( 1063):  Delegate animation for (#25) to null
+03-25 21:51:56.508 V/WindowManagerShell( 1063): start default transition animation, info = {id=25 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=29#252)/@0x21ff243 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},{m=CLOSE f=NONE leash=Surface(name=Task=28#234)/@0x63cc0c0 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}]}
+03-25 21:51:56.514 V/WindowManagerShell( 1063): loadAnimation: anim=android.view.animation.AnimationSet@88d28ec animAttr=0xb type=CLOSE isEntrance=false
+03-25 21:51:56.520 I/BroadcastQueue(  783): BOOT_COMPLETED_BROADCAST_COMPLETION_LATENCY_REPORTED action:android.intent.action.BOOT_COMPLETED dispatchLatency:7 completeLatency:2852 dispatchRealLatency:7 completeRealLatency:2852 receiversSize:1 userId:0 userType:android.os.usertype.full.SYSTEM
+03-25 21:51:56.536 V/WindowManagerShell( 1063): loadAnimation: anim=android.view.animation.AnimationSet@377cea1 animAttr=0xa type=CLOSE isEntrance=true
+03-25 21:51:56.543 I/DisplayManager( 8521): Choreographer implicitly registered for the refresh rate.
+03-25 21:51:56.604 V/WindowManagerShell( 1063):  animated by com.android.wm.shell.transition.DefaultTransitionHandler@9e3ddfc
+03-25 21:51:56.660 D/DesktopExperienceFlags( 8521): Toggle override initialized to: false
+03-25 21:51:56.675 D/WM-PackageManagerHelper( 8521): Skipping component enablement for androidx.work.impl.background.systemalarm.RescheduleReceiver
+03-25 21:51:56.721 I/GFXSTREAM( 8521): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+03-25 21:51:56.728 I/GFXSTREAM( 8521): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+03-25 21:51:56.729 D/CompatChangeReporter( 8521): Compat change id reported: 309578419; UID 10235; state: ENABLED
+03-25 21:51:56.720 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551608ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:51:56.764 D/DesktopModeFlags( 8521): Toggle override initialized to: OVERRIDE_UNSET
+03-25 21:51:56.768 E/TaskPersister(  783): File error accessing recents directory (directory doesn't exist?).
+03-25 21:51:56.788 W/HWUI    ( 8521): Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+03-25 21:51:56.789 W/HWUI    ( 8521): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+03-25 21:51:56.955 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551613ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:51:57.143 V/WindowManagerShell( 1063): Transition animation finished (aborted=false), notifying core (#25) android.os.BinderProxy@41077d5@0
+03-25 21:51:57.195 V/WindowManagerShell( 1063): Track 0 became idle
+03-25 21:51:57.196 V/WindowManagerShell( 1063): All active transition animations finished
+03-25 21:51:57.205 V/WindowManager(  783): Finish Transition (#25): created at 03-25 21:51:52.654 collect-started=0.212ms request-sent=0.343ms started=110.871ms ready=3755.0ms sent=3754.871ms commit=194.656ms finished=4524.86ms
+03-25 21:51:57.288 E/BpTransactionCompletedListener(  615): Failed to transact (-32)
+03-25 21:51:57.305 D/CompatChangeReporter( 8521): Compat change id reported: 349153669; UID 10235; state: ENABLED
+03-25 21:51:57.356 W/HWUI    ( 8521): Unknown dataspace 0
+03-25 21:51:57.374 D/RecentsView( 1210): onTaskRemoved: 28, not handling task stack changes
+03-25 21:51:57.374 D/RecentsView( 1210): onTaskRemoved: 28, not handling task stack changes
+03-25 21:51:57.871 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:51:58.038 D/VRI[MainActivity]( 8521): WindowInsets changed: 1080x2400 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+03-25 21:51:58.040 D/WindowOnBackDispatcher( 8521): setTopOnBackInvokedCallback (unwrapped): android.view.ViewRootImpl$$ExternalSyntheticLambda12@3d17b76
+03-25 21:51:58.045 D/CoreBackPreview(  783): Window{73b9d8a u0 com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@1be0856, mPriority=0, mIsAnimationCallback=false, mOverrideBehavior=0}
+03-25 21:51:58.063 V/ShellTaskOrganizer( 1063): Task appeared taskId=29 listener=FullscreenTaskListener
+03-25 21:51:58.063 V/ShellTaskOrganizer( 1063): Fullscreen Task Appeared: #29
+03-25 21:51:58.063 V/ShellTaskOrganizer( 1063): Task vanished taskId=28
+03-25 21:51:58.063 V/ShellTaskOrganizer( 1063): Fullscreen Task Vanished: #28
+03-25 21:51:58.063 V/ShellDesktopMode( 1063): Task Vanished: #28 closed=true
+03-25 21:51:58.064 D/ShellDesktopMode( 1063): AppToWebRepository: Task 28 is vanishing. Removing task data from repository
+03-25 21:51:58.061 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:58.061 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:51:58.067 V/AppCompat( 1063): SingleSurfaceLetterboxController: []
+03-25 21:51:58.067 V/AppCompat( 1063): MultiSurfaceLetterboxController: []
+03-25 21:51:58.067 V/AppCompat( 1063): LetterboxInputController: []
+03-25 21:51:58.067 V/AppCompat( 1063): RoundedCornersLetterboxController: {}
+03-25 21:51:58.148 D/ActivityManager(  783): freezing 5064 com.google.android.gms
+03-25 21:51:58.280 I/ActivityTaskManager(  783): Displayed com.health.calculator.bmi.tracker/.MainActivity for user 0: +5s279ms
+03-25 21:51:58.287 I/Choreographer( 8521): Skipped 45 frames!  The application may be doing too much work on its main thread.
+03-25 21:51:58.300 I/HWUI    ( 8521): Davey! duration=783ms; Flags=1, FrameTimelineVsyncId=42191, IntendedVsync=3381379356340, Vsync=3381379356340, InputEventId=0, HandleInputStart=3381393559552, AnimationStart=3381393611606, PerformTraversalsStart=3381393618322, DrawStart=3382089936709, FrameDeadline=3381396023006, FrameStartTime=3381393439952, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=3382093341593, SyncStart=3382133774134, IssueDrawCommandsStart=3382140196149, SwapBuffers=3382152133056, FrameCompleted=3382203387460, DequeueBufferDuration=6060, QueueBufferDuration=12702260, GpuCompleted=3382203250983, SwapBuffersCompleted=3382203387460, DisplayPresentTime=0, CommandSubmissionCompleted=3382152133056, 
+03-25 21:51:58.384 W/AiAiVC  ( 1697): Unexpected capture event type: 11
+03-25 21:51:58.409 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:51:58.416 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551613ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:51:58.477 I/FontLog ( 1350): (REDACTED) Received query %s, URI %s
+03-25 21:51:58.478 I/FontLog ( 1350): (REDACTED) Query [%s] resolved to %s
+03-25 21:51:58.488 I/FontLog ( 1350): (REDACTED) Fetch %s end status %s
+03-25 21:51:58.575 I/FontLog ( 1350): (REDACTED) Pulling font file for id = %d, cache size = %d
+03-25 21:51:58.604 I/HWUI    ( 8521): Using FreeType backend (prop=Auto)
+03-25 21:51:58.731 I/FontLog ( 1350): (REDACTED) Pulling font file for id = %d, cache size = %d
+03-25 21:51:58.982 D/WindowOnBackDispatcher( 1063): setTopOnBackInvokedCallback (unwrapped): null
+03-25 21:51:58.988 D/CoreBackPreview(  783): Window{e4d046 u0 Splash Screen com.health.calculator.bmi.tracker EXITING}: Setting back callback null
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42277, 73923750, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42277, 73923750, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42300, 62203972, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42300, 62203972, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:JANK_COMPOSER, 42315, 36267121, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42322, 64541637, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42322, 64541637, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:JANK_COMPOSER, 42331, 57102858, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42345, 105294917, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42345, 105294917, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42361, 82855836, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42361, 82855836, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:JANK_COMPOSER, 42375, 70541975, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:JANK_COMPOSER, 42383, 45913728, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:JANK_APPLICATION, 42390, 193247055, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42399, 254263607, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42399, 254263607, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed App frame:UNKNOWN: 3, 42406, 283235949, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.042 W/FrameTracker( 1063): Missed SF frame:UNKNOWN: 3, 42406, 283235949, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+03-25 21:51:59.652 I/HWUI    ( 8521): Davey! duration=832ms; Flags=0, FrameTimelineVsyncId=42428, IntendedVsync=3382762689618, Vsync=3382796022950, InputEventId=0, HandleInputStart=3382801122625, AnimationStart=3382801124493, PerformTraversalsStart=3383257174826, DrawStart=3383424233978, FrameDeadline=3382779356284, FrameStartTime=3382801098907, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=3383442460406, SyncStart=3383442532522, IssueDrawCommandsStart=3383443289997, SwapBuffers=3383559963210, FrameCompleted=3383595247752, DequeueBufferDuration=5197, QueueBufferDuration=409287, GpuCompleted=3383595247752, SwapBuffersCompleted=3383561787802, DisplayPresentTime=0, CommandSubmissionCompleted=3383559963210, 
+03-25 21:51:59.824 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551615ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:52:00.104 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551609ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:52:00.202 E/TaskPersister(  783): File error accessing recents directory (directory doesn't exist?).
+03-25 21:52:00.297 D/BoundBrokerSvc( 1350): onUnbind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action:/... xflg=0x4 cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+03-25 21:52:00.688 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551611ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:52:00.896 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:52:01.159 I/tor.bmi.tracker( 8521): Compiler allocated 5087KB to compile void android.view.ViewRootImpl.performTraversals()
+03-25 21:52:01.324 W/libbinder.Binder( 8521): Binder transaction to android.gui.ITransactionComposerListener code 1 took 18446744073709551615ms. Data bytes: 444 Reply bytes: 0 Flags: 17
+03-25 21:52:01.352 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551610ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:52:02.176 D/ProfileInstaller( 8521): Installing profile for com.health.calculator.bmi.tracker
+03-25 21:52:02.344 W/libbinder.BackendUnifiedServiceManager( 8568): Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: package
+03-25 21:52:02.636 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/base.odex) is kOatUpToDate with filter 'speed-profile' executable 'false'
+03-25 21:52:02.656 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_AdsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.670 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_CronetDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.674 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteLoader_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.677 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesA_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.681 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesC_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.680 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_GoogleCertificates_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.693 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MapsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.696 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MeasurementDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:02.717 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000b/dl-MlkitBarcodeUi.optional_253434100800.apk has no usable artifacts
+03-25 21:52:02.716 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000021/dl-PlayCloudSearch.optional_261133100000.apk has no usable artifacts
+03-25 21:52:02.720 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.724 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000001/CronetDynamite.apk has no usable artifacts
+03-25 21:52:02.728 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.728 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000002/DynamiteLoader.apk has no usable artifacts
+03-25 21:52:02.736 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000005/GoogleCertificates.apk has no usable artifacts
+03-25 21:52:02.740 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.756 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000e/dl-MlkitOcrCommon.optional_253434100800.apk has no usable artifacts
+03-25 21:52:02.756 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000020/dl-VisionOcr.optional_261133100000.apk has no usable artifacts
+03-25 21:52:02.764 I/artd    ( 2286): GetBestInfo: /data/user/0/com.google.android.gms/app_dg_cache/D7ECB6ECAAAB0DCD8DECD74AE43F16D2EC2B3A20/the.apk has no usable artifacts
+03-25 21:52:02.772 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.776 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.796 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.804 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.816 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000001a/dl-TfliteDynamiteDynamite.integ_252130102100800.apk has no usable artifacts
+03-25 21:52:02.820 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.836 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000008/dl-Appsearch.optional_253434100800.apk has no usable artifacts
+03-25 21:52:02.840 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000022/dl-Appsearch.optional_261133100800.apk has no usable artifacts
+03-25 21:52:02.852 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.868 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.920 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000d/dl-VisionOcr.optional_253434100000.apk has no usable artifacts
+03-25 21:52:02.920 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.936 I/artd    ( 2286): GetBestInfo: vdex next to the dex file (/data/user/0/com.google.android.gms/app_dg_cache/E054CA794C125F959C88D4849C82AB3F226237E6/oat/x86_64/the.vdex) is kOatUpToDate with filter 'verify' executable 'false'
+03-25 21:52:02.940 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000023/dl-MlkitBarcodeUi.optional_261133100800.apk has no usable artifacts
+03-25 21:52:02.944 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:02.952 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000024/dl-MlkitOcrCommon.optional_261133100800.apk has no usable artifacts
+03-25 21:52:02.956 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000f/dl-PlayCloudSearch.optional_253434100000.apk has no usable artifacts
+03-25 21:52:02.964 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~tusM_rX-YqY2h8cLJSwPOw==/com.android.vending-KiXUqvaX__ZcqgcN2080HQ==/base.apk, fd=-1
+03-25 21:52:03.523 D/SatelliteController( 1201): iisInCarrierRoamingNbIotNtn: satellite is disabled
+03-25 21:52:03.556 D/SatelliteController( 1201): getCarrierRoamingNtnConnectType: Falling back to global carrier config connect type: 0
+03-25 21:52:03.608 W/tor.bmi.tracker( 8521): userfaultfd: MOVE ioctl seems unsupported: Try again
+03-25 21:52:03.648 I/tor.bmi.tracker( 8521): Background concurrent mark compact GC freed 5312KB AllocSpace bytes, 18(552KB) LOS objects, 49% free, 5603KB/10MB, paused 780us,329us total 130.970ms
+03-25 21:52:03.908 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:52:04.232 I/Choreographer( 8521): Skipped 95 frames!  The application may be doing too much work on its main thread.
+03-25 21:52:04.268 I/HWUI    ( 8521): Davey! duration=1678ms; Flags=0, FrameTimelineVsyncId=43246, IntendedVsync=3386512700569, Vsync=3386579367229, InputEventId=0, HandleInputStart=3386581198846, AnimationStart=3386581199897, PerformTraversalsStart=3387125831670, DrawStart=3387136287148, FrameDeadline=3386596026478, FrameStartTime=3386581193089, FrameInterval=16666665, WorkloadTarget=16666666, SyncQueued=3388166435393, SyncStart=3388170498503, IssueDrawCommandsStart=3388170725798, SwapBuffers=3388170875649, FrameCompleted=3388195288968, DequeueBufferDuration=5200, QueueBufferDuration=393517, GpuCompleted=3388195288968, SwapBuffersCompleted=3388172758159, DisplayPresentTime=0, CommandSubmissionCompleted=3388170875649, 
+03-25 21:52:04.348 E/SQLiteLog( 8521): (1) no such table: water_intake_log in "SELECT SUM(amountMl) FROM water_intake_log WHERE timestamp >= ? AND timestamp < ?"
+03-25 21:52:04.368 E/SQLiteQuery( 8521): exception: no such table: water_intake_log (code 1 SQLITE_ERROR); query: SELECT SUM(amountMl) FROM water_intake_log WHERE timestamp >= ? AND timestamp < ?
+03-25 21:52:04.428 E/SQLiteLog( 8521): (1) no such table: favorite_quotes in "SELECT quoteId FROM favorite_quotes"
+03-25 21:52:04.699 I/HWUI    ( 8521): Davey! duration=2045ms; Flags=0, FrameTimelineVsyncId=43254, IntendedVsync=3386579361679, Vsync=3388162694854, InputEventId=0, HandleInputStart=3388170399264, AnimationStart=3388170400520, PerformTraversalsStart=3388271277687, DrawStart=3388271395367, FrameDeadline=3388212700400, FrameStartTime=3388169936449, FrameInterval=16666665, WorkloadTarget=16666666, SyncQueued=3388286628436, SyncStart=3388290766118, IssueDrawCommandsStart=3388291034451, SwapBuffers=3388601397425, FrameCompleted=3388628786788, DequeueBufferDuration=5793, QueueBufferDuration=483013, GpuCompleted=3388628786788, SwapBuffersCompleted=3388604858294, DisplayPresentTime=0, CommandSubmissionCompleted=3388601397425, 
+03-25 21:52:05.328 I/HWUI    ( 8521): Davey! duration=992ms; Flags=0, FrameTimelineVsyncId=43268, IntendedVsync=3388246022732, Vsync=3388362689394, InputEventId=0, HandleInputStart=3388369928338, AnimationStart=3388369931028, PerformTraversalsStart=3388645651029, DrawStart=3388645780076, FrameDeadline=3388646028140, FrameStartTime=3388367703480, FrameInterval=16666666, WorkloadTarget=16666666, SyncQueued=3389121936408, SyncStart=3389125784201, IssueDrawCommandsStart=3389126098201, SwapBuffers=3389201091208, FrameCompleted=3389242444598, DequeueBufferDuration=5740, QueueBufferDuration=868424, GpuCompleted=3389242444598, SwapBuffersCompleted=3389215995475, DisplayPresentTime=0, CommandSubmissionCompleted=3389201091208, 
+--------- beginning of crash
+03-25 21:52:05.416 E/AndroidRuntime( 8521): FATAL EXCEPTION: main
+03-25 21:52:05.416 E/AndroidRuntime( 8521): Process: com.health.calculator.bmi.tracker, PID: 8521
+03-25 21:52:05.416 E/AndroidRuntime( 8521): android.database.sqlite.SQLiteException: no such table: favorite_quotes (code 1 SQLITE_ERROR): , while compiling: SELECT quoteId FROM favorite_quotes
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection.nativePrepareStatement(Native Method)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection.-$$Nest$smnativePrepareStatement(Unknown Source:0)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection$PreparedStatementCache.createStatement(SQLiteConnection.java:1627)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection.acquirePreparedStatementLI(SQLiteConnection.java:1117)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection.acquirePreparedStatement(SQLiteConnection.java:1145)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteConnection.prepare(SQLiteConnection.java:708)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteSession.prepare(SQLiteSession.java:625)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteProgram.<init>(SQLiteProgram.java:62)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteQuery.<init>(SQLiteQuery.java:37)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteDirectCursorDriver.query(SQLiteDirectCursorDriver.java:46)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteDatabase.rawQueryWithFactory(SQLiteDatabase.java:1849)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at android.database.sqlite.SQLiteDatabase.rawQueryWithFactory(SQLiteDatabase.java:1821)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.sqlite.db.framework.FrameworkSQLiteDatabase.query(FrameworkSQLiteDatabase.android.kt:179)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.driver.SupportSQLiteStatement$SupportAndroidSQLiteStatement.ensureCursor(SupportSQLiteStatement.android.kt:241)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.driver.SupportSQLiteStatement$SupportAndroidSQLiteStatement.step(SupportSQLiteStatement.android.kt:182)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at com.health.calculator.bmi.tracker.data.local.dao.FavoriteQuoteDao_Impl.getFavoriteIds$lambda$2(FavoriteQuoteDao_Impl.kt:88)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at com.health.calculator.bmi.tracker.data.local.dao.FavoriteQuoteDao_Impl$$ExternalSyntheticLambda1.invoke(D8$$SyntheticClass:0)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.util.DBUtil__DBUtil_androidKt$performSuspending$lambda$1$$inlined$internalPerform$1.invokeSuspend(DBUtil.kt:68)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.util.DBUtil__DBUtil_androidKt$performSuspending$lambda$1$$inlined$internalPerform$1.invoke(Unknown Source:8)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.util.DBUtil__DBUtil_androidKt$performSuspending$lambda$1$$inlined$internalPerform$1.invoke(Unknown Source:4)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.driver.SupportSQLiteConnectionPool.useConnection(SupportSQLiteConnectionPool.android.kt:42)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.RoomConnectionManager.useConnection(RoomConnectionManager.android.kt:126)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.RoomDatabase.useConnection$room_runtime_release(RoomDatabase.android.kt:593)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at androidx.room.util.DBUtil__DBUtil_androidKt$performSuspending$$inlined$compatCoroutineExecute$DBUtil__DBUtil_androidKt$1.invokeSuspend(DBUtil.android.kt:113)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:104)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1154)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:652)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	at java.lang.Thread.run(Thread.java:1563)
+03-25 21:52:05.416 E/AndroidRuntime( 8521): 	Suppressed: kotlinx.coroutines.internal.DiagnosticCoroutineContextException: [StandaloneCoroutine{Cancelling}@b7ef38a, Dispatchers.Main.immediate]
+03-25 21:52:05.538 I/DropBoxManagerService(  783): add tag=data_app_crash isTagEnabled=true flags=0x2
+03-25 21:52:05.546 W/ActivityTaskManager(  783):   Force finishing activity com.health.calculator.bmi.tracker/.MainActivity
+03-25 21:52:05.557 W/TransitionChain(  783): Combining AR.finish-force-crash into #26(CLOSE|R|0x10) from finishTopCrash
+03-25 21:52:05.569 V/WindowManagerShell( 1063): Transition requested (#26): android.os.BinderProxy@5e72c98 TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=29 effectiveUid=10235 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} topActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=1 lastActiveTime=3380344 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.os.BinderProxy@8947cf1} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{8b0d0d6 com.health.calculator.bmi.tracker.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 16, debugId = 26 }
+03-25 21:52:05.570 V/ShellDesktopMode( 1063): DesktopTasksController: handleRequest request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=29 effectiveUid=10235 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} topActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=1 lastActiveTime=3380344 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.os.BinderProxy@8947cf1} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{8b0d0d6 com.health.calculator.bmi.tracker.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 16, debugId = 26 }
+03-25 21:52:05.570 V/ShellDesktopMode( 1063): DesktopTasksController: skipping handleRequest reason=triggerTask's display doesn't support desktop mode
+03-25 21:52:05.575 I/libbinder.BpBinder(  615): onLastStrongRef automatically unlinking death recipients for descriptor: '(not cached)'
+03-25 21:52:05.600 I/Process ( 8521): Sending signal. PID: 8521 SIG: 9
+03-25 21:52:05.618 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:52:05.658 W/InputDispatcher(  783): channel '73b9d8a com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity' ~ Consumer closed input channel or an error occurred.  events=0x9
+03-25 21:52:05.658 E/InputDispatcher(  783): channel '73b9d8a com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity' ~ Channel is unrecoverably broken and will be disposed!
+03-25 21:52:05.659 I/WindowManager(  783): WINDOW DIED Window{73b9d8a u0 com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity}
+03-25 21:52:05.656 I/adbd    (  623): Remote process closed the socket (on MSG_PEEK)
+03-25 21:52:05.669 I/Zygote  (  546): Process 8521 exited due to signal 9 (Killed)
+03-25 21:52:05.671 I/ActivityManager(  783): Process com.health.calculator.bmi.tracker (pid 8521) has died: fg  TOP 
+03-25 21:52:05.680 I/libprocessgroup(  783): Removed cgroup /sys/fs/cgroup/apps/uid_10235/pid_8521
+03-25 21:52:05.685 D/CompatChangeReporter(  783): Compat change id reported: 151861875; UID 10235; state: ENABLED
+03-25 21:52:05.689 W/TransitionChain(  783): Combining appDied into #26(CLOSE|R|0x10) from finishTopCrash
+03-25 21:52:05.704 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:52:05.706 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:52:05.707 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={10235} in 4ms
+03-25 21:52:05.709 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET, states=14
+03-25 21:52:05.722 D/InetDiagMessage(  783): Destroyed 0 sockets, proto=IPPROTO_TCP, family=AF_INET6, states=14
+03-25 21:52:05.722 D/InetDiagMessage(  783): Destroyed live tcp sockets for uids={20235} in 15ms
+03-25 21:52:05.736 V/ShellTaskOrganizer( 1063): Task vanished taskId=29
+03-25 21:52:05.737 V/ShellTaskOrganizer( 1063): Fullscreen Task Vanished: #29
+03-25 21:52:05.737 V/ShellDesktopMode( 1063): Task Vanished: #29 closed=true
+03-25 21:52:05.788 D/ShellDesktopMode( 1063): AppToWebRepository: Task 29 is vanishing. Removing task data from repository
+03-25 21:52:05.789 D/b/417220811( 1210): invalidateLoadedTasks - previous requestLoadId: -1
+03-25 21:52:05.789 V/AppCompat( 1063): SingleSurfaceLetterboxController: []
+03-25 21:52:05.790 V/AppCompat( 1063): MultiSurfaceLetterboxController: []
+03-25 21:52:05.794 V/AppCompat( 1063): LetterboxInputController: []
+03-25 21:52:05.794 V/AppCompat( 1063): RoundedCornersLetterboxController: {}
+03-25 21:52:05.804 W/ActivityManager(  783): setHasOverlayUi called on unknown pid: 8521
+03-25 21:52:05.816 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:52:05.849 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:52:05.850 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:52:05.850 D/BackgroundInstallControlService(  783): Package event received: 0
+03-25 21:52:05.905 D/RecentsView( 1210): onTaskRemoved: 29, not handling task stack changes
+03-25 21:52:05.905 D/RecentsView( 1210): onTaskRemoved: 29, not handling task stack changes
+03-25 21:52:06.400 W/Looper  (  783): Slow dispatch took 511ms android.fg app=system_server main=false group=FOREGROUND h=android.os.Handler c=com.android.server.location.injector.SystemAppForegroundHelper$$ExternalSyntheticLambda1@65333b1 m=0
+03-25 21:52:06.400 W/Looper  (  783): Slow delivery took 526ms android.fg app=system_server main=false group=FOREGROUND h=android.os.Handler c=com.android.server.power.hint.HintManagerService$MyUidObserver$$ExternalSyntheticLambda0@7132096 m=0
+03-25 21:52:06.403 W/ActivityTaskManager(  783): Activity top resumed state loss timeout for ActivityRecord{146928293 u0 com.health.calculator.bmi.tracker/.MainActivity t-1 f}}
+03-25 21:52:06.674 W/HWUI    ( 6640): Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+03-25 21:52:06.674 W/HWUI    ( 6640): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+03-25 21:52:06.924 E/SurfaceSyncGroup( 6640): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[ErrorActivity]#12) as ready
+03-25 21:52:06.944 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:52:06.940 E/SurfaceSyncGroup( 6640): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[ErrorActivity]#13) as ready
+03-25 21:52:07.024 V/WindowManager(  783): Sent Transition (#26) createdAt=03-25 21:52:05.546 via request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=29 effectiveUid=10235 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.health.calculator.bmi.tracker/.MainActivity } baseActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} topActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} origActivity=null realActivity=ComponentInfo{com.health.calculator.bmi.tracker/com.health.calculator.bmi.tracker.MainActivity} numActivities=1 lastActiveTime=3380344 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{581a785 Task{320c67a #29 type=standard A=10235:com.health.calculator.bmi.tracker}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{d7d83cc com.health.calculator.bmi.tracker.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=false isActivityStackTransparent=false lastNonFullscreenBounds=null capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= true isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null cameraCompatTaskInfo=CameraCompatTaskInfo { cameraCompatMode=undefinedundefined} topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransition = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, flags = 16, debugId = 26 }
+03-25 21:52:07.025 V/WindowManager(  783):     startWCT=WindowContainerTransaction { changes= {} hops= [] errorCallbackToken=null taskFragmentOrganizer=null }
+03-25 21:52:07.025 V/WindowManager(  783):     info={id=26 t=CLOSE f=0x10 trk=0 r=[0@Point(0, 0)] c=[
+03-25 21:52:07.025 V/WindowManager(  783):         {WCT{RemoteToken{1b7e3e8 Task{da1f5a5 #26 type=standard A=10160:google.android.task.calendar}}} m=TO_FRONT f=MOVE_TO_TOP leash=Surface(name=Task=26#133)/@0xe97d0da sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}
+03-25 21:52:07.025 V/WindowManager(  783):     ]}
+03-25 21:52:07.028 W/Looper  (  783): Drained
+03-25 21:52:07.077 V/WindowManagerShell( 1063): onTransitionReady(transaction=3362959394374)
+03-25 21:52:07.085 V/WindowManagerShell( 1063): onTransitionReady (#26) android.os.BinderProxy@5e72c98: {id=26 t=CLOSE f=0x10 trk=0 r=[0@Point(0, 0)] c=[
+03-25 21:52:07.085 V/WindowManagerShell( 1063):         {m=TO_FRONT f=MOVE_TO_TOP leash=Surface(name=Task=26#133)/@0xe6e4f57 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}
+03-25 21:52:07.085 V/WindowManagerShell( 1063):     ]}
+03-25 21:52:07.090 V/WindowManagerShell( 1063): Playing animation for (#26) android.os.BinderProxy@5e72c98@0
+03-25 21:52:07.090 V/ShellRecents( 1063): RecentsTransitionHandler.startAnimation: no controller found
+03-25 21:52:07.090 V/ShellDesktopMode( 1063): DesktopMixedTransitionHandler: No pending desktop transition
+03-25 21:52:07.090 V/WindowManagerShell( 1063): Transition doesn't have explicit remote, search filters for match for {id=26 t=CLOSE f=0x10 trk=0 r=[0@Point(0, 0)] c=[{m=TO_FRONT f=MOVE_TO_TOP leash=Surface(name=Task=26#133)/@0xe6e4f57 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}]}
+03-25 21:52:07.090 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=undefined independent=true modes=[CLOSE,TO_BACK] flags=IN_TASK_WITH_EMBEDDED_ACTIVITY mustBeTask=false order=ANY topActivity=null launchCookie=null taskFragmentToken=android.os.BinderProxy@14994a0 windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@b5d3859, appThread = android.app.IApplicationThread$Stub$Proxy@bb24c1e, debugName = overlayBackTransition }}
+03-25 21:52:07.090 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@b4fbcff, appThread = android.app.IApplicationThread$Stub$Proxy@8c35acc, debugName = LauncherToDream }}
+03-25 21:52:07.091 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity} launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null launchCookie=null windowingMode=undefined isCrossDisplayMove=false},{NOT atype=undefined independent=true modes=[] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null customAnim=true windowingMode=undefined isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@6a00115, appThread = android.app.IApplicationThread$Stub$Proxy@db30c2a, debugName = QuickstepLaunchHome }}
+03-25 21:52:07.091 V/WindowManagerShell( 1063):  Checking filter Pair{{types=[OPEN,TO_FRONT] flags=0x0] notFlags=0x0 checks=[{atype=standard independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=true order=ANY topActivity=null launchCookie=null windowingMode=freeform isCrossDisplayMove=false}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@365f640, appThread = null, debugName = DesktopWindowLimitUnminimize }}
+03-25 21:52:07.091 V/WindowManagerShell( 1063):  Delegate animation for (#26) to null
+03-25 21:52:07.091 V/WindowManagerShell( 1063): start default transition animation, info = {id=26 t=CLOSE f=0x10 trk=0 r=[0@Point(0, 0)] c=[{m=TO_FRONT f=MOVE_TO_TOP leash=Surface(name=Task=26#133)/@0xe6e4f57 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0}]}
+03-25 21:52:07.097 V/WindowManagerShell( 1063): loadAnimation: anim=android.view.animation.AnimationSet@ac12462 animAttr=0xa type=CLOSE isEntrance=true
+03-25 21:52:07.103 W/libbinder.Binder(  615): Binder transaction to android.gui.IDisplayEventConnection code 3 took 18446744073709551615ms. Data bytes: 88 Reply bytes: 0 Flags: 17
+03-25 21:52:07.110 V/WindowManagerShell( 1063):  animated by com.android.wm.shell.transition.DefaultTransitionHandler@9e3ddfc
+03-25 21:52:07.749 V/WindowManagerShell( 1063): Transition animation finished (aborted=false), notifying core (#26) android.os.BinderProxy@5e72c98@0
+03-25 21:52:07.760 V/WindowManagerShell( 1063): Track 0 became idle
+03-25 21:52:07.760 V/WindowManagerShell( 1063): All active transition animations finished
+03-25 21:52:07.763 V/WindowManager(  783): Finish Transition (#26): created at 03-25 21:52:05.546 collect-started=0.079ms request-sent=5.965ms started=54.102ms ready=190.596ms sent=1472.622ms commit=553.353ms finished=2209.307ms
+03-25 21:52:07.772 E/BpTransactionCompletedListener(  615): Failed to transact (-32)
+03-25 21:52:08.638 I/Choreographer( 6640): Skipped 168 frames!  The application may be doing too much work on its main thread.
+03-25 21:52:08.690 W/AiAiVC  ( 1697): Unexpected capture event type: 11
+03-25 21:52:08.694 I/ImeTracker(  783): com.google.android.gms:f9cf8f9b: onRequestHide at ORIGIN_SERVER reason HIDE_SAME_WINDOW_FOCUSED_WITHOUT_EDITOR fromUser false
+03-25 21:52:08.726 D/InsetsController( 6640): hide(ime())
+03-25 21:52:08.732 I/ImeTracker( 6640): com.google.android.gms:f9cf8f9b: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+03-25 21:52:08.754 I/HWUI    ( 6640): Davey! duration=2771ms; Flags=1, FrameTimelineVsyncId=43297, IntendedVsync=3389746022672, Vsync=3389746022672, InputEventId=0, HandleInputStart=3389752408429, AnimationStart=3389752409930, PerformTraversalsStart=3389752410509, DrawStart=3391730535553, FrameDeadline=3389762689338, FrameStartTime=3389752402469, FrameInterval=16666665, WorkloadTarget=16666666, SyncQueued=3391761550765, SyncStart=3391821936292, IssueDrawCommandsStart=3392002313838, SwapBuffers=3392505567727, FrameCompleted=3392577936259, DequeueBufferDuration=11642, QueueBufferDuration=1371976, GpuCompleted=3392577936259, SwapBuffersCompleted=3392559542072, DisplayPresentTime=0, CommandSubmissionCompleted=3392505567727, 
+03-25 21:52:08.755 I/HWUI    ( 6640): Davey! duration=2890ms; Flags=0, FrameTimelineVsyncId=43305, IntendedVsync=3389762696733, Vsync=3392562696453, InputEventId=0, HandleInputStart=3392578664350, AnimationStart=3392578666707, PerformTraversalsStart=3392585203880, DrawStart=3392585266540, FrameDeadline=3392596022388, FrameStartTime=3392575008260, FrameInterval=16666665, WorkloadTarget=16666666, SyncQueued=3392585400270, SyncStart=3392584437977, IssueDrawCommandsStart=3392584544506, SwapBuffers=3392592993122, FrameCompleted=3392653397670, DequeueBufferDuration=9159, QueueBufferDuration=380314, GpuCompleted=3392653397670, SwapBuffersCompleted=3392598632538, DisplayPresentTime=0, CommandSubmissionCompleted=3392592993122, 
+03-25 21:52:08.839 I/GoogleInputMethodService( 1547): GoogleInputMethodService.onFinishInput():2113 
+03-25 21:52:09.114 I/Module  ( 1547): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 0, locked = false
+03-25 21:52:09.124 W/NotificationCenter( 1547): NotificationCenter$NotificationQueue.notifyPendingNotificationsOnExecutor():877 Heavy notify work detected on UI thread: [mul->kpu, mul->elx, mul->kpu, mul->oyp, mul->kpu, mul->krx, mul->knd, mul->god, mul->kpu, mul->mtn, mul->glg, mul->okf, mul->kpu, mul->kpu, mul->kpu, mul->mte, mul->kpu, mul->kpu, mul->kpu, mul->kpu, mul->lxh, mul->kpu, mul->hmz, mul->kpu] takes 118ms
+03-25 21:52:09.158 E/TaskPersister(  783): File error accessing recents directory (directory doesn't exist?).
+03-25 21:52:09.215 I/GoogleInputMethodService( 1547): GoogleInputMethodService.onStartInput():1384 onStartInput(EditorInfo{EditorInfo{packageName=com.google.android.gms, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+03-25 21:52:09.306 I/Module  ( 1547): DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 1, locked = false
+03-25 21:52:09.336 W/NotificationCenter( 1547): NotificationCenter$NotificationQueue.notifyPendingNotificationsOnExecutor():877 Heavy notify work detected on UI thread: [mul->kpu, mul->elx, mul->kpu, mul->oyp, mul->kpu, mul->krx, mul->knd, mul->god, mul->kpu, mul->mtn, mul->glg, mul->okf, mul->kpu, mul->kpu, mul->kpu, mul->mte, mul->kpu, mul->kpu, mul->kpu, mul->kpu, mul->lxh, mul->kpu, mul->hmz, mul->kpu] takes 87ms
+03-25 21:52:09.368 W/PackageConfigPersister(  783): App-specific configuration not found for packageName: com.google.android.gms and userId: 0
+03-25 21:52:09.961 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:52:12.268 W/libbinder.BackendUnifiedServiceManager( 8579): Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: package
+03-25 21:52:12.584 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/base.odex) is kOatUpToDate with filter 'speed-profile' executable 'false'
+03-25 21:52:12.592 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_AdsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.613 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_CronetDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.612 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteLoader_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.628 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesA_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.632 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_DynamiteModulesC_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.640 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_GoogleCertificates_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.652 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MapsDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.660 I/artd    ( 2286): GetBestInfo: odex next to the dex file (/data/app/~~wFgRUNP_0shVz-JKvWF9fg==/com.google.android.gms-u2YDdlN5JBiwH2alzDqfDw==/oat/x86_64/split_MeasurementDynamite_installtime.odex) is kOatUpToDate with filter 'speed' executable 'false'
+03-25 21:52:12.664 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000b/dl-MlkitBarcodeUi.optional_253434100800.apk has no usable artifacts
+03-25 21:52:12.672 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000021/dl-PlayCloudSearch.optional_261133100000.apk has no usable artifacts
+03-25 21:52:12.676 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.680 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000001/CronetDynamite.apk has no usable artifacts
+03-25 21:52:12.688 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.691 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000002/DynamiteLoader.apk has no usable artifacts
+03-25 21:52:12.699 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000005/GoogleCertificates.apk has no usable artifacts
+03-25 21:52:12.700 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.712 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000e/dl-MlkitOcrCommon.optional_253434100800.apk has no usable artifacts
+03-25 21:52:12.755 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000020/dl-VisionOcr.optional_261133100000.apk has no usable artifacts
+03-25 21:52:12.779 I/artd    ( 2286): GetBestInfo: /data/user/0/com.google.android.gms/app_dg_cache/D7ECB6ECAAAB0DCD8DECD74AE43F16D2EC2B3A20/the.apk has no usable artifacts
+03-25 21:52:12.786 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.792 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.801 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.848 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.919 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000001a/dl-TfliteDynamiteDynamite.integ_252130102100800.apk has no usable artifacts
+03-25 21:52:12.920 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.926 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000008/dl-Appsearch.optional_253434100800.apk has no usable artifacts
+03-25 21:52:12.933 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000022/dl-Appsearch.optional_261133100800.apk has no usable artifacts
+03-25 21:52:12.937 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.943 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:12.977 I/HalDevMgr(  783): bestIfaceCreationProposal is null, requestIface=STA, existingIface=[name=wlan0 type=STA]
+03-25 21:52:13.032 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000d/dl-VisionOcr.optional_253434100000.apk has no usable artifacts
+03-25 21:52:13.034 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:13.129 I/artd    ( 2286): GetBestInfo: vdex next to the dex file (/data/user/0/com.google.android.gms/app_dg_cache/E054CA794C125F959C88D4849C82AB3F226237E6/oat/x86_64/the.vdex) is kOatUpToDate with filter 'verify' executable 'false'
+03-25 21:52:13.144 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000023/dl-MlkitBarcodeUi.optional_261133100800.apk has no usable artifacts
+03-25 21:52:13.148 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~EmIGfa4UNLw7uxzOy3D-bg==/com.google.android.gms-Ku1ToGxjh92Pzohs-twtIg==/base.apk, fd=-1
+03-25 21:52:13.155 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/00000024/dl-MlkitOcrCommon.optional_261133100800.apk has no usable artifacts
+03-25 21:52:13.162 I/artd    ( 2286): GetBestInfo: /data/user_de/0/com.google.android.gms/app_chimera/m/0000000f/dl-PlayCloudSearch.optional_253434100000.apk has no usable artifacts
+03-25 21:52:13.164 W/artd    ( 2286): Could not get dex checksums for location /data/app/~~tusM_rX-YqY2h8cLJSwPOw==/com.android.vending-KiXUqvaX__ZcqgcN2080HQ==/base.apk, fd=-1
+03-25 21:52:13.516 D/SatelliteController( 1201): iisInCarrierRoamingNbIotNtn: satellite is disabled
+03-25 21:52:13.516 D/SatelliteController( 1201): getCarrierRoamingNtnConnectType: Falling back to global carrier config connect type: 0
