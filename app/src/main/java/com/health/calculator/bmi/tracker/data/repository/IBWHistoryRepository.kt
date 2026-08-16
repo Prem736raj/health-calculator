@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.IBWHistoryEntry
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONArray
 import org.json.JSONObject
 
-class IBWHistoryRepository(private val context: Context) {
+class IBWHistoryRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val prefs by lazy {
         context.getSharedPreferences("ibw_history", Context.MODE_PRIVATE)

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.net.Uri
 import androidx.work.*
@@ -15,7 +17,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 class BackupRepository(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val localBackupManager: LocalBackupManager,
     private val googleDriveManager: GoogleDriveBackupManager,
     private val qrTransferManager: QrTransferManager,
@@ -38,7 +40,7 @@ class BackupRepository(
         private var INSTANCE: BackupRepository? = null
 
         fun getInstance(
-            context: Context,
+            @ApplicationContext context: Context,
             localBackupManager: LocalBackupManager,
             googleDriveManager: GoogleDriveBackupManager,
             qrTransferManager: QrTransferManager,

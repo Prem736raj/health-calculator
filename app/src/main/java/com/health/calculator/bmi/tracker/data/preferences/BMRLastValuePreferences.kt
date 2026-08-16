@@ -1,6 +1,8 @@
 // File: com/health/calculator/bmi/tracker/data/preferences/BMRLastValuePreferences.kt
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -23,7 +25,7 @@ data class BMRLastValue(
         get() = if (isValid) "Last: ${bmr.toInt()} kcal/day" else ""
 }
 
-class BMRLastValuePreferences(private val context: Context) {
+class BMRLastValuePreferences(@ApplicationContext private val context: Context) {
 
     companion object {
         private val LAST_BMR = floatPreferencesKey("last_bmr")

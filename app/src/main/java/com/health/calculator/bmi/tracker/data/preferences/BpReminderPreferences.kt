@@ -1,6 +1,8 @@
 // data/preferences/BpReminderPreferences.kt
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -31,7 +33,7 @@ data class BpReminderSettings(
     val consecutiveHypertensionCount: Int = 0
 )
 
-class BpReminderPreferences(private val context: Context) {
+class BpReminderPreferences(@ApplicationContext private val context: Context) {
 
     companion object {
         private val MORNING_REMINDER_ENABLED = booleanPreferencesKey("bp_morning_reminder_enabled")

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.graphics.*
 import android.graphics.pdf.PdfDocument
@@ -13,7 +15,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PdfExportHelper(private val context: Context) {
+class PdfExportHelper(@ApplicationContext private val context: Context) {
 
     companion object {
         private const val PAGE_WIDTH = 595  // A4 in points

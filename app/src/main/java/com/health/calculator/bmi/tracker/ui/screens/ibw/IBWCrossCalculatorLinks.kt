@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -38,7 +41,7 @@ fun IBWCrossCalculatorLinks(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Related Calculators",
+                    text = stringResource(R.string.txt_related_calculators_1),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                 )
             }

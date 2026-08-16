@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.CalorieHistoryEntry
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONArray
 import org.json.JSONObject
 
-class CalorieHistoryRepository(private val context: Context) {
+class CalorieHistoryRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val prefs by lazy {
         context.getSharedPreferences("calorie_history", Context.MODE_PRIVATE)

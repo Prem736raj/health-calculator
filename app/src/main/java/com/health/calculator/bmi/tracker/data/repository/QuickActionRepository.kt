@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.health.calculator.bmi.tracker.data.local.SearchPreferences
@@ -7,7 +9,7 @@ import com.health.calculator.bmi.tracker.data.model.QuickAction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class QuickActionRepository(
+class QuickActionRepository @Inject constructor(
     private val searchPreferences: SearchPreferences
 ) {
 

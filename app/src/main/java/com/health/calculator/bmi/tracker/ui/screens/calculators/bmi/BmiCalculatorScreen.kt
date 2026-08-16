@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -137,7 +143,7 @@ import androidx.compose.runtime.setValue
 fun BmiCalculatorScreen(
     onNavigateBack: () -> Unit,
     onNavigateToHistory: () -> Unit,
-    viewModel: BmiViewModel = viewModel()
+    viewModel: BmiViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -194,7 +200,7 @@ fun BmiCalculatorScreen(
                 title = {
                     Column {
                         Text(
-                            text = "BMI Calculator",
+                            text = stringResource(R.string.txt_bmi_calculator),
                             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
                         )
                         Text(
@@ -259,7 +265,7 @@ fun BmiCalculatorScreen(
                     CircularProgressIndicator(color = Color(0xFF1E88E5))
                     if (uiState.isCalculating) {
                         Spacer(modifier = Modifier.height(12.dp))
-                        Text("Calculating...", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_calculating), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -759,7 +765,7 @@ private fun BmiInputContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Calculates your Body Mass Index",
+                text = stringResource(R.string.txt_calculates_your_body_mass_inde),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -802,7 +808,7 @@ private fun ProfileFieldBadge() {
             .padding(top = 8.dp, end = 8.dp)
     ) {
         Text(
-            text = "From Profile",
+            text = stringResource(R.string.txt_from_profile),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
@@ -947,13 +953,13 @@ private fun ProfileDataBanner(onRestore: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Profile data found",
+                    text = stringResource(R.string.txt_profile_data_found),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
             Text(
-                text = "USE IT",
+                text = stringResource(R.string.txt_use_it),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,

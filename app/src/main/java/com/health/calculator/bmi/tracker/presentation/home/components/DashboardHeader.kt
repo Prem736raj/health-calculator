@@ -2,6 +2,9 @@
 
 package com.health.calculator.bmi.tracker.presentation.home.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -282,14 +285,14 @@ fun DashboardHeader(
 
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Track Your Health",
+                            text = stringResource(R.string.txt_track_your_health),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "Use WHO-standard calculators to monitor your well-being and stay on top of your health goals.",
+                            text = stringResource(R.string.txt_use_who_standard_calculators_t),
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.White.copy(alpha = 0.85f),
                             lineHeight = MaterialTheme.typography.bodyMedium.lineHeight

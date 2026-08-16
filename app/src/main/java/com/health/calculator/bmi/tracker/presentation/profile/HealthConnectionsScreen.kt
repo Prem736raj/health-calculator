@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,7 +38,7 @@ fun HealthConnectionsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Health Connections", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_health_connections), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -59,13 +62,13 @@ fun HealthConnectionsScreen(
             ) {
                 item {
                     Text(
-                        "Your Health Data Network",
+                        stringResource(R.string.txt_your_health_data_network),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        "See how your profile data flows into different calculators and how they interconnect.",
+                        stringResource(R.string.txt_see_how_your_profile_data_flow),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -160,7 +163,7 @@ fun ConnectionCard(
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Profile data changed", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.txt_profile_data_changed), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }

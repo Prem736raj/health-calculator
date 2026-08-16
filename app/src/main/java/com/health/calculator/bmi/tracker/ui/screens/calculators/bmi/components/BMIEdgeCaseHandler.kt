@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -204,7 +207,7 @@ fun EdgeCaseWarningCard(
                             color = borderColor.copy(alpha = 0.15f)
                         ) {
                             Text(
-                                text = "IMMEDIATE ATTENTION NEEDED",
+                                text = stringResource(R.string.txt_immediate_attention_needed),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = borderColor,
@@ -250,13 +253,13 @@ fun EdgeCaseWarningCard(
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "Please Seek Help",
+                                text = stringResource(R.string.txt_please_seek_help),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = iconColor
                             )
                             Text(
-                                text = "Contact your healthcare provider, visit an " +
+                                text = stringResource(R.string.txt_contact_your_healthcare_provid) +
                                         "emergency room, or call a health helpline.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -309,7 +312,7 @@ fun ValidationErrorSummary(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Please fix the following:",
+                        text = stringResource(R.string.txt_please_fix_the_following),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.error
@@ -322,7 +325,7 @@ fun ValidationErrorSummary(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "•",
+                            text = stringResource(R.string.txt_text_placeholder_3),
                             color = MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Bold
                         )

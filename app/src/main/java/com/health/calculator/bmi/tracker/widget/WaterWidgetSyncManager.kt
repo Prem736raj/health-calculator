@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -13,7 +15,7 @@ import com.health.calculator.bmi.tracker.data.WaterWidgetRepository
 object WaterWidgetSyncManager {
 
     fun syncToWidgets(
-        context: Context,
+        @ApplicationContext context: Context,
         todayIntakeMl: Int,
         glassesCount: Int,
         goalMl: Int
@@ -29,7 +31,7 @@ object WaterWidgetSyncManager {
         refreshAllWidgets(context)
     }
 
-    fun refreshAllWidgets(context: Context) {
+    fun refreshAllWidgets(@ApplicationContext context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
 
         // Refresh small widgets
@@ -49,7 +51,7 @@ object WaterWidgetSyncManager {
         }
     }
 
-    fun updateGoal(context: Context, goalMl: Int) {
+    fun updateGoal(@ApplicationContext context: Context, goalMl: Int) {
         WaterWidgetRepository.getInstance(context).updateGoal(goalMl)
         refreshAllWidgets(context)
     }

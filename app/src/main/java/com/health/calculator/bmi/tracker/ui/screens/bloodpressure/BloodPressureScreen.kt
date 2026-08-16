@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -53,7 +59,7 @@ fun BloodPressureScreen(
     onNavigateToReminders: () -> Unit,
     onNavigateToExport: () -> Unit,
     onNavigateToEducation: () -> Unit = {},
-    viewModel: BloodPressureViewModel = viewModel()
+    viewModel: BloodPressureViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -74,7 +80,7 @@ fun BloodPressureScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Blood Pressure",
+                        stringResource(R.string.txt_blood_pressure),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -122,7 +128,7 @@ fun BloodPressureScreen(
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             viewModel.onClearAll()
                         }) {
-                            Text("Clear All")
+                            Text(stringResource(R.string.txt_clear_all_1))
                         }
                     }
                 },
@@ -248,7 +254,7 @@ fun BloodPressureScreen(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        "Learn about blood pressure & how to measure correctly",
+                        stringResource(R.string.txt_learn_about_blood_pressure_how),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
                     )
@@ -285,7 +291,7 @@ fun BloodPressureScreen(
             ) {
                 Icon(Icons.Outlined.NotificationsActive, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Set Blood Pressure Reminders")
+                Text(stringResource(R.string.txt_set_blood_pressure_reminders))
             }
 
             // --- NEW: Divider for Results ---
@@ -319,7 +325,7 @@ fun BloodPressureScreen(
                     ) {
                     HorizontalDivider(modifier = Modifier.weight(1f))
                     Text(
-                        "RESULTS",
+                        stringResource(R.string.txt_results),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -442,7 +448,7 @@ private fun BpHeaderNote() {
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
-                    "Enter your blood pressure reading from your monitor",
+                    stringResource(R.string.txt_enter_your_blood_pressure_read),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -486,14 +492,14 @@ private fun EmergencyWarningBanner() {
             )
             Column {
                 Text(
-                    "⚠️ Emergency Reading Detected!",
+                    stringResource(R.string.txt_emergency_reading_detected),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    "If your reading is above 180/120, seek immediate medical attention.",
+                    stringResource(R.string.txt_if_your_reading_is_above_180_1),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White.copy(alpha = 0.9f)
                 )
@@ -529,7 +535,7 @@ private fun BpIllustrationCard() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Understanding Your Reading",
+                    stringResource(R.string.txt_understanding_your_reading),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -570,7 +576,7 @@ private fun BpIllustrationCard() {
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Text(
-                                    "SYS",
+                                    stringResource(R.string.txt_sys),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -579,19 +585,19 @@ private fun BpIllustrationCard() {
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Systolic",
+                            stringResource(R.string.txt_systolic),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFFE53935)
                         )
                         Text(
-                            "Heart beating",
+                            stringResource(R.string.txt_heart_beating),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            "(Top number)",
+                            stringResource(R.string.txt_top_number),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center
@@ -604,7 +610,7 @@ private fun BpIllustrationCard() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            "/",
+                            stringResource(R.string.txt_text_placeholder_14),
                             style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Light,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
@@ -638,7 +644,7 @@ private fun BpIllustrationCard() {
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Text(
-                                    "DIA",
+                                    stringResource(R.string.txt_dia),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -647,19 +653,19 @@ private fun BpIllustrationCard() {
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Diastolic",
+                            stringResource(R.string.txt_diastolic),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFF1E88E5)
                         )
                         Text(
-                            "Heart resting",
+                            stringResource(R.string.txt_heart_resting),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            "(Bottom number)",
+                            stringResource(R.string.txt_bottom_number),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center
@@ -759,7 +765,7 @@ private fun BpMainInputCard(
                         modifier = Modifier.size(22.dp)
                     )
                     Text(
-                        "Blood Pressure Reading",
+                        stringResource(R.string.txt_blood_pressure_reading),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -775,14 +781,14 @@ private fun BpMainInputCard(
                         OutlinedTextField(
                             value = systolic,
                             onValueChange = onSystolicChange,
-                            label = { Text("Systolic") },
+                            label = { Text(stringResource(R.string.txt_systolic)) },
                             placeholder = {
                                 Text(
                                     previousSystolicHint ?: "120",
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
                             },
-                            suffix = { Text("mmHg", style = MaterialTheme.typography.bodySmall) },
+                            suffix = { Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall) },
                             isError = systolicError != null || crossFieldError != null,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
@@ -816,14 +822,14 @@ private fun BpMainInputCard(
                         OutlinedTextField(
                             value = diastolic,
                             onValueChange = onDiastolicChange,
-                            label = { Text("Diastolic") },
+                            label = { Text(stringResource(R.string.txt_diastolic)) },
                             placeholder = {
                                 Text(
                                     previousDiastolicHint ?: "80",
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                                 )
                             },
-                            suffix = { Text("mmHg", style = MaterialTheme.typography.bodySmall) },
+                            suffix = { Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall) },
                             isError = diastolicError != null || crossFieldError != null,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number,
@@ -964,13 +970,13 @@ private fun BpPulseInputCard(
                             }
                     )
                     Text(
-                        "Pulse / Heart Rate",
+                        stringResource(R.string.txt_pulse_heart_rate),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        "Optional",
+                        stringResource(R.string.txt_optional),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
@@ -979,14 +985,14 @@ private fun BpPulseInputCard(
                 OutlinedTextField(
                     value = pulse,
                     onValueChange = onPulseChange,
-                    label = { Text("Heart Rate") },
+                    label = { Text(stringResource(R.string.txt_heart_rate)) },
                     placeholder = {
                         Text(
                             previousPulseHint ?: "72",
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                         )
                     },
-                    suffix = { Text("BPM", style = MaterialTheme.typography.bodySmall) },
+                    suffix = { Text(stringResource(R.string.txt_bpm_1), style = MaterialTheme.typography.bodySmall) },
                     isError = pulseError != null,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
@@ -1073,13 +1079,13 @@ private fun BpOptionalDetailsCard(
                             modifier = Modifier.size(20.dp)
                         )
                         Text(
-                            "Measurement Details",
+                            stringResource(R.string.txt_measurement_details),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.SemiBold
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            "Optional",
+                            stringResource(R.string.txt_optional),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                         )
@@ -1112,7 +1118,7 @@ private fun BpOptionalDetailsCard(
 
                         // Arm selection
                         Text(
-                            "Arm Used",
+                            stringResource(R.string.txt_arm_used),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -1143,7 +1149,7 @@ private fun BpOptionalDetailsCard(
 
                         // Position selection
                         Text(
-                            "Body Position",
+                            stringResource(R.string.txt_body_position),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -1177,7 +1183,7 @@ private fun BpOptionalDetailsCard(
 
                         // Time of Day
                         Text(
-                            "Time of Day",
+                            stringResource(R.string.txt_time_of_day),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -1209,7 +1215,7 @@ private fun BpOptionalDetailsCard(
 
                         // Measurement Time
                         Text(
-                            "Measurement Time",
+                            stringResource(R.string.txt_measurement_time),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -1312,7 +1318,7 @@ private fun BpCheckButton(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    "Checking...",
+                    stringResource(R.string.txt_checking),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -1324,7 +1330,7 @@ private fun BpCheckButton(
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    "Check Blood Pressure",
+                    stringResource(R.string.txt_check_blood_pressure),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -1358,17 +1364,17 @@ private fun BpTimePickerDialog(
                     onTimeSelected(timePickerState.hour, timePickerState.minute)
                 }
             ) {
-                Text("OK")
+                Text(stringResource(R.string.txt_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         },
         title = {
             Text(
-                "Select Measurement Time",
+                stringResource(R.string.txt_select_measurement_time),
                 style = MaterialTheme.typography.titleMedium
             )
         },

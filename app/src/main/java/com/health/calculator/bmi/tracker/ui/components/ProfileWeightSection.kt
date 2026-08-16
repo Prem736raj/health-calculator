@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -49,7 +52,7 @@ fun ProfileWeightSection(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Weight Tracking",
+                        text = stringResource(R.string.txt_weight_tracking),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -91,7 +94,7 @@ fun ProfileWeightSection(
                 }
             } else {
                 Text(
-                    text = "No weight logged yet",
+                    text = stringResource(R.string.txt_no_weight_logged_yet),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -114,7 +117,7 @@ fun ProfileWeightSection(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Log Weight")
+                    Text(stringResource(R.string.txt_log_weight))
                 }
 
                 OutlinedButton(
@@ -128,7 +131,7 @@ fun ProfileWeightSection(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("View Trends")
+                    Text(stringResource(R.string.txt_view_trends))
                 }
             }
         }

@@ -1,11 +1,13 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.dao.WaterGamificationDao
 import com.health.calculator.bmi.tracker.data.model.EarnedBadge
 import com.health.calculator.bmi.tracker.data.model.WaterStreakData
 import kotlinx.coroutines.flow.Flow
 
-class WaterGamificationRepository(private val dao: WaterGamificationDao) {
+class WaterGamificationRepository @Inject constructor(private val dao: WaterGamificationDao) {
 
     suspend fun earnBadge(badgeType: String): Boolean {
         val existing = dao.getBadge(badgeType)

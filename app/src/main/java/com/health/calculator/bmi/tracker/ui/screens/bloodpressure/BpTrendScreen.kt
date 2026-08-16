@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -51,7 +57,7 @@ import java.util.Locale
 @Composable
 fun BpTrendScreen(
     onNavigateBack: () -> Unit,
-    viewModel: BpTrendViewModel = viewModel()
+    viewModel: BpTrendViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -70,7 +76,7 @@ fun BpTrendScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("BP Trends", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_bp_trends), fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -110,19 +116,19 @@ fun BpTrendScreen(
                     Tab(
                         selected = pagerState.currentPage == 0,
                         onClick = { scope.launch { pagerState.animateScrollToPage(0) } },
-                        text = { Text("Graph", fontWeight = FontWeight.Medium) },
+                        text = { Text(stringResource(R.string.txt_graph), fontWeight = FontWeight.Medium) },
                         icon = { Icon(Icons.Outlined.Timeline, contentDescription = null, modifier = Modifier.size(18.dp)) }
                     )
                     Tab(
                         selected = pagerState.currentPage == 1,
                         onClick = { scope.launch { pagerState.animateScrollToPage(1) } },
-                        text = { Text("Calendar", fontWeight = FontWeight.Medium) },
+                        text = { Text(stringResource(R.string.txt_calendar), fontWeight = FontWeight.Medium) },
                         icon = { Icon(Icons.Outlined.CalendarMonth, contentDescription = null, modifier = Modifier.size(18.dp)) }
                     )
                     Tab(
                         selected = pagerState.currentPage == 2,
                         onClick = { scope.launch { pagerState.animateScrollToPage(2) } },
-                        text = { Text("Stats", fontWeight = FontWeight.Medium) },
+                        text = { Text(stringResource(R.string.txt_stats), fontWeight = FontWeight.Medium) },
                         icon = { Icon(Icons.Outlined.Analytics, contentDescription = null, modifier = Modifier.size(18.dp)) }
                     )
                 }
@@ -270,7 +276,7 @@ private fun BpGraphTab(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    "Show:",
+                    stringResource(R.string.txt_show),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -278,7 +284,7 @@ private fun BpGraphTab(
                 FilterChip(
                     selected = uiState.showPulsePressure,
                     onClick = { viewModel.onTogglePulsePressure() },
-                    label = { Text("PP", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_pp), style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = if (uiState.showPulsePressure) {
                         { Icon(Icons.Filled.Check, null, Modifier.size(14.dp)) }
                     } else null,
@@ -289,7 +295,7 @@ private fun BpGraphTab(
                 FilterChip(
                     selected = uiState.showMAP,
                     onClick = { viewModel.onToggleMAP() },
-                    label = { Text("MAP", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_map), style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = if (uiState.showMAP) {
                         { Icon(Icons.Filled.Check, null, Modifier.size(14.dp)) }
                     } else null,
@@ -300,7 +306,7 @@ private fun BpGraphTab(
                 FilterChip(
                     selected = uiState.showPulse,
                     onClick = { viewModel.onTogglePulse() },
-                    label = { Text("Pulse", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_pulse), style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = if (uiState.showPulse) {
                         { Icon(Icons.Filled.Check, null, Modifier.size(14.dp)) }
                     } else null,
@@ -326,7 +332,7 @@ private fun BpGraphTab(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "Blood Pressure Trend",
+                            stringResource(R.string.txt_blood_pressure_trend),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -370,7 +376,7 @@ private fun BpGraphTab(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                "Need at least 2 readings for a graph",
+                                stringResource(R.string.txt_need_at_least_2_readings_for_a),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                             )
@@ -954,7 +960,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Text(
-                        "Overview",
+                        stringResource(R.string.txt_overview),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -1002,7 +1008,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text("Highs & Lows", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.txt_highs_lows), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         HighLowCard(
@@ -1039,7 +1045,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                         modifier = Modifier.fillMaxWidth().padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text("Morning vs Evening", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.txt_morning_vs_evening), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
 
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             // Morning
@@ -1054,7 +1060,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                                     modifier = Modifier.fillMaxWidth().padding(12.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text("🌅 Morning", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                                    Text(stringResource(R.string.txt_morning), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                                     Spacer(modifier = Modifier.height(6.dp))
                                     if (statistics.morningAvgSystolic != null) {
                                         Text(
@@ -1062,9 +1068,9 @@ private fun BpStatsTab(statistics: BpStatistics) {
                                             style = MaterialTheme.typography.titleLarge,
                                             fontWeight = FontWeight.Bold
                                         )
-                                        Text("mmHg", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                        Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                                     } else {
-                                        Text("No data", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                        Text(stringResource(R.string.txt_no_data), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                                     }
                                 }
                             }
@@ -1081,7 +1087,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                                     modifier = Modifier.fillMaxWidth().padding(12.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text("🌆 Evening", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                                    Text(stringResource(R.string.txt_evening), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                                     Spacer(modifier = Modifier.height(6.dp))
                                     if (statistics.eveningAvgSystolic != null) {
                                         Text(
@@ -1089,9 +1095,9 @@ private fun BpStatsTab(statistics: BpStatistics) {
                                             style = MaterialTheme.typography.titleLarge,
                                             fontWeight = FontWeight.Bold
                                         )
-                                        Text("mmHg", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                        Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                                     } else {
-                                        Text("No data", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                                        Text(stringResource(R.string.txt_no_data), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                                     }
                                 }
                             }
@@ -1114,7 +1120,7 @@ private fun BpStatsTab(statistics: BpStatistics) {
                         modifier = Modifier.fillMaxWidth().padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text("Category Distribution", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.txt_category_distribution), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -1216,9 +1222,9 @@ private fun HighLowCard(
                     fontWeight = FontWeight.Bold,
                     color = color
                 )
-                Text("mmHg", style = MaterialTheme.typography.bodySmall, color = color.copy(alpha = 0.6f))
+                Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall, color = color.copy(alpha = 0.6f))
             } else {
-                Text("--", style = MaterialTheme.typography.titleLarge, color = color.copy(alpha = 0.4f))
+                Text(stringResource(R.string.txt_text_placeholder_18), style = MaterialTheme.typography.titleLarge, color = color.copy(alpha = 0.4f))
             }
         }
     }
@@ -1293,7 +1299,7 @@ private fun BpDayDetailDialog(
                             modifier = Modifier.fillMaxWidth().padding(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Day Average", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                            Text(stringResource(R.string.txt_day_average), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                             Text(
                                 "${dayData.avgSystolic}/${dayData.avgDiastolic} mmHg",
                                 style = MaterialTheme.typography.titleLarge,
@@ -1356,7 +1362,7 @@ private fun BpDayDetailDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_close)) }
         }
     )
 }
@@ -1381,7 +1387,7 @@ private fun BpDataPointDetailDialog(
                     fontWeight = FontWeight.Bold,
                     color = catColor
                 )
-                Text("mmHg", style = MaterialTheme.typography.bodySmall, color = catColor.copy(alpha = 0.6f))
+                Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.bodySmall, color = catColor.copy(alpha = 0.6f))
             }
         },
         text = {
@@ -1440,7 +1446,7 @@ private fun BpDataPointDetailDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_close)) }
         }
     )
 }
@@ -1464,7 +1470,7 @@ private fun BpTrendEmptyState(modifier: Modifier = Modifier) {
             ) {
                 Icon(Icons.Outlined.Timeline, contentDescription = null, modifier = Modifier.size(40.dp), tint = MaterialTheme.colorScheme.primary)
             }
-            Text("No Trend Data Yet", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            Text(stringResource(R.string.txt_no_trend_data_yet), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
             Text(
                 "Take multiple blood pressure readings\nover time to see your trends here.",
                 style = MaterialTheme.typography.bodyMedium,

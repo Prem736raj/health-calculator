@@ -1,6 +1,12 @@
 // ui/screens/bloodpressure/BpShareComponents.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
@@ -47,7 +53,7 @@ fun BpShareButtons(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Share & Export",
+                stringResource(R.string.txt_share_export),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -74,7 +80,7 @@ fun BpShareButtons(
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Text", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.txt_text), style = MaterialTheme.typography.labelMedium)
                 }
 
                 // Share as image
@@ -108,7 +114,7 @@ fun BpShareButtons(
                         )
                     }
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Image", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.txt_image), style = MaterialTheme.typography.labelMedium)
                 }
 
                 // Full export
@@ -127,14 +133,14 @@ fun BpShareButtons(
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Export", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.txt_export), style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
     }
 }
 
-private fun shareReadingAsText(context: Context, reading: BloodPressureReading) {
+private fun shareReadingAsText(@ApplicationContext context: Context, reading: BloodPressureReading) {
     val exportManager = BpExportManager(context)
 
     val categoryDisplay = reading.category.displayName
@@ -155,7 +161,7 @@ private fun shareReadingAsText(context: Context, reading: BloodPressureReading) 
     exportManager.shareText(sb.toString())
 }
 
-private suspend fun shareReadingAsImage(context: Context, reading: BloodPressureReading) {
+private suspend fun shareReadingAsImage(@ApplicationContext context: Context, reading: BloodPressureReading) {
     val exportManager = BpExportManager(context)
 
     // Create a temporary entity for image generation

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -57,7 +60,7 @@ fun IBWAdditionalMetricsSection(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Additional Metrics",
+                    text = stringResource(R.string.txt_additional_metrics),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -151,7 +154,7 @@ private fun WeightCategoryCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Weight vs Ideal",
+                    text = stringResource(R.string.txt_weight_vs_ideal),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
                 Text(
@@ -180,7 +183,7 @@ private fun WeightCategoryCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "of IBW",
+                    text = stringResource(R.string.txt_of_ibw),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.padding(bottom = 6.dp)
@@ -310,11 +313,11 @@ private fun WeightCategoryScale(percent: Double) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("60%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
-            Text("80%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
-            Text("100%", style = MaterialTheme.typography.labelSmall, color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold)
-            Text("120%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
-            Text("160%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_60), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_80), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_100_1), style = MaterialTheme.typography.labelSmall, color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.txt_120), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_160), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
         }
     }
 }
@@ -382,12 +385,12 @@ private fun AdjustedBodyWeightCard(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Adjusted Body Weight",
+                        text = stringResource(R.string.txt_adjusted_body_weight),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "For clinical use when weight > 120% of IBW",
+                        text = stringResource(R.string.txt_for_clinical_use_when_weight_1),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -431,7 +434,7 @@ private fun AdjustedBodyWeightCard(
             ) {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
-                        text = "Formula: IBW + 0.4 × (Actual Weight − IBW)",
+                        text = stringResource(R.string.txt_formula_ibw_0_4_actual_weight_),
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
                     )
@@ -459,7 +462,7 @@ private fun AdjustedBodyWeightCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Used by healthcare providers for medication dosing in patients significantly above ideal weight. This is not a weight goal — it's a clinical reference value.",
+                    text = stringResource(R.string.txt_used_by_healthcare_providers_f),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     fontSize = 11.sp
@@ -506,11 +509,11 @@ private fun LeanBodyWeightCard(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Lean Body Weight",
+                        text = stringResource(R.string.txt_lean_body_weight),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                     )
                     Text(
-                        text = "Estimated weight minus body fat",
+                        text = stringResource(R.string.txt_estimated_weight_minus_body_fa),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -579,7 +582,7 @@ private fun LeanBodyWeightCard(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "This is an estimation based on BMI-derived formulas. For accurate body composition, consider DEXA scan or bioimpedance analysis.",
+                        text = stringResource(R.string.txt_this_is_an_estimation_based_on),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                         fontSize = 11.sp
@@ -748,11 +751,11 @@ private fun SportSpecificNotesCard() {
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text(
-                            text = "Sport-Specific Weight Notes",
+                            text = stringResource(R.string.txt_sport_specific_weight_notes),
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                         )
                         Text(
-                            text = "Ideal weight varies by activity",
+                            text = stringResource(R.string.txt_ideal_weight_varies_by_activit),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
@@ -848,7 +851,7 @@ private fun SportSpecificNotesCard() {
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Athletes may have ideal weights outside standard ranges due to higher muscle mass. Standard IBW formulas may not be appropriate for competitive athletes. Consult a sports medicine professional.",
+                                text = stringResource(R.string.txt_athletes_may_have_ideal_weight),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color(0xFFFF9800).copy(alpha = 0.9f),
                                 fontSize = 11.sp

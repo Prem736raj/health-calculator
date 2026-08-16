@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
@@ -68,7 +74,7 @@ fun ProfileScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text("Profile", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_profile), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -95,7 +101,7 @@ fun ProfileScreen(
                                     strokeWidth = 2.dp
                                 )
                             } else {
-                                Text("Save", fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.txt_save), fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -203,34 +209,15 @@ fun ProfileScreen(
 
     // Dialogs & Pickers
     if (uiState.showImagePickerDialog) {
-        val cameraLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
-            contract = androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview()
-        ) { bitmap ->
-            if (bitmap != null) {
-                // Would normally implement file saving here, omitting for now
-                viewModel.dismissImagePickerDialog()
-            }
-        }
-        val galleryLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
-            contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
-        ) { uri ->
-            if (uri != null) {
-                viewModel.updateProfilePicture(uri.toString())
-            }
-            viewModel.dismissImagePickerDialog()
-        }
-
         ProfileImagePickerDialog(
             onDismiss = viewModel::dismissImagePickerDialog,
             onCameraClick = {
                 cameraLauncher.launch(null)
-                viewModel.dismissImagePickerDialog()
             },
             onGalleryClick = {
                 galleryLauncher.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
-                viewModel.dismissImagePickerDialog()
             },
             onImageSelected = viewModel::updateProfilePicture
         )
@@ -307,10 +294,10 @@ fun ProfileScreen(
                     TextButton(onClick = {
                         datePickerState.selectedDateMillis?.let { viewModel.updateWeightLogDate(it) }
                         showWeightDatePicker = false
-                    }) { Text("OK") }
+                    }) { Text(stringResource(R.string.txt_ok)) }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showWeightDatePicker = false }) { Text("Cancel") }
+                    TextButton(onClick = { showWeightDatePicker = false }) { Text(stringResource(R.string.txt_cancel)) }
                 }
             ) {
                 DatePicker(state = datePickerState)
@@ -373,19 +360,19 @@ fun ProfileScreen(
     if (multiProfileState.showDeleteConfirm) {
         AlertDialog(
             onDismissRequest = multiProfileViewModel::dismissDeleteConfirm,
-            title = { Text("Delete Profile") },
+            title = { Text(stringResource(R.string.txt_delete_profile)) },
             text = { Text("Are you sure you want to delete ${multiProfileState.profileToDelete?.displayName}'s profile? All their data will be permanently removed.") },
             confirmButton = {
                 Button(
                     onClick = multiProfileViewModel::deleteProfile,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Delete")
+                    Text(stringResource(R.string.txt_delete))
                 }
             },
             dismissButton = {
                 TextButton(onClick = multiProfileViewModel::dismissDeleteConfirm) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.txt_cancel))
                 }
             }
         )
@@ -414,7 +401,7 @@ fun ProfileScreen(
     }
 }
 
-private fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri? {
+private fun saveBitmapToCache(@ApplicationContext context: Context, bitmap: Bitmap): Uri? {
     return try {
         context.cacheDir.listFiles()
             ?.filter { it.name.startsWith("profile_") && it.extension.equals("jpg", ignoreCase = true) }

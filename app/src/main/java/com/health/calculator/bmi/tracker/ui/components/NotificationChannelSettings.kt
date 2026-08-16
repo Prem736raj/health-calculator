@@ -1,6 +1,9 @@
 // ui/components/NotificationChannelSettings.kt
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
@@ -47,7 +50,7 @@ fun NotificationChannelSettingsCard() {
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "Notification Channels",
+                        text = stringResource(R.string.txt_notification_channels),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -132,7 +135,7 @@ fun RateLimitInfoCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Today's Engagement",
+                text = stringResource(R.string.txt_today_s_engagement),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -168,7 +171,7 @@ fun RateLimitInfoCard(
             )
             
             Text(
-                text = "We limit notifications to 8 per day to prevent spam.",
+                text = stringResource(R.string.txt_we_limit_notifications_to_8_pe),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 8.dp)

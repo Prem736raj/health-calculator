@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/TDEESection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -75,17 +78,17 @@ fun TDEESection(
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "⚡", fontSize = 22.sp)
+                            Text(text = stringResource(R.string.txt_text_placeholder_33), fontSize = 22.sp)
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = "Total Daily Energy Expenditure",
+                                    text = stringResource(R.string.txt_total_daily_energy_expenditure),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    text = "Your estimated daily calorie needs",
+                                    text = stringResource(R.string.txt_your_estimated_daily_calorie_n),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -343,7 +346,7 @@ private fun TDEEResultCard(tdeeData: TDEEData) {
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "Your Daily Calorie Needs",
+                    text = stringResource(R.string.txt_your_daily_calorie_needs),
                     style = MaterialTheme.typography.labelLarge,
                     color = Color.White.copy(alpha = 0.9f)
                 )
@@ -359,7 +362,7 @@ private fun TDEEResultCard(tdeeData: TDEEData) {
                 )
 
                 Text(
-                    text = "kcal/day",
+                    text = stringResource(R.string.txt_kcal_day),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White.copy(alpha = 0.8f)
                 )
@@ -398,10 +401,10 @@ private fun CalorieBreakdownCard(tdeeData: TDEEData) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "📊", fontSize = 18.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_9), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Calorie Breakdown",
+                    text = stringResource(R.string.txt_calorie_breakdown),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -451,7 +454,7 @@ private fun CalorieBreakdownCard(tdeeData: TDEEData) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "Total TDEE",
+                            text = stringResource(R.string.txt_total_tdee),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -495,7 +498,7 @@ private fun CalorieBreakdownCard(tdeeData: TDEEData) {
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = " × ",
+                        text = stringResource(R.string.txt_text_placeholder_35),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -506,7 +509,7 @@ private fun CalorieBreakdownCard(tdeeData: TDEEData) {
                         color = MaterialTheme.colorScheme.tertiary
                     )
                     Text(
-                        text = " = ",
+                        text = stringResource(R.string.txt_text_placeholder_34),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -517,7 +520,7 @@ private fun CalorieBreakdownCard(tdeeData: TDEEData) {
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = " kcal",
+                        text = stringResource(R.string.txt_kcal_1),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -597,9 +600,9 @@ private fun DonutChart(
 
         // Center text
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "⚡", fontSize = 20.sp)
+            Text(text = stringResource(R.string.txt_text_placeholder_33), fontSize = 20.sp)
             Text(
-                text = "TDEE",
+                text = stringResource(R.string.txt_tdee),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Medium
@@ -727,10 +730,10 @@ private fun CalorieGoalsCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "🎯", fontSize = 18.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_32), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Calorie Targets by Goal",
+                    text = stringResource(R.string.txt_calorie_targets_by_goal),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -740,7 +743,7 @@ private fun CalorieGoalsCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "Tap any goal to see details and projected weight change",
+                text = stringResource(R.string.txt_tap_any_goal_to_see_details_an),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 11.sp
@@ -781,7 +784,7 @@ private fun CalorieGoalsCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Weight change estimates assume 1 kg ≈ 7,700 kcal. " +
+                    text = stringResource(R.string.txt_weight_change_estimates_assume) +
                             "Actual results vary by individual metabolism. " +
                             "Never eat below 1,200 kcal/day without medical supervision.",
                     style = MaterialTheme.typography.bodySmall,
@@ -942,7 +945,7 @@ private fun CalorieGoalItem(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "Extreme deficits are not recommended without medical supervision. Consult a healthcare provider.",
+                                    text = stringResource(R.string.txt_extreme_deficits_are_not_recom),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = Color(0xFFD32F2F),
                                     fontSize = 10.sp,
@@ -956,7 +959,7 @@ private fun CalorieGoalItem(
                     if (goal.dailyCalories <= 1200f && goal.calorieAdjustment < 0) {
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "⚠️ Minimum 1,200 kcal/day applied for safety",
+                            text = stringResource(R.string.txt_minimum_1_200_kcal_day_applied),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFFFF9800),
                             fontWeight = FontWeight.Medium

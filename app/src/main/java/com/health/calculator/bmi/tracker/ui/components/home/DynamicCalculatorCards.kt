@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -117,7 +120,7 @@ fun DynamicCalculatorCard(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "!",
+                            text = stringResource(R.string.txt_text_placeholder_7),
                             style = MaterialTheme.typography.labelSmall,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.ExtraBold,
@@ -238,7 +241,7 @@ fun BMICalculatorCard(
                 Spacer(modifier = Modifier.width(8.dp))
                 // BMI value
                 Text(
-                    text = "%.1f".format(lastBMI),
+                    text = stringResource(R.string.txt_1f).format(lastBMI),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = categoryColor
@@ -281,20 +284,20 @@ fun BMRCalculatorCard(
         dataContent = {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                    text = "%,d".format(lastBMR),
+                    text = stringResource(R.string.txt_d_1).format(lastBMR),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFFFF9800)
                 )
                 Text(
-                    text = " cal/day",
+                    text = stringResource(R.string.txt_cal_day),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
             }
             if (lastTDEE != null) {
                 Text(
-                    text = "TDEE: %,d cal".format(lastTDEE),
+                    text = stringResource(R.string.txt_tdee_d_cal).format(lastTDEE),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                     fontSize = 10.sp
@@ -356,7 +359,7 @@ fun BloodPressureCard(
                     color = categoryColor
                 )
                 Text(
-                    text = " mmHg",
+                    text = stringResource(R.string.txt_mmhg),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -416,7 +419,7 @@ fun WHRCalculatorCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "%.2f".format(lastWHR),
+                    text = stringResource(R.string.txt_2f).format(lastWHR),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = riskColor
@@ -485,7 +488,7 @@ fun WaterIntakeCard(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "of goal",
+                    text = stringResource(R.string.txt_of_goal),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -589,7 +592,7 @@ fun MetabolicSyndromeCard(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "criteria met",
+                    text = stringResource(R.string.txt_criteria_met),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -631,13 +634,13 @@ fun BSACalculatorCard(
         dataContent = {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                    text = "%.2f".format(lastBSA),
+                    text = stringResource(R.string.txt_2f).format(lastBSA),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF607D8B)
                 )
                 Text(
-                    text = " m²",
+                    text = stringResource(R.string.txt_m),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -682,13 +685,13 @@ fun IBWCalculatorCard(
         dataContent = {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                    text = "%.1f".format(idealWeight),
+                    text = stringResource(R.string.txt_1f).format(idealWeight),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = statusColor
                 )
                 Text(
-                    text = " kg ideal",
+                    text = stringResource(R.string.txt_kg_ideal),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -757,13 +760,13 @@ fun CalorieCalculatorCard(
         dataContent = {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
-                    text = "%,d".format(consumedCalories),
+                    text = stringResource(R.string.txt_d_1).format(consumedCalories),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = progressColor
                 )
                 Text(
-                    text = " / %,d".format(targetCalories),
+                    text = stringResource(R.string.txt_d).format(targetCalories),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -813,7 +816,7 @@ private fun BoxScope.CalorieProgressRing(
     }
 
     Text(
-        text = "🔥",
+        text = stringResource(R.string.txt_text_placeholder_6),
         fontSize = 18.sp,
         modifier = Modifier.align(Alignment.Center)
     )
@@ -867,7 +870,7 @@ fun HeartRateZonesCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "❤️",
+                        text = stringResource(R.string.txt_text_placeholder_5),
                         fontSize = (22 * heartScale).sp
                     )
                 }
@@ -882,7 +885,7 @@ fun HeartRateZonesCard(
                     color = Color(0xFFE53935)
                 )
                 Text(
-                    text = " BPM",
+                    text = stringResource(R.string.txt_bpm),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )

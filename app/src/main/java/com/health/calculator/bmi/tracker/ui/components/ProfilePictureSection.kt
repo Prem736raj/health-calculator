@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -101,24 +104,24 @@ fun ProfileImagePickerDialog(
                 .padding(bottom = 40.dp, start = 16.dp, end = 16.dp, top = 8.dp)
         ) {
             Text(
-                text = "Profile Picture",
+                text = stringResource(R.string.txt_profile_picture),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             ListItem(
-                headlineContent = { Text("Take a photo") },
+                headlineContent = { Text(stringResource(R.string.txt_take_a_photo)) },
                 leadingContent = { Icon(Icons.Default.CameraAlt, null) },
                 modifier = Modifier.clickable { onCameraClick() }
             )
             ListItem(
-                headlineContent = { Text("Choose from gallery") },
+                headlineContent = { Text(stringResource(R.string.txt_choose_from_gallery)) },
                 leadingContent = { Icon(Icons.Default.PhotoLibrary, null) },
                 modifier = Modifier.clickable { onGalleryClick() }
             )
             ListItem(
-                headlineContent = { Text("Remove current picture", color = MaterialTheme.colorScheme.error) },
+                headlineContent = { Text(stringResource(R.string.txt_remove_current_picture), color = MaterialTheme.colorScheme.error) },
                 leadingContent = { Icon(Icons.Default.AddPhotoAlternate, null, tint = MaterialTheme.colorScheme.error) },
                 modifier = Modifier.clickable { 
                     onImageSelected(null)

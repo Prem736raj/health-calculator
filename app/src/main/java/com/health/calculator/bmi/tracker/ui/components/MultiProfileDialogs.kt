@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,11 +39,11 @@ fun AddProfileDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Family Member") },
+        title = { Text(stringResource(R.string.txt_add_family_member)) },
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Create a separate profile for a family member to track their health independently.",
+                    stringResource(R.string.txt_create_a_separate_profile_for_),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -50,8 +53,8 @@ fun AddProfileDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = onNameChange,
-                    label = { Text("Display Name") },
-                    placeholder = { Text("e.g. Mom, Brother, Sarah") },
+                    label = { Text(stringResource(R.string.txt_display_name)) },
+                    placeholder = { Text(stringResource(R.string.txt_e_g_mom_brother_sarah)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -59,7 +62,7 @@ fun AddProfileDialog(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    "Select Avatar Color",
+                    stringResource(R.string.txt_select_avatar_color),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -120,12 +123,12 @@ fun AddProfileDialog(
                 onClick = onConfirm,
                 enabled = name.isNotBlank()
             ) {
-                Text("Create Profile")
+                Text(stringResource(R.string.txt_create_profile))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         }
     )
@@ -184,13 +187,13 @@ fun ProfileShareDialog(
                 modifier = Modifier.padding(24.dp)
             ) {
                 Text(
-                    "Share Health Summary",
+                    stringResource(R.string.txt_share_health_summary),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
                 
                 Text(
-                    "Choose what data to include in your shared summary. Your privacy matters.",
+                    stringResource(R.string.txt_choose_what_data_to_include_in),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -217,13 +220,13 @@ fun ProfileShareDialog(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = onShare,
                         shape = MaterialTheme.shapes.medium
                     ) {
-                        Text("Share Now")
+                        Text(stringResource(R.string.txt_share_now))
                     }
                 }
             }
@@ -266,11 +269,11 @@ fun RecalculatePromptDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
-        title = { Text("Recalculation Recommended") },
+        title = { Text(stringResource(R.string.txt_recalculation_recommended)) },
         text = {
             Column {
                 Text(
-                    "Your profile data has changed. Recent calculations for following tools might be outdated:",
+                    stringResource(R.string.txt_your_profile_data_has_changed_),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -288,12 +291,12 @@ fun RecalculatePromptDialog(
         },
         confirmButton = {
             Button(onClick = onRecalculateClick) {
-                Text("Open Connections")
+                Text(stringResource(R.string.txt_open_connections))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Later")
+                Text(stringResource(R.string.txt_later))
             }
         }
     )

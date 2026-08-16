@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -93,7 +95,8 @@ data class BloodPressureUiState(
     }
 }
 
-class BloodPressureViewModel(
+@HiltViewModel
+class BloodPressureViewModel @Inject constructor(
     application: Application,
     private val milestoneEvaluationUseCase: com.health.calculator.bmi.tracker.domain.usecases.MilestoneEvaluationUseCase
 ) : AndroidViewModel(application) {

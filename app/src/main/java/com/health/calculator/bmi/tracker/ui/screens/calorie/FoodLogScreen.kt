@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -46,7 +52,7 @@ fun FoodLogScreen(
     targetProtein: Double = 0.0,
     targetCarbs: Double = 0.0,
     targetFat: Double = 0.0,
-    viewModel: FoodLogViewModel = viewModel()
+    viewModel: FoodLogViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val haptic = LocalHapticFeedback.current
@@ -59,7 +65,7 @@ fun FoodLogScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Food Log") },
+                title = { Text(stringResource(R.string.txt_food_log)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
@@ -99,7 +105,7 @@ fun FoodLogScreen(
                     viewModel.showAddFoodDialog()
                 },
                 icon = { Icon(Icons.Default.Add, "Add food") },
-                text = { Text("Add Food") },
+                text = { Text(stringResource(R.string.txt_add_food)) },
                 containerColor = MaterialTheme.colorScheme.primary
             )
         }
@@ -218,7 +224,7 @@ private fun DailySummaryCard(log: DailyFoodLog) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "Today's Calories",
+                stringResource(R.string.txt_today_s_calories),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
 
@@ -317,7 +323,7 @@ private fun MacroProgressCard(log: DailyFoodLog) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Macronutrients",
+                stringResource(R.string.txt_macronutrients),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -452,7 +458,7 @@ private fun QuickAddSection(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        "Quick Add",
+                        stringResource(R.string.txt_quick_add),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
@@ -460,7 +466,7 @@ private fun QuickAddSection(
                     TextButton(onClick = onAddCustomPreset) {
                         Icon(Icons.Default.Add, null, Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Add", fontSize = 12.sp)
+                        Text(stringResource(R.string.txt_add), fontSize = 12.sp)
                     }
                     IconButton(onClick = onToggle, modifier = Modifier.size(32.dp)) {
                         Icon(
@@ -482,7 +488,7 @@ private fun QuickAddSection(
 
                     // Default presets
                     Text(
-                        "Common Foods",
+                        stringResource(R.string.txt_common_foods),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                         modifier = Modifier.padding(bottom = 6.dp)
@@ -498,7 +504,7 @@ private fun QuickAddSection(
                     if (customPresets.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            "My Foods",
+                            stringResource(R.string.txt_my_foods),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             modifier = Modifier.padding(bottom = 6.dp)
@@ -594,15 +600,15 @@ private fun MealLogSection(
                 modifier = Modifier.fillMaxWidth().padding(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("🍽️", fontSize = 40.sp)
+                Text(stringResource(R.string.txt_text_placeholder_29), fontSize = 40.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "No food logged yet",
+                    stringResource(R.string.txt_no_food_logged_yet),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
                 Text(
-                    "Tap + to add food or use Quick Add",
+                    stringResource(R.string.txt_tap_to_add_food_or_use_quick_a),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                 )
@@ -716,13 +722,13 @@ private fun AddFoodDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Food") },
+        title = { Text(stringResource(R.string.txt_add_food)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
                     value = uiState.newFoodName,
                     onValueChange = onUpdateName,
-                    label = { Text("Food name *") },
+                    label = { Text(stringResource(R.string.txt_food_name_1)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
                     singleLine = true
@@ -730,24 +736,24 @@ private fun AddFoodDialog(
                 OutlinedTextField(
                     value = uiState.newFoodCalories,
                     onValueChange = onUpdateCalories,
-                    label = { Text("Calories *") },
+                    label = { Text(stringResource(R.string.txt_calories_1)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
                     singleLine = true,
-                    suffix = { Text("kcal") }
+                    suffix = { Text(stringResource(R.string.txt_kcal)) }
                 )
                 OutlinedTextField(
                     value = uiState.newFoodServingSize,
                     onValueChange = onUpdateServing,
-                    label = { Text("Serving size (optional)") },
+                    label = { Text(stringResource(R.string.txt_serving_size_optional)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
                     singleLine = true
                 )
 
                 // Meal slot
-                Text("Meal", style = MaterialTheme.typography.labelSmall)
+                Text(stringResource(R.string.txt_meal), style = MaterialTheme.typography.labelSmall)
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     items(mealSlots) { slot ->
                         FilterChip(
@@ -778,7 +784,7 @@ private fun AddFoodDialog(
                             OutlinedTextField(
                                 value = uiState.newFoodProtein,
                                 onValueChange = onUpdateProtein,
-                                label = { Text("Protein (g)") },
+                                label = { Text(stringResource(R.string.txt_protein_g)) },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                                 modifier = Modifier.weight(1f),
                                 shape = RoundedCornerShape(10.dp),
@@ -787,7 +793,7 @@ private fun AddFoodDialog(
                             OutlinedTextField(
                                 value = uiState.newFoodCarbs,
                                 onValueChange = onUpdateCarbs,
-                                label = { Text("Carbs (g)") },
+                                label = { Text(stringResource(R.string.txt_carbs_g)) },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                                 modifier = Modifier.weight(1f),
                                 shape = RoundedCornerShape(10.dp),
@@ -797,7 +803,7 @@ private fun AddFoodDialog(
                         OutlinedTextField(
                             value = uiState.newFoodFat,
                             onValueChange = onUpdateFat,
-                            label = { Text("Fat (g)") },
+                            label = { Text(stringResource(R.string.txt_fat_g)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
@@ -812,10 +818,10 @@ private fun AddFoodDialog(
             }
         },
         confirmButton = {
-            Button(onClick = onSave, shape = RoundedCornerShape(10.dp)) { Text("Add") }
+            Button(onClick = onSave, shape = RoundedCornerShape(10.dp)) { Text(stringResource(R.string.txt_add)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
         },
         shape = RoundedCornerShape(16.dp)
     )
@@ -838,7 +844,7 @@ private fun AddCustomPresetDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Custom Food") },
+        title = { Text(stringResource(R.string.txt_add_custom_food)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 // Emoji selector
@@ -861,7 +867,7 @@ private fun AddCustomPresetDialog(
                 OutlinedTextField(
                     value = uiState.presetName,
                     onValueChange = onUpdateName,
-                    label = { Text("Food name *") },
+                    label = { Text(stringResource(R.string.txt_food_name_1)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
                     singleLine = true
@@ -870,7 +876,7 @@ private fun AddCustomPresetDialog(
                     OutlinedTextField(
                         value = uiState.presetCalories,
                         onValueChange = onUpdateCalories,
-                        label = { Text("Calories *") },
+                        label = { Text(stringResource(R.string.txt_calories_1)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
@@ -879,7 +885,7 @@ private fun AddCustomPresetDialog(
                     OutlinedTextField(
                         value = uiState.presetServing,
                         onValueChange = onUpdateServing,
-                        label = { Text("Serving") },
+                        label = { Text(stringResource(R.string.txt_serving)) },
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
                         singleLine = true
@@ -889,41 +895,41 @@ private fun AddCustomPresetDialog(
                     OutlinedTextField(
                         value = uiState.presetProtein,
                         onValueChange = onUpdateProtein,
-                        label = { Text("Protein") },
+                        label = { Text(stringResource(R.string.txt_protein)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
                         singleLine = true,
-                        suffix = { Text("g", fontSize = 10.sp) }
+                        suffix = { Text(stringResource(R.string.txt_g), fontSize = 10.sp) }
                     )
                     OutlinedTextField(
                         value = uiState.presetCarbs,
                         onValueChange = onUpdateCarbs,
-                        label = { Text("Carbs") },
+                        label = { Text(stringResource(R.string.txt_carbs)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
                         singleLine = true,
-                        suffix = { Text("g", fontSize = 10.sp) }
+                        suffix = { Text(stringResource(R.string.txt_g), fontSize = 10.sp) }
                     )
                     OutlinedTextField(
                         value = uiState.presetFat,
                         onValueChange = onUpdateFat,
-                        label = { Text("Fat") },
+                        label = { Text(stringResource(R.string.txt_fat)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
                         singleLine = true,
-                        suffix = { Text("g", fontSize = 10.sp) }
+                        suffix = { Text(stringResource(R.string.txt_g), fontSize = 10.sp) }
                     )
                 }
             }
         },
         confirmButton = {
-            Button(onClick = onSave, shape = RoundedCornerShape(10.dp)) { Text("Save Preset") }
+            Button(onClick = onSave, shape = RoundedCornerShape(10.dp)) { Text(stringResource(R.string.txt_save_preset)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
         },
         shape = RoundedCornerShape(16.dp)
     )

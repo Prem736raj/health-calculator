@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -8,7 +10,7 @@ import android.os.Build
 import com.health.calculator.bmi.tracker.data.models.Reminder
 import java.util.Calendar
 
-class ReminderScheduler(private val context: Context) {
+class ReminderScheduler(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

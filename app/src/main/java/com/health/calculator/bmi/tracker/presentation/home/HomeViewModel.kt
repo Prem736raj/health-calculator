@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.home
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,7 +36,8 @@ data class HomeUiState(
     val isLoading: Boolean = false
 )
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     
     private val database = AppDatabase.getInstance(application)
     private val bmrPrefs = com.health.calculator.bmi.tracker.data.preferences.BMRLastValuePreferences(application)

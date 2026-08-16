@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -37,16 +40,16 @@ fun HeartRateEducationalSection(
     ) {
         // Section header
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("📚", fontSize = 22.sp)
+            Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 22.sp)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Learn About Heart Rate",
+                    text = stringResource(R.string.txt_learn_about_heart_rate),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Educational content to help you train smarter",
+                    text = stringResource(R.string.txt_educational_content_to_help_yo),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -429,7 +432,7 @@ private fun FuelSourceCard(
                             .background(fatColor)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Fat", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp)
+                    Text(stringResource(R.string.txt_fat), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp)
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
@@ -439,7 +442,7 @@ private fun FuelSourceCard(
                             .background(glycogenColor)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Glycogen", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp)
+                    Text(stringResource(R.string.txt_glycogen), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp)
                 }
             }
 
@@ -599,7 +602,7 @@ private fun MonitoringMethodsSection() {
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "From most to least accurate:",
+                            text = stringResource(R.string.txt_from_most_to_least_accurate),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.padding(bottom = 6.dp)
@@ -678,7 +681,7 @@ private fun MonitorMethodCard(method: MonitorMethod) {
                     ) {
                         // Stars
                         Text(
-                            text = "⭐".repeat(method.accuracyStars) + "☆".repeat(5 - method.accuracyStars),
+                            text = stringResource(R.string.txt_text_placeholder_22).repeat(method.accuracyStars) + "☆".repeat(5 - method.accuracyStars),
                             fontSize = 10.sp
                         )
                         Text(
@@ -712,7 +715,7 @@ private fun MonitorMethodCard(method: MonitorMethod) {
                         // Pros
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "✅ Pros",
+                                text = stringResource(R.string.txt_pros),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF4CAF50)
@@ -731,7 +734,7 @@ private fun MonitorMethodCard(method: MonitorMethod) {
                         // Cons
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "❌ Cons",
+                                text = stringResource(R.string.txt_cons),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFF44336)
@@ -758,7 +761,7 @@ private fun MonitorMethodCard(method: MonitorMethod) {
                             modifier = Modifier.padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("💡", fontSize = 12.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 12.sp)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = method.tip,
@@ -806,17 +809,17 @@ private fun WarningSignsCard() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("🚨", fontSize = 22.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_57), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "Warning Signs During Exercise",
+                            text = stringResource(R.string.txt_warning_signs_during_exercise),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFFF44336)
                         )
                         Text(
-                            text = "Know when to stop — your safety comes first",
+                            text = stringResource(R.string.txt_know_when_to_stop_your_safety_),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFFF44336).copy(alpha = 0.7f)
                         )
@@ -839,7 +842,7 @@ private fun WarningSignsCard() {
                 )
             ) {
                 Text(
-                    text = "⛔ STOP exercising immediately if you experience any of these symptoms",
+                    text = stringResource(R.string.txt_stop_exercising_immediately_if),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFF44336),
@@ -902,7 +905,7 @@ private fun WarningSignsCard() {
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Text(
-                                text = "👨⚕️ Consult a Doctor Before Starting Exercise If:",
+                                text = stringResource(R.string.txt_consult_a_doctor_before_starti),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFFF9800)
@@ -928,7 +931,7 @@ private fun WarningSignsCard() {
 
             if (!isExpanded) {
                 Text(
-                    text = "Tap to read all warning signs",
+                    text = stringResource(R.string.txt_tap_to_read_all_warning_signs),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color(0xFFF44336).copy(alpha = 0.5f),
                     modifier = Modifier
@@ -1109,10 +1112,10 @@ private fun MedicalDisclaimerCard() {
             modifier = Modifier.padding(14.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Text("⚕️", fontSize = 18.sp)
+            Text(stringResource(R.string.txt_text_placeholder_56), fontSize = 18.sp)
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "Medical Disclaimer: This educational content is for informational purposes only " +
+                text = stringResource(R.string.txt_medical_disclaimer_this_educat) +
                         "and does not constitute medical advice. Heart rate calculations and fitness " +
                         "assessments are estimates based on general population data. Individual results " +
                         "may vary. Always consult a qualified healthcare professional before starting " +
@@ -1206,7 +1209,7 @@ private fun EducationalCard(
 
             if (!isExpanded) {
                 Text(
-                    text = "Tap to learn more",
+                    text = stringResource(R.string.txt_tap_to_learn_more),
                     style = MaterialTheme.typography.labelSmall,
                     color = color.copy(alpha = 0.4f),
                     modifier = Modifier
@@ -1307,7 +1310,7 @@ private fun BulletPoint(text: String, color: Color) {
         verticalAlignment = Alignment.Top
     ) {
         Text(
-            text = "•",
+            text = stringResource(R.string.txt_text_placeholder_3),
             color = color,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(end = 8.dp, top = 1.dp)

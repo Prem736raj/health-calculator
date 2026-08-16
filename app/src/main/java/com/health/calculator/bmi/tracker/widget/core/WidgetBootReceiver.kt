@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,7 +17,7 @@ class WidgetBootReceiver : BroadcastReceiver() {
         private const val TAG = "WidgetBoot"
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
             Intent.ACTION_MY_PACKAGE_REPLACED,
@@ -26,7 +28,7 @@ class WidgetBootReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun onDeviceBoot(context: Context) {
+    private fun onDeviceBoot(@ApplicationContext context: Context) {
         // Step 1: Reschedule all alarms
         WidgetUpdateScheduler.scheduleAll(context)
 

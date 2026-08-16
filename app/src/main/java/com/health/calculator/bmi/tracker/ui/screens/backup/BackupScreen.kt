@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.backup
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
@@ -68,7 +71,7 @@ fun BackupScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Backup & Restore") },
+                title = { Text(stringResource(R.string.txt_backup_restore)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, "Back")
@@ -117,39 +120,41 @@ fun BackupScreen(
 
             // Available Backups Header
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        "Recent Backups",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    
-                    TextButton(onClick = { 
-                        if (GoogleDriveBackupManager.getInstance(context).isSignedIn()) {
-                            viewModel.fetchDriveBackups()
-                        }
-                        viewModel.resetState() // Refresh local
-                    }) {
-                        Icon(Icons.Default.Refresh, null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(4.dp))
-                        Text("Refresh")
-                    }
-                }
-                TextButton(
-                    onClick = {
-                        filePickerLauncher.launch(
-                            arrayOf("application/octet-stream", "application/json")
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            stringResource(R.string.txt_recent_backups),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
                         )
-                    },
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Icon(Icons.Default.FileOpen, null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(4.dp))
-                    Text("Import Backup File")
+                        
+                        TextButton(onClick = { 
+                            if (GoogleDriveBackupManager.getInstance(context).isSignedIn()) {
+                                viewModel.fetchDriveBackups()
+                            }
+                            viewModel.resetState() // Refresh local
+                        }) {
+                            Icon(Icons.Default.Refresh, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text(stringResource(R.string.txt_refresh))
+                        }
+                    }
+                    TextButton(
+                        onClick = {
+                            filePickerLauncher.launch(
+                                arrayOf("application/octet-stream", "application/json")
+                            )
+                        },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Icon(Icons.Default.FileOpen, null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(4.dp))
+                        Text(stringResource(R.string.txt_import_backup_file))
+                    }
                 }
             }
 
@@ -219,7 +224,7 @@ fun BackupActionsSection(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Backup, null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(8.dp))
-                Text("Manual Backup", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_manual_backup), fontWeight = FontWeight.Bold)
             }
             
             Spacer(Modifier.height(16.dp))
@@ -293,8 +298,8 @@ fun AutoBackupSection(
                 Icon(Icons.Default.Autorenew, null, tint = MaterialTheme.colorScheme.secondary)
                 Spacer(Modifier.width(8.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("Auto Backup", fontWeight = FontWeight.Bold)
-                    Text("Keep your data synced automatically", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.txt_auto_backup), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_keep_your_data_synced_automati), style = MaterialTheme.typography.bodySmall)
                 }
                 Switch(checked = enabled, onCheckedChange = onToggleEnabled)
             }
@@ -303,7 +308,7 @@ fun AutoBackupSection(
                 Column {
                     Divider(Modifier.padding(vertical = 12.dp))
                     
-                    Text("Backup Frequency", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.txt_backup_frequency), style = MaterialTheme.typography.labelLarge)
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -323,7 +328,7 @@ fun AutoBackupSection(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Backup over Wi-Fi only", style = MaterialTheme.typography.bodyMedium)
+                        Text(stringResource(R.string.txt_backup_over_wi_fi_only), style = MaterialTheme.typography.bodyMedium)
                         Checkbox(checked = wifiOnly, onCheckedChange = onWifiToggle)
                     }
                 }
@@ -389,12 +394,12 @@ fun BackupItemCard(
                 Icon(Icons.Default.MoreVert, null)
                 DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
                     DropdownMenuItem(
-                        text = { Text("Restore") },
+                        text = { Text(stringResource(R.string.txt_restore)) },
                         onClick = { showMenu = false; onClick() },
                         leadingIcon = { Icon(Icons.Default.Restore, null) }
                     )
                     DropdownMenuItem(
-                        text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
+                        text = { Text(stringResource(R.string.txt_delete), color = MaterialTheme.colorScheme.error) },
                         onClick = { showMenu = false; onDelete() },
                         leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) }
                     )
@@ -420,12 +425,12 @@ fun EmptyBackupsPlaceholder() {
         )
         Spacer(Modifier.height(16.dp))
         Text(
-            "No backups found",
+            stringResource(R.string.txt_no_backups_found),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            "Create your first backup above",
+            stringResource(R.string.txt_create_your_first_backup_above),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -443,13 +448,13 @@ fun RestoreConfirmDialog(
     AlertDialog(
         onDismissRequest = onCancel,
         icon = { Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
-        title = { Text("Confirm Restore") },
+        title = { Text(stringResource(R.string.txt_confirm_restore)) },
         text = {
             Column {
                 Text("Restore data from ${backup.formattedDate}?")
                 Spacer(Modifier.height(16.dp))
                 
-                Text("Restore Mode:", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_restore_mode), fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
                 
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -480,7 +485,7 @@ fun RestoreConfirmDialog(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            "WARNING: This will delete all current data on this device and replace it with backup data.",
+                            stringResource(R.string.txt_warning_this_will_delete_all_c),
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.padding(8.dp)
@@ -496,11 +501,11 @@ fun RestoreConfirmDialog(
                     containerColor = if (currentMode == RestoreMode.REPLACE) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                 )
             ) {
-                Text("Restore")
+                Text(stringResource(R.string.txt_restore))
             }
         },
         dismissButton = {
-            TextButton(onClick = onCancel) { Text("Cancel") }
+            TextButton(onClick = onCancel) { Text(stringResource(R.string.txt_cancel)) }
         }
     )
 }
@@ -523,14 +528,14 @@ fun TransferQrDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Device-to-Device Transfer",
+                    stringResource(R.string.txt_device_to_device_transfer),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Scan this code on your new device to transfer your health data.",
+                    stringResource(R.string.txt_scan_this_code_on_your_new_dev),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -550,7 +555,7 @@ fun TransferQrDialog(
                     onClick = onClose,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Close")
+                    Text(stringResource(R.string.txt_close))
                 }
             }
         }

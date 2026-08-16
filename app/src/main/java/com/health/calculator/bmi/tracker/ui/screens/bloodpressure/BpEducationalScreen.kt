@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -40,9 +43,9 @@ fun BpEducationalScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("BP Education", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_bp_education), fontWeight = FontWeight.Bold)
                         Text(
-                            "Learn about blood pressure",
+                            stringResource(R.string.txt_learn_about_blood_pressure_1),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -98,12 +101,12 @@ fun BpEducationalScreen(
                         }
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Blood Pressure Education",
+                                stringResource(R.string.txt_blood_pressure_education),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                "Tap any section below to expand and learn. Knowledge is the first step to better health.",
+                                stringResource(R.string.txt_tap_any_section_below_to_expan),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                             )
@@ -480,10 +483,10 @@ private fun MythBusterRenderer(item: BpEducationalItem.MythBuster) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("❌", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.txt_text_placeholder_16), style = MaterialTheme.typography.titleSmall)
                     Column {
                         Text(
-                            "MYTH",
+                            stringResource(R.string.txt_myth),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFFD32F2F)
@@ -511,10 +514,10 @@ private fun MythBusterRenderer(item: BpEducationalItem.MythBuster) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("✅", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.txt_text_placeholder_15), style = MaterialTheme.typography.titleSmall)
                     Column {
                         Text(
-                            "FACT",
+                            stringResource(R.string.txt_fact),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFF2E7D32)
@@ -548,7 +551,7 @@ private fun AnalogyRenderer(item: BpEducationalItem.Analogy) {
             Text(item.emoji, style = MaterialTheme.typography.headlineSmall)
             Column {
                 Text(
-                    "Think of it this way...",
+                    stringResource(R.string.txt_think_of_it_this_way),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFFF8F00)
@@ -614,20 +617,20 @@ private fun EducationalDisclaimer() {
             )
             Column {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "This educational content is provided for informational purposes only and should not be considered a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+                    stringResource(R.string.txt_this_educational_content_is_pr),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "The information presented is based on general medical guidelines and may not apply to your specific health situation. Individual health needs vary, and treatment decisions should be made in consultation with qualified healthcare professionals.",
+                    stringResource(R.string.txt_the_information_presented_is_b),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                 )

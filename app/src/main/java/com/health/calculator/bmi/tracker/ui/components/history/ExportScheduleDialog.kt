@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -25,7 +28,7 @@ fun ExportScheduleDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Automatic Health Export") },
+        title = { Text(stringResource(R.string.txt_automatic_health_export)) },
         text = {
             Column(
                 modifier = Modifier
@@ -40,9 +43,9 @@ fun ExportScheduleDialog(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Enable Scheduling", style = MaterialTheme.typography.bodyLarge)
+                        Text(stringResource(R.string.txt_enable_scheduling), style = MaterialTheme.typography.bodyLarge)
                         Text(
-                            "Automatically export data and save locally",
+                            stringResource(R.string.txt_automatically_export_data_and_),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -54,7 +57,7 @@ fun ExportScheduleDialog(
                     Divider()
 
                     // Frequency Dropdown (Simplified as Radio for this exercise)
-                    Text("Frequency", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.txt_frequency), style = MaterialTheme.typography.labelLarge)
                     FrequencySelection(
                         selected = frequency,
                         onSelected = { frequency = it }
@@ -63,7 +66,7 @@ fun ExportScheduleDialog(
                     Divider()
 
                     // Format
-                    Text("Preferred Format", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.txt_preferred_format), style = MaterialTheme.typography.labelLarge)
                     FormatSelection(
                         selected = format,
                         onSelected = { format = it }
@@ -75,12 +78,12 @@ fun ExportScheduleDialog(
             Button(onClick = {
                 onSave(ExportSchedule(enabled, frequency, format, email))
             }) {
-                Text("Apply")
+                Text(stringResource(R.string.txt_apply))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         }
     )

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -47,7 +50,7 @@ fun ProfileCompletionBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Profile Completion",
+                    text = stringResource(R.string.txt_profile_completion),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -80,7 +83,7 @@ fun ProfileCompletionBar(
             if (completion.missingFields.isNotEmpty() && completion.percentage < 100) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "Complete your profile for more accurate calculations",
+                    text = stringResource(R.string.txt_complete_your_profile_for_more),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -92,7 +95,7 @@ fun ProfileCompletionBar(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "•",
+                            text = stringResource(R.string.txt_text_placeholder_3),
                             style = MaterialTheme.typography.bodySmall,
                             color = progressColor,
                             modifier = Modifier.padding(end = 6.dp)
@@ -109,7 +112,7 @@ fun ProfileCompletionBar(
             if (completion.percentage == 100) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "✅ Profile complete! All calculations use your data.",
+                    text = stringResource(R.string.txt_profile_complete_all_calculati),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium

@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -85,16 +91,16 @@ fun FormulaComparisonCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("📐", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 20.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "Formula Comparison",
+                            text = stringResource(R.string.txt_formula_comparison),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "MHR results from all formulas",
+                            text = stringResource(R.string.txt_mhr_results_from_all_formulas),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -123,7 +129,7 @@ fun FormulaComparisonCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("✅", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_15), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "Selected: ${selectedFormula.label}",
@@ -178,7 +184,7 @@ fun FormulaComparisonCard(
                             modifier = Modifier.padding(10.dp),
                             verticalAlignment = Alignment.Top
                         ) {
-                            Text("💡", fontSize = 13.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 13.sp)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = buildString {
@@ -239,7 +245,7 @@ private fun FormulaComparisonRow(
                 )
                 if (isBestForUser && !isSelected) {
                     Spacer(modifier = Modifier.width(3.dp))
-                    Text("⭐", fontSize = 8.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_22), fontSize = 8.sp)
                 }
             }
             formula.badge?.let {
@@ -450,15 +456,15 @@ fun RestingHRTrendCard(
                     .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("💤", fontSize = 28.sp)
+                Text(stringResource(R.string.txt_text_placeholder_58), fontSize = 28.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Track Your Resting HR Over Time",
+                    text = stringResource(R.string.txt_track_your_resting_hr_over_tim),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Calculate your zones regularly to see how your resting heart rate improves with training. " +
+                    text = stringResource(R.string.txt_calculate_your_zones_regularly) +
                             "A decreasing resting HR is one of the best signs of improving fitness!",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
@@ -493,10 +499,10 @@ fun RestingHRTrendCard(
                 .padding(18.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("📈", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 20.sp)
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Resting HR Trend",
+                    text = stringResource(R.string.txt_resting_hr_trend),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -646,7 +652,7 @@ private fun TrendStat(emoji: String, label: String, value: String) {
 // ============================================================
 
 fun shareHeartRateZonesAsImage(
-    context: Context,
+    @ApplicationContext context: Context,
     result: HeartRateZoneResult
 ) {
     val width = 1080
@@ -686,12 +692,12 @@ fun shareHeartRateZonesAsImage(
     }
 
     // Title
-    canvas.drawText("❤️ My Heart Rate Zones", 60f, 80f, titlePaint)
+    canvas.drawText(stringResource(R.string.txt_my_heart_rate_zones), 60f, 80f, titlePaint)
     canvas.drawText("Age: ${result.age} | ${result.formulaUsed.label} Formula", 60f, 130f, subtitlePaint)
 
     // MHR
     canvas.drawText("${result.maxHeartRate}", width / 2f, 250f, mhrPaint)
-    canvas.drawText("Max Heart Rate (BPM)", width / 2f, 290f, mhrLabelPaint)
+    canvas.drawText(stringResource(R.string.txt_max_heart_rate_bpm), width / 2f, 290f, mhrLabelPaint)
 
     if (result.restingHeartRate != null) {
         canvas.drawText("Resting: ${result.restingHeartRate} BPM | Reserve: ${result.heartRateReserve} BPM",
@@ -757,7 +763,7 @@ fun shareHeartRateZonesAsImage(
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
-    canvas.drawText("📱 Generated by Health Calculator: BMI Tracker", width / 2f, yPos, footerPaint)
+    canvas.drawText(stringResource(R.string.txt_generated_by_health_calculator), width / 2f, yPos, footerPaint)
 
     // Save and share
     try {
@@ -785,7 +791,7 @@ fun shareHeartRateZonesAsImage(
     }
 }
 
-fun shareHeartRateZonesText(context: Context, result: HeartRateZoneResult) {
+fun shareHeartRateZonesText(@ApplicationContext context: Context, result: HeartRateZoneResult) {
     val text = buildString {
         appendLine("❤️ My Heart Rate Zones (Age: ${result.age}, MHR: ${result.maxHeartRate} BPM)")
         result.restingHeartRate?.let {

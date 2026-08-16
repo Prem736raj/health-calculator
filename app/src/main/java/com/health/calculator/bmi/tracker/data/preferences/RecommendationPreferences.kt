@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -14,7 +16,7 @@ val Context.recommendationDataStore: DataStore<Preferences> by preferencesDataSt
 )
 
 class RecommendationPreferencesManager(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private val DISMISSED_RECOMMENDATIONS_KEY = stringPreferencesKey("dismissed_recommendations")

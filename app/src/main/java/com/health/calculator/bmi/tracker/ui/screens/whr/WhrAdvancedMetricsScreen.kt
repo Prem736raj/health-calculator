@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -56,7 +59,7 @@ fun WhrAdvancedMetricsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Advanced Metrics", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_advanced_metrics), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -144,7 +147,7 @@ private fun CombinedRiskSummaryCard(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "Central Obesity Risk Summary",
+                stringResource(R.string.txt_central_obesity_risk_summary),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -244,7 +247,7 @@ private fun VisceralFatCard(
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    "Visceral Fat Estimation",
+                    stringResource(R.string.txt_visceral_fat_estimation),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -258,7 +261,7 @@ private fun VisceralFatCard(
             ) {
                 Column {
                     Text(
-                        "Estimated Level",
+                        stringResource(R.string.txt_estimated_level),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -269,7 +272,7 @@ private fun VisceralFatCard(
                         color = riskColor
                     )
                     Text(
-                        "out of 20",
+                        stringResource(R.string.txt_out_of_20),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
@@ -333,9 +336,9 @@ private fun VisceralFatCard(
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("ℹ️", fontSize = 14.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_54), fontSize = 14.sp)
                             Text(
-                                "What is visceral fat?",
+                                stringResource(R.string.txt_what_is_visceral_fat),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.SemiBold
                             )
@@ -357,12 +360,12 @@ private fun VisceralFatCard(
                             verticalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             Text(
-                                "Visceral fat is the fat stored deep inside your abdomen, surrounding vital organs like the liver, stomach, and intestines.",
+                                stringResource(R.string.txt_visceral_fat_is_the_fat_stored),
                                 style = MaterialTheme.typography.bodySmall,
                                 lineHeight = 18.sp
                             )
                             Text(
-                                "Unlike subcutaneous fat (under the skin), visceral fat is metabolically active and releases inflammatory substances that increase risk of:",
+                                stringResource(R.string.txt_unlike_subcutaneous_fat_under_),
                                 style = MaterialTheme.typography.bodySmall,
                                 lineHeight = 18.sp
                             )
@@ -399,7 +402,7 @@ private fun VisceralFatCard(
 
             // Estimation note
             Text(
-                "⚠️ This is an estimation based on waist circumference, age, and gender. Accurate measurement requires medical imaging (DEXA or CT scan).",
+                stringResource(R.string.txt_this_is_an_estimation_based_on_1),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
                 fontSize = 10.sp,
@@ -475,15 +478,15 @@ private fun VisceralFatLevelBar(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("1", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
+            Text(stringResource(R.string.txt_1_1), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
-            Text("Low (1-9)", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
+            Text(stringResource(R.string.txt_low_1_9), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
                 color = green)
-            Text("Mod (10-14)", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
+            Text(stringResource(R.string.txt_mod_10_14), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
                 color = yellow)
-            Text("High (15+)", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
+            Text(stringResource(R.string.txt_high_15), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
                 color = red)
-            Text("20", style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
+            Text(stringResource(R.string.txt_20), style = MaterialTheme.typography.labelSmall, fontSize = 9.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
         }
     }
@@ -504,7 +507,7 @@ private fun FatTypeDiagramCard() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "Visceral vs Subcutaneous Fat",
+                stringResource(R.string.txt_visceral_vs_subcutaneous_fat),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -547,16 +550,16 @@ private fun FatTypeDiagramCard() {
                                     .background(Color(0xFF2196F3).copy(alpha = 0.5f))
                             )
                             Text(
-                                "Subcutaneous",
+                                stringResource(R.string.txt_subcutaneous),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF2196F3)
                             )
                         }
-                        Text("Under the skin", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Pinchable fat", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Lower health risk", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Energy storage", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_under_the_skin), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_pinchable_fat), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_lower_health_risk), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_energy_storage), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
                     }
                 }
 
@@ -583,16 +586,16 @@ private fun FatTypeDiagramCard() {
                                     .background(Color(0xFFF44336).copy(alpha = 0.5f))
                             )
                             Text(
-                                "Visceral",
+                                stringResource(R.string.txt_visceral),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFFF44336)
                             )
                         }
-                        Text("Around organs", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Deep belly fat", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Higher health risk", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
-                        Text("Releases toxins", style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_around_organs), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_deep_belly_fat), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_higher_health_risk), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
+                        Text(stringResource(R.string.txt_releases_toxins), style = MaterialTheme.typography.bodySmall, fontSize = 10.sp)
                     }
                 }
             }
@@ -739,7 +742,7 @@ private fun AbdominalObesityCard(
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Abdominal Obesity Classification",
+                    stringResource(R.string.txt_abdominal_obesity_classificati),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -781,9 +784,9 @@ private fun AbdominalObesityCard(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("📋", fontSize = 12.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_10), fontSize = 12.sp)
                     Text(
-                        "IDF uses stricter cutoffs than WHO. The IDF standard is recommended for Asian populations and is increasingly adopted worldwide.",
+                        stringResource(R.string.txt_idf_uses_stricter_cutoffs_than),
                         style = MaterialTheme.typography.bodySmall,
                         fontSize = 10.sp,
                         lineHeight = 14.sp,
@@ -927,7 +930,7 @@ private fun RiskFactorBreakdownCard(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                "Risk Factor Breakdown",
+                stringResource(R.string.txt_risk_factor_breakdown),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -1028,7 +1031,7 @@ private fun ImprovementTipsSection(tips: List<ImprovementTip>) {
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Personalized Recommendations",
+                    stringResource(R.string.txt_personalized_recommendations),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -1146,7 +1149,7 @@ private fun DisclaimerNote() {
                 modifier = Modifier.size(16.dp)
             )
             Text(
-                "This assessment is for informational purposes only. Visceral fat estimation is approximate. For accurate body composition analysis, consult a healthcare provider.",
+                stringResource(R.string.txt_this_assessment_is_for_informa),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.7f),
                 fontSize = 10.sp,

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -55,7 +58,7 @@ fun DetailedRecommendationsSection(
     Column(modifier = modifier.fillMaxWidth()) {
         // === Section Header ===
         Text(
-            text = "Detailed Analysis & Recommendations",
+            text = stringResource(R.string.txt_detailed_analysis_recommendati),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 12.dp)
@@ -68,7 +71,7 @@ fun DetailedRecommendationsSection(
 
         // === Individual Criterion Recommendations ===
         Text(
-            text = "Criterion-by-Criterion Analysis",
+            text = stringResource(R.string.txt_criterion_by_criterion_analysi),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -128,7 +131,7 @@ private fun CardiovascularRiskCard(riskSummary: CardiovascularRiskSummary) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Cardiovascular Risk Estimation",
+                    text = stringResource(R.string.txt_cardiovascular_risk_estimation),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = riskColor
@@ -220,7 +223,7 @@ private fun CardiovascularRiskCard(riskSummary: CardiovascularRiskSummary) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Recommended Actions",
+                    text = stringResource(R.string.txt_recommended_actions),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     color = riskColor,
@@ -366,7 +369,7 @@ private fun CriterionRecommendationCard(recommendation: CriterionRecommendation)
 
                     // Health Meaning
                     Text(
-                        text = "What this means",
+                        text = stringResource(R.string.txt_what_this_means_1),
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -384,7 +387,7 @@ private fun CriterionRecommendationCard(recommendation: CriterionRecommendation)
                         Spacer(modifier = Modifier.height(14.dp))
 
                         Text(
-                            text = "Associated Health Risks",
+                            text = stringResource(R.string.txt_associated_health_risks),
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Bold,
                             color = HealthRed
@@ -457,7 +460,7 @@ private fun CriterionRecommendationCard(recommendation: CriterionRecommendation)
                                 modifier = Modifier.padding(12.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text("🎉", fontSize = 20.sp)
+                                Text(stringResource(R.string.txt_text_placeholder_65), fontSize = 20.sp)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = recommendation.normalMessage,
@@ -510,7 +513,7 @@ private fun MedicalConsultationBanner(criteriaMet: Int) {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Medical Consultation Recommended",
+                    text = stringResource(R.string.txt_medical_consultation_recommend),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = bannerColor
@@ -549,7 +552,7 @@ private fun MedicalConsultationBanner(criteriaMet: Int) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "This is not a diagnosis. Only a healthcare professional can diagnose and treat metabolic syndrome.",
+                        text = stringResource(R.string.txt_this_is_not_a_diagnosis_only_a),
                         style = MaterialTheme.typography.labelSmall,
                         color = bannerColor.copy(alpha = 0.8f),
                         lineHeight = 14.sp

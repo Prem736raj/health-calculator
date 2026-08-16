@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -77,7 +80,7 @@ fun HeartRateDashboardCard(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "❤️",
+                    text = stringResource(R.string.txt_text_placeholder_5),
                     fontSize = (22 * if (hasData) heartScale else 1f).sp
                 )
             }
@@ -86,7 +89,7 @@ fun HeartRateDashboardCard(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Heart Rate Zones",
+                    text = stringResource(R.string.txt_heart_rate_zones),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -142,7 +145,7 @@ fun HeartRateDashboardCard(
                     }
                 } else {
                     Text(
-                        text = "Calculate your training zones",
+                        text = stringResource(R.string.txt_calculate_your_training_zones),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )

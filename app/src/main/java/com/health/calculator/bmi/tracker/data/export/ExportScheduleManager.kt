@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -13,7 +15,7 @@ private val Context.exportScheduleStore: DataStore<Preferences> by preferencesDa
     name = "export_schedule_prefs"
 )
 
-class ExportScheduleManager(private val context: Context) {
+class ExportScheduleManager(@ApplicationContext private val context: Context) {
     private object Keys {
         val ENABLED = booleanPreferencesKey("export_enabled")
         val FREQUENCY = stringPreferencesKey("export_frequency")
@@ -28,7 +30,7 @@ class ExportScheduleManager(private val context: Context) {
         @Volatile
         private var INSTANCE: ExportScheduleManager? = null
 
-        fun getInstance(context: Context): ExportScheduleManager {
+        fun getInstance(@ApplicationContext context: Context): ExportScheduleManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: ExportScheduleManager(context.applicationContext).also { INSTANCE = it }
             }

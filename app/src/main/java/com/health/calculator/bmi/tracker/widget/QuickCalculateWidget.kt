@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -13,7 +15,7 @@ import com.health.calculator.bmi.tracker.R
 class QuickCalculateWidget : AppWidgetProvider() {
 
     override fun onUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
@@ -22,12 +24,12 @@ class QuickCalculateWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+    override fun onDeleted(@ApplicationContext context: Context, appWidgetIds: IntArray) {
         val prefs = WidgetPreferencesManager(context)
         appWidgetIds.forEach { prefs.clearWidgetPrefs(it) }
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == ACTION_REFRESH) {
             val manager   = AppWidgetManager.getInstance(context)
@@ -42,7 +44,7 @@ class QuickCalculateWidget : AppWidgetProvider() {
         const val ACTION_REFRESH = "com.health.calculator.bmi.tracker.QUICK_CALC_REFRESH"
 
         fun updateWidget(
-            context: Context,
+            @ApplicationContext context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
@@ -100,7 +102,7 @@ class QuickCalculateWidget : AppWidgetProvider() {
         }
 
         private fun applySlot(
-            context: Context,
+            @ApplicationContext context: Context,
             views: RemoteViews,
             widgetId: Int,
             slot: Int,
@@ -141,7 +143,7 @@ class QuickCalculateWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(slotViewId, pending)
         }
 
-        fun refreshAll(context: Context) {
+        fun refreshAll(@ApplicationContext context: Context) {
             val manager   = AppWidgetManager.getInstance(context)
             val component = ComponentName(context, QuickCalculateWidget::class.java)
             manager.getAppWidgetIds(component).forEach {

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.os.Build
 import android.widget.RemoteViews
@@ -13,7 +15,7 @@ import com.health.calculator.bmi.tracker.widget.WidgetPreferencesManager
 object WidgetMaterialYouHelper {
 
     fun applyToWidget(
-        context: Context,
+        @ApplicationContext context: Context,
         views: RemoteViews,
         widgetId: Int,
         rootId: Int,
@@ -49,7 +51,7 @@ object WidgetMaterialYouHelper {
     fun isMaterialYouSupported(): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
-    fun getDynamicAccent(context: Context): Int? {
+    fun getDynamicAccent(@ApplicationContext context: Context): Int? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return null
         return try {
             context.resources.getColor(

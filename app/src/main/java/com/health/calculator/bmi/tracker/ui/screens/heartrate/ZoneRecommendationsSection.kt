@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -52,7 +55,7 @@ fun ZoneRecommendationsSection(
     ) {
         // Section header
         Text(
-            text = "🎯 Training Recommendations",
+            text = stringResource(R.string.txt_training_recommendations),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
@@ -115,10 +118,10 @@ private fun CaloriesBurnedCard(calorieBurns: List<ZoneCalorieBurn>) {
                 .padding(18.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("🔥", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_6), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Estimated Calories Burned per 30 Minutes",
+                    text = stringResource(R.string.txt_estimated_calories_burned_per_),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -137,7 +140,7 @@ private fun CaloriesBurnedCard(calorieBurns: List<ZoneCalorieBurn>) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "* Estimates based on your body weight. Actual values may vary.",
+                text = stringResource(R.string.txt_estimates_based_on_your_body_w),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
             )
@@ -329,7 +332,7 @@ private fun GoalChip(
             if (isRecommended) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "★ For you",
+                    text = stringResource(R.string.txt_for_you),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 9.sp,
                     color = MaterialTheme.colorScheme.secondary,
@@ -386,10 +389,10 @@ private fun GoalRecommendationCard(
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("⭐", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_22), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "Recommended for your fitness level",
+                            text = stringResource(R.string.txt_recommended_for_your_fitness_l),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFF4CAF50)
@@ -440,7 +443,7 @@ private fun GoalRecommendationCard(
                     modifier = Modifier.padding(14.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("💡", fontSize = 16.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
                         text = recommendation.keyAdvice,
@@ -488,7 +491,7 @@ private fun GoalRecommendationCard(
                             verticalAlignment = Alignment.Top
                         ) {
                             Text(
-                                text = "•",
+                                text = stringResource(R.string.txt_text_placeholder_3),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary,

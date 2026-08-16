@@ -1,6 +1,9 @@
 // ui/screens/reports/WeeklyReportScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.reports
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -40,7 +43,7 @@ fun WeeklyReportScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Weekly Report", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_weekly_report), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
@@ -65,7 +68,7 @@ fun WeeklyReportScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("Generating your report...", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.txt_generating_your_report), style = MaterialTheme.typography.bodyMedium)
                 }
             }
         } else {
@@ -101,7 +104,7 @@ fun WeeklyReportScreen(
                     // Highlights
                     if (summary.highlights.isNotEmpty()) {
                         item(key = "highlights_header") {
-                            Text("✨ Highlights", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_highlights), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
                         items(summary.highlights, key = { it.title }) { highlight ->
                             HighlightCard(highlight = highlight)
@@ -111,7 +114,7 @@ fun WeeklyReportScreen(
                     // Metric Summaries
                     if (summary.metricSummaries.isNotEmpty()) {
                         item(key = "metrics_header") {
-                            Text("📈 This Week's Metrics", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_this_week_s_metrics), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
                         items(summary.metricSummaries, key = { it.metricName }) { metric ->
                             MetricSummaryCard(metric = metric)
@@ -128,7 +131,7 @@ fun WeeklyReportScreen(
                     // Next Week Goals
                     if (summary.nextWeekGoals.isNotEmpty()) {
                         item(key = "goals_header") {
-                            Text("🎯 Next Week Focus", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_next_week_focus), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
                         items(summary.nextWeekGoals, key = { it.suggestion }) { goal ->
                             NextWeekGoalCard(goal = goal)
@@ -138,7 +141,7 @@ fun WeeklyReportScreen(
                     // Previous reports
                     if (uiState.previousReports.size > 1) {
                         item(key = "prev_header") {
-                            Text("📋 Previous Reports", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_previous_reports), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
                         items(
                             uiState.previousReports.drop(1).take(8),
@@ -284,7 +287,7 @@ private fun HealthScoreChangeCard(scoreStart: Int, scoreEnd: Int, change: Int) {
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    Text("/100", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.txt_100_3), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -302,7 +305,7 @@ private fun HealthScoreChangeCard(scoreStart: Int, scoreEnd: Int, change: Int) {
                         color = changeColor
                     )
                     Text(
-                        text = "vs last week",
+                        text = stringResource(R.string.txt_vs_last_week),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -455,9 +458,9 @@ private fun NoDataCard() {
         ) {
             Text("\uD83D\uDCCA", style = MaterialTheme.typography.displaySmall)
             Spacer(modifier = Modifier.height(12.dp))
-            Text("Not enough data yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.txt_not_enough_data_yet), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text(
-                "Start tracking your health metrics to see your weekly report. Try logging water, checking your BMI, or measuring your blood pressure!",
+                stringResource(R.string.txt_start_tracking_your_health_met),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center
             )
         }

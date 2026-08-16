@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -8,7 +10,7 @@ import androidx.core.content.ContextCompat
 
 object NotificationPermissionHelper {
 
-    fun isNotificationPermissionGranted(context: Context): Boolean {
+    fun isNotificationPermissionGranted(@ApplicationContext context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 context,

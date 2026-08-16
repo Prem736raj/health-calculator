@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -213,7 +216,7 @@ fun AnimatedCalculateButton(
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "Calculating...",
+                        text = stringResource(R.string.txt_calculating),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -231,7 +234,7 @@ fun AnimatedCalculateButton(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Calculate BMI",
+                        text = stringResource(R.string.txt_calculate_bmi),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -277,7 +280,7 @@ fun AnimatedClearButton(
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
-            text = "Clear All",
+            text = stringResource(R.string.txt_clear_all_1),
             color = MaterialTheme.colorScheme.error.copy(alpha = 0.8f),
             fontWeight = FontWeight.Medium
         )

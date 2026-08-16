@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.widget.core.WidgetDataChangeReceiver
 
@@ -9,21 +11,21 @@ import com.health.calculator.bmi.tracker.widget.core.WidgetDataChangeReceiver
  */
 object HealthWidgetSyncManager {
 
-    fun onBmiUpdated(context: Context, bmi: Float, category: String) {
+    fun onBmiUpdated(@ApplicationContext context: Context, bmi: Float, category: String) {
         val prefs = WidgetPreferencesManager(context)
         val score = calculateNewScore(context, bmi = bmi)
         prefs.saveHealthStats(score = score, bmi = bmi)
         notifyWidgets(context)
     }
 
-    fun onBloodPressureUpdated(context: Context, sys: Int, dia: Int, category: String) {
+    fun onBloodPressureUpdated(@ApplicationContext context: Context, sys: Int, dia: Int, category: String) {
         val prefs = WidgetPreferencesManager(context)
         val score = calculateNewScore(context, sys = sys, dia = dia)
         prefs.saveHealthStats(score = score, sys = sys, dia = dia)
         notifyWidgets(context)
     }
 
-    fun onWaterUpdated(context: Context, intakeMl: Int, glasses: Int, goalMl: Int) {
+    fun onWaterUpdated(@ApplicationContext context: Context, intakeMl: Int, glasses: Int, goalMl: Int) {
         val prefs = WidgetPreferencesManager(context)
         val pct = if (goalMl > 0) ((intakeMl.toFloat() / goalMl) * 100).toInt() else 0
         val score = calculateNewScore(context, waterPct = pct)
@@ -31,7 +33,7 @@ object HealthWidgetSyncManager {
         notifyWidgets(context)
     }
 
-    fun onCaloriesUpdated(context: Context, consumed: Int, goal: Int) {
+    fun onCaloriesUpdated(@ApplicationContext context: Context, consumed: Int, goal: Int) {
         val prefs = WidgetPreferencesManager(context)
         val pct = if (goal > 0) ((consumed.toFloat() / goal) * 100).toInt() else 0
         val score = calculateNewScore(context, calPct = pct)
@@ -44,7 +46,7 @@ object HealthWidgetSyncManager {
      * Weights: BMI (30%), BP (30%), Water (20%), Calories (20%).
      */
     private fun calculateNewScore(
-        context: Context,
+        @ApplicationContext context: Context,
         bmi: Float? = null,
         sys: Int? = null,
         dia: Int? = null,
@@ -103,7 +105,7 @@ object HealthWidgetSyncManager {
         return if (totalWeight > 0) (weightedScore / totalWeight).toInt() else 0
     }
 
-    private fun notifyWidgets(context: Context) {
+    private fun notifyWidgets(@ApplicationContext context: Context) {
         WidgetDataNotifier.notifyAll(context)
     }
 }

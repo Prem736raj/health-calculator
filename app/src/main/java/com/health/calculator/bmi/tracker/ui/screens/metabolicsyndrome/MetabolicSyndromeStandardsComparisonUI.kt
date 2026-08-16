@@ -1,6 +1,9 @@
 // File: app/src/main/java/com/health/calculator/bmi/tracker/ui/screens/metabolicsyndrome/MetabolicSyndromeStandardsComparisonUI.kt
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -64,12 +67,12 @@ fun StandardsComparisonSection(
                 Spacer(modifier = Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Compare Medical Standards",
+                        text = stringResource(R.string.txt_compare_medical_standards),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "ATP III vs IDF vs WHO criteria",
+                        text = stringResource(R.string.txt_atp_iii_vs_idf_vs_who_criteria),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -146,7 +149,7 @@ private fun QuickResultBanner(comparison: MultiStandardComparison) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Results by Standard",
+                text = stringResource(R.string.txt_results_by_standard),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
@@ -188,10 +191,10 @@ private fun QuickResultBanner(comparison: MultiStandardComparison) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Text("✅", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_15), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "All three standards agree on the diagnosis",
+                            text = stringResource(R.string.txt_all_three_standards_agree_on_t),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
                             color = HealthGreen
@@ -210,10 +213,10 @@ private fun QuickResultBanner(comparison: MultiStandardComparison) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Text("⚠️", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "Standards disagree — see details below",
+                            text = stringResource(R.string.txt_standards_disagree_see_details),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
                             color = HealthOrange
@@ -283,10 +286,10 @@ private fun EthnicitySelector(
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("🌍", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_67), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Ethnicity-Specific IDF Cutoffs",
+                    text = stringResource(R.string.txt_ethnicity_specific_idf_cutoffs),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     color = HealthTeal
@@ -296,7 +299,7 @@ private fun EthnicitySelector(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "IDF uses different waist thresholds based on ethnicity. Select yours for accurate IDF classification.",
+                text = stringResource(R.string.txt_idf_uses_different_waist_thres),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 16.sp
@@ -517,7 +520,7 @@ private fun StandardDetailCard(
                                             shape = RoundedCornerShape(3.dp)
                                         ) {
                                             Text(
-                                                text = "REQ",
+                                                text = stringResource(R.string.txt_req),
                                                 style = MaterialTheme.typography.labelSmall,
                                                 fontWeight = FontWeight.ExtraBold,
                                                 color = accentColor,
@@ -583,7 +586,7 @@ private fun DisagreementNoteCard(note: String) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Why Standards Disagree",
+                    text = stringResource(R.string.txt_why_standards_disagree),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     color = HealthOrange
@@ -623,10 +626,10 @@ private fun EthnicityWaistCutoffTable() {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("📐", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "IDF Ethnicity-Specific Waist Cutoffs",
+                    text = stringResource(R.string.txt_idf_ethnicity_specific_waist_c),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -657,20 +660,20 @@ private fun EthnicityWaistCutoffTable() {
                             .padding(horizontal = 10.dp, vertical = 6.dp)
                     ) {
                         Text(
-                            text = "Ethnic Group",
+                            text = stringResource(R.string.txt_ethnic_group),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1.2f)
                         )
                         Text(
-                            text = "Male",
+                            text = stringResource(R.string.txt_male),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(0.5f)
                         )
                         Text(
-                            text = "Female",
+                            text = stringResource(R.string.txt_female),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
@@ -733,10 +736,10 @@ private fun WhichStandardNote() {
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("💡", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Which Standard Should I Use?",
+                    text = stringResource(R.string.txt_which_standard_should_i_use),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -782,7 +785,7 @@ private fun WhichStandardNote() {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "ℹ️ This app uses ATP III as the primary standard. The comparison above is for educational purposes. Always discuss results with your healthcare provider.",
+                text = stringResource(R.string.txt_this_app_uses_atp_iii_as_the_p),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 15.sp

@@ -1,11 +1,13 @@
 // data/preferences/WaterReminderPreferences.kt
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
 
-class WaterReminderPreferences(context: Context) {
+class WaterReminderPreferences(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences("water_reminder_prefs", Context.MODE_PRIVATE)

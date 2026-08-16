@@ -1,6 +1,9 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/ui/components/InactivityNotificationSettings.kt
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,7 +39,7 @@ fun InactivityNotificationSettings(
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Re-engagement", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_re_engagement), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -48,9 +51,9 @@ fun InactivityNotificationSettings(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Inactivity Reminders", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.txt_inactivity_reminders), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
                     Text(
-                        "Gentle reminders if you haven't used the app",
+                        stringResource(R.string.txt_gentle_reminders_if_you_haven_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -78,9 +81,9 @@ fun InactivityNotificationSettings(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Streak Protection", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.txt_streak_protection), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
                     Text(
-                        "Evening alert when your streak is at risk",
+                        stringResource(R.string.txt_evening_alert_when_your_streak),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -97,12 +100,12 @@ fun InactivityNotificationSettings(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("🛡️", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.txt_text_placeholder), style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Streak Freezes", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.txt_streak_freezes), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
                     Text(
-                        "Protect your streak for one missed day",
+                        stringResource(R.string.txt_protect_your_streak_for_one_mi),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -126,7 +129,7 @@ fun InactivityNotificationSettings(
 
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "Earn streak freezes by reaching milestones. Max 5 stored.",
+                stringResource(R.string.txt_earn_streak_freezes_by_reachin),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )

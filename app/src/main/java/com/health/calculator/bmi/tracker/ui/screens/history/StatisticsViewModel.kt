@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.history
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +24,8 @@ enum class ReportPeriod {
     WEEKLY, MONTHLY, QUARTERLY, YEARLY
 }
 
-class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class StatisticsViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getInstance(application)
     private val historyRepository = HistoryRepository(database.historyDao())

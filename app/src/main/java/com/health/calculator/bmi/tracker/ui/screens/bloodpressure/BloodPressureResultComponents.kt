@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -118,14 +121,14 @@ fun BpResultSection(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("+ Add Reading")
+                    Text(stringResource(R.string.txt_add_reading))
                 }
                 Button(
                     onClick = onShowAverage,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Avg Result")
+                    Text(stringResource(R.string.txt_avg_result))
                 }
             }
         } else {
@@ -136,7 +139,7 @@ fun BpResultSection(
             ) {
                 Icon(Icons.Outlined.Add, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Take Another Reading (Avg)")
+                Text(stringResource(R.string.txt_take_another_reading_avg))
             }
         }
 
@@ -152,7 +155,7 @@ fun BpResultSection(
             ) {
                 Icon(Icons.Outlined.EditNote, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Add Note")
+                Text(stringResource(R.string.txt_add_note))
             }
             OutlinedButton(
                 onClick = onViewLog,
@@ -161,7 +164,7 @@ fun BpResultSection(
             ) {
                 Icon(Icons.Outlined.History, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("View Log")
+                Text(stringResource(R.string.txt_view_log))
             }
         }
 
@@ -184,7 +187,7 @@ fun BpResultSection(
         ) {
             Icon(Icons.Outlined.Timeline, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
-            Text("View Trends & Charts", fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.txt_view_trends_charts), fontWeight = FontWeight.Bold)
         }
 
         // Learn About Blood Pressure
@@ -199,7 +202,7 @@ fun BpResultSection(
         ) {
             Icon(Icons.Outlined.School, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Learn About Blood Pressure", fontWeight = FontWeight.Medium)
+            Text(stringResource(R.string.txt_learn_about_blood_pressure), fontWeight = FontWeight.Medium)
         }
 
         // Personalized Recommendations
@@ -266,7 +269,7 @@ private fun BpReadingCard(
                         color = Color(0xFFE53935)
                     )
                     Text(
-                        "/",
+                        stringResource(R.string.txt_text_placeholder_14),
                         style = MaterialTheme.typography.displayMedium.copy(
                             fontWeight = FontWeight.Light
                         ),
@@ -284,7 +287,7 @@ private fun BpReadingCard(
                 }
 
                 Text(
-                    "mmHg",
+                    stringResource(R.string.txt_mmhg_1),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     fontWeight = FontWeight.Medium
@@ -415,7 +418,7 @@ private fun BpGaugeCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Blood Pressure Gauge",
+                    stringResource(R.string.txt_blood_pressure_gauge),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -552,13 +555,13 @@ private fun BpSemiCircularGauge(
 
         drawContext.canvas.nativeCanvas.apply {
             drawText(
-                "Low",
+                stringResource(R.string.txt_low),
                 centerX - radius - 4.dp.toPx(),
                 centerY + 16.dp.toPx(),
                 labelPaint
             )
             drawText(
-                "High",
+                stringResource(R.string.txt_high),
                 centerX + radius + 4.dp.toPx(),
                 centerY + 16.dp.toPx(),
                 labelPaint
@@ -605,7 +608,7 @@ private fun BpCategoryScaleCard(currentCategory: BpCategory) {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
-                    "WHO Classification",
+                    stringResource(R.string.txt_who_classification),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -765,7 +768,7 @@ private fun BpRiskLevelCard(riskLevel: BpRiskLevel) {
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        "Risk Assessment",
+                        stringResource(R.string.txt_risk_assessment),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -844,7 +847,7 @@ fun BpEmergencyDialog(
         },
         title = {
             Text(
-                "⚠️ HYPERTENSIVE CRISIS",
+                stringResource(R.string.txt_hypertensive_crisis),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFFB71C1C),
@@ -872,7 +875,7 @@ fun BpEmergencyDialog(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            "Your Reading",
+                            stringResource(R.string.txt_your_reading),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color(0xFFB71C1C).copy(alpha = 0.7f)
                         )
@@ -886,7 +889,7 @@ fun BpEmergencyDialog(
                 }
 
                 Text(
-                    "This reading indicates a hypertensive crisis that requires immediate medical attention.",
+                    stringResource(R.string.txt_this_reading_indicates_a_hyper),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = Color(0xFF424242)
@@ -904,7 +907,7 @@ fun BpEmergencyDialog(
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            "If you experience any of these symptoms:",
+                            stringResource(R.string.txt_if_you_experience_any_of_these),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFF5D4037)
@@ -961,13 +964,13 @@ fun BpEmergencyDialog(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                "Call Emergency Services",
+                                stringResource(R.string.txt_call_emergency_services),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
                             Text(
-                                "Emergency: 911 / 112",
+                                stringResource(R.string.txt_emergency_911_112),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White.copy(alpha = 0.9f)
@@ -986,7 +989,7 @@ fun BpEmergencyDialog(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "I Understand",
+                    stringResource(R.string.txt_i_understand),
                     fontWeight = FontWeight.Bold
                 )
             }

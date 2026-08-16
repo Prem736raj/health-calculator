@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.backup
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
@@ -15,7 +17,8 @@ import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class BackupViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BackupViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getDatabase(application)
     private val historyRepository = HistoryRepository(database.historyDao())

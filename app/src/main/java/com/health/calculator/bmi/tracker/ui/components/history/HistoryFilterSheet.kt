@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -50,10 +53,10 @@ fun HistoryFilterSheet(
                 TextButton(onClick = {
                     localFilter = localFilter.copy(startDate = datePickerState.selectedDateMillis)
                     showStartDatePicker = false
-                }) { Text("OK") }
+                }) { Text(stringResource(R.string.txt_ok)) }
             },
             dismissButton = {
-                TextButton(onClick = { showStartDatePicker = false }) { Text("Cancel") }
+                TextButton(onClick = { showStartDatePicker = false }) { Text(stringResource(R.string.txt_cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -70,10 +73,10 @@ fun HistoryFilterSheet(
                 TextButton(onClick = {
                     localFilter = localFilter.copy(endDate = datePickerState.selectedDateMillis)
                     showEndDatePicker = false
-                }) { Text("OK") }
+                }) { Text(stringResource(R.string.txt_ok)) }
             },
             dismissButton = {
-                TextButton(onClick = { showEndDatePicker = false }) { Text("Cancel") }
+                TextButton(onClick = { showEndDatePicker = false }) { Text(stringResource(R.string.txt_cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -98,7 +101,7 @@ fun HistoryFilterSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filter & Sort",
+                    text = stringResource(R.string.txt_filter_sort),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -106,7 +109,7 @@ fun HistoryFilterSheet(
                     localFilter = HistoryFilter()
                     localSort = HistorySortOption.NEWEST_FIRST
                 }) {
-                    Text("Reset All", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.txt_reset_all), color = MaterialTheme.colorScheme.error)
                 }
             }
 
@@ -114,7 +117,7 @@ fun HistoryFilterSheet(
 
             // === SORT SECTION ===
             Text(
-                text = "Sort By",
+                text = stringResource(R.string.txt_sort_by),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -142,7 +145,7 @@ fun HistoryFilterSheet(
 
             // === CALCULATOR TYPE FILTER ===
             Text(
-                text = "Calculator Type",
+                text = stringResource(R.string.txt_calculator_type),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -182,7 +185,7 @@ fun HistoryFilterSheet(
 
             // === DATE RANGE FILTER ===
             Text(
-                text = "Date Range",
+                text = stringResource(R.string.txt_date_range),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -203,7 +206,7 @@ fun HistoryFilterSheet(
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "From",
+                            text = stringResource(R.string.txt_from),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -235,7 +238,7 @@ fun HistoryFilterSheet(
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "To",
+                            text = stringResource(R.string.txt_to),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -269,7 +272,7 @@ fun HistoryFilterSheet(
                 ) {
                     Icon(Icons.Default.Clear, null, Modifier.size(14.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Clear dates", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.txt_clear_dates), style = MaterialTheme.typography.labelSmall)
                 }
             }
 
@@ -278,7 +281,7 @@ fun HistoryFilterSheet(
             // === CATEGORY FILTER ===
             if (availableCategories.isNotEmpty()) {
                 Text(
-                    text = "Result Category",
+                    text = stringResource(R.string.txt_result_category),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -329,7 +332,7 @@ fun HistoryFilterSheet(
                 Icon(Icons.Default.FilterList, null, Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Apply",
+                    text = stringResource(R.string.txt_apply),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -361,7 +364,7 @@ fun ActiveFilterChips(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Active Filters",
+                text = stringResource(R.string.txt_active_filters),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -370,7 +373,7 @@ fun ActiveFilterChips(
                 contentPadding = PaddingValues(horizontal = 8.dp)
             ) {
                 Text(
-                    "Clear all",
+                    stringResource(R.string.txt_clear_all),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.error
                 )

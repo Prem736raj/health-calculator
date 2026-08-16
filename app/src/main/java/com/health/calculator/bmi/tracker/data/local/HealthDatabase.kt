@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.local
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -43,7 +45,7 @@ abstract class HealthDatabase : RoomDatabase() {
          * Returns the singleton database instance, creating it if needed.
          * Thread-safe via double-checked locking.
          */
-        fun getInstance(context: Context): HealthDatabase {
+        fun getInstance(@ApplicationContext context: Context): HealthDatabase {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,

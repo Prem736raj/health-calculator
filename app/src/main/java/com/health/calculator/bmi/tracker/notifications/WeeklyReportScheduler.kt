@@ -1,6 +1,8 @@
 // notifications/WeeklyReportScheduler.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -14,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class WeeklyReportScheduler(private val context: Context) {
+class WeeklyReportScheduler(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -98,7 +100,7 @@ class WeeklyReportScheduler(private val context: Context) {
 }
 
 class WeeklyReportReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
             NotificationChannelsManager.createAllChannels(context)
 

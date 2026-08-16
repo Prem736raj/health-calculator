@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseOutBack
@@ -133,7 +136,7 @@ fun BmiTrendSection(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "Loading trend data...",
+                    stringResource(R.string.txt_loading_trend_data),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
@@ -221,7 +224,7 @@ private fun TrendHeader(readingsCount: Int) {
             Spacer(modifier = Modifier.width(14.dp))
             Column {
                 Text(
-                    "My BMI Trend",
+                    stringResource(R.string.txt_my_bmi_trend),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -401,7 +404,7 @@ private fun ComparisonCard(stats: BmiTrendStats) {
                     color = Color(stats.currentCategory.colorHex)
                 )
                 Text(
-                    "Current",
+                    stringResource(R.string.txt_current),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
@@ -451,7 +454,7 @@ private fun BmiTrendGraph(points: List<BmiTrendPoint>) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "BMI Over Time",
+                    stringResource(R.string.txt_bmi_over_time),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -765,7 +768,7 @@ private fun StatisticsCard(stats: BmiTrendStats) {
                     modifier = Modifier.size(6.dp, 20.dp).clip(RoundedCornerShape(3.dp)).background(TrendAccent)
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text("Statistics", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))
+                Text(stringResource(R.string.txt_statistics_1), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))
             }
 
             Spacer(modifier = Modifier.height(16.dp))

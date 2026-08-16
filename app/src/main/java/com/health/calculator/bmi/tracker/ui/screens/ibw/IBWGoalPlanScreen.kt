@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -66,7 +69,7 @@ fun IBWGoalPlanScreen(
     ) {
         // Header
         Text(
-            text = "🎯 Weight Goal Plan",
+            text = stringResource(R.string.txt_weight_goal_plan),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -101,7 +104,7 @@ fun IBWGoalPlanScreen(
                 ) {
                     Column {
                         Text(
-                            "Current Weight",
+                            stringResource(R.string.txt_current_weight),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -123,7 +126,7 @@ fun IBWGoalPlanScreen(
 
         // Goal Weight Selector
         Text(
-            text = "Select Your Target Weight",
+            text = stringResource(R.string.txt_select_your_target_weight),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
         )
 
@@ -165,7 +168,7 @@ fun IBWGoalPlanScreen(
                     Icon(Icons.Default.Flag, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "Save Goal & Start Tracking",
+                        stringResource(R.string.txt_save_goal_start_tracking),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                     )
                 }
@@ -185,7 +188,7 @@ fun IBWGoalPlanScreen(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Calculate daily calories for this goal")
+                            Text(stringResource(R.string.txt_calculate_daily_calories_for_t))
                         }
                     }
                 }
@@ -202,16 +205,16 @@ fun IBWGoalPlanScreen(
                         modifier = Modifier.padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("🎉", fontSize = 32.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_65), fontSize = 32.sp)
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                "You're already at your ideal weight!",
+                                stringResource(R.string.txt_you_re_already_at_your_ideal_w),
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                                 color = Color(0xFF4CAF50)
                             )
                             Text(
-                                "Focus on maintaining your current healthy weight.",
+                                stringResource(R.string.txt_focus_on_maintaining_your_curr),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color(0xFF4CAF50).copy(alpha = 0.8f)
                             )
@@ -241,7 +244,7 @@ fun IBWGoalPlanScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "Enter your current weight in the calculator to create a personalized goal plan.",
+                        stringResource(R.string.txt_enter_your_current_weight_in_t),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.tertiary
                     )
@@ -376,13 +379,13 @@ private fun GoalOptionsList(
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Custom Target",
+                            text = stringResource(R.string.txt_custom_target),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontWeight = if (isCustomSelected) FontWeight.Bold else FontWeight.Normal
                             )
                         )
                         Text(
-                            text = "Enter your own target weight",
+                            text = stringResource(R.string.txt_enter_your_own_target_weight),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
@@ -414,7 +417,7 @@ private fun GoalOptionsList(
                             },
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Set")
+                            Text(stringResource(R.string.txt_set))
                         }
                     }
                 }
@@ -511,7 +514,7 @@ private fun WeightChangePlanSection(
                                                 color = Color(0xFF4CAF50)
                                             ) {
                                                 Text(
-                                                    "RECOMMENDED",
+                                                    stringResource(R.string.txt_recommended_1),
                                                     style = MaterialTheme.typography.labelSmall,
                                                     color = Color.White,
                                                     modifier = Modifier.padding(
@@ -734,7 +737,7 @@ fun ExistingGoalProgressCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "complete",
+                        text = stringResource(R.string.txt_complete),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )

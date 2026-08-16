@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -34,14 +37,14 @@ fun MetabolicSyndromeEducationScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "Learn About Metabolic Syndrome",
+            text = stringResource(R.string.txt_learn_about_metabolic_syndrome),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Text(
-            text = "Evidence-based information to help you understand and manage your health",
+            text = stringResource(R.string.txt_evidence_based_information_to_),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -344,7 +347,7 @@ private fun WhoIsAtRiskContent() {
         Spacer(modifier = Modifier.height(14.dp))
 
         Text(
-            text = "Non-Modifiable Risk Factors",
+            text = stringResource(R.string.txt_non_modifiable_risk_factors),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = HealthRed,
@@ -352,7 +355,7 @@ private fun WhoIsAtRiskContent() {
         )
 
         Text(
-            text = "These factors you cannot change, but knowing them helps you stay vigilant:",
+            text = stringResource(R.string.txt_these_factors_you_cannot_chang),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -382,7 +385,7 @@ private fun WhoIsAtRiskContent() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Modifiable Risk Factors",
+            text = stringResource(R.string.txt_modifiable_risk_factors),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = HealthGreen,
@@ -390,7 +393,7 @@ private fun WhoIsAtRiskContent() {
         )
 
         Text(
-            text = "These factors you can change — and they make the biggest difference:",
+            text = stringResource(R.string.txt_these_factors_you_can_change_a),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -573,7 +576,7 @@ private fun BloodWorkGuideContent() {
 
         // Blood values guide
         Text(
-            text = "Key Lab Values Explained",
+            text = stringResource(R.string.txt_key_lab_values_explained),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 10.dp)
@@ -625,7 +628,7 @@ private fun BloodWorkGuideContent() {
 
         // When to retest
         Text(
-            text = "When to Retest",
+            text = stringResource(R.string.txt_when_to_retest),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -857,7 +860,7 @@ private fun RiskFactorDetailCard(
             ) {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
-                        text = "Why it matters:",
+                        text = stringResource(R.string.txt_why_it_matters),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = color
@@ -1106,14 +1109,14 @@ private fun MedicalDisclaimerCard() {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "Medical Disclaimer",
+                    text = stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "This educational content is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. The information provided should not be used as a substitute for professional medical consultation. Always consult with a qualified healthcare provider regarding any medical condition or treatment decisions. Individual health needs vary — what's appropriate for one person may not be suitable for another.",
+                    text = stringResource(R.string.txt_this_educational_content_is_fo_4),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     lineHeight = 17.sp

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bsa
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -176,12 +179,12 @@ private fun PrimaryResultCard(
                 modifier = Modifier.padding(28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("📐", fontSize = 44.sp)
+                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 44.sp)
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Body Surface Area",
+                    text = stringResource(R.string.txt_body_surface_area),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -190,14 +193,14 @@ private fun PrimaryResultCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "%.4f".format(bsa),
+                    text = stringResource(R.string.txt_4f).format(bsa),
                     style = MaterialTheme.typography.displayMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary
                 )
 
                 Text(
-                    text = "m²",
+                    text = stringResource(R.string.txt_m_1),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
@@ -245,7 +248,7 @@ private fun UnitConversionCard(result: BSAResult) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Unit Conversions",
+                    text = stringResource(R.string.txt_unit_conversions),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -327,7 +330,7 @@ private fun BodySilhouetteVisualization(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Body Surface Visualization",
+                text = stringResource(R.string.txt_body_surface_visualization),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth()
@@ -419,13 +422,13 @@ private fun BodySilhouetteVisualization(
                     modifier = Modifier.align(Alignment.CenterEnd).padding(end = 20.dp)
                 ) {
                     Text(
-                        text = "%.2f m²".format(bsa),
+                        text = stringResource(R.string.txt_2f_m).format(bsa),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = primaryColor
                     )
                     Text(
-                        text = "Total surface",
+                        text = stringResource(R.string.txt_total_surface),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -435,7 +438,7 @@ private fun BodySilhouetteVisualization(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "The colored area represents the total external surface of your body as calculated by the selected formula.",
+                text = stringResource(R.string.txt_the_colored_area_represents_th),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -488,7 +491,7 @@ private fun GenderComparisonCard(bsa: Float, isMale: Boolean?) {
                 Text(if (gender) "♂" else "♀", fontSize = 22.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Comparison with Average",
+                    text = stringResource(R.string.txt_comparison_with_average),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -507,19 +510,19 @@ private fun GenderComparisonCard(bsa: Float, isMale: Boolean?) {
 
                 // You
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    Text("You", style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp))
+                    Text(stringResource(R.string.txt_you), style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp))
                     Box(modifier = Modifier.weight(1f).height(24.dp).clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
                         Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(animatedProgress).clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.primary))
-                        Text("%.2f m²".format(bsa), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp))
+                        Text(stringResource(R.string.txt_2f_m).format(bsa), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp))
                     }
                 }
                 Spacer(modifier = Modifier.height(6.dp))
                 // Avg
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    Text("Avg", style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp))
+                    Text(stringResource(R.string.txt_avg_1), style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(40.dp))
                     Box(modifier = Modifier.weight(1f).height(24.dp).clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
                         Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(animatedAvgProgress).clip(RoundedCornerShape(6.dp)).background(comparisonColor.copy(alpha = 0.6f)))
-                        Text("%.2f m²".format(averageBSA), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp))
+                        Text(stringResource(R.string.txt_2f_m).format(averageBSA), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp))
                     }
                 }
             }
@@ -581,17 +584,17 @@ private fun InputSummaryCard(result: BSAResult) {
     ) {
         Row(modifier = Modifier.fillMaxWidth().padding(14.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("⚖️", fontSize = 20.sp)
-                Text("%.1f kg".format(result.weightKg), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
-                Text("(%.1f lbs)".format(weightLbs), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.txt_text_placeholder_28), fontSize = 20.sp)
+                Text(stringResource(R.string.txt_1f_kg).format(result.weightKg), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_1f_lbs).format(weightLbs), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("📏", fontSize = 20.sp)
-                Text("%.1f cm".format(result.heightCm), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_text_placeholder_41), fontSize = 20.sp)
+                Text(stringResource(R.string.txt_1f_cm).format(result.heightCm), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
                 Text("(%d'%.0f\")".format(ft, inch), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("🧮", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_40), fontSize = 20.sp)
                 Text(result.selectedFormula.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
                 Text(result.selectedFormula.year, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
@@ -614,7 +617,7 @@ private fun FormulaComparisonSection(result: BSAResult) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.TableChart, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("All Formulas Comparison", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_all_formulas_comparison), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.height(14.dp))
             sortedResults.forEachIndexed { index, (formula, value) ->
@@ -646,7 +649,7 @@ private fun FormulaComparisonSection(result: BSAResult) {
                         Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(barProgress).clip(RoundedCornerShape(4.dp)).background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("%.4f".format(value), style = MaterialTheme.typography.bodySmall, fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium, color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface, modifier = Modifier.width(52.dp), textAlign = TextAlign.End)
+                    Text(stringResource(R.string.txt_4f).format(value), style = MaterialTheme.typography.bodySmall, fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium, color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface, modifier = Modifier.width(52.dp), textAlign = TextAlign.End)
                 }
             }
         }
@@ -672,7 +675,7 @@ private fun FormulaStatisticsCard(result: BSAResult) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.Analytics, contentDescription = null, tint = MaterialTheme.colorScheme.tertiary, modifier = Modifier.size(20.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Formula Statistics", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_formula_statistics), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -684,8 +687,8 @@ private fun FormulaStatisticsCard(result: BSAResult) {
             Surface(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp), modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text("Range spread", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold)
-                        Text("%.4f m² (%.1f%%)".format(range, if (avg > 0) (range / avg) * 100 else 0), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
+                        Text(stringResource(R.string.txt_range_spread), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.txt_4f_m_1f).format(range, if (avg > 0) (range / avg) * 100 else 0), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Box(modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
@@ -715,9 +718,9 @@ private fun FormulaRecommendationCard() {
     Card(colors = CardDefaults.cardColors(containerColor = HealthBlue.copy(alpha = 0.06f)), shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("💡", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Formula Recommendations", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = HealthBlue)
+                Text(stringResource(R.string.txt_formula_recommendations), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = HealthBlue)
             }
             Spacer(modifier = Modifier.height(10.dp))
             FormulaRecItem("🏥", "Du Bois & Du Bois", "Most widely used in clinical practice worldwide. Default choice for most applications.")
@@ -726,7 +729,7 @@ private fun FormulaRecommendationCard() {
             FormulaRecItem("🌏", "Fujimoto / Takahira", "May be more accurate for East Asian populations.")
             FormulaRecItem("🔬", "Shuter & Aslani", "Modern formula using CT-based measurements. Considered most anatomically accurate.")
             Spacer(modifier = Modifier.height(8.dp))
-            Text("ℹ️ For most clinical purposes, any formula will give results within a few percent of each other. Your doctor will use the formula standard at their institution.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 16.sp)
+            Text(stringResource(R.string.txt_for_most_clinical_purposes_any), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 16.sp)
         }
     }
 }
@@ -754,12 +757,12 @@ private fun ActionButtons(isSaved: Boolean, onSave: () -> Unit, onRecalculate: (
         OutlinedButton(onClick = { haptic.performHapticFeedback(HapticFeedbackType.LongPress); onRecalculate() }, modifier = Modifier.weight(1f), shape = RoundedCornerShape(12.dp)) {
             Icon(Icons.Outlined.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Recalculate")
+            Text(stringResource(R.string.txt_recalculate))
         }
         OutlinedButton(onClick = { haptic.performHapticFeedback(HapticFeedbackType.LongPress); onShare() }, modifier = Modifier.weight(1f), shape = RoundedCornerShape(12.dp)) {
             Icon(Icons.Outlined.Share, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Share")
+            Text(stringResource(R.string.txt_share))
         }
     }
 }

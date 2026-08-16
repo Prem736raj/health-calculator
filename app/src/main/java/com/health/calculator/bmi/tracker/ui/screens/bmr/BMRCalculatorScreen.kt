@@ -1,6 +1,12 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/BMRCalculatorScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
@@ -71,7 +77,7 @@ fun BMRCalculatorScreen(
     profileUnitKg: Boolean = true,
     profileUnitCm: Boolean = true,
     profileActivityLevel: String? = null,
-    viewModel: BMRViewModel = viewModel()
+    viewModel: BMRViewModel = hiltViewModel()
 ) {
     val inputState by viewModel.inputState.collectAsState()
     val validationState by viewModel.validationState.collectAsState()
@@ -172,7 +178,7 @@ fun BMRCalculatorScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "BMR Calculator",
+                        text = stringResource(R.string.txt_bmr_calculator),
                         fontWeight = FontWeight.SemiBold
                     )
                 },
@@ -427,7 +433,7 @@ fun BMRCalculatorScreen(
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
-                                        text = "The WHO/FAO/UNU equation primarily uses weight. Height is optional for this formula.",
+                                        text = stringResource(R.string.txt_the_who_fao_unu_equation_prima),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                                         fontSize = 11.sp,
@@ -555,10 +561,10 @@ fun BMRCalculatorScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "📋", fontSize = 20.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_10), fontSize = 20.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Your BMR Results",
+                            text = stringResource(R.string.txt_your_bmr_results),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -760,7 +766,7 @@ fun BMRCalculatorScreen(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Medical Disclaimer: BMR calculations are estimates based on " +
+                                text = stringResource(R.string.txt_medical_disclaimer_bmr_calcula) +
                                         "statistical formulas. Individual metabolism varies. These results " +
                                         "are for informational purposes only and should not replace " +
                                         "professional medical or nutritional advice.",
@@ -804,7 +810,7 @@ private fun BMRExplanationHeader() {
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text(text = "🔥", fontSize = 24.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_6), fontSize = 24.sp)
                 }
             }
 
@@ -812,14 +818,14 @@ private fun BMRExplanationHeader() {
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Basal Metabolic Rate",
+                    text = stringResource(R.string.txt_basal_metabolic_rate),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Your BMR is the number of calories your body burns at complete rest — just to keep you alive (breathing, circulation, cell production).",
+                    text = stringResource(R.string.txt_your_bmr_is_the_number_of_calo),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 16.sp
@@ -853,7 +859,7 @@ private fun ProfileDataIndicator() {
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "Using profile data — you can adjust any values below",
+                text = stringResource(R.string.txt_using_profile_data_you_can_adj),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color(0xFF388E3C),
                 fontWeight = FontWeight.Medium
@@ -869,7 +875,7 @@ private fun GenderSelector(
 ) {
     Column {
         Text(
-            text = "Gender",
+            text = stringResource(R.string.txt_gender),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -991,7 +997,7 @@ private fun BMRQuickInfoCard() {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "💡 Good to know",
+                text = stringResource(R.string.txt_good_to_know),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface

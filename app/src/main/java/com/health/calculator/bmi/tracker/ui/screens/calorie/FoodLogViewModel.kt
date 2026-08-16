@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,7 +43,8 @@ data class FoodLogUiState(
     val errorMessage: String? = null
 )
 
-class FoodLogViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class FoodLogViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val repository = FoodLogRepository(application.applicationContext)
 

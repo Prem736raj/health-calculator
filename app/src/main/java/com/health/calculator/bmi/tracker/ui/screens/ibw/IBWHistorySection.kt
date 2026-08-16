@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -52,7 +55,7 @@ fun IBWHistorySection(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "IBW History & Trends",
+                text = stringResource(R.string.txt_ibw_history_trends),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -72,15 +75,15 @@ fun IBWHistorySection(
                         .padding(32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("📊", fontSize = 40.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 40.sp)
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "No IBW calculations yet",
+                        text = stringResource(R.string.txt_no_ibw_calculations_yet),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                     Text(
-                        text = "Calculate your ideal weight and save results to track your progress over time.",
+                        text = stringResource(R.string.txt_calculate_your_ideal_weight_an),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                         textAlign = TextAlign.Center,
@@ -121,7 +124,7 @@ fun IBWHistorySection(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Save at least 2 calculations with your current weight to see trends.",
+                        text = stringResource(R.string.txt_save_at_least_2_calculations_w),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                     )
@@ -131,7 +134,7 @@ fun IBWHistorySection(
 
         // Recent entries list
         Text(
-            text = "Recent Calculations",
+            text = stringResource(R.string.txt_recent_calculations),
             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
         )
 
@@ -162,7 +165,7 @@ private fun StatisticsSummaryCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "📈 Statistics",
+                text = stringResource(R.string.txt_statistics_2),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
 
@@ -218,11 +221,11 @@ private fun StatisticsSummaryCard(
                                 .padding(10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("🏆", fontSize = 16.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 16.sp)
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = "Closest to Ideal",
+                                    text = stringResource(R.string.txt_closest_to_ideal),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = Color(0xFF4CAF50)
                                 )
@@ -255,11 +258,11 @@ private fun StatisticsSummaryCard(
                                 .padding(10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("📉", fontSize = 16.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_19), fontSize = 16.sp)
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = "Furthest from Ideal",
+                                    text = stringResource(R.string.txt_furthest_from_ideal),
                                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                     color = Color(0xFFFF9800)
                                 )
@@ -327,7 +330,7 @@ private fun WeightTrendGraph(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Weight vs Ideal Trend",
+                text = stringResource(R.string.txt_weight_vs_ideal_trend),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
 
@@ -347,7 +350,7 @@ private fun WeightTrendGraph(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    "Actual Weight",
+                    stringResource(R.string.txt_actual_weight),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
@@ -360,7 +363,7 @@ private fun WeightTrendGraph(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    "Ideal Weight",
+                    stringResource(R.string.txt_ideal_weight),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )

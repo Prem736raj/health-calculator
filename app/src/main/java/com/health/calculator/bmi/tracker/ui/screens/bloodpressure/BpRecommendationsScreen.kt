@@ -1,6 +1,9 @@
 // ui/screens/bloodpressure/BpRecommendationsScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -155,7 +158,7 @@ private fun RecommendationHeaderCard(
                 )
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        "Personalized Guidance",
+                        stringResource(R.string.txt_personalized_guidance),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = categoryColor
@@ -435,7 +438,7 @@ private fun HealthRisksCard(risks: List<String>, tone: BpGuidanceTone) {
                         modifier = Modifier.size(22.dp)
                     )
                     Text(
-                        "Health Risks to Be Aware Of",
+                        stringResource(R.string.txt_health_risks_to_be_aware_of),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -536,7 +539,7 @@ private fun DoctorAdviceCard(advice: String, tone: BpGuidanceTone) {
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "Medical Advice",
+                    stringResource(R.string.txt_medical_advice),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isUrgent) Color(0xFF1565C0) else Color(0xFF6A1B9A)
@@ -582,15 +585,15 @@ private fun WhiteCoatSyndromeCard() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("🥼", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.txt_text_placeholder_17), style = MaterialTheme.typography.titleMedium)
                     Column {
                         Text(
-                            "White Coat Syndrome",
+                            stringResource(R.string.txt_white_coat_syndrome),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            "Why readings may differ at the doctor's office",
+                            stringResource(R.string.txt_why_readings_may_differ_at_the),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                         )
@@ -683,14 +686,14 @@ private fun MedicalDisclaimerCard() {
             )
             Column {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    "This information is for educational purposes only and should not replace professional medical advice, diagnosis, or treatment. Always consult your healthcare provider for personal medical decisions. If you believe you are experiencing a medical emergency, call your local emergency services immediately.",
+                    stringResource(R.string.txt_this_information_is_for_educat),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f)
                 )

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.idealweight
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -44,7 +47,7 @@ fun IdealWeightInputSection(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Personal Details",
+                    text = stringResource(R.string.txt_personal_details),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 12.dp)
@@ -128,7 +131,7 @@ fun IdealWeightInputSection(
 
                 // Gender Selection
                 Text(
-                    text = "Gender",
+                    text = stringResource(R.string.txt_gender),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

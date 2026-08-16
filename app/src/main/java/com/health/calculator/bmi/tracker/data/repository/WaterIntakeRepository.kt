@@ -1,13 +1,15 @@
 // data/repository/WaterIntakeRepository.kt
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.dao.WaterIntakeDao
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculation
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
-class WaterIntakeRepository(private val waterIntakeDao: WaterIntakeDao) {
+class WaterIntakeRepository @Inject constructor(private val waterIntakeDao: WaterIntakeDao) {
 
     // Calculations
     suspend fun saveCalculation(calculation: WaterIntakeCalculation): Long {

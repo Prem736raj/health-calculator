@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -71,7 +74,7 @@ fun BpQuickLogCard(
                 )
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        "Quick Log",
+                        stringResource(R.string.txt_quick_log),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.tertiary
@@ -98,7 +101,7 @@ fun BpQuickLogCard(
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Use", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_use), fontWeight = FontWeight.Bold)
                 }
                 IconButton(
                     onClick = {
@@ -188,7 +191,7 @@ fun BpEmergencyPulsingAlert(
         },
         title = {
             Text(
-                "⚠️ HYPERTENSIVE CRISIS",
+                stringResource(R.string.txt_hypertensive_crisis),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFFB71C1C),
@@ -219,7 +222,7 @@ fun BpEmergencyPulsingAlert(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            "Your Reading",
+                            stringResource(R.string.txt_your_reading),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color(0xFFB71C1C).copy(alpha = 0.7f)
                         )
@@ -233,7 +236,7 @@ fun BpEmergencyPulsingAlert(
                 }
 
                 Text(
-                    "This reading indicates a hypertensive crisis requiring immediate medical attention.",
+                    stringResource(R.string.txt_this_reading_indicates_a_hyper_1),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = Color(0xFF424242)
@@ -249,7 +252,7 @@ fun BpEmergencyPulsingAlert(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
-                            "Seek emergency care if you experience:",
+                            stringResource(R.string.txt_seek_emergency_care_if_you_exp),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFF5D4037)
@@ -305,13 +308,13 @@ fun BpEmergencyPulsingAlert(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                "Call Emergency Services",
+                                stringResource(R.string.txt_call_emergency_services),
                                 style = MaterialTheme.typography.titleSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
                             Text(
-                                "Emergency: 911 / 112",
+                                stringResource(R.string.txt_emergency_911_112),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White.copy(alpha = 0.9f)
@@ -327,7 +330,7 @@ fun BpEmergencyPulsingAlert(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB71C1C)),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("I Understand", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_i_understand), fontWeight = FontWeight.Bold)
             }
         }
     )
@@ -421,7 +424,7 @@ fun BpSaveConfirmation(
                         .scale(checkScale)
                 )
                 Text(
-                    "Reading saved to BP log ✓",
+                    stringResource(R.string.txt_reading_saved_to_bp_log),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF2E7D32)

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseOutCubic
@@ -131,14 +134,14 @@ fun BmiAdditionalMetricsSection(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Additional Metrics",
+                        text = stringResource(R.string.txt_additional_metrics),
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "BMI Prime • Ponderal Index • Asian Categories",
+                        text = stringResource(R.string.txt_bmi_prime_ponderal_index_asian),
                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                     )
@@ -255,7 +258,7 @@ private fun BmiPrimeCard(bmiPrime: BmiPrimeResult) {
                     color = statusColor.copy(alpha = 0.8f)
                 )
                 Text(
-                    text = "from optimal (1.0)",
+                    text = stringResource(R.string.txt_from_optimal_1_0),
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
@@ -285,7 +288,7 @@ private fun BmiPrimeCard(bmiPrime: BmiPrimeResult) {
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
         ) {
             Text(
-                text = "💡 A BMI Prime of 1.0 corresponds to a BMI of 25 (upper normal limit). Values below 0.74 indicate underweight, while values above 1.0 suggest overweight or obesity.",
+                text = stringResource(R.string.txt_a_bmi_prime_of_1_0_corresponds),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                 lineHeight = 16.sp,
@@ -339,25 +342,25 @@ private fun BmiPrimeScale(value: Double, statusColor: Color) {
         // Labels
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
-                "0",
+                stringResource(R.string.txt_0),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                "0.74",
+                stringResource(R.string.txt_0_74),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                "1.0",
+                stringResource(R.string.txt_1_0),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontWeight = FontWeight.Bold),
                 color = Color(0xFFFFC107).copy(alpha = 0.7f)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                "1.5",
+                stringResource(R.string.txt_1_5),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
             )
@@ -393,7 +396,7 @@ private fun PonderalIndexCard(ponderalIndex: PonderalIndexResult) {
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "kg/m³",
+                        text = stringResource(R.string.txt_kg_m),
                         style = MaterialTheme.typography.bodySmall,
                         color = statusColor.copy(alpha = 0.6f),
                         modifier = Modifier.padding(bottom = 3.dp)
@@ -419,12 +422,12 @@ private fun PonderalIndexCard(ponderalIndex: PonderalIndexResult) {
 
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = "Normal range",
+                    text = stringResource(R.string.txt_normal_range),
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
                 Text(
-                    text = "11–15 kg/m³",
+                    text = stringResource(R.string.txt_11_15_kg_m),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
@@ -457,7 +460,7 @@ private fun PonderalIndexCard(ponderalIndex: PonderalIndexResult) {
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
         ) {
             Text(
-                text = "💡 Unlike BMI, the Ponderal Index accounts for the cubic relationship between mass and height, making it less biased toward taller or shorter individuals. It's commonly used in neonatal medicine.",
+                text = stringResource(R.string.txt_unlike_bmi_the_ponderal_index_),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                 lineHeight = 16.sp,
@@ -508,13 +511,13 @@ private fun PonderalIndexScale(value: Double, statusColor: Color) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Text("8", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_8), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
             Spacer(modifier = Modifier.weight(0.25f))
-            Text("11", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_11), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
             Spacer(modifier = Modifier.weight(0.33f))
-            Text("15", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_15), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
             Spacer(modifier = Modifier.weight(0.42f))
-            Text("20", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_20), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
         }
     }
 }
@@ -596,11 +599,11 @@ private fun AsianBmiCard(
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text(text = "⚠️", fontSize = 14.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_21), fontSize = 14.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Different from standard classification",
+                            text = stringResource(R.string.txt_different_from_standard_classi),
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -629,7 +632,7 @@ private fun AsianBmiCard(
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
         ) {
             Text(
-                text = "💡 Research shows Asian populations tend to develop health risks like diabetes and cardiovascular disease at lower BMI values. The WHO recommends these adjusted cutoffs for Asian, South Asian, and Southeast Asian populations.",
+                text = stringResource(R.string.txt_research_shows_asian_populatio),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                 lineHeight = 16.sp,
@@ -654,7 +657,7 @@ private fun AsianBmiTable(
                 .padding(horizontal = 4.dp, vertical = 4.dp)
         ) {
             Text(
-                text = "Category",
+                text = stringResource(R.string.txt_category),
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -662,7 +665,7 @@ private fun AsianBmiTable(
                 modifier = Modifier.weight(1f)
             )
             Text(
-                text = "BMI Range",
+                text = stringResource(R.string.txt_bmi_range),
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -747,7 +750,7 @@ private fun AsianBmiTable(
                 if (isCurrentCategory) {
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "◀",
+                        text = stringResource(R.string.txt_text_placeholder_44),
                         style = MaterialTheme.typography.labelSmall,
                         color = catColor,
                         fontSize = 10.sp
@@ -841,7 +844,7 @@ private fun InfoNote() {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "These additional metrics provide supplementary perspectives on your body composition. They should be considered alongside your primary BMI result, not as standalone diagnoses. Always consult a healthcare professional for personalized health advice.",
+            text = stringResource(R.string.txt_these_additional_metrics_provi),
             style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             lineHeight = 16.sp

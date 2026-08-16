@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -89,7 +92,7 @@ fun MetabolicSyndromeResultScreen(
 
         // === Criteria Cards ===
         Text(
-            text = "Criteria Assessment",
+            text = stringResource(R.string.txt_criteria_assessment),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
@@ -145,7 +148,7 @@ fun MetabolicSyndromeResultScreen(
                     Icon(Icons.Filled.Analytics, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
-                        Text("Detailed Analysis & Recommendations", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_detailed_analysis_recommendati), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                         Text("Tap to ${if (showRecommendations) "collapse" else "view health insights"}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
@@ -184,7 +187,7 @@ fun MetabolicSyndromeResultScreen(
                 Icon(Icons.Outlined.Info, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "This assessment is for educational purposes only. It does not replace professional medical diagnosis. Please consult your healthcare provider for proper evaluation and treatment.",
+                    text = stringResource(R.string.txt_this_assessment_is_for_educati),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -245,7 +248,7 @@ private fun RiskGauge(
                 color = riskColor
             )
             Text(
-                text = "Criteria Met",
+                text = stringResource(R.string.txt_criteria_met_1),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -326,7 +329,7 @@ private fun CriterionCard(criterion: MetabolicCriterion) {
                     if (criterion.isOnMedication) {
                         Spacer(modifier = Modifier.width(6.dp))
                         Surface(color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.15f), shape = RoundedCornerShape(4.dp)) {
-                            Text("💊 Medicated", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                            Text(stringResource(R.string.txt_medicated), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
                         }
                     }
                 }
@@ -392,7 +395,7 @@ private fun ActionButtons(isSaved: Boolean, onSave: () -> Unit, onRecalculate: (
         ) {
             Icon(Icons.Outlined.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Recalculate")
+            Text(stringResource(R.string.txt_recalculate))
         }
         OutlinedButton(
             onClick = { haptic.performHapticFeedback(HapticFeedbackType.LongPress); onShare() },
@@ -401,7 +404,7 @@ private fun ActionButtons(isSaved: Boolean, onSave: () -> Unit, onRecalculate: (
         ) {
             Icon(Icons.Outlined.Share, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Share")
+            Text(stringResource(R.string.txt_share))
         }
     }
 }

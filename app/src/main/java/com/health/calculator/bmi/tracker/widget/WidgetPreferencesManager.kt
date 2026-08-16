@@ -1,9 +1,11 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 
-class WidgetPreferencesManager(private val context: Context) {
+class WidgetPreferencesManager(@ApplicationContext private val context: Context) {
 
     companion object {
         private const val PREFS_NAME = "widget_preferences"

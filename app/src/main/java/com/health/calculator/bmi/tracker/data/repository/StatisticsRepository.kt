@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

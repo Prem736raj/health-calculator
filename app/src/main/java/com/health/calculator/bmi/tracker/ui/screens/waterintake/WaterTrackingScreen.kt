@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterTrackingScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -116,8 +119,8 @@ fun WaterTrackingScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("💧", fontSize = 22.sp)
-                        Text("Water Tracker", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_water_tracker), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -294,20 +297,20 @@ fun WaterTrackingScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                Text("📚", fontSize = 28.sp)
+                                Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 28.sp)
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
-                                        "Hydration Guide",
+                                        stringResource(R.string.txt_hydration_guide),
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 14.sp
                                     )
                                     Text(
-                                        "Learn about hydration science, exercise needs & more",
+                                        stringResource(R.string.txt_learn_about_hydration_science_),
                                         fontSize = 12.sp,
                                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                                     )
                                 }
-                                Text("→", fontSize = 18.sp, color = WaterBlueMedium)
+                                Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 18.sp, color = WaterBlueMedium)
                             }
                         }
                     }
@@ -379,9 +382,9 @@ fun WaterTrackingScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Text("📋", fontSize = 18.sp)
+                                Text(stringResource(R.string.txt_text_placeholder_10), fontSize = 18.sp)
                                 Text(
-                                    "Today's Log",
+                                    stringResource(R.string.txt_today_s_log),
                                     fontWeight = FontWeight.Bold,
                                     style = MaterialTheme.typography.titleSmall
                                 )
@@ -581,7 +584,7 @@ private fun ProgressRingCard(
                 // Center content
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     if (goalReached) {
-                        Text("🎉", fontSize = 28.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_65), fontSize = 28.sp)
                         Spacer(Modifier.height(4.dp))
                     }
 
@@ -603,7 +606,7 @@ private fun ProgressRingCard(
 
                     if (goalReached) {
                         Text(
-                            text = "Goal Reached!",
+                            text = stringResource(R.string.txt_goal_reached),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = GoalGreen
@@ -652,9 +655,9 @@ private fun QuickAddSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("➕", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_83), fontSize = 18.sp)
                     Text(
-                        "Quick Add",
+                        stringResource(R.string.txt_quick_add),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleSmall
                     )
@@ -678,7 +681,7 @@ private fun QuickAddSection(
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(Modifier.width(4.dp))
-                        Text("Undo", fontSize = 12.sp)
+                        Text(stringResource(R.string.txt_undo), fontSize = 12.sp)
                     }
                 }
             }
@@ -820,7 +823,7 @@ private fun GlassIndicatorsCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🥛", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_79), fontSize = 18.sp)
                 Text(
                     "$filledGlasses of $totalGlasses glasses",
                     fontWeight = FontWeight.Bold,
@@ -998,7 +1001,7 @@ private fun WaterLogEntry(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
                     Text(
-                        text = "•",
+                        text = stringResource(R.string.txt_text_placeholder_3),
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     )
@@ -1052,15 +1055,15 @@ private fun EmptyLogState() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("🌊", fontSize = 48.sp)
+            Text(stringResource(R.string.txt_text_placeholder_78), fontSize = 48.sp)
             Text(
-                text = "No water logged today",
+                text = stringResource(R.string.txt_no_water_logged_today),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
                 color = WaterBlueDark
             )
             Text(
-                text = "Tap the quick-add buttons above to start tracking your hydration!",
+                text = stringResource(R.string.txt_tap_the_quick_add_buttons_abov),
                 fontSize = 13.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 textAlign = TextAlign.Center
@@ -1122,9 +1125,9 @@ private fun CelebrationOverlay() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("🎉", fontSize = 56.sp)
+                Text(stringResource(R.string.txt_text_placeholder_65), fontSize = 56.sp)
                 Text(
-                    text = "Amazing!",
+                    text = stringResource(R.string.txt_amazing),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = GoalGreen
@@ -1136,7 +1139,7 @@ private fun CelebrationOverlay() {
                     color = Color.Gray
                 )
                 Text(
-                    text = "Great job staying hydrated! 💪",
+                    text = stringResource(R.string.txt_great_job_staying_hydrated),
                     fontSize = 13.sp,
                     color = GoalGold,
                     fontWeight = FontWeight.SemiBold
@@ -1165,8 +1168,8 @@ private fun CustomAmountDialog(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("💧", fontSize = 24.sp)
-                Text("Custom Amount", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
+                Text(stringResource(R.string.txt_custom_amount), fontWeight = FontWeight.Bold)
             }
         },
         text = {
@@ -1177,8 +1180,8 @@ private fun CustomAmountDialog(
                         amount = it
                         error = null
                     },
-                    label = { Text("Amount") },
-                    suffix = { Text("ml", color = WaterBlueMedium) },
+                    label = { Text(stringResource(R.string.txt_amount)) },
+                    suffix = { Text(stringResource(R.string.txt_ml), color = WaterBlueMedium) },
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                         keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
                     ),
@@ -1207,8 +1210,8 @@ private fun CustomAmountDialog(
                 OutlinedTextField(
                     value = note,
                     onValueChange = { note = it },
-                    label = { Text("Note (optional)") },
-                    placeholder = { Text("e.g., After workout") },
+                    label = { Text(stringResource(R.string.txt_note_optional)) },
+                    placeholder = { Text(stringResource(R.string.txt_e_g_after_workout)) },
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth()
@@ -1230,12 +1233,12 @@ private fun CustomAmountDialog(
                 colors = ButtonDefaults.buttonColors(containerColor = WaterBlueMedium),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Add")
+                Text(stringResource(R.string.txt_add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         }
     )
@@ -1284,7 +1287,7 @@ private fun StreakAndScoreMiniCard(
                     fontSize = 20.sp,
                     color = if (currentStreak > 0) Color(0xFFFF6B35) else Color.Gray
                 )
-                Text("Streak", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                Text(stringResource(R.string.txt_streak), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
             }
 
             Box(
@@ -1303,7 +1306,7 @@ private fun StreakAndScoreMiniCard(
                     fontSize = 20.sp,
                     color = WaterBlueDark
                 )
-                Text("Grade", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                Text(stringResource(R.string.txt_grade), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
             }
 
             Box(
@@ -1315,14 +1318,14 @@ private fun StreakAndScoreMiniCard(
 
             // Achievements button
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("🏆", fontSize = 24.sp)
+                Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 24.sp)
                 Text(
-                    "View",
+                    stringResource(R.string.txt_view),
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     color = WaterBlueMedium
                 )
-                Text("Badges", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                Text(stringResource(R.string.txt_badges), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
             }
         }
     }
@@ -1351,11 +1354,11 @@ fun ToolsQuickAccessCard(onClick: () -> Unit) {
                     .background(Color(0xFFE3F2FD), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text("🔬", fontSize = 24.sp)
+                Text(stringResource(R.string.txt_text_placeholder_23), fontSize = 24.sp)
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text("Hydration Tools", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text("Urine chart, symptoms & food estimate", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                Text(stringResource(R.string.txt_hydration_tools), fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(stringResource(R.string.txt_urine_chart_symptoms_food_esti), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
             }
             Icon(
                 androidx.compose.material.icons.Icons.Default.KeyboardArrowRight,

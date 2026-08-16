@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -152,7 +155,7 @@ fun CalculatorsSectionHeader(
     modifier: Modifier = Modifier
 ) {
     androidx.compose.material3.Text(
-        text = "🧮 Health Calculators",
+        text = stringResource(R.string.txt_health_calculators),
         style = androidx.compose.material3.MaterialTheme.typography.titleMedium,
         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
         modifier = modifier.padding(vertical = 8.dp)

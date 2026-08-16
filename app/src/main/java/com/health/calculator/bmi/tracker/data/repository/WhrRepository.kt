@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -9,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class WhrRepository(context: Context) {
+class WhrRepository @Inject constructor(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences("whr_data", Context.MODE_PRIVATE)

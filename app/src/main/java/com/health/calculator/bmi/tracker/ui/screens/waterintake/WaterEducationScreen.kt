@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterEducationScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -52,8 +55,8 @@ fun WaterEducationScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("📚", fontSize = 22.sp)
-                        Text("Hydration Guide", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_hydration_guide), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -177,7 +180,7 @@ private fun EducationHeaderCard() {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("💧📖", fontSize = 36.sp)
+                Text(stringResource(R.string.txt_text_placeholder_76), fontSize = 36.sp)
                 Text(
                     "Everything You Need to\nKnow About Hydration",
                     color = Color.White,
@@ -187,7 +190,7 @@ private fun EducationHeaderCard() {
                     lineHeight = 26.sp
                 )
                 Text(
-                    "Evidence-based information to help you stay healthy and hydrated",
+                    stringResource(R.string.txt_evidence_based_information_to__1),
                     color = Color.White.copy(alpha = 0.8f),
                     fontSize = 13.sp,
                     textAlign = TextAlign.Center
@@ -381,7 +384,7 @@ private fun HowMuchWaterSection() {
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("📋 General Guidelines", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF004D40))
+                    Text(stringResource(R.string.txt_general_guidelines), fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF004D40))
                     HorizontalDivider(color = Color(0xFF004D40).copy(alpha = 0.1f))
 
                     GuidelineRow("🏢", "WHO Recommendation", "Approximately 2-2.5L/day for adults in temperate climates")
@@ -392,7 +395,7 @@ private fun HowMuchWaterSection() {
             }
 
             // Factors that increase needs
-            Text("📈 Factors That Increase Your Needs:", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(stringResource(R.string.txt_factors_that_increase_your_nee), fontWeight = FontWeight.Bold, fontSize = 14.sp)
 
             val factors = listOf(
                 "🏃" to "Physical activity — you lose water through sweat",
@@ -446,8 +449,8 @@ private fun MythBustCard(myth: String, reality: String) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("❌", fontSize = 18.sp)
-                Text("MYTH", fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Color(0xFFE65100))
+                Text(stringResource(R.string.txt_text_placeholder_16), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_myth), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Color(0xFFE65100))
             }
             Text(
                 myth,
@@ -463,9 +466,9 @@ private fun MythBustCard(myth: String, reality: String) {
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("✅", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_15), fontSize = 18.sp)
                 Column {
-                    Text("REALITY", fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Color(0xFF2E7D32))
+                    Text(stringResource(R.string.txt_reality), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Color(0xFF2E7D32))
                     Spacer(Modifier.height(4.dp))
                     Text(
                         reality,
@@ -518,9 +521,9 @@ private fun OverhydrationSection() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("⚠️", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 20.sp)
                     Text(
-                        "Yes, you can drink too much water. While rare, overhydration (water intoxication) can be dangerous. " +
+                        stringResource(R.string.txt_yes_you_can_drink_too_much_wat) +
                                 "It's most common in endurance athletes and people who drink excessive amounts quickly.",
                         fontSize = 13.sp,
                         lineHeight = 19.sp,
@@ -530,9 +533,9 @@ private fun OverhydrationSection() {
             }
 
             // Hyponatremia
-            Text("🔬 What is Hyponatremia?", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(stringResource(R.string.txt_what_is_hyponatremia), fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Text(
-                "Hyponatremia occurs when sodium levels in your blood become dangerously low, usually from drinking too much " +
+                stringResource(R.string.txt_hyponatremia_occurs_when_sodiu) +
                         "water too quickly. Sodium is essential for nerve and muscle function. When diluted, cells can swell, " +
                         "which is particularly dangerous for brain cells.",
                 fontSize = 13.sp, lineHeight = 19.sp,
@@ -540,7 +543,7 @@ private fun OverhydrationSection() {
             )
 
             // Symptoms
-            Text("🚩 Warning Signs:", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(stringResource(R.string.txt_warning_signs), fontWeight = FontWeight.Bold, fontSize = 14.sp)
 
             val symptoms = listOf(
                 "🤢" to "Nausea and vomiting" to "Early warning sign of water intoxication",
@@ -575,7 +578,7 @@ private fun OverhydrationSection() {
             }
 
             // When to be careful
-            Text("🛑 When to Be Careful:", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(stringResource(R.string.txt_when_to_be_careful), fontWeight = FontWeight.Bold, fontSize = 14.sp)
 
             val cautions = listOf(
                 "🏃" to "During marathon/endurance events — don't force excessive drinking",
@@ -618,7 +621,7 @@ private fun ExerciseHydrationSection() {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
             // Timeline visual
-            Text("⏱️ Exercise Hydration Timeline", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Text(stringResource(R.string.txt_exercise_hydration_timeline), fontWeight = FontWeight.Bold, fontSize = 15.sp)
 
             // Before
             ExercisePhaseCard(
@@ -675,11 +678,11 @@ private fun ExerciseHydrationSection() {
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("⚡ Electrolytes & Exercise", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF33691E))
+                    Text(stringResource(R.string.txt_electrolytes_exercise), fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF33691E))
                     HorizontalDivider(color = Color(0xFF33691E).copy(alpha = 0.1f))
 
                     Text(
-                        "For workouts lasting over 60 minutes or in hot conditions, plain water may not be enough. " +
+                        stringResource(R.string.txt_for_workouts_lasting_over_60_m) +
                                 "You need to replace electrolytes lost through sweat:",
                         fontSize = 13.sp, lineHeight = 19.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
@@ -788,7 +791,7 @@ private fun SpecialNeedsSection() {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Text(
-                "Certain conditions and situations require adjusted water intake. " +
+                stringResource(R.string.txt_certain_conditions_and_situati) +
                         "Always consult your healthcare provider for personalized advice.",
                 fontSize = 13.sp, lineHeight = 19.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -958,7 +961,7 @@ private fun SpecialNeedCard(
                             verticalAlignment = Alignment.Top,
                             modifier = Modifier.padding(start = 4.dp)
                         ) {
-                            Text("•", color = color, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_text_placeholder_3), color = color, fontWeight = FontWeight.Bold)
                             Text(
                                 detail, fontSize = 13.sp, lineHeight = 18.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
@@ -1108,13 +1111,13 @@ private fun MedicalDisclaimerCard() {
             )
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     fontWeight = FontWeight.Bold,
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.error
                 )
                 Text(
-                    "This information is for educational purposes only and should not replace professional medical advice, " +
+                    stringResource(R.string.txt_this_information_is_for_educat_3) +
                             "diagnosis, or treatment. Always consult your healthcare provider with questions about hydration " +
                             "and your specific health needs. Individual water requirements can vary significantly based on " +
                             "health conditions and medications.",

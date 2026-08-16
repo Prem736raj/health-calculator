@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMRAgeCurveSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -59,17 +62,17 @@ fun BMRAgeCurveSection(
             Column(modifier = Modifier.padding(20.dp)) {
                 // Header
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "📈", fontSize = 22.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_4), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "BMR & Age Comparison",
+                            text = stringResource(R.string.txt_bmr_age_comparison),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "How your BMR compares with age averages",
+                            text = stringResource(R.string.txt_how_your_bmr_compares_with_age),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -148,7 +151,7 @@ fun BMRAgeCurveSection(
                     )
                 ) {
                     Row(modifier = Modifier.padding(12.dp)) {
-                        Text(text = "💬", fontSize = 16.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_20), fontSize = 16.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = comparisonText,
@@ -170,11 +173,11 @@ fun BMRAgeCurveSection(
                     )
                 ) {
                     Row(modifier = Modifier.padding(12.dp)) {
-                        Text(text = "📉", fontSize = 16.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_19), fontSize = 16.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "Age & Metabolism",
+                                text = stringResource(R.string.txt_age_metabolism),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface
@@ -205,7 +208,7 @@ fun BMRAgeCurveSection(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "BMR decreases approximately 1-2% per decade after age 20, primarily due to loss of lean muscle mass.",
+                        text = stringResource(R.string.txt_bmr_decreases_approximately_1_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         fontSize = 10.sp,

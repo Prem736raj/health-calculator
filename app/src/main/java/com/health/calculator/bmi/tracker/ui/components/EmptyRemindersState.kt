@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,14 +42,14 @@ fun EmptyRemindersState(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            "No Reminders Set",
+            stringResource(R.string.txt_no_reminders_set),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "Add a reminder to stay consistent with your health goals and track your progress daily.",
+            stringResource(R.string.txt_add_a_reminder_to_stay_consist),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

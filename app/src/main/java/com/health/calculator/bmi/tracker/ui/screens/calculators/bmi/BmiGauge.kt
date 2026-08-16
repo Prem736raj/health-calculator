@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -276,13 +279,13 @@ fun BmiGauge(
             )
 
             Text(
-                text = "Underweight",
+                text = stringResource(R.string.txt_underweight),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Normal",
+                text = stringResource(R.string.txt_normal),
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Bold
@@ -291,13 +294,13 @@ fun BmiGauge(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Overweight",
+                text = stringResource(R.string.txt_overweight),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Obese",
+                text = stringResource(R.string.txt_obese),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
@@ -306,22 +309,22 @@ fun BmiGauge(
         // BMI boundary numbers
         Row(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.weight(0.15f))
-            Text("16", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_16), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.08f))
-            Text("18.5", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_18_5), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.2f))
-            Text("25", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_25), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.15f))
-            Text("30", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_30), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.12f))
-            Text("35", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_35), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.1f))
-            Text("40", style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
+            Text(stringResource(R.string.txt_40), style = MaterialTheme.typography.labelSmall.copy(fontSize = 8.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f))
             Spacer(modifier = Modifier.weight(0.05f))
         }

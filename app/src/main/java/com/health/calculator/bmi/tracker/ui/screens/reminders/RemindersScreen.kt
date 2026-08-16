@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.reminders
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -62,7 +65,7 @@ fun RemindersScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Reminders", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_reminders), fontWeight = FontWeight.Bold)
                         Text(
                             text = "${uiState.activeCount} active",
                             style = MaterialTheme.typography.labelSmall,
@@ -99,7 +102,7 @@ fun RemindersScreen(
                     }
                 },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text("Add Reminder") },
+                text = { Text(stringResource(R.string.txt_add_reminder)) },
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -247,7 +250,7 @@ fun RemindersScreen(
     if (uiState.showDeleteConfirm) {
         AlertDialog(
             onDismissRequest = viewModel::dismissDeleteConfirm,
-            title = { Text("Delete Reminder?", fontWeight = FontWeight.Bold) },
+            title = { Text(stringResource(R.string.txt_delete_reminder), fontWeight = FontWeight.Bold) },
             text = {
                 Text("Delete \"${uiState.reminderToDelete?.title}\"? This cannot be undone.")
             },
@@ -257,10 +260,10 @@ fun RemindersScreen(
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = MaterialTheme.colorScheme.error
                     )
-                ) { Text("Delete") }
+                ) { Text(stringResource(R.string.txt_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = viewModel::dismissDeleteConfirm) { Text("Cancel") }
+                TextButton(onClick = viewModel::dismissDeleteConfirm) { Text(stringResource(R.string.txt_cancel)) }
             }
         )
     }
@@ -282,9 +285,9 @@ fun RemindersScreen(
         AlertDialog(
             onDismissRequest = viewModel::dismissPermissionRationale,
             icon = { Icon(Icons.Outlined.Notifications, null, modifier = Modifier.size(32.dp)) },
-            title = { Text("Notifications Needed", fontWeight = FontWeight.Bold) },
+            title = { Text(stringResource(R.string.txt_notifications_needed), fontWeight = FontWeight.Bold) },
             text = {
-                Text("Health reminders need notification permission to alert you at the right times. You can change this later in system settings.")
+                Text(stringResource(R.string.txt_health_reminders_need_notifica))
             },
             confirmButton = {
                 Button(onClick = {
@@ -292,10 +295,10 @@ fun RemindersScreen(
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                     }
-                }) { Text("Allow Notifications") }
+                }) { Text(stringResource(R.string.txt_allow_notifications)) }
             },
             dismissButton = {
-                TextButton(onClick = viewModel::dismissPermissionRationale) { Text("Not Now") }
+                TextButton(onClick = viewModel::dismissPermissionRationale) { Text(stringResource(R.string.txt_not_now)) }
             }
         )
     }

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.management
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
@@ -10,7 +12,7 @@ import java.io.File
 import java.util.*
 
 class DataCleanupManager private constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val historyRepository: HistoryRepository,
     private val storageAnalyzer: StorageAnalyzer,
     private val integrityChecker: DataIntegrityChecker
@@ -20,7 +22,7 @@ class DataCleanupManager private constructor(
         private var instance: DataCleanupManager? = null
 
         fun getInstance(
-            context: Context,
+            @ApplicationContext context: Context,
             historyRepository: HistoryRepository,
             storageAnalyzer: StorageAnalyzer,
             integrityChecker: DataIntegrityChecker

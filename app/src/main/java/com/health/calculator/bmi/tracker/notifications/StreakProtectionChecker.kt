@@ -1,6 +1,8 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/notifications/StreakProtectionChecker.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class StreakProtectionScheduler(private val context: Context) {
+class StreakProtectionScheduler(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -59,7 +61,7 @@ class StreakProtectionScheduler(private val context: Context) {
 
 class StreakProtectionReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
             val prefs = context.getSharedPreferences("streak_protection_prefs", Context.MODE_PRIVATE)
             val enabled = prefs.getBoolean("enabled", true)
@@ -94,7 +96,7 @@ class StreakProtectionReceiver : BroadcastReceiver() {
     }
 
     private fun sendStreakProtectionNotification(
-        context: Context,
+        @ApplicationContext context: Context,
         waterStreak: Int,
         trackingStreak: Int,
         waterLoggedToday: Boolean,

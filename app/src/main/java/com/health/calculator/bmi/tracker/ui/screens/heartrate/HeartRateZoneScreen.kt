@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -75,7 +78,7 @@ fun HeartRateZoneScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Heart Rate Zones",
+                        text = stringResource(R.string.txt_heart_rate_zones),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -299,7 +302,7 @@ fun HeartRateZoneScreen(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Clear All")
+                    Text(stringResource(R.string.txt_clear_all_1))
                 }
             }
 
@@ -350,14 +353,14 @@ private fun HeartRateHeaderCard() {
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Heart Rate Zones",
+                    text = stringResource(R.string.txt_heart_rate_zones),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Heart rate zones help you exercise at the right intensity for your goals — whether it's fat burning, endurance, or peak performance.",
+                    text = stringResource(R.string.txt_heart_rate_zones_help_you_exer),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                     lineHeight = 18.sp
@@ -413,7 +416,7 @@ private fun PulsingHeartIcon() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "❤️",
+            text = stringResource(R.string.txt_text_placeholder_5),
             fontSize = (28 * scale).sp
         )
     }
@@ -446,7 +449,7 @@ private fun ProfileDataBanner(onDismiss: () -> Unit) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Using profile data",
+                text = stringResource(R.string.txt_using_profile_data),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color(0xFF2196F3),
                 fontWeight = FontWeight.Medium,
@@ -479,7 +482,7 @@ private fun AgeInputSection(
 ) {
     Column {
         Text(
-            text = "Age",
+            text = stringResource(R.string.txt_age),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -488,8 +491,8 @@ private fun AgeInputSection(
             value = age,
             onValueChange = { if (it.length <= 3) onAgeChange(it) },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Enter your age") },
-            suffix = { Text("years") },
+            label = { Text(stringResource(R.string.txt_enter_your_age)) },
+            suffix = { Text(stringResource(R.string.txt_years)) },
             leadingIcon = {
                 Icon(
                     Icons.Default.Cake,
@@ -520,13 +523,13 @@ private fun GenderSelectionSection(
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Gender",
+                text = stringResource(R.string.txt_gender),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "(optional)",
+                text = stringResource(R.string.txt_optional_1),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
@@ -575,7 +578,7 @@ private fun FitnessLevelSection(
 ) {
     Column {
         Text(
-            text = "Fitness Level",
+            text = stringResource(R.string.txt_fitness_level),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -641,7 +644,7 @@ private fun FormulaSelectionSection(
 ) {
     Column {
         Text(
-            text = "Max HR Formula",
+            text = stringResource(R.string.txt_max_hr_formula),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -696,10 +699,10 @@ private fun FormulaSelectionSection(
                     modifier = Modifier.padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("♀️", fontSize = 16.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_60), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Gulati formula was developed specifically for women and tends to be more accurate for female heart rate estimation.",
+                        text = stringResource(R.string.txt_gulati_formula_was_developed_s),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFFE91E63).copy(alpha = 0.9f),
                         lineHeight = 16.sp
@@ -787,7 +790,7 @@ private fun FormulaOptionItem(
             )
             if (isDisabled) {
                 Text(
-                    text = "Designed for women only",
+                    text = stringResource(R.string.txt_designed_for_women_only),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
                 )
@@ -826,27 +829,27 @@ private fun RestingHRSection(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Resting Heart Rate",
+                    text = stringResource(R.string.txt_resting_heart_rate_1),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
                 if (isRequired) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "*",
+                        text = stringResource(R.string.txt_text_placeholder_59),
                         color = MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "(required for Karvonen)",
+                        text = stringResource(R.string.txt_required_for_karvonen),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
                 } else {
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "(optional, improves accuracy)",
+                        text = stringResource(R.string.txt_optional_improves_accuracy),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -859,8 +862,8 @@ private fun RestingHRSection(
                 value = restingHR,
                 onValueChange = { if (it.length <= 3) onRestingHRChange(it) },
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Resting HR") },
-                suffix = { Text("BPM") },
+                label = { Text(stringResource(R.string.txt_resting_hr)) },
+                suffix = { Text(stringResource(R.string.txt_bpm_1)) },
                 leadingIcon = {
                     Icon(
                         Icons.Default.MonitorHeart,
@@ -886,7 +889,7 @@ private fun RestingHRSection(
             ) {
                 AssistChip(
                     onClick = onShowGuide,
-                    label = { Text("How to measure", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_how_to_measure), style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = {
                         Icon(
                             Icons.Default.Help,
@@ -942,7 +945,7 @@ private fun RestingHROptionalHint(onAddRestingHR: () -> Unit) {
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
-            text = "Add resting heart rate for more accurate zones",
+            text = stringResource(R.string.txt_add_resting_heart_rate_for_mor),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
         )
@@ -973,13 +976,13 @@ private fun CustomMaxHRSection(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Your Known Max Heart Rate",
+                    text = stringResource(R.string.txt_your_known_max_heart_rate),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "*",
+                    text = stringResource(R.string.txt_text_placeholder_59),
                     color = MaterialTheme.colorScheme.error,
                     fontWeight = FontWeight.Bold
                 )
@@ -991,8 +994,8 @@ private fun CustomMaxHRSection(
                 value = customMaxHR,
                 onValueChange = { if (it.length <= 3) onValueChange(it) },
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Max Heart Rate") },
-                suffix = { Text("BPM") },
+                label = { Text(stringResource(R.string.txt_max_heart_rate)) },
+                suffix = { Text(stringResource(R.string.txt_bpm_1)) },
                 leadingIcon = {
                     Icon(
                         Icons.Default.Speed,
@@ -1012,7 +1015,7 @@ private fun CustomMaxHRSection(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "💡 Best determined through a supervised stress test or recent peak exercise effort.",
+                text = stringResource(R.string.txt_best_determined_through_a_supe),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 lineHeight = 16.sp
@@ -1060,7 +1063,7 @@ private fun CalculateButton(
         )
         Spacer(modifier = Modifier.width(10.dp))
         Text(
-            text = "Calculate Heart Rate Zones",
+            text = stringResource(R.string.txt_calculate_heart_rate_zones),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )

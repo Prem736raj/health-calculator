@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -76,7 +79,7 @@ fun RealTimeBMIPreview(
             ) {
                 Column {
                     Text(
-                        text = "Live BMI Preview",
+                        text = stringResource(R.string.txt_live_bmi_preview),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -95,7 +98,7 @@ fun RealTimeBMIPreview(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "kg/m²",
+                            text = stringResource(R.string.txt_kg_m_1),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(bottom = 4.dp)
@@ -240,7 +243,7 @@ fun WeightSliderPicker(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Weight",
+                    text = stringResource(R.string.txt_weight),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -318,7 +321,7 @@ fun WeightSliderPicker(
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "Fine-tune",
+                text = stringResource(R.string.txt_fine_tune),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -384,7 +387,7 @@ fun HeightSliderPicker(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Height",
+                    text = stringResource(R.string.txt_height),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -478,7 +481,7 @@ fun HeightSliderPicker(
             Spacer(modifier = Modifier.width(12.dp))
 
             Text(
-                text = "Fine-tune (1 cm)",
+                text = stringResource(R.string.txt_fine_tune_1_cm),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -576,7 +579,7 @@ fun InputModeToggle(
                 onClick = { onToggle(false) },
                 label = {
                     Text(
-                        "⌨️ Keyboard",
+                        stringResource(R.string.txt_keyboard),
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
@@ -594,7 +597,7 @@ fun InputModeToggle(
                 onClick = { onToggle(true) },
                 label = {
                     Text(
-                        "🎚️ Sliders",
+                        stringResource(R.string.txt_sliders),
                         style = MaterialTheme.typography.labelMedium
                     )
                 },

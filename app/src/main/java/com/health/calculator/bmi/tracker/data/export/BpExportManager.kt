@@ -1,6 +1,8 @@
 // data/export/BpExportManager.kt
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
@@ -18,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class BpExportManager(private val context: Context) {
+class BpExportManager(@ApplicationContext private val context: Context) {
 
     companion object {
         private const val AUTHORITY = "com.health.calculator.bmi.tracker.fileprovider"

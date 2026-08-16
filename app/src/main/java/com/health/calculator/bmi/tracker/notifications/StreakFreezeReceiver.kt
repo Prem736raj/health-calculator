@@ -1,6 +1,8 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/notifications/StreakFreezeReceiver.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class StreakFreezeReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val streakType = intent.getStringExtra("streak_type") ?: "water"
 
         CoroutineScope(Dispatchers.Main).launch {

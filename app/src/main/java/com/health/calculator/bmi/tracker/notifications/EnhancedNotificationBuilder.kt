@@ -1,6 +1,8 @@
 // notifications/EnhancedNotificationBuilder.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -12,7 +14,7 @@ import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.data.models.Reminder
 import com.health.calculator.bmi.tracker.data.models.ReminderCategory
 
-class EnhancedNotificationBuilder(private val context: Context) {
+class EnhancedNotificationBuilder(@ApplicationContext private val context: Context) {
 
     fun buildNotification(
         reminder: Reminder,

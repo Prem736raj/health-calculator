@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,7 +47,7 @@ fun LogWeightDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Log Weight",
+                text = stringResource(R.string.txt_log_weight),
                 fontWeight = FontWeight.Bold
             )
         },
@@ -65,7 +68,7 @@ fun LogWeightDialog(
                     isError = weightInput.isNotEmpty() && !isValid,
                     supportingText = {
                         if (weightInput.isNotEmpty() && !isValid) {
-                            Text("Enter a valid weight (10-500)")
+                            Text(stringResource(R.string.txt_enter_a_valid_weight_10_500))
                         }
                     }
                 )
@@ -108,8 +111,8 @@ fun LogWeightDialog(
                 OutlinedTextField(
                     value = noteInput,
                     onValueChange = onNoteChange,
-                    label = { Text("Note (optional)") },
-                    placeholder = { Text("e.g., Morning weigh-in") },
+                    label = { Text(stringResource(R.string.txt_note_optional)) },
+                    placeholder = { Text(stringResource(R.string.txt_e_g_morning_weigh_in)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.Notes, contentDescription = null)
                     },
@@ -129,9 +132,9 @@ fun LogWeightDialog(
                         modifier = Modifier.padding(10.dp),
                         verticalAlignment = Alignment.Top
                     ) {
-                        Text(text = "💡", modifier = Modifier.padding(end = 8.dp))
+                        Text(text = stringResource(R.string.txt_text_placeholder_1), modifier = Modifier.padding(end = 8.dp))
                         Text(
-                            text = "Weigh yourself in the morning, after bathroom, before eating for consistency.",
+                            text = stringResource(R.string.txt_weigh_yourself_in_the_morning_),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -155,7 +158,7 @@ fun LogWeightDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
         }
     )
 }

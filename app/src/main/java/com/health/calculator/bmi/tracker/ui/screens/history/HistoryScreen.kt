@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
@@ -32,8 +38,8 @@ import com.health.calculator.bmi.tracker.data.model.HistorySortOption
 fun HistoryScreen(
     onNavigateBack: () -> Unit,
     onNavigateHome: () -> Unit,
-    viewModel: HistoryViewModel = viewModel(),
-    statsViewModel: StatisticsViewModel = viewModel()
+    viewModel: HistoryViewModel = hiltViewModel(),
+    statsViewModel: StatisticsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -177,13 +183,13 @@ fun HistoryScreen(
                         Tab(
                             selected = selectedTab == 0,
                             onClick = { selectedTab = 0 },
-                            text = { Text("Log") },
+                            text = { Text(stringResource(R.string.txt_log)) },
                             icon = { Icon(Icons.Default.History, null) }
                         )
                         Tab(
                             selected = selectedTab == 1,
                             onClick = { selectedTab = 1 },
-                            text = { Text("Statistics") },
+                            text = { Text(stringResource(R.string.txt_statistics_1)) },
                             icon = { Icon(Icons.Default.BarChart, null) }
                         )
                     }
@@ -198,7 +204,7 @@ fun HistoryScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp),
-                        placeholder = { Text("Search results, notes...") },
+                        placeholder = { Text(stringResource(R.string.txt_search_results_notes)) },
                         leadingIcon = { Icon(Icons.Default.Search, null) },
                         trailingIcon = {
                             if (searchQuery.isNotEmpty()) {
@@ -337,7 +343,7 @@ fun HistoryScreen(
             AlertDialog(
                 onDismissRequest = {},
                 confirmButton = {},
-                title = { Text("Exporting Data") },
+                title = { Text(stringResource(R.string.txt_exporting_data)) },
                 text = {
                     Column(
                         modifier = Modifier.fillMaxWidth(),

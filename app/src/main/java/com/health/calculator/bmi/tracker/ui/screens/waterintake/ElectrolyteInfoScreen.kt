@@ -1,6 +1,9 @@
 // ui/screens/waterintake/ElectrolyteInfoScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -61,8 +64,8 @@ fun ElectrolyteInfoScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("⚡", fontSize = 22.sp)
-                        Text("Electrolytes", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_electrolytes), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -215,20 +218,20 @@ private fun ElectrolyteHeaderCard() {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "Beyond Water:",
+                        stringResource(R.string.txt_beyond_water),
                         color = Color.White.copy(alpha = 0.9f),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
-                        "Understanding Electrolytes",
+                        stringResource(R.string.txt_understanding_electrolytes),
                         color = Color.White,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 20.sp,
                         lineHeight = 26.sp
                     )
                     Text(
-                        "Learn when and why your body needs more than just H₂O",
+                        stringResource(R.string.txt_learn_when_and_why_your_body_n),
                         color = Color.White.copy(alpha = 0.85f),
                         fontSize = 13.sp,
                         lineHeight = 18.sp
@@ -238,8 +241,8 @@ private fun ElectrolyteHeaderCard() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text("⚡", fontSize = 42.sp)
-                    Text("💧", fontSize = 24.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 42.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
                 }
             }
         }
@@ -266,9 +269,9 @@ private fun BasicElectrolyteInfoCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🔬", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_23), fontSize = 20.sp)
                 Text(
-                    "What Are Electrolytes?",
+                    stringResource(R.string.txt_what_are_electrolytes),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -277,7 +280,7 @@ private fun BasicElectrolyteInfoCard() {
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
             Text(
-                "Electrolytes are minerals that carry an electric charge when dissolved in water. " +
+                stringResource(R.string.txt_electrolytes_are_minerals_that) +
                         "They're essential for many body functions and are lost through sweat, urine, and other bodily fluids.",
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -298,7 +301,7 @@ private fun BasicElectrolyteInfoCard() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("💡", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 18.sp)
                     Text(
                         buildString {
                             append("Water alone isn't always enough. ")
@@ -313,7 +316,7 @@ private fun BasicElectrolyteInfoCard() {
             }
 
             // What they do
-            Text("What Electrolytes Do:", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+            Text(stringResource(R.string.txt_what_electrolytes_do), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
 
             val functions = listOf(
                 "⚡" to "Conduct nerve impulses and muscle contractions",
@@ -400,9 +403,9 @@ private fun KeyElectrolytesCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("⚡", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 20.sp)
                 Text(
-                    "The 4 Key Electrolytes",
+                    stringResource(R.string.txt_the_4_key_electrolytes),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -519,7 +522,7 @@ private fun ElectrolyteDetailCard(data: ElectrolyteData) {
                     HorizontalDivider(color = data.color.copy(alpha = 0.15f))
 
                     Text(
-                        "Function:",
+                        stringResource(R.string.txt_function),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         color = data.color
@@ -532,7 +535,7 @@ private fun ElectrolyteDetailCard(data: ElectrolyteData) {
                     )
 
                     Text(
-                        "⚠️ Deficiency Signs:",
+                        stringResource(R.string.txt_deficiency_signs),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         color = Color(0xFFE65100)
@@ -568,9 +571,9 @@ private fun WhenToConsiderCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🤔", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_70), fontSize = 20.sp)
                 Text(
-                    "When Do You Need Electrolytes?",
+                    stringResource(R.string.txt_when_do_you_need_electrolytes),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -579,7 +582,7 @@ private fun WhenToConsiderCard() {
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
             Text(
-                "For everyday hydration, plain water is usually sufficient. But in certain situations, " +
+                stringResource(R.string.txt_for_everyday_hydration_plain_w) +
                         "you may need to replace electrolytes as well:",
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -714,7 +717,7 @@ private fun SituationCard(data: SituationData) {
 
             if (!expanded) {
                 Text(
-                    "Tap for details →",
+                    stringResource(R.string.txt_tap_for_details_1),
                     fontSize = 11.sp,
                     color = priorityColor.copy(alpha = 0.6f),
                     modifier = Modifier.padding(top = 2.dp)
@@ -744,9 +747,9 @@ private fun NaturalSourcesCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🥗", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_30), fontSize = 20.sp)
                 Text(
-                    "Natural Electrolyte Sources",
+                    stringResource(R.string.txt_natural_electrolyte_sources),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -755,7 +758,7 @@ private fun NaturalSourcesCard() {
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
             Text(
-                "The best way to maintain electrolyte balance is through a varied diet. " +
+                stringResource(R.string.txt_the_best_way_to_maintain_elect) +
                         "Here are great food sources for each electrolyte:",
                 fontSize = 13.sp,
                 lineHeight = 19.sp,
@@ -832,9 +835,9 @@ private fun NaturalSourcesCard() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("💡", fontSize = 16.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                     Text(
-                        "Pro Tip: Coconut water is a natural electrolyte drink containing potassium, sodium, and magnesium. " +
+                        stringResource(R.string.txt_pro_tip_coconut_water_is_a_nat) +
                                 "It's a great post-workout option!",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
@@ -951,9 +954,9 @@ private fun DIYElectrolyteDrinksCard() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("🍹", fontSize = 22.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_69), fontSize = 22.sp)
                     Text(
-                        "DIY Electrolyte Drink",
+                        stringResource(R.string.txt_diy_electrolyte_drink),
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         color = Color.White
@@ -961,7 +964,7 @@ private fun DIYElectrolyteDrinksCard() {
                 }
 
                 Text(
-                    "Make your own natural electrolyte drink at home:",
+                    stringResource(R.string.txt_make_your_own_natural_electrol),
                     fontSize = 13.sp,
                     color = Color.White.copy(alpha = 0.85f)
                 )
@@ -980,7 +983,7 @@ private fun DIYElectrolyteDrinksCard() {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            "🏠 Homemade Sports Drink",
+                            stringResource(R.string.txt_homemade_sports_drink),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
                             color = Color.White
@@ -1012,7 +1015,7 @@ private fun DIYElectrolyteDrinksCard() {
                         HorizontalDivider(color = Color.White.copy(alpha = 0.2f))
 
                         Text(
-                            "📝 Mix all ingredients until dissolved. Chill and enjoy!",
+                            stringResource(R.string.txt_mix_all_ingredients_until_diss),
                             fontSize = 12.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
@@ -1049,7 +1052,7 @@ private fun DIYElectrolyteDrinksCard() {
 
                 // Variations
                 Text(
-                    "💡 Variations: Add coconut water for extra potassium, or use maple syrup for minerals. " +
+                    stringResource(R.string.txt_variations_add_coconut_water_f) +
                             "For a sugar-free version, use a small amount of stevia instead of honey.",
                     fontSize = 11.sp,
                     lineHeight = 16.sp,
@@ -1080,9 +1083,9 @@ private fun WHOORSCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🏥", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_64), fontSize = 20.sp)
                 Text(
-                    "WHO Oral Rehydration Solution",
+                    stringResource(R.string.txt_who_oral_rehydration_solution),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -1104,9 +1107,9 @@ private fun WHOORSCard() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("⚠️", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 18.sp)
                     Text(
-                        "For cases of severe dehydration from illness (diarrhea, vomiting), " +
+                        stringResource(R.string.txt_for_cases_of_severe_dehydratio) +
                                 "the WHO recommends a specific oral rehydration solution (ORS):",
                         fontSize = 13.sp,
                         lineHeight = 18.sp,
@@ -1129,7 +1132,7 @@ private fun WHOORSCard() {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        "📋 WHO ORS Formula (per 1 liter water)",
+                        stringResource(R.string.txt_who_ors_formula_per_1_liter_wa),
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
                         color = Color(0xFF7B1FA2)
@@ -1169,7 +1172,7 @@ private fun WHOORSCard() {
                     HorizontalDivider(color = Color(0xFF7B1FA2).copy(alpha = 0.1f))
 
                     Text(
-                        "🥤 Sip small amounts frequently. For children: 1 teaspoon every 1-2 minutes. " +
+                        stringResource(R.string.txt_sip_small_amounts_frequently_f) +
                                 "For adults: frequent small sips or about 200-400ml after each loose stool.",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
@@ -1227,9 +1230,9 @@ private fun ElectrolyteImbalanceWarningsCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("⚠️", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 20.sp)
                 Text(
-                    "Signs of Electrolyte Imbalance",
+                    stringResource(R.string.txt_signs_of_electrolyte_imbalance),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall,
                     color = Color(0xFFE65100)
@@ -1239,7 +1242,7 @@ private fun ElectrolyteImbalanceWarningsCard() {
             HorizontalDivider(color = Color(0xFFE65100).copy(alpha = 0.1f))
 
             Text(
-                "Watch for these warning signs that may indicate your electrolytes are out of balance:",
+                stringResource(R.string.txt_watch_for_these_warning_signs_),
                 fontSize = 13.sp,
                 lineHeight = 19.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
@@ -1298,9 +1301,9 @@ private fun ElectrolyteImbalanceWarningsCard() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("🚨", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_57), fontSize = 18.sp)
                     Text(
-                        "Seek immediate medical attention for severe symptoms like seizures, " +
+                        stringResource(R.string.txt_seek_immediate_medical_attenti) +
                                 "loss of consciousness, severe confusion, or significant cardiac irregularities.",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
@@ -1337,13 +1340,13 @@ private fun ElectrolyteDisclaimerCard() {
             )
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     fontWeight = FontWeight.Bold,
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.error
                 )
                 Text(
-                    "This information is for educational purposes only. Electrolyte needs can vary significantly " +
+                    stringResource(R.string.txt_this_information_is_for_educat_2) +
                             "based on individual health conditions, medications, and other factors. " +
                             "People with kidney disease, heart conditions, or on certain medications should consult " +
                             "a healthcare provider before significantly changing electrolyte intake. " +

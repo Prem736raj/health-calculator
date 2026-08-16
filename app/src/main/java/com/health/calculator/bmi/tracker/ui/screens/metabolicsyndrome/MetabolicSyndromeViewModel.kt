@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -69,7 +71,8 @@ data class MetabolicSyndromeUiState(
     val genderSelected: Boolean = false
 )
 
-class MetabolicSyndromeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class MetabolicSyndromeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(MetabolicSyndromeUiState())
     val uiState: StateFlow<MetabolicSyndromeUiState> = _uiState.asStateFlow()

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.home
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
-class HomeSearchViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HomeSearchViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val searchPrefs = SearchPreferences(application)
     private val searchRepository = SearchRepository()

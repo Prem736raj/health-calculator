@@ -1,6 +1,9 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/ui/screens/welcomeback/WelcomeBackScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.welcomeback
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -76,7 +79,7 @@ fun WelcomeBackScreen(
 
             // Animated wave emoji
             Text(
-                text = "👋",
+                text = stringResource(R.string.txt_text_placeholder_85),
                 style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.scale(waveScale)
             )
@@ -123,7 +126,7 @@ fun WelcomeBackScreen(
             // Last Known Metrics
             if (data.lastHealthMetrics.isNotEmpty()) {
                 Text(
-                    "Here's where you left off:",
+                    stringResource(R.string.txt_here_s_where_you_left_off),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.fillMaxWidth()
@@ -146,7 +149,7 @@ fun WelcomeBackScreen(
 
             // Quick Action Buttons
             Text(
-                "Let's pick up where you left off!",
+                stringResource(R.string.txt_let_s_pick_up_where_you_left_o),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth()
@@ -181,7 +184,7 @@ fun WelcomeBackScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("💧 Start with a Glass of Water")
+                Text(stringResource(R.string.txt_start_with_a_glass_of_water))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -192,7 +195,7 @@ fun WelcomeBackScreen(
                     onDismiss()
                 }
             ) {
-                Text("Go to Dashboard")
+                Text(stringResource(R.string.txt_go_to_dashboard))
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -220,17 +223,17 @@ private fun StreakStatusCard(
         Column(modifier = Modifier.padding(16.dp)) {
             if (freezeApplied) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("🛡️", style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.txt_text_placeholder), style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
-                        Text("Streak Protected!", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
-                        Text("Your streak freeze kept your streak alive!", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_streak_protected), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
+                        Text(stringResource(R.string.txt_your_streak_freeze_kept_your_s), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             } else {
                 if (streakStatus.wasWaterStreakBroken) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("💧", style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.txt_text_placeholder_71), style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
@@ -239,7 +242,7 @@ private fun StreakStatusCard(
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                "Don't worry — start a new one today!",
+                                stringResource(R.string.txt_don_t_worry_start_a_new_one_to),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -250,7 +253,7 @@ private fun StreakStatusCard(
                 if (streakStatus.wasTrackingStreakBroken) {
                     if (streakStatus.wasWaterStreakBroken) Spacer(modifier = Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("📅", style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.txt_text_placeholder_47), style = MaterialTheme.typography.titleLarge)
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
@@ -259,7 +262,7 @@ private fun StreakStatusCard(
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                "Every day is a fresh start!",
+                                stringResource(R.string.txt_every_day_is_a_fresh_start),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -295,16 +298,16 @@ private fun PlantStatusCard(plantStatus: PlantWelcomeStatus) {
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("🌱", style = MaterialTheme.typography.headlineMedium)
+            Text(stringResource(R.string.txt_text_placeholder_49), style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
-                    "Your plant missed you!",
+                    stringResource(R.string.txt_your_plant_missed_you),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "It needs some water to perk back up. Log a glass to help it grow!",
+                    stringResource(R.string.txt_it_needs_some_water_to_perk_ba),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

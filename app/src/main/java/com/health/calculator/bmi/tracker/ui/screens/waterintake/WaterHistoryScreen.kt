@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterHistoryScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -79,8 +82,8 @@ fun WaterHistoryScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("📊", fontSize = 22.sp)
-                        Text("Water History", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_water_history), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -111,20 +114,20 @@ fun WaterHistoryScreen(
                 Tab(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
-                    text = { Text("Calendar", fontSize = 13.sp) },
-                    icon = { Text("📅", fontSize = 16.sp) }
+                    text = { Text(stringResource(R.string.txt_calendar), fontSize = 13.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_47), fontSize = 16.sp) }
                 )
                 Tab(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    text = { Text("Trends", fontSize = 13.sp) },
-                    icon = { Text("📈", fontSize = 16.sp) }
+                    text = { Text(stringResource(R.string.txt_trends), fontSize = 13.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 16.sp) }
                 )
                 Tab(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
-                    text = { Text("Stats", fontSize = 13.sp) },
-                    icon = { Text("🏆", fontSize = 16.sp) }
+                    text = { Text(stringResource(R.string.txt_stats), fontSize = 13.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 16.sp) }
                 )
             }
 
@@ -649,8 +652,8 @@ private fun BarChartCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("📊", fontSize = 18.sp)
-                Text("Daily Intake", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_daily_intake), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             // Chart
@@ -678,7 +681,7 @@ private fun BarChartCard(
                 // Goal label
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
-                        "Goal",
+                        stringResource(R.string.txt_goal),
                         chartWidth - 50f,
                         goalY - 8f,
                         android.graphics.Paint().apply {
@@ -795,7 +798,7 @@ private fun WeeklyReportCard(report: WeeklyReport) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    "📋 This Week's Report",
+                    stringResource(R.string.txt_this_week_s_report),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
@@ -890,11 +893,11 @@ private fun StatsTab(
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("🌊", fontSize = 48.sp)
+                Text(stringResource(R.string.txt_text_placeholder_78), fontSize = 48.sp)
                 Spacer(Modifier.height(12.dp))
-                Text("No data yet", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(stringResource(R.string.txt_no_data_yet), fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Text(
-                    "Start tracking your water intake to see stats",
+                    stringResource(R.string.txt_start_tracking_your_water_inta),
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -971,7 +974,7 @@ private fun StreakCard(currentStreak: Int, longestStreak: Int) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("🔥", fontSize = 36.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_6), fontSize = 36.sp)
                     Spacer(Modifier.height(8.dp))
                     Text(
                         "$currentStreak",
@@ -980,12 +983,12 @@ private fun StreakCard(currentStreak: Int, longestStreak: Int) {
                         fontWeight = FontWeight.ExtraBold
                     )
                     Text(
-                        "Current Streak",
+                        stringResource(R.string.txt_current_streak),
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 13.sp
                     )
                     Text(
-                        "days",
+                        stringResource(R.string.txt_days),
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 11.sp
                     )
@@ -999,7 +1002,7 @@ private fun StreakCard(currentStreak: Int, longestStreak: Int) {
                 )
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("🏆", fontSize = 36.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 36.sp)
                     Spacer(Modifier.height(8.dp))
                     Text(
                         "$longestStreak",
@@ -1008,12 +1011,12 @@ private fun StreakCard(currentStreak: Int, longestStreak: Int) {
                         fontWeight = FontWeight.ExtraBold
                     )
                     Text(
-                        "Longest Streak",
+                        stringResource(R.string.txt_longest_streak),
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 13.sp
                     )
                     Text(
-                        "days",
+                        stringResource(R.string.txt_days),
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 11.sp
                     )
@@ -1041,8 +1044,8 @@ private fun StatsGridCard(stats: WaterStats) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("📈", fontSize = 18.sp)
-                Text("Statistics", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_statistics_1), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
@@ -1138,8 +1141,8 @@ private fun RecordsCard(stats: WaterStats) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🏅", fontSize = 18.sp)
-                Text("Personal Records", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_77), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_personal_records), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))

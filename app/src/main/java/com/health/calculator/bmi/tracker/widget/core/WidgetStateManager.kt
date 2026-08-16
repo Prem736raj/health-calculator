@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import java.util.concurrent.TimeUnit
@@ -27,12 +29,12 @@ object WidgetStateManager {
         ERROR            // Something went wrong
     }
 
-    private fun prefs(context: Context): SharedPreferences =
+    private fun prefs(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     // ── Mark widget data as updated ───────────────────────────────────
 
-    fun markDataUpdated(context: Context, widgetId: Int) {
+    fun markDataUpdated(@ApplicationContext context: Context, widgetId: Int) {
         prefs(context).edit().apply {
             putLong(KEY_LAST_DATA_TIME + widgetId, System.currentTimeMillis())
             putBoolean(KEY_HAS_EVER_SETUP + widgetId, true)
@@ -42,13 +44,13 @@ object WidgetStateManager {
         }
     }
 
-    fun markSetupRequired(context: Context, widgetId: Int) {
+    fun markSetupRequired(@ApplicationContext context: Context, widgetId: Int) {
         prefs(context).edit()
             .putBoolean(KEY_APP_CLEARED + widgetId, true)
             .apply()
     }
 
-    fun clearWidgetState(context: Context, widgetId: Int) {
+    fun clearWidgetState(@ApplicationContext context: Context, widgetId: Int) {
         prefs(context).edit().apply {
             remove(KEY_LAST_DATA_TIME + widgetId)
             remove(KEY_HAS_EVER_SETUP + widgetId)
@@ -60,7 +62,7 @@ object WidgetStateManager {
 
     // ── Evaluate current state ────────────────────────────────────────
 
-    fun getState(context: Context, widgetId: Int, hasData: Boolean): WidgetState {
+    fun getState(@ApplicationContext context: Context, widgetId: Int, hasData: Boolean): WidgetState {
         val p = prefs(context)
 
         // Check schema version
@@ -93,7 +95,7 @@ object WidgetStateManager {
 
     // ── Convenience: check all widgets after app-clear ────────────────
 
-    fun onAppDataCleared(context: Context) {
+    fun onAppDataCleared(@ApplicationContext context: Context) {
         // Called when user clears app data from Settings
         // We detect this by checking if our main data prefs are gone
         val healthPrefs = context.getSharedPreferences(
@@ -113,7 +115,7 @@ object WidgetStateManager {
 
     // ── Format "time ago" for stale message ──────────────────────────
 
-    fun getLastUpdatedText(context: Context, widgetId: Int): String {
+    fun getLastUpdatedText(@ApplicationContext context: Context, widgetId: Int): String {
         val lastUpdate = prefs(context).getLong(KEY_LAST_DATA_TIME + widgetId, 0L)
         if (lastUpdate == 0L) return "Never updated"
 

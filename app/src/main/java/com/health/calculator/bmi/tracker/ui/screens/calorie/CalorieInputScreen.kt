@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -65,17 +68,17 @@ fun CalorieInputScreen(
                 modifier = Modifier.padding(14.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("🔥", fontSize = 28.sp)
+                Text(stringResource(R.string.txt_text_placeholder_6), fontSize = 28.sp)
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Daily Calorie Calculator",
+                        text = stringResource(R.string.txt_daily_calorie_calculator),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Find out exactly how many calories you need to reach your goals.",
+                        text = stringResource(R.string.txt_find_out_exactly_how_many_calo),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         lineHeight = 18.sp
@@ -102,7 +105,7 @@ fun CalorieInputScreen(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        "Using profile data • You can adjust values below",
+                        stringResource(R.string.txt_using_profile_data_you_can_adj_1),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.tertiary
                     )
@@ -179,7 +182,7 @@ fun CalorieInputScreen(
                 OutlinedTextField(
                     value = uiState.heightValue,
                     onValueChange = onUpdateHeight,
-                    label = { Text("Height (cm)") },
+                    label = { Text(stringResource(R.string.txt_height_cm)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -196,7 +199,7 @@ fun CalorieInputScreen(
                 OutlinedTextField(
                     value = uiState.heightFeet,
                     onValueChange = onUpdateHeightFeet,
-                    label = { Text("Feet") },
+                    label = { Text(stringResource(R.string.txt_feet)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -205,7 +208,7 @@ fun CalorieInputScreen(
                 OutlinedTextField(
                     value = uiState.heightInches,
                     onValueChange = onUpdateHeightInches,
-                    label = { Text("Inches") },
+                    label = { Text(stringResource(R.string.txt_inches)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -227,7 +230,7 @@ fun CalorieInputScreen(
         OutlinedTextField(
             value = uiState.age,
             onValueChange = onUpdateAge,
-            label = { Text("Age") },
+            label = { Text(stringResource(R.string.txt_age)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -239,7 +242,7 @@ fun CalorieInputScreen(
                     modifier = Modifier.size(20.dp)
                 )
             },
-            suffix = { Text("years") }
+            suffix = { Text(stringResource(R.string.txt_years)) }
         )
 
         // Body Fat Percentage (optional)
@@ -311,7 +314,7 @@ fun CalorieInputScreen(
             Icon(Icons.Default.LocalFireDepartment, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Calculate My Calories",
+                stringResource(R.string.txt_calculate_my_calories),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -323,7 +326,7 @@ fun CalorieInputScreen(
         ) {
             Icon(Icons.Default.Clear, contentDescription = null, Modifier.size(16.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Clear All")
+            Text(stringResource(R.string.txt_clear_all_1))
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -384,11 +387,11 @@ private fun BodyFatSection(
             ) {
                 Column {
                     Text(
-                        text = "Body Fat % (Optional)",
+                        text = stringResource(R.string.txt_body_fat_optional),
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                     Text(
-                        text = "For more accurate calculation using Katch-McArdle formula",
+                        text = stringResource(R.string.txt_for_more_accurate_calculation_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                         fontSize = 11.sp
@@ -409,12 +412,12 @@ private fun BodyFatSection(
                     OutlinedTextField(
                         value = bodyFatPercent,
                         onValueChange = onUpdate,
-                        label = { Text("Body Fat Percentage") },
+                        label = { Text(stringResource(R.string.txt_body_fat_percentage)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true,
-                        suffix = { Text("%") },
+                        suffix = { Text(stringResource(R.string.txt_text_placeholder_51)) },
                         leadingIcon = {
                             Icon(
                                 Icons.Default.Percent,
@@ -442,7 +445,7 @@ private fun BodyFatSection(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Don't know? Skip this — we'll use standard formulas instead. Typical ranges: Men 10-25%, Women 18-35%.",
+                                text = stringResource(R.string.txt_don_t_know_skip_this_we_ll_use),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
                                 fontSize = 10.sp,
@@ -556,7 +559,7 @@ private fun GoalSelector(
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         // Group labels
         Text(
-            text = "Weight Loss",
+            text = stringResource(R.string.txt_weight_loss_1),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
@@ -569,7 +572,7 @@ private fun GoalSelector(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Maintenance",
+            text = stringResource(R.string.txt_maintenance),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
@@ -582,7 +585,7 @@ private fun GoalSelector(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Weight Gain",
+            text = stringResource(R.string.txt_weight_gain_1),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)

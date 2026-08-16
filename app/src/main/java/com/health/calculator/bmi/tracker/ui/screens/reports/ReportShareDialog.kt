@@ -1,6 +1,9 @@
 // ui/screens/reports/ReportShareDialog.kt
 package com.health.calculator.bmi.tracker.ui.screens.reports
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
@@ -27,10 +30,10 @@ fun ReportShareDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Default.Share, null, modifier = Modifier.size(24.dp)) },
-        title = { Text("Share Report", fontWeight = FontWeight.Bold) },
+        title = { Text(stringResource(R.string.txt_share_report), fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text("Choose what to include:", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.txt_choose_what_to_include), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                 ShareToggle("\uD83C\uDFC6 Health Score", includeScore) { onToggleSection("score", it) }
                 ShareToggle("⚖️ Weight", includeWeight) { onToggleSection("weight", it) }
                 ShareToggle("\uD83D\uDCCA BMI", includeBmi) { onToggleSection("bmi", it) }
@@ -44,10 +47,10 @@ fun ReportShareDialog(
             Button(onClick = onShare) {
                 Icon(Icons.Default.Share, null, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Share")
+                Text(stringResource(R.string.txt_share))
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) } }
     )
 }
 

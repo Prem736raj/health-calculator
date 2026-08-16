@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -37,7 +43,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun BpLogScreen(
     onNavigateBack: () -> Unit,
-    viewModel: BpLogViewModel = viewModel()
+    viewModel: BpLogViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -47,7 +53,7 @@ fun BpLogScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("BP Log", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_bp_log), fontWeight = FontWeight.Bold)
                         if (uiState.readingsCount > 0) {
                             Text(
                                 "${uiState.readingsCount} readings",
@@ -186,13 +192,13 @@ fun BpLogScreen(
                     tint = MaterialTheme.colorScheme.error
                 )
             },
-            title = { Text("Delete Reading?") },
+            title = { Text(stringResource(R.string.txt_delete_reading_1)) },
             text = {
                 val entity = uiState.deletingEntity
                 if (entity?.isAveragedResult == true) {
                     Text("This will delete the averaged reading and all ${entity.readingsInAverage} individual readings in this group.")
                 } else {
-                    Text("This reading will be permanently removed from your log.")
+                    Text(stringResource(R.string.txt_this_reading_will_be_permanent))
                 }
             },
             confirmButton = {
@@ -202,12 +208,12 @@ fun BpLogScreen(
                         containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("Delete")
+                    Text(stringResource(R.string.txt_delete))
                 }
             },
             dismissButton = {
                 OutlinedButton(onClick = { viewModel.onDismissDelete() }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.txt_cancel))
                 }
             }
         )
@@ -303,7 +309,7 @@ private fun BpLogEntryCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        "mmHg",
+                        stringResource(R.string.txt_mmhg_1),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
@@ -315,7 +321,7 @@ private fun BpLogEntryCard(
                             shape = RoundedCornerShape(4.dp)
                         ) {
                             Text(
-                                "AVG",
+                                stringResource(R.string.txt_avg),
                                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
@@ -395,7 +401,7 @@ private fun BpLogEntryCard(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                     Text(
-                        "BPM",
+                        stringResource(R.string.txt_bpm_1),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     )
@@ -442,7 +448,7 @@ private fun BpLogEmptyState(modifier: Modifier = Modifier) {
                 )
             }
             Text(
-                "No Readings Yet",
+                stringResource(R.string.txt_no_readings_yet),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -493,7 +499,7 @@ private fun BpLogDetailSheet(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Reading Details",
+                    stringResource(R.string.txt_reading_details),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -526,7 +532,7 @@ private fun BpLogDetailSheet(
                         color = categoryColor
                     )
                     Text(
-                        "mmHg",
+                        stringResource(R.string.txt_mmhg_1),
                         style = MaterialTheme.typography.bodyMedium,
                         color = categoryColor.copy(alpha = 0.6f)
                     )
@@ -573,7 +579,7 @@ private fun BpLogDetailSheet(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
-                        "Measurement Details",
+                        stringResource(R.string.txt_measurement_details),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -653,7 +659,7 @@ private fun BpLogDetailSheet(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            "Individual Readings",
+                            stringResource(R.string.txt_individual_readings),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -698,7 +704,7 @@ private fun BpLogDetailSheet(
                                             fontWeight = FontWeight.SemiBold
                                         )
                                         Text(
-                                            "mmHg",
+                                            stringResource(R.string.txt_mmhg_1),
                                             style = MaterialTheme.typography.bodySmall,
                                             color = MaterialTheme.colorScheme.onSurface.copy(
                                                 alpha = 0.4f
@@ -736,7 +742,7 @@ private fun BpLogDetailSheet(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "Notes",
+                            stringResource(R.string.txt_notes),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -763,7 +769,7 @@ private fun BpLogDetailSheet(
                         )
                     } else {
                         Text(
-                            "No notes added",
+                            stringResource(R.string.txt_no_notes_added),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
                         )
@@ -787,7 +793,7 @@ private fun BpLogDetailSheet(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Delete Reading", fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.txt_delete_reading), fontWeight = FontWeight.Medium)
             }
         }
     }
@@ -839,7 +845,7 @@ fun BpNoteDialog(
         shape = RoundedCornerShape(24.dp),
         title = {
             Text(
-                "Add Note",
+                stringResource(R.string.txt_add_note),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -849,8 +855,8 @@ fun BpNoteDialog(
                 OutlinedTextField(
                     value = noteText,
                     onValueChange = onNoteChange,
-                    label = { Text("Note") },
-                    placeholder = { Text("e.g., after exercise, morning reading...") },
+                    label = { Text(stringResource(R.string.txt_note)) },
+                    placeholder = { Text(stringResource(R.string.txt_e_g_after_exercise_morning_rea)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2,
                     maxLines = 4,
@@ -858,7 +864,7 @@ fun BpNoteDialog(
                 )
 
                 Text(
-                    "Quick notes:",
+                    stringResource(R.string.txt_quick_notes),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -895,7 +901,7 @@ fun BpNoteDialog(
                 onClick = onSave,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Save", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_save), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
@@ -903,7 +909,7 @@ fun BpNoteDialog(
                 onClick = onDismiss,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         }
     )

@@ -1,12 +1,15 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.IBWGoal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class IBWGoalRepository(private val context: Context) {
+class IBWGoalRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val prefs by lazy {
         context.getSharedPreferences("ibw_goal_prefs", Context.MODE_PRIVATE)

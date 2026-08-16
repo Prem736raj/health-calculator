@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -50,16 +53,16 @@ fun WHOGuidelinesSection(
     ) {
         // Section Header
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("🏥", fontSize = 22.sp)
+            Text(stringResource(R.string.txt_text_placeholder_64), fontSize = 22.sp)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "WHO Exercise Guidelines",
+                    text = stringResource(R.string.txt_who_exercise_guidelines),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "World Health Organization Physical Activity Recommendations",
+                    text = stringResource(R.string.txt_world_health_organization_phys),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -134,7 +137,7 @@ private fun WHOGuidelineCard(guideline: WHOGuideline) {
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("💡", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 18.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
                         text = guideline.keyMessage,
@@ -161,7 +164,7 @@ private fun WHOGuidelineCard(guideline: WHOGuideline) {
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "OR",
+                    text = stringResource(R.string.txt_or),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
@@ -192,7 +195,7 @@ private fun WHOGuidelineCard(guideline: WHOGuideline) {
                         verticalAlignment = Alignment.Top
                     ) {
                         Text(
-                            text = "•",
+                            text = stringResource(R.string.txt_text_placeholder_3),
                             color = Color(0xFF1565C0),
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(end = 8.dp, top = 1.dp)
@@ -287,7 +290,7 @@ private fun ZoneIntensityMappingCard(zones: List<HeartRateZone>) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "📊 Zone ↔ WHO Intensity Mapping",
+                text = stringResource(R.string.txt_zone_who_intensity_mapping),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
@@ -419,7 +422,7 @@ private fun WeeklyPlanCard(
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "📅 Weekly Plan",
+                            text = stringResource(R.string.txt_weekly_plan),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
@@ -512,7 +515,7 @@ private fun WeeklyPlanCard(
 
             if (!isExpanded) {
                 Text(
-                    text = "Tap to see day-by-day plan",
+                    text = stringResource(R.string.txt_tap_to_see_day_by_day_plan),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier
@@ -577,7 +580,7 @@ private fun DayPlanRow(day: WeeklyPlanDay) {
                 )
                 if (day.isRestDay) {
                     Text(
-                        text = "Rest & Recovery",
+                        text = stringResource(R.string.txt_rest_recovery),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -659,7 +662,7 @@ fun WeeklyExerciseTracker(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "📊 Weekly Exercise Tracker",
+                    text = stringResource(R.string.txt_weekly_exercise_tracker),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -674,7 +677,7 @@ fun WeeklyExerciseTracker(
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Log", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.txt_log), style = MaterialTheme.typography.labelMedium)
                 }
             }
 
@@ -745,7 +748,7 @@ fun WeeklyExerciseTracker(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = "This Week's Sessions",
+                    text = stringResource(R.string.txt_this_week_s_sessions),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(bottom = 6.dp)
@@ -954,15 +957,15 @@ fun ExerciseLogDialog(
                 enabled = (duration.toIntOrNull() ?: 0) > 0,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Log Session")
+                Text(stringResource(R.string.txt_log_session))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
         },
         title = {
             Text(
-                text = "🏋️ Log Exercise Session",
+                text = stringResource(R.string.txt_log_exercise_session),
                 fontWeight = FontWeight.Bold
             )
         },
@@ -970,7 +973,7 @@ fun ExerciseLogDialog(
             Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                 // Zone selector
                 Text(
-                    text = "Select Zone",
+                    text = stringResource(R.string.txt_select_zone),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -1032,8 +1035,8 @@ fun ExerciseLogDialog(
                 OutlinedTextField(
                     value = duration,
                     onValueChange = { duration = it.filter { c -> c.isDigit() } },
-                    label = { Text("Duration") },
-                    suffix = { Text("minutes") },
+                    label = { Text(stringResource(R.string.txt_duration)) },
+                    suffix = { Text(stringResource(R.string.txt_minutes)) },
                     leadingIcon = {
                         Icon(
                             Icons.Default.Timer,
@@ -1053,8 +1056,8 @@ fun ExerciseLogDialog(
                 OutlinedTextField(
                     value = activityNote,
                     onValueChange = { activityNote = it },
-                    label = { Text("Activity (optional)") },
-                    placeholder = { Text("e.g., Running, Cycling...") },
+                    label = { Text(stringResource(R.string.txt_activity_optional)) },
+                    placeholder = { Text(stringResource(R.string.txt_e_g_running_cycling)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp)

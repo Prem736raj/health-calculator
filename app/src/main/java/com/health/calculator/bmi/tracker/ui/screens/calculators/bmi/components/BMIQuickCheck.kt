@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -69,7 +72,7 @@ fun BMIQuickCheckCard(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "⚡ Quick Check",
+                            text = stringResource(R.string.txt_quick_check),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -240,7 +243,7 @@ fun LastUsedInputCard(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             ) {
                 Text(
-                    text = "Use",
+                    text = stringResource(R.string.txt_use),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.primary,

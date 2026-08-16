@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bsa
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -52,7 +55,7 @@ fun BSATrackingSection(
             .padding(16.dp)
     ) {
         Text(
-            text = "BSA Progress & History",
+            text = stringResource(R.string.txt_bsa_progress_history),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -108,16 +111,16 @@ private fun EmptyTrackingState() {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("📊", fontSize = 48.sp)
+            Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 48.sp)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "No BSA readings yet",
+                text = stringResource(R.string.txt_no_bsa_readings_yet),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Calculate and save your first BSA result to start tracking changes over time. This is especially useful for:",
+                text = stringResource(R.string.txt_calculate_and_save_your_first_),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -176,12 +179,12 @@ private fun SingleReadingPrompt() {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "One more reading to see your trend",
+                    text = stringResource(R.string.txt_one_more_reading_to_see_your_t),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Save another BSA calculation to unlock the trend graph and track changes over time.",
+                    text = stringResource(R.string.txt_save_another_bsa_calculation_t),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 16.sp
@@ -229,7 +232,7 @@ private fun BSAStatisticsCard(stats: BSAStatistics) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "BSA Statistics",
+                    text = stringResource(R.string.txt_bsa_statistics),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -287,7 +290,7 @@ private fun BSAStatisticsCard(stats: BSAStatistics) {
                 // Change from first
                 Column {
                     Text(
-                        text = "Overall Change",
+                        text = stringResource(R.string.txt_overall_change),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -319,7 +322,7 @@ private fun BSAStatisticsCard(stats: BSAStatistics) {
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     ) {
                         Text(
-                            text = "Most Used Formula",
+                            text = stringResource(R.string.txt_most_used_formula),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -389,7 +392,7 @@ private fun PreviousComparisonCard(current: BSARecord, previous: BSARecord) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "vs Previous Reading",
+                    text = stringResource(R.string.txt_vs_previous_reading),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -511,12 +514,12 @@ private fun BSATrendGraph(records: List<BSARecord>) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = "BSA Trend Over Time",
+                        text = stringResource(R.string.txt_bsa_trend_over_time),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Track growth or weight change effects",
+                        text = stringResource(R.string.txt_track_growth_or_weight_change_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -557,7 +560,7 @@ private fun BSATrendGraph(records: List<BSARecord>) {
                     val y = pT + gH - (gH * i / ySteps)
                     drawLine(gridColor, Offset(pL, y), Offset(size.width - pR, y), 1.dp.toPx())
                     drawContext.canvas.nativeCanvas.drawText(
-                        "%.2f".format(yVal),
+                        stringResource(R.string.txt_2f).format(yVal),
                         pL - 6.dp.toPx(),
                         y + 4.dp.toPx(),
                         android.graphics.Paint().apply {
@@ -578,7 +581,7 @@ private fun BSATrendGraph(records: List<BSARecord>) {
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f))
                 )
                 drawContext.canvas.nativeCanvas.drawText(
-                    "Avg",
+                    stringResource(R.string.txt_avg_1),
                     size.width - pR + 2.dp.toPx(),
                     avgY - 4.dp.toPx(),
                     android.graphics.Paint().apply {
@@ -697,7 +700,7 @@ private fun BSAReadingsTimeline(records: List<BSARecord>) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Recent Readings",
+                    text = stringResource(R.string.txt_recent_readings),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )

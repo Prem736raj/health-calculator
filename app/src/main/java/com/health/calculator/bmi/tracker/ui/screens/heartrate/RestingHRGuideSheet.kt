@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -45,7 +48,7 @@ fun RestingHRGuideSheet(
         ) {
             // Title
             Text(
-                text = "❤️ How to Measure Resting Heart Rate",
+                text = stringResource(R.string.txt_how_to_measure_resting_heart_r),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -63,17 +66,17 @@ fun RestingHRGuideSheet(
                     modifier = Modifier.padding(14.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("⏰", fontSize = 24.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_31), fontSize = 24.sp)
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text(
-                            text = "Best Time to Measure",
+                            text = stringResource(R.string.txt_best_time_to_measure),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.SemiBold,
                             color = Color(0xFFE53935)
                         )
                         Text(
-                            text = "First thing in the morning, before getting out of bed, after a good night's sleep.",
+                            text = stringResource(R.string.txt_first_thing_in_the_morning_bef),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         )
@@ -85,7 +88,7 @@ fun RestingHRGuideSheet(
 
             // Steps
             Text(
-                text = "Step-by-Step Guide",
+                text = stringResource(R.string.txt_step_by_step_guide),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
@@ -124,13 +127,13 @@ fun RestingHRGuideSheet(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "⚡ Quick Alternative",
+                        text = stringResource(R.string.txt_quick_alternative),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "Count beats for 15 seconds and multiply by 4. Less accurate but faster.",
+                        text = stringResource(R.string.txt_count_beats_for_15_seconds_and),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )
@@ -141,7 +144,7 @@ fun RestingHRGuideSheet(
 
             // Normal ranges reference
             Text(
-                text = "Normal Resting Heart Rate Ranges",
+                text = stringResource(R.string.txt_normal_resting_heart_rate_rang),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -224,7 +227,7 @@ fun RestingHRGuideSheet(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp)
             ) {
-                Text("Got it!", fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.txt_got_it_2), fontWeight = FontWeight.SemiBold)
             }
 
             Spacer(modifier = Modifier.height(16.dp))

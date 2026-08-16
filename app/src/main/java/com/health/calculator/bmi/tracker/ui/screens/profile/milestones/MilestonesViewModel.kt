@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.profile.milestones
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.models.*
@@ -24,7 +26,8 @@ data class MilestonesUiState(
     val isLoading: Boolean = true
 )
 
-class MilestonesViewModel(
+@HiltViewModel
+class MilestonesViewModel @Inject constructor(
     private val milestonesRepository: MilestonesRepository,
     private val healthOverviewRepository: HealthOverviewRepository
 ) : ViewModel() {

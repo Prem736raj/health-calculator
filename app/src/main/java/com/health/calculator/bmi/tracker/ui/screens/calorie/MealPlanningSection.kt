@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -55,7 +58,7 @@ fun MealPlanningSection(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Meal Planning",
+                text = stringResource(R.string.txt_meal_planning),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -113,7 +116,7 @@ private fun MealCountSelector(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Number of Meals",
+                stringResource(R.string.txt_number_of_meals_1),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -143,7 +146,7 @@ private fun MealCountSelector(
                                 else MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                "meals",
+                                stringResource(R.string.txt_meals),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = if (isSelected) MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
                                 else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
@@ -185,7 +188,7 @@ private fun MealDistributionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Calorie Distribution",
+                    stringResource(R.string.txt_calorie_distribution),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
                 TextButton(onClick = { showCustom = !showCustom }) {
@@ -396,7 +399,7 @@ private fun IntermittentFastingCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Intermittent Fasting",
+                    stringResource(R.string.txt_intermittent_fasting),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }
@@ -434,7 +437,7 @@ private fun IntermittentFastingCard(
             ) {
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Text(
-                        "Eating window starts at:",
+                        stringResource(R.string.txt_eating_window_starts_at),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -514,7 +517,7 @@ private fun IFTimelineVisual(ifPlan: IntermittentFastingPlan) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "24-Hour Timeline",
+                stringResource(R.string.txt_24_hour_timeline),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -609,7 +612,7 @@ private fun IFTimelineVisual(ifPlan: IntermittentFastingPlan) {
                             .background(Color(0xFF2196F3))
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Meal", style = MaterialTheme.typography.labelSmall, fontSize = 10.sp)
+                    Text(stringResource(R.string.txt_meal), style = MaterialTheme.typography.labelSmall, fontSize = 10.sp)
                 }
             }
         }
@@ -676,11 +679,11 @@ private fun WorkoutNutritionCard(
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            "Workout Nutrition",
+                            stringResource(R.string.txt_workout_nutrition),
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
-                            "Pre & post workout meal planning",
+                            stringResource(R.string.txt_pre_post_workout_meal_planning),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             fontSize = 10.sp
@@ -701,7 +704,7 @@ private fun WorkoutNutritionCard(
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     // Workout time selector
                     Text(
-                        "When do you work out?",
+                        stringResource(R.string.txt_when_do_you_work_out),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -827,7 +830,7 @@ private fun WorkoutMealCard(
             // Meal ideas
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "Ideas:",
+                stringResource(R.string.txt_ideas),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 fontSize = 10.sp
@@ -863,7 +866,7 @@ private fun MealIdeasSection(mealPlan: MealPlan) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Meal Ideas",
+                    stringResource(R.string.txt_meal_ideas),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }

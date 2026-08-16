@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.dao.FamilyProfileDao
 import com.health.calculator.bmi.tracker.data.model.FamilyProfile
 import com.health.calculator.bmi.tracker.data.model.ProfileColor
@@ -12,7 +14,7 @@ import kotlinx.coroutines.flow.map
  * Repository for managing family profiles.
  * Provides a clean API for profile CRUD, switching, and migration.
  */
-class FamilyProfileRepository(
+class FamilyProfileRepository @Inject constructor(
     private val familyProfileDao: FamilyProfileDao,
     private val oldProfileRepository: ProfileRepository // For migration from DataStore
 ) {

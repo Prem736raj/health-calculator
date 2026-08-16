@@ -1,6 +1,9 @@
 // ui/screens/reports/WeeklyReportViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.reports
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
@@ -35,7 +38,8 @@ data class WeeklyReportUiState(
     val error: String? = null
 )
 
-class WeeklyReportViewModel(
+@HiltViewModel
+class WeeklyReportViewModel @Inject constructor(
     private val reportGenerator: WeeklyReportGenerator,
     private val weeklyReportDao: WeeklyReportDao,
     private val reportScheduler: WeeklyReportScheduler
@@ -171,7 +175,7 @@ class WeeklyReportViewModel(
         }
     }
 
-    fun shareReport(context: Context) {
+    fun shareReport(@ApplicationContext context: Context) {
         val state = _uiState.value
         val report = state.currentReport?.report ?: return
 

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -45,13 +48,13 @@ fun ProfileMilestonesPreview(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "🏅 Milestones & Records",
+                    text = stringResource(R.string.txt_milestones_records),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "View All",
+                        text = stringResource(R.string.txt_view_all),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Medium
@@ -103,7 +106,7 @@ fun ProfileMilestonesPreview(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Recent Achievements",
+                    text = stringResource(R.string.txt_recent_achievements),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurfaceVariant

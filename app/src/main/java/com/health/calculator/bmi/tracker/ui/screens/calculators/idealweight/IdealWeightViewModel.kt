@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.idealweight
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,7 +54,8 @@ data class IdealWeightResultData(
     val timestamp: Long
 )
 
-class IdealWeightViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class IdealWeightViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _inputState = MutableStateFlow(IdealWeightInputState())
     val inputState: StateFlow<IdealWeightInputState> = _inputState.asStateFlow()

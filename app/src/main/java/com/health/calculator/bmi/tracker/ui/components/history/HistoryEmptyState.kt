@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -80,14 +83,14 @@ fun HistoryEmptyState(
                     onClick = onClearFilters,
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Clear Filters")
+                    Text(stringResource(R.string.txt_clear_filters))
                 }
             } else {
                 Button(
                     onClick = onNavigateHome,
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Go to Calculators")
+                    Text(stringResource(R.string.txt_go_to_calculators))
                 }
             }
         }

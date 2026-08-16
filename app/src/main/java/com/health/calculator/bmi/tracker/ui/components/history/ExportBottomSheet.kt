@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
@@ -47,7 +50,7 @@ fun ExportBottomSheet(
                 .padding(bottom = 32.dp)
         ) {
             Text(
-                text = "Export Health Data",
+                text = stringResource(R.string.txt_export_health_data),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
@@ -136,7 +139,7 @@ fun ExportBottomSheet(
             ) {
                 Icon(Icons.Default.Schedule, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Schedule Automatic Exports")
+                Text(stringResource(R.string.txt_schedule_automatic_exports))
             }
         }
     }

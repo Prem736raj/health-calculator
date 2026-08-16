@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -32,12 +35,12 @@ fun HealthOverviewSection(
             .padding(16.dp)
     ) {
         Text(
-            text = "Your Health Status",
+            text = stringResource(R.string.txt_your_health_status),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Latest results from your calculations",
+            text = stringResource(R.string.txt_latest_results_from_your_calcu),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -65,7 +68,7 @@ fun HealthOverviewSection(
         
         // Progress Metrics
         Text(
-            text = "Activity & Nutrition",
+            text = stringResource(R.string.txt_activity_nutrition),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -153,12 +156,12 @@ fun HealthScoreDonut(score: Int) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Overall Health Score",
+                    text = stringResource(R.string.txt_overall_health_score),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Based on your aggregated health data",
+                    text = stringResource(R.string.txt_based_on_your_aggregated_healt),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

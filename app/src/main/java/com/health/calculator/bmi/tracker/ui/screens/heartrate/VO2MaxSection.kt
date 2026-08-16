@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -47,16 +50,16 @@ fun VO2MaxSection(
     ) {
         // Section header
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("🫁", fontSize = 22.sp)
+            Text(stringResource(R.string.txt_text_placeholder_63), fontSize = 22.sp)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "VO₂ Max & Fitness Age",
+                    text = stringResource(R.string.txt_vo_max_fitness_age),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Estimated aerobic capacity and cardiovascular fitness",
+                    text = stringResource(R.string.txt_estimated_aerobic_capacity_and),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -108,16 +111,16 @@ private fun NoRestingHRCard() {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("🫁", fontSize = 40.sp)
+            Text(stringResource(R.string.txt_text_placeholder_63), fontSize = 40.sp)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Resting Heart Rate Required",
+                text = stringResource(R.string.txt_resting_heart_rate_required),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "To estimate your VO₂ Max and Fitness Age, we need your resting heart rate. " +
+                text = stringResource(R.string.txt_to_estimate_your_vo_max_and_fi) +
                         "Go back and select the Karvonen formula, or enter your resting HR to unlock this feature.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
@@ -133,10 +136,10 @@ private fun NoRestingHRCard() {
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("💡", fontSize = 14.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Tip: Measure your pulse first thing in the morning for the most accurate reading",
+                        text = stringResource(R.string.txt_tip_measure_your_pulse_first_t),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFF2196F3),
                         lineHeight = 14.sp
@@ -202,13 +205,13 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "%.1f".format(animatedVO2),
+                        text = stringResource(R.string.txt_1f).format(animatedVO2),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = result.classification.color
                     )
                     Text(
-                        text = "ml/kg/min",
+                        text = stringResource(R.string.txt_ml_kg_min),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -273,7 +276,7 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
 
             // Formula note
             Text(
-                text = "Estimated using Uth et al. formula: 15.3 × (MHR ÷ RHR)",
+                text = stringResource(R.string.txt_estimated_using_uth_et_al_form),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f),
                 textAlign = TextAlign.Center
@@ -335,7 +338,7 @@ private fun FitnessAgeCard(result: VO2MaxResult) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "🎂 Fitness Age",
+                text = stringResource(R.string.txt_fitness_age),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -434,7 +437,7 @@ private fun AgeColumn(
             color = color
         )
         Text(
-            text = "years",
+            text = stringResource(R.string.txt_years),
             style = MaterialTheme.typography.labelSmall,
             color = color.copy(alpha = 0.7f)
         )
@@ -482,7 +485,7 @@ private fun VO2ClassificationGauge(result: VO2MaxResult) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "📏 Where You Stand",
+                text = stringResource(R.string.txt_where_you_stand),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
@@ -511,7 +514,7 @@ private fun VO2ClassificationGauge(result: VO2MaxResult) {
                     ) {
                         if (isCurrent) {
                             Text(
-                                text = "▼",
+                                text = stringResource(R.string.txt_text_placeholder_62),
                                 fontSize = 10.sp,
                                 color = color,
                                 fontWeight = FontWeight.Bold
@@ -531,7 +534,7 @@ private fun VO2ClassificationGauge(result: VO2MaxResult) {
                         ) {
                             if (isCurrent) {
                                 Text(
-                                    text = "%.0f".format(result.vo2Max),
+                                    text = stringResource(R.string.txt_0f).format(result.vo2Max),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.ExtraBold,
                                     color = Color.White,
@@ -587,10 +590,10 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("📈", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 20.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "Improvement Potential",
+                        text = stringResource(R.string.txt_improvement_potential),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -622,9 +625,9 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(top = 12.dp)
                 ) {
-                    Text("→", fontSize = 20.sp, color = Color(0xFF4CAF50))
+                    Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 20.sp, color = Color(0xFF4CAF50))
                     Text(
-                        text = "6 months",
+                        text = stringResource(R.string.txt_6_months),
                         style = MaterialTheme.typography.labelSmall,
                         fontSize = 9.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
@@ -668,7 +671,7 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                     )
 
                     Text(
-                        text = "How to Improve VO₂ Max",
+                        text = stringResource(R.string.txt_how_to_improve_vo_max),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 10.dp)
@@ -702,7 +705,7 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
 
             if (!isExpanded) {
                 Text(
-                    text = "Tap for improvement tips",
+                    text = stringResource(R.string.txt_tap_for_improvement_tips),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier
@@ -808,16 +811,16 @@ private fun RecoveryHeartRateSection() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("⏱️", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_27), fontSize = 20.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "Recovery Heart Rate",
+                            text = stringResource(R.string.txt_recovery_heart_rate),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "How quickly your HR drops after exercise",
+                            text = stringResource(R.string.txt_how_quickly_your_hr_drops_afte),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -844,10 +847,10 @@ private fun RecoveryHeartRateSection() {
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("💡", fontSize = 14.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "A healthy heart should drop 20+ BPM in the first minute after stopping intense exercise.",
+                        text = stringResource(R.string.txt_a_healthy_heart_should_drop_20),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                         lineHeight = 16.sp
@@ -873,7 +876,7 @@ private fun RecoveryHeartRateSection() {
 
                     // Recovery classifications
                     Text(
-                        text = "Recovery Rate Classifications",
+                        text = stringResource(R.string.txt_recovery_rate_classifications),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -890,7 +893,7 @@ private fun RecoveryHeartRateSection() {
 
                     // How to test
                     Text(
-                        text = "🧪 How to Test Your Recovery HR",
+                        text = stringResource(R.string.txt_how_to_test_your_recovery_hr),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -938,7 +941,7 @@ private fun RecoveryHeartRateSection() {
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "💡 Track your recovery HR monthly. As fitness improves, " +
+                        text = stringResource(R.string.txt_track_your_recovery_hr_monthly) +
                                 "your heart will recover faster — it's one of the best indicators of cardiovascular health!",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
@@ -949,7 +952,7 @@ private fun RecoveryHeartRateSection() {
 
             if (!isExpanded) {
                 Text(
-                    text = "Tap for recovery test guide",
+                    text = stringResource(R.string.txt_tap_for_recovery_test_guide),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier

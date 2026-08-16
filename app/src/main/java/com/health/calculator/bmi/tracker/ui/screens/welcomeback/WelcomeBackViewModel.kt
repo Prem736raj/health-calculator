@@ -1,6 +1,8 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/ui/screens/welcomeback/WelcomeBackViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.welcomeback
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.models.InactivityState
@@ -27,7 +29,8 @@ data class WelcomeBackUiState(
     val freezeApplied: Boolean = false
 )
 
-class WelcomeBackViewModel(
+@HiltViewModel
+class WelcomeBackViewModel @Inject constructor(
     private val inactivityRepository: InactivityRepository,
     private val profileRepository: ProfileRepository,
     private val historyRepository: HistoryRepository,

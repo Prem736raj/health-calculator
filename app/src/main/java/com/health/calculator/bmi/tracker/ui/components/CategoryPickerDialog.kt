@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -39,7 +42,7 @@ fun CategoryPickerDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        "Remind Me To...",
+                        stringResource(R.string.txt_remind_me_to),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )

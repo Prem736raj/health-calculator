@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.profile.milestones
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -26,7 +29,7 @@ fun MilestonesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Milestones & Records", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_milestones_records_1), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

@@ -1,6 +1,8 @@
 // widget/WaterWidgetDataProvider.kt
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
@@ -13,7 +15,7 @@ import java.util.*
  * Provides water tracking data for widgets and quick access from home card.
  * Uses caching for instant widget loading.
  */
-class WaterWidgetDataProvider(private val context: Context) {
+class WaterWidgetDataProvider(@ApplicationContext private val context: Context) {
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences("water_widget_prefs", Context.MODE_PRIVATE)

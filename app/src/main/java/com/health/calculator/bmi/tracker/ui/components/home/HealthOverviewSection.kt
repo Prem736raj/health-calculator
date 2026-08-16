@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -66,10 +69,10 @@ fun HealthOverviewSection(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("✨", fontSize = 22.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_12), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "My Health Summary",
+                        text = stringResource(R.string.txt_my_health_summary),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -78,7 +81,7 @@ fun HealthOverviewSection(
                 if (healthScore.category != HealthScoreCategory.INSUFFICIENT_DATA) {
                     TextButton(onClick = onViewBreakdown) {
                         Text(
-                            text = "Details",
+                            text = stringResource(R.string.txt_details),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -219,13 +222,13 @@ private fun HealthScoreCircle(
                         color = category.color
                     )
                     Text(
-                        text = "/ 100",
+                        text = stringResource(R.string.txt_100),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
                 } else {
                     Text(
-                        text = "?",
+                        text = stringResource(R.string.txt_text_placeholder_11),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color(0xFF9E9E9E)
@@ -275,7 +278,7 @@ private fun HealthScoreCircle(
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("📋", fontSize = 12.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_10), fontSize = 12.sp)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "$availableMetrics of $totalMetrics metrics tracked",
@@ -301,7 +304,7 @@ private fun QuickStatsRow(
 
     Column {
         Text(
-            text = "Quick Stats",
+            text = stringResource(R.string.txt_quick_stats),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
@@ -442,16 +445,16 @@ private fun EmptyStatsPrompt() {
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("📊", fontSize = 24.sp)
+            Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 24.sp)
             Spacer(modifier = Modifier.width(12.dp))
             Column {
                 Text(
-                    text = "Start Tracking Your Health",
+                    text = stringResource(R.string.txt_start_tracking_your_health),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "Use the calculators below to see your stats here",
+                    text = stringResource(R.string.txt_use_the_calculators_below_to_s),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -489,7 +492,7 @@ private fun LastActivityRow(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "🕐",
+                    text = stringResource(R.string.txt_text_placeholder_8),
                     fontSize = 14.sp
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -502,7 +505,7 @@ private fun LastActivityRow(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Recalculate",
+                    text = stringResource(R.string.txt_recalculate),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium

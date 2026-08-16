@@ -1,6 +1,12 @@
 // ui/screens/bloodpressure/BpExportScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -31,7 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun BpExportScreen(
     onNavigateBack: () -> Unit,
-    viewModel: BpExportViewModel = viewModel()
+    viewModel: BpExportViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -39,7 +45,7 @@ fun BpExportScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Export & Share", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_export_share), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -91,7 +97,7 @@ fun BpExportScreen(
 
             // Export options
             Text(
-                "Full Report",
+                stringResource(R.string.txt_full_report),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -130,7 +136,7 @@ fun BpExportScreen(
 
             // Doctor Report
             Text(
-                "For Your Doctor",
+                stringResource(R.string.txt_for_your_doctor),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -169,7 +175,7 @@ fun BpExportScreen(
                         modifier = Modifier.size(18.dp).padding(top = 2.dp)
                     )
                     Text(
-                        "The doctor report includes your last 30 readings, morning vs evening comparison, medication history, and is formatted for easy clinical review. Show this to your healthcare provider during your next visit.",
+                        stringResource(R.string.txt_the_doctor_report_includes_you),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFF1565C0).copy(alpha = 0.8f)
                     )
@@ -180,7 +186,7 @@ fun BpExportScreen(
 
             // Share Last Reading
             Text(
-                "Share Reading",
+                stringResource(R.string.txt_share_reading),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -224,7 +230,7 @@ fun BpExportScreen(
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        "No readings to share yet. Take a BP reading first!",
+                        stringResource(R.string.txt_no_readings_to_share_yet_take_),
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
@@ -348,7 +354,7 @@ private fun ExportOptionCard(
                             strokeWidth = 2.dp
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Generating...", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_generating), fontWeight = FontWeight.Bold)
                     } else {
                         Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(8.dp))
@@ -373,7 +379,7 @@ private fun ExportOptionCard(
                             strokeWidth = 2.dp
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Generating...", fontWeight = FontWeight.Medium)
+                        Text(stringResource(R.string.txt_generating), fontWeight = FontWeight.Medium)
                     } else {
                         Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(8.dp))

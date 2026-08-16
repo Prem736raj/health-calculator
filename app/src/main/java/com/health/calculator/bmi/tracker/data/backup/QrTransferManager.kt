@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -12,7 +14,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class QrTransferManager(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private const val QR_SIZE = 512
@@ -21,7 +23,7 @@ class QrTransferManager(
         @Volatile
         private var INSTANCE: QrTransferManager? = null
 
-        fun getInstance(context: Context): QrTransferManager {
+        fun getInstance(@ApplicationContext context: Context): QrTransferManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: QrTransferManager(context.applicationContext).also { INSTANCE = it }
             }

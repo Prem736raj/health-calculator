@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -271,7 +274,7 @@ fun HistoryEntryCard(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "Share",
+                                text = stringResource(R.string.txt_share),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
@@ -291,7 +294,7 @@ fun HistoryEntryCard(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "Delete",
+                                text = stringResource(R.string.txt_delete),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }

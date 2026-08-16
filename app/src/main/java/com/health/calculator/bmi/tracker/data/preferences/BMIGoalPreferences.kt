@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -10,7 +12,7 @@ import kotlinx.coroutines.flow.map
 
 private val Context.bmiGoalDataStore: DataStore<Preferences> by preferencesDataStore(name = "bmi_goal_prefs")
 
-class BMIGoalPreferences(private val context: Context) {
+class BMIGoalPreferences(@ApplicationContext private val context: Context) {
 
     companion object {
         private val TARGET_BMI = floatPreferencesKey("target_bmi")

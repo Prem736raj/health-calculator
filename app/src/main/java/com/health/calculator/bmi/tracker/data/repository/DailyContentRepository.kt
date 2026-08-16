@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.DailyContentData
 import com.health.calculator.bmi.tracker.data.local.dao.FavoriteQuoteDao
 import com.health.calculator.bmi.tracker.data.local.entity.FavoriteQuoteEntity
@@ -10,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Calendar
 
-class DailyContentRepository(
+class DailyContentRepository @Inject constructor(
     private val favoriteQuoteDao: FavoriteQuoteDao
 ) {
     private val _dailyContent = MutableStateFlow<DailyContent?>(null)

@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/MealTimingSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -90,17 +93,17 @@ fun MealTimingSection(
             Column(modifier = Modifier.padding(20.dp)) {
                 // Header
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "⏰", fontSize = 22.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_31), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Meal Timing & Schedule",
+                            text = stringResource(R.string.txt_meal_timing_schedule),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Plan when and how often to eat",
+                            text = stringResource(R.string.txt_plan_when_and_how_often_to_eat),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -168,7 +171,7 @@ private fun PatternSelector(
 ) {
     Column {
         Text(
-            text = "Eating Pattern",
+            text = stringResource(R.string.txt_eating_pattern),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
@@ -177,7 +180,7 @@ private fun PatternSelector(
 
         // Regular patterns row
         Text(
-            text = "Regular",
+            text = stringResource(R.string.txt_regular),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -205,7 +208,7 @@ private fun PatternSelector(
 
         // IF patterns row
         Text(
-            text = "Intermittent Fasting",
+            text = stringResource(R.string.txt_intermittent_fasting),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -356,7 +359,7 @@ private fun EatingWindowControls(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "First meal at:",
+                        text = stringResource(R.string.txt_first_meal_at),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface
@@ -419,7 +422,7 @@ private fun EatingWindowControls(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Eating window:",
+                        text = stringResource(R.string.txt_eating_window),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -457,7 +460,7 @@ private fun EatingWindowControls(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Number of meals:",
+                        text = stringResource(R.string.txt_number_of_meals),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -512,7 +515,7 @@ private fun DailyTimeline(
 
     Column {
         Text(
-            text = "📅 Daily Schedule",
+            text = stringResource(R.string.txt_daily_schedule),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
@@ -688,10 +691,10 @@ private fun IFWindowSummary(config: MealTimingConfig) {
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "⏱️", fontSize = 18.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_27), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Intermittent Fasting Schedule",
+                    text = stringResource(R.string.txt_intermittent_fasting_schedule),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -777,7 +780,7 @@ private fun formatHour(hour: Int): String {
 private fun MealBreakdownList(meals: List<TimedMealSlot>) {
     Column {
         Text(
-            text = "🍽️ Meal Schedule",
+            text = stringResource(R.string.txt_meal_schedule),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
@@ -817,7 +820,7 @@ private fun MealBreakdownList(meals: List<TimedMealSlot>) {
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Tip: These are suggested timings. Adjust based on your schedule and listen to your body's hunger cues.",
+                text = stringResource(R.string.txt_tip_these_are_suggested_timing),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                 fontSize = 10.sp,
@@ -883,7 +886,7 @@ private fun MealCard(meal: TimedMealSlot, index: Int) {
                             color = SnackDotColor.copy(alpha = 0.1f)
                         ) {
                             Text(
-                                text = "Snack",
+                                text = stringResource(R.string.txt_snack),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = SnackDotColor,
                                 fontSize = 9.sp,
@@ -909,7 +912,7 @@ private fun MealCard(meal: TimedMealSlot, index: Int) {
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "kcal",
+                    text = stringResource(R.string.txt_kcal),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 9.sp

@@ -1,6 +1,8 @@
 // notification/WaterReminderScheduler.kt
 package com.health.calculator.bmi.tracker.notification
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -10,7 +12,7 @@ import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
 import com.health.calculator.bmi.tracker.receiver.WaterReminderReceiver
 import java.util.Calendar
 
-class WaterReminderScheduler(private val context: Context) {
+class WaterReminderScheduler(@ApplicationContext private val context: Context) {
 
     companion object {
         private const val REQUEST_CODE = 6001

@@ -8,9 +8,12 @@ import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.repository.*
 import kotlinx.coroutines.flow.Flow
 
+import dagger.hilt.android.HiltAndroidApp
+
 /**
  * Custom Application class that provides app-wide access to theme settings and repositories.
  */
+@HiltAndroidApp
 class HealthCalculatorApp : Application() {
 
     val database by lazy { AppDatabase.getDatabase(this) }

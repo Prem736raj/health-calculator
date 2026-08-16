@@ -1,6 +1,8 @@
 // ui/screens/waterintake/WaterHistoryViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -54,7 +56,8 @@ data class WeeklyReport(
 
 enum class TrendDirection { IMPROVING, DECLINING, STEADY }
 
-class WaterHistoryViewModel(
+@HiltViewModel
+class WaterHistoryViewModel @Inject constructor(
     application: Application,
     private val repository: WaterIntakeRepository
 ) : AndroidViewModel(application) {

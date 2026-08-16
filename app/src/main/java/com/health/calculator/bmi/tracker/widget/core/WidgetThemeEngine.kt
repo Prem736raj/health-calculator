@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
@@ -47,7 +49,7 @@ object WidgetThemeEngine {
     // ── Resolve scheme from theme setting + system ────────────────────
 
     fun resolveScheme(
-        context: Context,
+        @ApplicationContext context: Context,
         theme: WidgetTheme,
         opacity: Int = 100
     ): WidgetColorScheme {
@@ -65,7 +67,7 @@ object WidgetThemeEngine {
     // ── Material You (Android 12+) ────────────────────────────────────
 
     fun resolveMaterialYouScheme(
-        context: Context,
+        @ApplicationContext context: Context,
         opacity: Int = 100
     ): WidgetColorScheme? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return null
@@ -214,7 +216,7 @@ object WidgetThemeEngine {
 
     // ── Helpers ───────────────────────────────────────────────────────
 
-    fun isSystemDark(context: Context): Boolean {
+    fun isSystemDark(@ApplicationContext context: Context): Boolean {
         val uiMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return uiMode == Configuration.UI_MODE_NIGHT_YES
     }

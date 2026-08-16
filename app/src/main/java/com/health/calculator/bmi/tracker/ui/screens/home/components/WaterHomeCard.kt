@@ -1,6 +1,9 @@
 // ui/screens/home/components/WaterHomeCard.kt
 package com.health.calculator.bmi.tracker.ui.screens.home.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -134,13 +137,13 @@ fun WaterHomeCard(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            "Daily Water Intake",
+                            stringResource(R.string.txt_daily_water_intake),
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
                         )
                         if (isGoalMet) {
-                            Text("✓", fontSize = 14.sp, color = Color.White)
+                            Text(stringResource(R.string.txt_text_placeholder_25), fontSize = 14.sp, color = Color.White)
                         }
                     }
 
@@ -170,7 +173,7 @@ fun WaterHomeCard(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Text("🔥", fontSize = 12.sp)
+                                Text(stringResource(R.string.txt_text_placeholder_6), fontSize = 12.sp)
                                 Text(
                                     "$streakDays day${if (streakDays > 1) "s" else ""}",
                                     color = Color.White.copy(alpha = 0.8f),
@@ -268,7 +271,7 @@ fun WaterHomeCard(
                         elevation = CardDefaults.cardElevation(8.dp)
                     ) {
                         Text(
-                            "✓ Added!",
+                            stringResource(R.string.txt_added),
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                             color = Color.White,
                             fontWeight = FontWeight.Bold

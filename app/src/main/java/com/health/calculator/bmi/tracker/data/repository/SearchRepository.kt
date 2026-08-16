@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.model.SearchResult
 import com.health.calculator.bmi.tracker.data.model.SearchResultType
 import androidx.compose.material.icons.Icons

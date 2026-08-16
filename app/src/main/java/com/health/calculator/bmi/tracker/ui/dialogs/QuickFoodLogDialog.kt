@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.dialogs
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.clickable
@@ -86,7 +89,7 @@ fun QuickFoodLogDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "⚡ Quick Food Log",
+                        text = stringResource(R.string.txt_quick_food_log),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -107,12 +110,12 @@ fun QuickFoodLogDialog(
                     Tab(
                         selected = selectedTab == 0,
                         onClick = { selectedTab = 0 },
-                        text = { Text("Quick Add") }
+                        text = { Text(stringResource(R.string.txt_quick_add)) }
                     )
                     Tab(
                         selected = selectedTab == 1,
                         onClick = { selectedTab = 1 },
-                        text = { Text("Custom") }
+                        text = { Text(stringResource(R.string.txt_custom)) }
                     )
                 }
 
@@ -152,7 +155,7 @@ fun QuickFoodLogDialog(
                             OutlinedTextField(
                                 value = customFoodName,
                                 onValueChange = { customFoodName = it },
-                                label = { Text("Food name") },
+                                label = { Text(stringResource(R.string.txt_food_name)) },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
                                 shape = RoundedCornerShape(12.dp)
@@ -161,7 +164,7 @@ fun QuickFoodLogDialog(
                             OutlinedTextField(
                                 value = customCalories,
                                 onValueChange = { customCalories = it.filter { c -> c.isDigit() } },
-                                label = { Text("Calories (kcal)") },
+                                label = { Text(stringResource(R.string.txt_calories_kcal)) },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -200,7 +203,7 @@ fun QuickFoodLogDialog(
                                             onValueChange = {
                                                 customProtein = it.filter { c -> c.isDigit() || c == '.' }
                                             },
-                                            label = { Text("Protein (g)") },
+                                            label = { Text(stringResource(R.string.txt_protein_g)) },
                                             modifier = Modifier.weight(1f),
                                             singleLine = true,
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -211,7 +214,7 @@ fun QuickFoodLogDialog(
                                             onValueChange = {
                                                 customCarbs = it.filter { c -> c.isDigit() || c == '.' }
                                             },
-                                            label = { Text("Carbs (g)") },
+                                            label = { Text(stringResource(R.string.txt_carbs_g)) },
                                             modifier = Modifier.weight(1f),
                                             singleLine = true,
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -223,7 +226,7 @@ fun QuickFoodLogDialog(
                                         onValueChange = {
                                             customFat = it.filter { c -> c.isDigit() || c == '.' }
                                         },
-                                        label = { Text("Fat (g)") },
+                                        label = { Text(stringResource(R.string.txt_fat_g)) },
                                         modifier = Modifier.fillMaxWidth(0.49f),
                                         singleLine = true,
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -257,7 +260,7 @@ fun QuickFoodLogDialog(
                             ) {
                                 Icon(Icons.Default.Add, null)
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Log Food", fontWeight = FontWeight.SemiBold)
+                                Text(stringResource(R.string.txt_log_food), fontWeight = FontWeight.SemiBold)
                             }
                         }
                     }

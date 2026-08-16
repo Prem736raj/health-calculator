@@ -1,6 +1,8 @@
 // notifications/NotificationChannelsManager.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -71,7 +73,7 @@ object NotificationChannelsManager {
         )
     )
 
-    fun createAllChannels(context: Context) {
+    fun createAllChannels(@ApplicationContext context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -116,14 +118,14 @@ object NotificationChannelsManager {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun isChannelEnabled(context: Context, channelId: String): Boolean {
+    fun isChannelEnabled(@ApplicationContext context: Context, channelId: String): Boolean {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channel = notificationManager.getNotificationChannel(channelId)
         return channel?.importance != NotificationManager.IMPORTANCE_NONE
     }
 
-    fun getChannelSettings(context: Context): List<ChannelSettingInfo> {
+    fun getChannelSettings(@ApplicationContext context: Context): List<ChannelSettingInfo> {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return channels.map { config ->
                 ChannelSettingInfo(

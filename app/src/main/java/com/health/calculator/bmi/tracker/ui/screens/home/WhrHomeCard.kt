@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -46,7 +49,7 @@ fun WhrHomeCardContent(
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
-                "Last WHR",
+                stringResource(R.string.txt_last_whr),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 fontSize = 10.sp
@@ -81,7 +84,7 @@ fun WhrHomeCardContent(
             ) {
                 // Alert indicator for high risk
                 if (lastEntry.category == WhrCategory.HIGH_RISK) {
-                    Text("⚠️", fontSize = 10.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 10.sp)
                 }
                 Text(
                     lastEntry.category.label,

@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -31,7 +37,7 @@ import com.health.calculator.bmi.tracker.data.model.*
 
 @Composable
 fun StatisticsScreen(
-    viewModel: StatisticsViewModel = viewModel()
+    viewModel: StatisticsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -58,7 +64,7 @@ fun StatisticsScreen(
 
             item {
                 Text(
-                    text = "Activity Heatmap",
+                    text = stringResource(R.string.txt_activity_heatmap),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 8.dp)
@@ -71,7 +77,7 @@ fun StatisticsScreen(
 
             item {
                 Text(
-                    text = "Health Trends",
+                    text = stringResource(R.string.txt_health_trends),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 8.dp)
@@ -111,7 +117,7 @@ fun OverallStatsCard(stats: OverallStatistics) {
             ) {
                 Column {
                     Text(
-                        text = "Total Calculations",
+                        text = stringResource(R.string.txt_total_calculations),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -202,7 +208,7 @@ fun StreakCard(currentStreak: Int, longestStreak: Int) {
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Current Streak",
+                    text = stringResource(R.string.txt_current_streak),
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
@@ -215,7 +221,7 @@ fun StreakCard(currentStreak: Int, longestStreak: Int) {
 
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = "Best Streak",
+                    text = stringResource(R.string.txt_best_streak),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -375,12 +381,12 @@ fun EmptyTrendsCard() {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
             Text(
-                text = "No trends available yet",
+                text = stringResource(R.string.txt_no_trends_available_yet),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "Keep calculating to see your progress",
+                text = stringResource(R.string.txt_keep_calculating_to_see_your_p),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.splash
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.EaseOutBack
@@ -235,7 +238,7 @@ fun SplashScreen(
 
             // ── App Name ──────────────────────────────────────────────
             Text(
-                text = "Health Calculator",
+                text = stringResource(R.string.txt_health_calculator),
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = (-0.5).sp
@@ -248,7 +251,7 @@ fun SplashScreen(
 
             // ── Subtitle ──────────────────────────────────────────────
             Text(
-                text = "Your personal health companion",
+                text = stringResource(R.string.txt_your_personal_health_companion),
                 style = MaterialTheme.typography.bodyLarge,
                 color = SplashTeal.copy(alpha = 0.8f),
                 modifier = Modifier.alpha(subtitleAlpha.value)
@@ -264,7 +267,7 @@ fun SplashScreen(
 
         // ── Bottom disclaimer ─────────────────────────────────────────
         Text(
-            text = "For educational purposes only",
+            text = stringResource(R.string.txt_for_educational_purposes_only),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
             modifier = Modifier

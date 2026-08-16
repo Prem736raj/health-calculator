@@ -14,42 +14,42 @@ enum class CalculatorType(
         displayName    = "BMI Calculator",
         shortName      = "BMI",
         navDestination = "bmi_calculator",
-        iconRes        = R.drawable.ic_calc_bmi,
+        iconRes        = R.drawable.ic_bmi,
         accentColorHex = "#4CAF50"
     ),
     BLOOD_PRESSURE(
         displayName    = "Blood Pressure",
         shortName      = "BP",
         navDestination = "blood_pressure_checker",
-        iconRes        = R.drawable.ic_calc_bp,
+        iconRes        = R.drawable.ic_bp,
         accentColorHex = "#F44336"
     ),
     WATER(
         displayName    = "Water Intake",
         shortName      = "Water",
         navDestination = "water_tracker",
-        iconRes        = R.drawable.ic_calc_water,
+        iconRes        = R.drawable.ic_water,
         accentColorHex = "#2196F3"
     ),
     CALORIES(
         displayName    = "Calorie Tracker",
         shortName      = "Calories",
         navDestination = "calorie_calculator",
-        iconRes        = R.drawable.ic_calc_calories,
+        iconRes        = R.drawable.ic_calories,
         accentColorHex = "#FF9800"
     ),
     HEART_RATE(
         displayName    = "Heart Rate Zones",
         shortName      = "HR Zone",
         navDestination = "heart_rate_calculator",
-        iconRes        = R.drawable.ic_calc_heart_rate,
+        iconRes        = R.drawable.ic_bp,
         accentColorHex = "#E91E63"
     ),
     BMR(
         displayName    = "BMR Calculator",
         shortName      = "BMR",
         navDestination = "bmr_calculator",
-        iconRes        = R.drawable.ic_calc_bmi,
+        iconRes        = R.drawable.ic_bmi,
         accentColorHex = "#9C27B0"
     );
 

@@ -1,16 +1,18 @@
 package com.health.calculator.bmi.tracker.data.management
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import java.io.File
 
 class StorageAnalyzer private constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         @Volatile
         private var instance: StorageAnalyzer? = null
 
-        fun getInstance(context: Context): StorageAnalyzer {
+        fun getInstance(@ApplicationContext context: Context): StorageAnalyzer {
             return instance ?: synchronized(this) {
                 instance ?: StorageAnalyzer(context.applicationContext).also { instance = it }
             }

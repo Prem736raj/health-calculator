@@ -1,6 +1,8 @@
 // notifications/QuickActionReceiver.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,7 +21,7 @@ class QuickActionReceiver : BroadcastReceiver() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val action = intent.action ?: return
         val reminderId = intent.getStringExtra("reminder_id") ?: ""
         val actionValue = intent.getStringExtra("action_value") ?: ""
@@ -77,7 +79,7 @@ class QuickActionReceiver : BroadcastReceiver() {
         }
     }
 
-    private suspend fun showToast(context: Context, message: String) {
+    private suspend fun showToast(@ApplicationContext context: Context, message: String) {
         withContext(Dispatchers.Main) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }

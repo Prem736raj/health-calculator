@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.idealweight
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.Intent
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -31,7 +37,7 @@ fun IdealWeightCalculatorScreen(
     profileAge: Int = 0,
     profileIsMale: Boolean = true,
     profileUnitCm: Boolean = true,
-    viewModel: IdealWeightViewModel = viewModel()
+    viewModel: IdealWeightViewModel = hiltViewModel()
 ) {
     val inputState by viewModel.inputState.collectAsState()
     val validationState by viewModel.validationState.collectAsState()
@@ -87,7 +93,7 @@ fun IdealWeightCalculatorScreen(
         topBar = {
             Column {
                 TopAppBar(
-                    title = { Text("Ideal Body Weight", fontWeight = FontWeight.Bold) },
+                    title = { Text(stringResource(R.string.txt_ideal_body_weight), fontWeight = FontWeight.Bold) },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

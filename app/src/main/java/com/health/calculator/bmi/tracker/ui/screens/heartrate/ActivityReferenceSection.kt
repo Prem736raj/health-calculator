@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -56,16 +59,16 @@ fun ActivityReferenceSection(
     ) {
         // Section header
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("🏃", fontSize = 22.sp)
+            Text(stringResource(R.string.txt_text_placeholder_55), fontSize = 22.sp)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Activity Heart Rate Guide",
+                    text = stringResource(R.string.txt_activity_heart_rate_guide),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Personalized BPM ranges for common activities",
+                    text = stringResource(R.string.txt_personalized_bpm_ranges_for_co),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -77,7 +80,7 @@ fun ActivityReferenceSection(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Search activities...") },
+            placeholder = { Text(stringResource(R.string.txt_search_activities)) },
             leadingIcon = {
                 Icon(
                     Icons.Default.Search,
@@ -150,10 +153,10 @@ fun ActivityReferenceSection(
                 modifier = Modifier.padding(12.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Text("ℹ️", fontSize = 14.sp)
+                Text(stringResource(R.string.txt_text_placeholder_54), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Heart rate ranges are personalized estimates based on your calculated zones. " +
+                    text = stringResource(R.string.txt_heart_rate_ranges_are_personal) +
                             "Actual heart rate during activities varies based on fitness level, technique, " +
                             "environment, and individual physiology. Calorie estimates are approximate.",
                     style = MaterialTheme.typography.labelSmall,
@@ -373,7 +376,7 @@ private fun ActivityCard(
                     // BPM range
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "❤️",
+                            text = stringResource(R.string.txt_text_placeholder_5),
                             fontSize = 10.sp
                         )
                         Spacer(modifier = Modifier.width(3.dp))
@@ -388,7 +391,7 @@ private fun ActivityCard(
                     }
 
                     Text(
-                        text = "BPM",
+                        text = stringResource(R.string.txt_bpm_1),
                         style = MaterialTheme.typography.labelSmall,
                         fontSize = 9.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
@@ -404,7 +407,7 @@ private fun ActivityCard(
                         color = Color(0xFFFF9800)
                     )
                     Text(
-                        text = "cal/30m",
+                        text = stringResource(R.string.txt_cal_30m),
                         style = MaterialTheme.typography.labelSmall,
                         fontSize = 8.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
@@ -550,7 +553,7 @@ private fun CalorieDurationRow(
                     color = zoneColor
                 )
                 Text(
-                    text = "cal",
+                    text = stringResource(R.string.txt_cal),
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 8.sp,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
@@ -579,7 +582,7 @@ private fun EmptySearchResult(query: String) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("🔍", fontSize = 32.sp)
+            Text(stringResource(R.string.txt_text_placeholder_53), fontSize = 32.sp)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "No activities found for \"$query\"",
@@ -588,7 +591,7 @@ private fun EmptySearchResult(query: String) {
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "Try a different search term",
+                text = stringResource(R.string.txt_try_a_different_search_term),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )

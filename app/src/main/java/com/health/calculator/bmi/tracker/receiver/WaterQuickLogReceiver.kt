@@ -1,6 +1,8 @@
 // receiver/WaterQuickLogReceiver.kt
 package com.health.calculator.bmi.tracker.receiver
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -16,7 +18,7 @@ class WaterQuickLogReceiver : BroadcastReceiver() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         if (intent.action == WaterNotificationHelper.QUICK_LOG_ACTION) {
             val amountMl = intent.getIntExtra("amount_ml", 250)
 

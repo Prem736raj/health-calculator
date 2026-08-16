@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
@@ -40,7 +43,8 @@ data class MultiProfileUiState(
  * ViewModel responsible for profile switching, family member management,
  * health interconnections, and data sharing.
  */
-class MultiProfileViewModel(
+@HiltViewModel
+class MultiProfileViewModel @Inject constructor(
     private val familyProfileRepository: FamilyProfileRepository,
     private val healthOverviewRepository: HealthOverviewRepository,
     private val historyRepository: HistoryRepository
@@ -219,7 +223,7 @@ class MultiProfileViewModel(
         _uiState.update { it.copy(shareConfig = config) }
     }
 
-    fun shareProfile(context: Context) {
+    fun shareProfile(@ApplicationContext context: Context) {
         val state = _uiState.value
         val profile = state.activeProfile ?: return
 

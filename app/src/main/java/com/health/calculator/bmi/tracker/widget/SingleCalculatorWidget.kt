@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -14,7 +16,7 @@ import com.health.calculator.bmi.tracker.R
 class SingleCalculatorWidget : AppWidgetProvider() {
 
     override fun onUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
@@ -23,7 +25,7 @@ class SingleCalculatorWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+    override fun onDeleted(@ApplicationContext context: Context, appWidgetIds: IntArray) {
         val prefs = WidgetPreferencesManager(context)
         appWidgetIds.forEach { prefs.clearWidgetPrefs(it) }
     }
@@ -31,7 +33,7 @@ class SingleCalculatorWidget : AppWidgetProvider() {
     companion object {
 
         fun updateWidget(
-            context: Context,
+            @ApplicationContext context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
@@ -85,7 +87,7 @@ class SingleCalculatorWidget : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
-        fun refreshAll(context: Context) {
+        fun refreshAll(@ApplicationContext context: Context) {
             val manager   = AppWidgetManager.getInstance(context)
             val component = ComponentName(context, SingleCalculatorWidget::class.java)
             manager.getAppWidgetIds(component).forEach {
@@ -94,7 +96,7 @@ class SingleCalculatorWidget : AppWidgetProvider() {
         }
 
         fun saveResultAndRefresh(
-            context: Context,
+            @ApplicationContext context: Context,
             calcType: CalculatorType,
             result: String,
             subtitle: String = ""

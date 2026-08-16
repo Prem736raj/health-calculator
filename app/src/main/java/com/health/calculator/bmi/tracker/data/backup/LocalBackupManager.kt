@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.net.Uri
 import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
@@ -14,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class LocalBackupManager(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val backupDir: File
         get() = File(context.filesDir, "backups").apply { mkdirs() }
@@ -23,7 +25,7 @@ class LocalBackupManager(
         @Volatile
         private var INSTANCE: LocalBackupManager? = null
 
-        fun getInstance(context: Context): LocalBackupManager {
+        fun getInstance(@ApplicationContext context: Context): LocalBackupManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: LocalBackupManager(context.applicationContext).also { INSTANCE = it }
             }

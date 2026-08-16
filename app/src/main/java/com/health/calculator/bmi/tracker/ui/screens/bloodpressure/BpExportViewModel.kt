@@ -1,6 +1,8 @@
 // ui/screens/bloodpressure/BpExportViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
@@ -33,7 +35,8 @@ data class BpExportUiState(
     val successMessage: String = ""
 )
 
-class BpExportViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BpExportViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getDatabase(application)
     private val repository = BloodPressureRepository(database.bloodPressureDao())

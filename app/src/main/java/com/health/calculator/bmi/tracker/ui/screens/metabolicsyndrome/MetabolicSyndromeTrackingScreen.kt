@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -57,7 +60,7 @@ fun MetabolicSyndromeTrackingSection(
             .padding(16.dp)
     ) {
         Text(
-            text = "Progress & Tracking",
+            text = stringResource(R.string.txt_progress_tracking),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -121,16 +124,16 @@ private fun EmptyTrackingState() {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("📊", fontSize = 48.sp)
+            Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 48.sp)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "No assessments yet",
+                text = stringResource(R.string.txt_no_assessments_yet),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Complete your first metabolic syndrome assessment to start tracking your progress over time.",
+                text = stringResource(R.string.txt_complete_your_first_metabolic_),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -159,7 +162,7 @@ private fun TrendArrowsOverview(comparison: AssessmentComparison) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Risk Factor Trends",
+                    text = stringResource(R.string.txt_risk_factor_trends),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -288,7 +291,7 @@ private fun HistoryComparisonCard(comparison: AssessmentComparison) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Comparison with Previous",
+                    text = stringResource(R.string.txt_comparison_with_previous),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -304,7 +307,7 @@ private fun HistoryComparisonCard(comparison: AssessmentComparison) {
                 // Previous
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "Previous",
+                        text = stringResource(R.string.txt_previous),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -352,7 +355,7 @@ private fun HistoryComparisonCard(comparison: AssessmentComparison) {
                 // Current
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "Current",
+                        text = stringResource(R.string.txt_current),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -467,7 +470,7 @@ private fun CriteriaCountGraph(records: List<MetabolicSyndromeRecord>) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Criteria Count Over Time",
+                    text = stringResource(R.string.txt_criteria_count_over_time),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -476,7 +479,7 @@ private fun CriteriaCountGraph(records: List<MetabolicSyndromeRecord>) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "Goal: Reduce abnormal criteria to 0",
+                text = stringResource(R.string.txt_goal_reduce_abnormal_criteria_),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -697,14 +700,14 @@ private fun CelebrationCard(normalizedCriteria: List<String>) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "🎉",
+                text = stringResource(R.string.txt_text_placeholder_65),
                 fontSize = (36 * scale).sp
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Great Progress!",
+                text = stringResource(R.string.txt_great_progress),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = HealthGreen
@@ -713,7 +716,7 @@ private fun CelebrationCard(normalizedCriteria: List<String>) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "The following criteria moved from abnormal to normal:",
+                text = stringResource(R.string.txt_the_following_criteria_moved_f),
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -731,7 +734,7 @@ private fun CelebrationCard(normalizedCriteria: List<String>) {
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("✅", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_15), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = "$criterion is now normal!",
@@ -746,7 +749,7 @@ private fun CelebrationCard(normalizedCriteria: List<String>) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Your lifestyle changes are making a real difference. Keep going! 💪",
+                text = stringResource(R.string.txt_your_lifestyle_changes_are_mak),
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -767,7 +770,7 @@ private fun AssessmentTimeline(records: List<MetabolicSyndromeRecord>) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Recent Assessments",
+                text = stringResource(R.string.txt_recent_assessments),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -884,12 +887,12 @@ private fun LabReminderCard(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Lab Test Reminder",
+                        text = stringResource(R.string.txt_lab_test_reminder),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Reassessment recommended every 3-6 months",
+                        text = stringResource(R.string.txt_reassessment_recommended_every),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -918,7 +921,7 @@ private fun LabReminderCard(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Remind me in:",
+                        text = stringResource(R.string.txt_remind_me_in),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -958,7 +961,7 @@ private fun LabReminderCard(
                             modifier = Modifier.padding(10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("🔔", fontSize = 16.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_68), fontSize = 16.sp)
                             Spacer(modifier = Modifier.width(8.dp))
                             val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
                             val reminderDate = Date(

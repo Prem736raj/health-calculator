@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.health.calculator.bmi.tracker.data.model.*
@@ -29,7 +31,8 @@ enum class WhrGraphLine(val label: String) {
     HIP("Hip")
 }
 
-class WhrProgressViewModel(
+@HiltViewModel
+class WhrProgressViewModel @Inject constructor(
     private val repository: WhrRepository
 ) : ViewModel() {
 
@@ -134,11 +137,3 @@ class WhrProgressViewModel(
     }
 }
 
-class WhrProgressViewModelFactory(
-    private val repository: WhrRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        return WhrProgressViewModel(repository) as T
-    }
-}

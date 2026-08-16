@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMRFormulaSelector.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -43,7 +46,7 @@ fun BMRFormulaSelector(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Calculation Formula",
+                text = stringResource(R.string.txt_calculation_formula),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
@@ -240,7 +243,7 @@ private fun FormulaInfoDialog(
                         color = Color(0xFF4CAF50).copy(alpha = 0.12f)
                     ) {
                         Text(
-                            text = "⭐ Recommended",
+                            text = stringResource(R.string.txt_recommended),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF4CAF50),
                             fontWeight = FontWeight.Bold,
@@ -280,7 +283,7 @@ private fun FormulaInfoDialog(
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "This formula requires your body fat percentage for accurate results.",
+                                text = stringResource(R.string.txt_this_formula_requires_your_bod),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onTertiaryContainer
                             )
@@ -291,7 +294,7 @@ private fun FormulaInfoDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Got it")
+                Text(stringResource(R.string.txt_got_it_1))
             }
         }
     )

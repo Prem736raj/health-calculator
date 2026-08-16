@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.dao.MilestonesDao
 import com.health.calculator.bmi.tracker.data.models.*
 import kotlinx.coroutines.flow.Flow
@@ -7,7 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class MilestonesRepository(
+class MilestonesRepository @Inject constructor(
     private val milestonesDao: MilestonesDao,
     private val historyRepository: HistoryRepository
 ) {

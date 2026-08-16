@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.bsa
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.Intent
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -37,7 +43,7 @@ import com.health.calculator.bmi.tracker.viewmodel.BSAUiState
 @Composable
 fun BSAScreen(
     onNavigateBack: () -> Unit,
-    viewModel: BSAViewModel = viewModel()
+    viewModel: BSAViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -47,7 +53,7 @@ fun BSAScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Body Surface Area", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_body_surface_area), fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
@@ -75,7 +81,7 @@ fun BSAScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         selectedTab = 0
                     },
-                    text = { Text("Calculate", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_calculate), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         Icon(
                             Icons.Filled.Calculate,
@@ -90,7 +96,7 @@ fun BSAScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         selectedTab = 1
                     },
-                    text = { Text("Progress", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_progress), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         Icon(
                             Icons.Filled.Timeline,
@@ -105,7 +111,7 @@ fun BSAScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         selectedTab = 2
                     },
-                    text = { Text("Learn", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_learn), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         Icon(
                             Icons.Filled.MenuBook,
@@ -224,19 +230,19 @@ private fun BSAInputContent(
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("📐", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 20.sp)
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "What is BSA?",
+                        text = stringResource(R.string.txt_what_is_bsa),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Body Surface Area (BSA) is the measured or calculated surface area of the human body. It is used in many medical calculations including drug dosages, burn assessment, and renal clearance.",
+                        text = stringResource(R.string.txt_body_surface_area_bsa_is_the_m),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         lineHeight = 18.sp
@@ -265,7 +271,7 @@ private fun BSAInputContent(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Using profile data • You can override these values",
+                        text = stringResource(R.string.txt_using_profile_data_you_can_ove),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Medium,
                         color = HealthGreen
@@ -287,7 +293,7 @@ private fun BSAInputContent(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Biological Gender",
+                    text = stringResource(R.string.txt_biological_gender),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -325,7 +331,7 @@ private fun BSAInputContent(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Weight",
+                    text = stringResource(R.string.txt_weight),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -338,7 +344,7 @@ private fun BSAInputContent(
                     OutlinedTextField(
                         value = uiState.weight,
                         onValueChange = { viewModel.updateWeight(it) },
-                        label = { Text("Weight") },
+                        label = { Text(stringResource(R.string.txt_weight)) },
                         suffix = { Text(if (uiState.weightUnitKg) "kg" else "lbs") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         isError = uiState.weightError != null,
@@ -377,7 +383,7 @@ private fun BSAInputContent(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Height",
+                    text = stringResource(R.string.txt_height),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -392,8 +398,8 @@ private fun BSAInputContent(
                         OutlinedTextField(
                             value = uiState.height,
                             onValueChange = { viewModel.updateHeight(it) },
-                            label = { Text("Height") },
-                            suffix = { Text("cm") },
+                            label = { Text(stringResource(R.string.txt_height)) },
+                            suffix = { Text(stringResource(R.string.txt_cm_1)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             isError = uiState.heightError != null,
                             supportingText = uiState.heightError?.let { { Text(it) } },
@@ -409,7 +415,7 @@ private fun BSAInputContent(
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(top = 8.dp)
                         ) {
-                            Text("→ ft/in", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.txt_ft_in), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 } else {
@@ -421,8 +427,8 @@ private fun BSAInputContent(
                         OutlinedTextField(
                             value = uiState.heightFeet,
                             onValueChange = { viewModel.updateHeightFeet(it) },
-                            label = { Text("Feet") },
-                            suffix = { Text("ft") },
+                            label = { Text(stringResource(R.string.txt_feet)) },
+                            suffix = { Text(stringResource(R.string.txt_ft)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             isError = uiState.heightError != null,
                             shape = RoundedCornerShape(12.dp),
@@ -432,8 +438,8 @@ private fun BSAInputContent(
                         OutlinedTextField(
                             value = uiState.heightInches,
                             onValueChange = { viewModel.updateHeightInches(it) },
-                            label = { Text("Inches") },
-                            suffix = { Text("in") },
+                            label = { Text(stringResource(R.string.txt_inches)) },
+                            suffix = { Text(stringResource(R.string.txt_in)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                             isError = uiState.heightError != null,
                             supportingText = uiState.heightError?.let { { Text(it) } },
@@ -449,7 +455,7 @@ private fun BSAInputContent(
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(top = 8.dp)
                         ) {
-                            Text("→ cm", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.txt_cm), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
@@ -460,7 +466,7 @@ private fun BSAInputContent(
 
         // === Formula Selection ===
         Text(
-            text = "Select Formula",
+            text = stringResource(R.string.txt_select_formula),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -503,7 +509,7 @@ private fun BSAInputContent(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Notes",
+                            text = stringResource(R.string.txt_notes),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = HealthYellow
@@ -544,7 +550,7 @@ private fun BSAInputContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Calculate BSA",
+                stringResource(R.string.txt_calculate_bsa),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -564,7 +570,7 @@ private fun BSAInputContent(
                 modifier = Modifier.size(16.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Clear All")
+            Text(stringResource(R.string.txt_clear_all_1))
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -660,7 +666,7 @@ private fun FormulaSelectionCard(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("🎯 ", fontSize = 12.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_43), fontSize = 12.sp)
                             Text(
                                 text = "Best for: ${formula.bestFor}",
                                 style = MaterialTheme.typography.labelSmall,

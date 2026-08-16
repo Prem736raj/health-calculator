@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.dao.BloodPressureDao
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
 import com.health.calculator.bmi.tracker.data.model.*
@@ -9,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
 
-class BloodPressureRepository(private val dao: BloodPressureDao) {
+class BloodPressureRepository @Inject constructor(private val dao: BloodPressureDao) {
 
     val allMainReadings: Flow<List<BloodPressureEntity>> = dao.getMainReadings()
     val allReadings: Flow<List<BloodPressureEntity>> = dao.getAllReadings()

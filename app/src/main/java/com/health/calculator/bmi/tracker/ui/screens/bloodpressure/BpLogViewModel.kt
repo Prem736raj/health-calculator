@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +31,8 @@ data class BpLogUiState(
     val readingsCount: Int = 0
 )
 
-class BpLogViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BpLogViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getDatabase(application)
     private val repository = BloodPressureRepository(database.bloodPressureDao())

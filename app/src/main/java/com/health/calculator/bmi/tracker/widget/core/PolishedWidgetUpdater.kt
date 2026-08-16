@@ -1,10 +1,13 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.widget.RemoteViews
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
@@ -21,7 +24,7 @@ object PolishedWidgetUpdater {
     // ── Water Widget (Small & Medium) ──────────────────────────────────
 
     fun updateWater(
-        context: Context,
+        @ApplicationContext context: Context,
         manager: AppWidgetManager,
         widgetId: Int,
         isMedium: Boolean,
@@ -40,7 +43,7 @@ object PolishedWidgetUpdater {
             // Dynamic IDs based on layout
             val intakeId   = if (isMedium) R.id.medium_intake_amount else R.id.small_intake_amount
             val pctId      = if (isMedium) R.id.medium_percentage else R.id.small_percentage
-            val goalId     = if (isMedium) R.id.medium_goal_text else R.id.small_goal_text // Map accordingly or check XML
+            val goalId     = if (isMedium) R.id.medium_progress_text else R.id.small_goal_text // Map accordingly or check XML
             val rootId     = if (isMedium) R.id.widget_medium_root else R.id.widget_small_root
             val arcId      = if (isMedium) R.id.medium_progress_arc else R.id.small_progress_arc
 
@@ -78,7 +81,7 @@ object PolishedWidgetUpdater {
                         ?: run {
                             val size = if (isMedium) 180 else 120
                             val stroke = if (isMedium) 10f else 8f
-                            WaterIntakeWidget.drawProgressArc(data.percentage / 100f, size, stroke, context)
+                            WaterIntakeWidget.drawProgressArc(size, data.percentage / 100f, stroke, context)
                                 .also { WidgetPerformanceManager.cacheBitmap(cacheKey, it) }
                         }
                     views.setImageViewBitmap(arcId, arc)
@@ -101,7 +104,7 @@ object PolishedWidgetUpdater {
         }
     }
 
-    private fun buildActionIntent(context: Context, action: String, widgetId: Int, code: Int): PendingIntent {
+    private fun buildActionIntent(@ApplicationContext context: Context, action: String, widgetId: Int, code: Int): PendingIntent {
         val intent = Intent(context, WaterIntakeSmallWidget::class.java).apply {
             this.action = action
         }
@@ -112,7 +115,7 @@ object PolishedWidgetUpdater {
     // ── Health Summary Widget ─────────────────────────────────────────
 
     fun updateHealthSummary(
-        context: Context,
+        @ApplicationContext context: Context,
         manager: AppWidgetManager,
         widgetId: Int,
         isLarge: Boolean,
@@ -208,7 +211,7 @@ object PolishedWidgetUpdater {
     }
 
     private fun bindMetricCard(
-        context: Context,
+        @ApplicationContext context: Context,
         views: RemoteViews,
         containerId: Int,
         type: CalculatorType,
@@ -220,7 +223,7 @@ object PolishedWidgetUpdater {
     // ── Helper: build nav PendingIntent ──────────────────────────────
 
     fun buildNavIntent(
-        context: Context,
+        @ApplicationContext context: Context,
         destination: String,
         widgetId: Int,
         requestOffset: Int = 0
@@ -239,7 +242,7 @@ object PolishedWidgetUpdater {
 
     // ── Draw health arc bitmap ────────────────────────────────────────
 
-    fun drawHealthArc(context: Context, score: Int, size: Int): android.graphics.Bitmap {
+    fun drawHealthArc(@ApplicationContext context: Context, score: Int, size: Int): android.graphics.Bitmap {
         val density = context.resources.displayMetrics.density
         val strokeWidth = 8f * density
         val bitmap = android.graphics.Bitmap.createBitmap(size, size, android.graphics.Bitmap.Config.ARGB_8888)
@@ -273,7 +276,7 @@ object PolishedWidgetUpdater {
     // ── Draw progress bar bitmap ──────────────────────────────────────
 
     fun drawProgressBarBitmap(
-        context: Context,
+        @ApplicationContext context: Context,
         percentage: Int,
         color: Int,
         maxWidthDp: Float = 100f,

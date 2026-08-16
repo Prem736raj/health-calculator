@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMREdgeCaseWarning.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
@@ -40,10 +43,10 @@ fun BMRWarningCards(
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "⚠️", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_21), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Note",
+                        text = stringResource(R.string.txt_note),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFFE65100)
@@ -56,7 +59,7 @@ fun BMRWarningCards(
                         verticalAlignment = Alignment.Top
                     ) {
                         Text(
-                            text = "•",
+                            text = stringResource(R.string.txt_text_placeholder_3),
                             color = Color(0xFFE65100),
                             fontWeight = FontWeight.Bold
                         )

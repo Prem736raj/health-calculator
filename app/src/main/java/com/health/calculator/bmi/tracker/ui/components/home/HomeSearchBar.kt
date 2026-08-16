@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -89,9 +92,9 @@ fun HomeSearchBar(
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text("Recent Searches", style = MaterialTheme.typography.titleSmall)
+                                    Text(stringResource(R.string.txt_recent_searches), style = MaterialTheme.typography.titleSmall)
                                     TextButton(onClick = onClearRecent) {
-                                        Text("Clear All")
+                                        Text(stringResource(R.string.txt_clear_all_1))
                                     }
                                 }
                             }
@@ -143,7 +146,7 @@ fun SearchTextField(
     TextField(
         value = query,
         onValueChange = onQueryChange,
-        placeholder = { Text("Search health tools, terms...") },
+        placeholder = { Text(stringResource(R.string.txt_search_health_tools_terms)) },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
             if (query.isNotEmpty()) {

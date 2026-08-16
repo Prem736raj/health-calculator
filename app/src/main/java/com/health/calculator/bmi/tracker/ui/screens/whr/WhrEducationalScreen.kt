@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -38,7 +41,7 @@ fun WhrEducationalScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Learn About WHR", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_learn_about_whr), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -102,17 +105,17 @@ private fun EducationalHeader() {
                 modifier = Modifier.size(56.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text("📚", fontSize = 28.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 28.sp)
                 }
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "WHR Knowledge Center",
+                    stringResource(R.string.txt_whr_knowledge_center),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "Everything you need to know about Waist-to-Hip Ratio and its impact on your health",
+                    stringResource(R.string.txt_everything_you_need_to_know_ab_1),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f),
                     lineHeight = 18.sp
@@ -189,20 +192,20 @@ private fun WhrReferenceTable() {
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
                 Text(
-                    "Risk Level",
+                    stringResource(R.string.txt_risk_level),
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "Male",
+                    stringResource(R.string.txt_male),
                     modifier = Modifier.weight(0.8f),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    "Female",
+                    stringResource(R.string.txt_female),
                     modifier = Modifier.weight(0.8f),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
@@ -376,7 +379,7 @@ private fun ComparisonMetricCard(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("•", fontSize = 10.sp, color = color)
+                    Text(stringResource(R.string.txt_text_placeholder_3), fontSize = 10.sp, color = color)
                     Text(
                         point,
                         style = MaterialTheme.typography.bodySmall,
@@ -402,7 +405,7 @@ private fun QuadrantGrid() {
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
-                "Combined BMI + WHR Assessment",
+                stringResource(R.string.txt_combined_bmi_whr_assessment),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -651,7 +654,7 @@ private fun DiseaseRiskCard(
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
                             verticalAlignment = Alignment.Top
                         ) {
-                            Text("•", color = color, fontSize = 12.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_3), color = color, fontSize = 12.sp)
                             Text(
                                 detail,
                                 style = MaterialTheme.typography.bodySmall,
@@ -871,7 +874,7 @@ private fun NumberedStrategy(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("📊", fontSize = 11.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 11.sp)
                     Text(
                         keyFact,
                         style = MaterialTheme.typography.bodySmall,
@@ -899,7 +902,7 @@ private fun TimelineCard() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Expected Timeline for Waist Reduction",
+                stringResource(R.string.txt_expected_timeline_for_waist_re),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -911,7 +914,7 @@ private fun TimelineCard() {
             TimelineItem("6-12 Months", "Substantial transformation — 10+ cm reduction achievable. Risk category likely changed.", "🏆")
 
             Text(
-                "Note: Results vary based on starting point, genetics, and adherence. A safe rate is 1-2 cm per month.",
+                stringResource(R.string.txt_note_results_vary_based_on_sta),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 fontSize = 10.sp,
@@ -1115,7 +1118,7 @@ private fun MeasurementStep(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("•", fontSize = 10.sp, color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(R.string.txt_text_placeholder_3), fontSize = 10.sp, color = MaterialTheme.colorScheme.primary)
                     Text(
                         instruction,
                         style = MaterialTheme.typography.bodySmall,
@@ -1145,9 +1148,9 @@ private fun BestTimingCard() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("🌅", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_86), fontSize = 20.sp)
                 Text(
-                    "Best: First thing in the morning",
+                    stringResource(R.string.txt_best_first_thing_in_the_mornin),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -1159,7 +1162,7 @@ private fun BestTimingCard() {
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
             Text(
-                "Waist measurements can vary by 2-4 cm throughout the day due to food, water, and bloating.",
+                stringResource(R.string.txt_waist_measurements_can_vary_by),
                 style = MaterialTheme.typography.bodySmall,
                 fontStyle = FontStyle.Italic,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
@@ -1187,7 +1190,7 @@ private fun DosAndDontsCard() {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    "✅ DO",
+                    stringResource(R.string.txt_do),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF4CAF50)
@@ -1214,7 +1217,7 @@ private fun DosAndDontsCard() {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    "❌ DON'T",
+                    stringResource(R.string.txt_don_t),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFF44336)
@@ -1286,7 +1289,7 @@ private fun CommonMistakesList() {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("⚠️", fontSize = 12.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 12.sp)
                             Text(
                                 title,
                                 style = MaterialTheme.typography.bodySmall,
@@ -1581,13 +1584,13 @@ private fun MedicalDisclaimerCard() {
             )
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.error
                 )
                 Text(
-                    "The information provided here is for educational purposes only and is not intended as medical advice. It should not be used for diagnosing or treating any health condition. Always consult a qualified healthcare provider for personal medical guidance. Statistics and research findings are simplified summaries and may not reflect individual circumstances.",
+                    stringResource(R.string.txt_the_information_provided_here_),
                     style = MaterialTheme.typography.bodySmall,
                     fontSize = 10.sp,
                     lineHeight = 15.sp,

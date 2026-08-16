@@ -1,6 +1,8 @@
 // notification/BpNotificationHelper.kt
 package com.health.calculator.bmi.tracker.notification
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,7 +14,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import java.util.Calendar
 
-class BpNotificationHelper(private val context: Context) {
+class BpNotificationHelper(@ApplicationContext private val context: Context) {
 
     companion object {
         const val CHANNEL_ID = "bp_reminder_channel"
@@ -141,7 +143,7 @@ class BpNotificationHelper(private val context: Context) {
 
 class BpReminderReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val type = intent.getStringExtra(BpNotificationHelper.EXTRA_NOTIFICATION_TYPE) ?: return
         val message = intent.getStringExtra(BpNotificationHelper.EXTRA_MESSAGE)
             ?: "Time to check your blood pressure! 🩺"
@@ -184,7 +186,7 @@ class BpReminderReceiver : BroadcastReceiver() {
 }
 
 class BpBootReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             // Note: In a real app, you'd trigger a WorkManager job here to re-schedule
             // based on DataStore settings. For simplicity in this prompt, it's a placeholder.

@@ -1,6 +1,8 @@
 // util/WaterShareHelper.kt
 package com.health.calculator.bmi.tracker.util
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import java.text.SimpleDateFormat
@@ -12,7 +14,7 @@ object WaterShareHelper {
      * Share water achievement as formatted text
      */
     fun shareWaterAchievement(
-        context: Context,
+        @ApplicationContext context: Context,
         currentMl: Int,
         goalMl: Int,
         streakDays: Int,
@@ -73,7 +75,7 @@ object WaterShareHelper {
      * Share with simple message format
      */
     fun shareSimpleMessage(
-        context: Context,
+        @ApplicationContext context: Context,
         currentL: Float,
         streakDays: Int
     ) {

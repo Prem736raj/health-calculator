@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.utils
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
@@ -15,7 +17,7 @@ import androidx.core.content.getSystemService
 
 class HapticManager(
     private val hapticFeedback: HapticFeedback,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     // Light tap — for button presses, toggles, selections
     fun lightTap() {

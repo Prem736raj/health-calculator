@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -65,13 +68,13 @@ fun BMIHealthRiskSection(
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Health Risk Assessment",
+                            text = stringResource(R.string.txt_health_risk_assessment),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Based on your BMI category",
+                            text = stringResource(R.string.txt_based_on_your_bmi_category),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -601,7 +604,7 @@ private fun MedicalDisclaimerCard() {
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
-            text = "Medical Disclaimer: This health risk information is for educational " +
+            text = stringResource(R.string.txt_medical_disclaimer_this_health) +
                     "and informational purposes only. It is not intended as medical advice, " +
                     "diagnosis, or treatment. BMI is one of many health indicators and does " +
                     "not account for individual factors like muscle mass, bone density, or " +

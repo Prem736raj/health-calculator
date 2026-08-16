@@ -14,10 +14,12 @@ import androidx.navigation.compose.rememberNavController
 import com.health.calculator.bmi.tracker.core.navigation.NavGraph
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.ui.theme.HealthCalculatorTheme
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

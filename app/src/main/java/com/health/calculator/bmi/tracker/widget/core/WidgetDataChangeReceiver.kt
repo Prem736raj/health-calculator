@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -31,7 +33,7 @@ class WidgetDataChangeReceiver : BroadcastReceiver() {
         const val DATA_ALL       = "all"
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         Log.d(TAG, "Received: ${intent.action}")
 
         when (intent.action) {
@@ -66,7 +68,7 @@ class WidgetDataChangeReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun handleDataChange(context: Context, dataType: String) {
+    private fun handleDataChange(@ApplicationContext context: Context, dataType: String) {
         Log.d(TAG, "Data changed: $dataType")
 
         when (dataType) {

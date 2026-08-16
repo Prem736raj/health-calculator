@@ -1,6 +1,9 @@
 // ui/screens/bloodpressure/BpAdvancedMetricsComponents.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -68,7 +71,7 @@ fun BpAdvancedMetricsSection(
             ) {
                 HorizontalDivider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
                 Text(
-                    "  DETAILED ANALYSIS  ",
+                    stringResource(R.string.txt_detailed_analysis),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -142,12 +145,12 @@ private fun PulsePressureCard(analysis: PulsePressureAnalysis) {
                     }
                     Column {
                         Text(
-                            "Pulse Pressure",
+                            stringResource(R.string.txt_pulse_pressure),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            "Systolic − Diastolic",
+                            stringResource(R.string.txt_systolic_diastolic),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                         )
@@ -162,7 +165,7 @@ private fun PulsePressureCard(analysis: PulsePressureAnalysis) {
                         color = statusColor
                     )
                     Text(
-                        "mmHg",
+                        stringResource(R.string.txt_mmhg_1),
                         style = MaterialTheme.typography.labelSmall,
                         color = statusColor.copy(alpha = 0.6f)
                     )
@@ -259,7 +262,7 @@ private fun PulsePressureCard(analysis: PulsePressureAnalysis) {
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Reference Ranges:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_reference_ranges), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                             PpCategory.entries.forEach { cat ->
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -347,8 +350,8 @@ private fun MapCard(analysis: MapAnalysis) {
                         )
                     }
                     Column {
-                        Text("Mean Arterial Pressure", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                        Text("DIA + ⅓(SYS − DIA)", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                        Text(stringResource(R.string.txt_mean_arterial_pressure), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_dia_sys_dia), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                     }
                 }
 
@@ -359,7 +362,7 @@ private fun MapCard(analysis: MapAnalysis) {
                         fontWeight = FontWeight.Bold,
                         color = statusColor
                     )
-                    Text("mmHg", style = MaterialTheme.typography.labelSmall, color = statusColor.copy(alpha = 0.6f))
+                    Text(stringResource(R.string.txt_mmhg_1), style = MaterialTheme.typography.labelSmall, color = statusColor.copy(alpha = 0.6f))
                 }
             }
 
@@ -421,7 +424,7 @@ private fun MapCard(analysis: MapAnalysis) {
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Reference Ranges:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_reference_ranges), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                             MapCategory.entries.forEach { cat ->
                                 val catColor = when (cat) {
                                     MapCategory.CRITICALLY_LOW -> Color(0xFFF44336)
@@ -503,13 +506,13 @@ private fun HeartRateCard(analysis: HeartRateAnalysis) {
                         )
                     }
                     Column {
-                        Text("Heart Rate Analysis", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                        Text("Resting heart rate", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
+                        Text(stringResource(R.string.txt_heart_rate_analysis), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_resting_heart_rate), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
                     }
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text("${analysis.bpm}", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = statusColor)
-                    Text("BPM", style = MaterialTheme.typography.labelSmall, color = statusColor.copy(alpha = 0.6f))
+                    Text(stringResource(R.string.txt_bpm_1), style = MaterialTheme.typography.labelSmall, color = statusColor.copy(alpha = 0.6f))
                 }
             }
 
@@ -568,7 +571,7 @@ private fun HeartRateCard(analysis: HeartRateAnalysis) {
                             shape = RoundedCornerShape(10.dp)
                         ) {
                             Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text("Key Points:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.txt_key_points), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                                 analysis.riskFactors.forEach { factor ->
                                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.Top) {
                                         Box(Modifier.size(5.dp).clip(CircleShape).background(statusColor).offset(y = 5.dp))
@@ -584,7 +587,7 @@ private fun HeartRateCard(analysis: HeartRateAnalysis) {
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Reference Ranges:", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_reference_ranges), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                             HrCategory.entries.filter { it != HrCategory.ATHLETIC }.forEach { cat ->
                                 val catColor = when (cat) {
                                     HrCategory.SEVERELY_LOW -> Color(0xFFD32F2F)

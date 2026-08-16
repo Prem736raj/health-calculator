@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,7 +43,7 @@ fun NoteEditDialog(
             OutlinedTextField(
                 value = noteText,
                 onValueChange = { if (it.length <= 200) noteText = it },
-                placeholder = { Text("e.g., After morning walk, Fasting reading...") },
+                placeholder = { Text(stringResource(R.string.txt_e_g_after_morning_walk_fasting)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
@@ -56,12 +59,12 @@ fun NoteEditDialog(
                 onClick = { onSave(noteText.trim()) },
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("Save")
+                Text(stringResource(R.string.txt_save))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         },
         shape = RoundedCornerShape(20.dp)
@@ -98,12 +101,12 @@ fun DeleteConfirmDialog(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("Delete")
+                Text(stringResource(R.string.txt_delete))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         },
         shape = RoundedCornerShape(20.dp)

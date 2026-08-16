@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -114,7 +117,7 @@ fun ReminderCard(
             if (reminder.isHighPriority) {
                 AssistChip(
                     onClick = {},
-                    label = { Text("High Priority", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_high_priority), style = MaterialTheme.typography.labelSmall) },
                     leadingIcon = { Icon(Icons.Default.Notifications, null, modifier = Modifier.size(14.dp)) },
                     colors = AssistChipDefaults.assistChipColors(
                         labelColor = MaterialTheme.colorScheme.error,

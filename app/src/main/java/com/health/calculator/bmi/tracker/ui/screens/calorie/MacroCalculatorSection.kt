@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -58,7 +61,7 @@ fun MacroCalculatorSection(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Macronutrient Breakdown",
+                text = stringResource(R.string.txt_macronutrient_breakdown),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -159,7 +162,7 @@ private fun DietPresetsSection(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Diet Type",
+                text = stringResource(R.string.txt_diet_type),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -218,7 +221,7 @@ private fun DietPresetsSection(
                                     )
                                 } else {
                                     Text(
-                                        text = "Adjustable",
+                                        text = stringResource(R.string.txt_adjustable),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                                         fontSize = 9.sp
@@ -264,7 +267,7 @@ private fun CustomMacroSliders(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Custom Ratios",
+                    stringResource(R.string.txt_custom_ratios_1),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
                 Surface(
@@ -333,7 +336,7 @@ private fun CustomMacroSliders(
             if (!isValid) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "⚠️ Percentages must total 100%",
+                    text = stringResource(R.string.txt_percentages_must_total_100),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color(0xFFF44336)
                 )
@@ -624,7 +627,7 @@ private fun PerMealMacroSection(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Per Meal Breakdown",
+                stringResource(R.string.txt_per_meal_breakdown_1),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(12.dp))

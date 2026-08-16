@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.presentation.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -37,9 +43,9 @@ fun HomeScreen(
     onNavigateToHeartRate: () -> Unit,
     onNavigateToHistory: () -> Unit,
     onNavigateToProfile: () -> Unit,
-    viewModel: HomeViewModel = viewModel(),
-    searchViewModel: HomeSearchViewModel = viewModel(),
-    dailyViewModel: DailyContentViewModel = viewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    searchViewModel: HomeSearchViewModel = hiltViewModel(),
+    dailyViewModel: DailyContentViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val searchQuery by searchViewModel.searchQuery.collectAsStateWithLifecycle()
@@ -234,7 +240,7 @@ fun HomeScreen(
                 // Calculator Cards Header
                 item(span = { GridItemSpan(2) }) {
                     Text(
-                        text = "Calculators",
+                        text = stringResource(R.string.txt_calculators),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )

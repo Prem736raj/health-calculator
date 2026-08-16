@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -54,7 +57,7 @@ fun NewRecordCelebrationDialog(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "🎉 Personal Record! 🎉",
+                    text = stringResource(R.string.txt_personal_record),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -96,7 +99,7 @@ fun NewRecordCelebrationDialog(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "New Record",
+                            text = stringResource(R.string.txt_new_record),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -134,7 +137,7 @@ fun NewRecordCelebrationDialog(
         },
         confirmButton = {
             Button(onClick = onDismiss) {
-                Text("Awesome! 🎊")
+                Text(stringResource(R.string.txt_awesome))
             }
         }
     )
@@ -176,7 +179,7 @@ fun NewMilestoneCelebrationDialog(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Milestone Unlocked!",
+                    text = stringResource(R.string.txt_milestone_unlocked),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -236,14 +239,14 @@ fun NewMilestoneCelebrationDialog(
                 }
             } else {
                 Button(onClick = onNext) {
-                    Text("Celebrate! 🎉")
+                    Text(stringResource(R.string.txt_celebrate))
                 }
             }
         },
         dismissButton = {
             if (remainingCount > 1) {
                 TextButton(onClick = onDismissAll) {
-                    Text("Skip All")
+                    Text(stringResource(R.string.txt_skip_all))
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,7 +48,8 @@ enum class ProfileTab(val title: String) {
 enum class HeightUnit { CM, FT_IN }
 enum class WeightUnit { KG, LBS }
 
-class ProfileViewModel(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
     private val familyProfileRepository: com.health.calculator.bmi.tracker.data.repository.FamilyProfileRepository,
     private val profileRepository: ProfileRepository,
     private val healthOverviewRepository: HealthOverviewRepository,
@@ -383,21 +386,3 @@ class ProfileViewModel(
     }
 }
 
-class ProfileViewModelFactory(
-    private val familyProfileRepository: com.health.calculator.bmi.tracker.data.repository.FamilyProfileRepository,
-    private val profileRepository: ProfileRepository,
-    private val healthOverviewRepository: HealthOverviewRepository,
-    private val weightRepository: WeightRepository,
-    private val profileCompletionUseCase: com.health.calculator.bmi.tracker.domain.usecases.ProfileCompletionUseCase
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ProfileViewModel(
-            familyProfileRepository,
-            profileRepository,
-            healthOverviewRepository,
-            weightRepository,
-            profileCompletionUseCase
-        ) as T
-    }
-}

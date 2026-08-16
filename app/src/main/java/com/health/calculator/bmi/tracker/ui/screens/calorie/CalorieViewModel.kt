@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
@@ -88,7 +90,8 @@ data class CalorieUiState(
     val todayIntake: Int = 0
 )
 
-class CalorieViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class CalorieViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(CalorieUiState())
     val uiState: StateFlow<CalorieUiState> = _uiState.asStateFlow()

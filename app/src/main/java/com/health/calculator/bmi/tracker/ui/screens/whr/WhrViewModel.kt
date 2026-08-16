@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.model.Gender
@@ -31,7 +33,8 @@ data class WhrInputState(
     val showHipGuide: Boolean = false
 )
 
-class WhrViewModel(
+@HiltViewModel
+class WhrViewModel @Inject constructor(
     private val profileDataStore: ProfileDataStore? = null
 ) : ViewModel() {
 

@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterIntakeResultScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -97,8 +100,8 @@ fun WaterIntakeResultScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("💧", fontSize = 22.sp)
-                        Text("Your Water Goal", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_your_water_goal), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -232,7 +235,7 @@ fun WaterIntakeResultScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Icon(Icons.Default.Check, null, tint = Color.White, modifier = Modifier.size(20.dp))
-                        Text("Goal saved successfully!", color = Color.White, fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.txt_goal_saved_successfully), color = Color.White, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
@@ -299,7 +302,7 @@ private fun WaterBottleResultCard(result: WaterIntakeCalculation) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Your Daily Water Goal",
+                    text = stringResource(R.string.txt_your_daily_water_goal),
                     color = Color.White.copy(alpha = 0.9f),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium
@@ -330,7 +333,7 @@ private fun WaterBottleResultCard(result: WaterIntakeCalculation) {
                             fontWeight = FontWeight.ExtraBold
                         )
                         Text(
-                            text = "Liters",
+                            text = stringResource(R.string.txt_liters),
                             color = Color.White.copy(alpha = 0.9f),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
@@ -535,9 +538,9 @@ private fun UnitConversionsCard(result: WaterIntakeCalculation) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("📐", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 18.sp)
                 Text(
-                    "Your Goal in Different Units",
+                    stringResource(R.string.txt_your_goal_in_different_units),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -644,7 +647,7 @@ private fun GlassesVisualizationCard(result: WaterIntakeCalculation) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🥛", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_79), fontSize = 18.sp)
                 Text(
                     "That's $glasses glasses of water!",
                     fontWeight = FontWeight.Bold,
@@ -653,7 +656,7 @@ private fun GlassesVisualizationCard(result: WaterIntakeCalculation) {
             }
 
             Text(
-                text = "Each glass = 250 ml (8.5 fl oz)",
+                text = stringResource(R.string.txt_each_glass_250_ml_8_5_fl_oz),
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
@@ -716,7 +719,7 @@ private fun GlassIcon(filled: Boolean, modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "🥛",
+            text = stringResource(R.string.txt_text_placeholder_79),
             fontSize = (28 * scale).sp,
             modifier = Modifier.alpha(alpha)
         )
@@ -758,9 +761,9 @@ private fun HourlyBreakdownCard(result: WaterIntakeCalculation) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("⏰", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_31), fontSize = 20.sp)
                     Text(
-                        "Hourly Recommendation",
+                        stringResource(R.string.txt_hourly_recommendation),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleSmall,
                         color = WaterBlueDark
@@ -786,7 +789,7 @@ private fun HourlyBreakdownCard(result: WaterIntakeCalculation) {
                                 .background(WaterBlueMedium.copy(alpha = 0.15f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("💧", fontSize = 24.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
                         }
                         Column {
                             Text(
@@ -902,9 +905,9 @@ private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("📊", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 18.sp)
                 Text(
-                    "How We Calculated This",
+                    stringResource(R.string.txt_how_we_calculated_this),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -984,7 +987,7 @@ private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Total Daily Goal",
+                    text = stringResource(R.string.txt_total_daily_goal),
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 15.sp,
                     color = WaterBlueDark
@@ -1158,9 +1161,9 @@ private fun HydrationTipsCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("💡", fontSize = 18.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 18.sp)
                 Text(
-                    "Hydration Tips",
+                    stringResource(R.string.txt_hydration_tips),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -1218,7 +1221,7 @@ private fun BottomActionBar(
             ) {
                 Icon(Icons.Default.Refresh, null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("Recalculate", fontSize = 13.sp)
+                Text(stringResource(R.string.txt_recalculate), fontSize = 13.sp)
             }
 
             // Save / Saved
@@ -1259,7 +1262,7 @@ private fun BottomActionBar(
                         containerColor = Color(0xFF4CAF50)
                     )
                 ) {
-                    Text("Track 💧", fontSize = 13.sp)
+                    Text(stringResource(R.string.txt_track), fontSize = 13.sp)
                 }
             }
         }

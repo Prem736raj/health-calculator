@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.presentation.settings
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -123,7 +129,7 @@ fun SettingsScreen(
     onBackClick: () -> Unit,
     onNavigateToBackup: () -> Unit,
     onNavigateToDataManagement: () -> Unit,
-    viewModel: SettingsViewModel = viewModel()
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -177,13 +183,13 @@ fun SettingsScreen(
                 title = {
                     Column {
                         Text(
-                            text = "Settings",
+                            text = stringResource(R.string.txt_settings),
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontWeight = FontWeight.Bold
                             )
                         )
                         Text(
-                            text = "Customize your experience",
+                            text = stringResource(R.string.txt_customize_your_experience),
                             style = MaterialTheme.typography.bodySmall,
                             color = SettingsAccent.copy(alpha = 0.8f)
                         )
@@ -845,7 +851,7 @@ private fun MedicalDisclaimerCard() {
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = "Medical Disclaimer",
+                    text = stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
@@ -877,7 +883,7 @@ private fun UnitSystemPickerDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "📏 Unit System",
+                text = stringResource(R.string.txt_unit_system),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold
                 )
@@ -937,7 +943,7 @@ private fun UnitSystemPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Done", color = SettingsAccent)
+                Text(stringResource(R.string.txt_done), color = SettingsAccent)
             }
         },
         shape = RoundedCornerShape(24.dp)
@@ -956,7 +962,7 @@ private fun ThemePickerDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "🎨 App Theme",
+                text = stringResource(R.string.txt_app_theme),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold
                 )
@@ -1028,7 +1034,7 @@ private fun ThemePickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Done", color = SettingsAccent)
+                Text(stringResource(R.string.txt_done), color = SettingsAccent)
             }
         },
         shape = RoundedCornerShape(24.dp)
@@ -1109,7 +1115,7 @@ private fun ConfirmationDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.txt_cancel))
             }
         },
         shape = RoundedCornerShape(24.dp)

@@ -1,6 +1,8 @@
 // notification/WaterNotificationHelper.kt
 package com.health.calculator.bmi.tracker.notification
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -15,7 +17,7 @@ import androidx.core.content.ContextCompat
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.receiver.WaterQuickLogReceiver
 
-class WaterNotificationHelper(private val context: Context) {
+class WaterNotificationHelper(@ApplicationContext private val context: Context) {
 
     companion object {
         const val CHANNEL_ID = "water_reminder_channel"

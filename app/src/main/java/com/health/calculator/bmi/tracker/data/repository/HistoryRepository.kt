@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.HistoryDao
 import com.health.calculator.bmi.tracker.data.model.*
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +12,7 @@ import kotlinx.coroutines.launch
 /**
  * Repository layer for calculation history data access.
  */
-class HistoryRepository(
+class HistoryRepository @Inject constructor(
     private val historyDao: HistoryDao
 ) {
     /** All history entries, ordered newest first */

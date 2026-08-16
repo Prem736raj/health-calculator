@@ -1,6 +1,9 @@
 // ui/screens/waterintake/components/HydrationPlantComposable.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -201,7 +204,7 @@ fun HydrationPlantCard(
             // Streak sparkle indicator
             if (plantState.currentStreak >= 7) {
                 Text(
-                    text = "✨",
+                    text = stringResource(R.string.txt_text_placeholder_12),
                     fontSize = 16.sp,
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -537,7 +540,7 @@ private fun WaterSplashEffect() {
             val alpha = (1f - animProgress).coerceAtLeast(0f)
 
             Text(
-                text = "💧",
+                text = stringResource(R.string.txt_text_placeholder_71),
                 fontSize = (12 * (1f - animProgress * 0.5f)).sp,
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -647,31 +650,31 @@ fun PlantDetailDialog(
                     OutlinedTextField(
                         value = nameInput,
                         onValueChange = { nameInput = it.take(20) },
-                        label = { Text("Plant Name") },
+                        label = { Text(stringResource(R.string.txt_plant_name)) },
                         singleLine = true,
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        TextButton(onClick = { editingName = false }) { Text("Cancel") }
+                        TextButton(onClick = { editingName = false }) { Text(stringResource(R.string.txt_cancel)) }
                         TextButton(onClick = {
                             onNameChange(nameInput)
                             editingName = false
-                        }) { Text("Save") }
+                        }) { Text(stringResource(R.string.txt_save)) }
                     }
                 } else {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("🌱", fontSize = 20.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_49), fontSize = 20.sp)
                         Text(
                             plantName,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
                         TextButton(onClick = { editingName = true }) {
-                            Text("✏️", fontSize = 14.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_84), fontSize = 14.sp)
                         }
                     }
                 }
@@ -700,7 +703,7 @@ fun PlantDetailDialog(
                 // Growth progress
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
-                Text("Growth Progress", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                Text(stringResource(R.string.txt_growth_progress), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
 
                 PlantStage.entries.forEach { stage ->
                     val isCompleted = plantState.totalDaysTracked >= stage.daysRequired
@@ -734,18 +737,18 @@ fun PlantDetailDialog(
                             )
                         }
                         if (isCurrent) {
-                            Text("← You", fontSize = 10.sp, color = StemGreen, fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_you_1), fontSize = 10.sp, color = StemGreen, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_close)) }
         },
         dismissButton = {
             TextButton(onClick = onHide) {
-                Text("Hide Plant", color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f))
+                Text(stringResource(R.string.txt_hide_plant), color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f))
             }
         }
     )

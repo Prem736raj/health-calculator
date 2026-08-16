@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -35,7 +37,7 @@ object WidgetUpdateScheduler {
 
     // ── Schedule all widget alarms ────────────────────────────────────
 
-    fun scheduleAll(context: Context) {
+    fun scheduleAll(@ApplicationContext context: Context) {
         scheduleMidnightReset(context)
         scheduleDailyRefresh(context)
         Log.d(TAG, "All widget alarms scheduled")
@@ -43,7 +45,7 @@ object WidgetUpdateScheduler {
 
     // ── 30-min refresh ────────────────────────────────────────────────
 
-    fun scheduleRefresh(context: Context, delayMs: Long = 30 * 60 * 1000L) {
+    fun scheduleRefresh(@ApplicationContext context: Context, delayMs: Long = 30 * 60 * 1000L) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val intent = Intent(context, WidgetDataChangeReceiver::class.java).apply {
@@ -71,7 +73,7 @@ object WidgetUpdateScheduler {
 
     // ── Midnight reset ────────────────────────────────────────────────
 
-    fun scheduleMidnightReset(context: Context) {
+    fun scheduleMidnightReset(@ApplicationContext context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val midnight = Calendar.getInstance().apply {
@@ -108,7 +110,7 @@ object WidgetUpdateScheduler {
 
     // ── Daily full refresh at 6 AM ─────────────────────────────────
 
-    private fun scheduleDailyRefresh(context: Context) {
+    private fun scheduleDailyRefresh(@ApplicationContext context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val sixAM = Calendar.getInstance().apply {
@@ -141,7 +143,7 @@ object WidgetUpdateScheduler {
 
     // ── Cancel all alarms ─────────────────────────────────────────────
 
-    fun cancelAll(context: Context) {
+    fun cancelAll(@ApplicationContext context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent       = Intent(context, WidgetDataChangeReceiver::class.java)
 
@@ -157,7 +159,7 @@ object WidgetUpdateScheduler {
 
     // ── Force immediate refresh of all widget families ────────────────
 
-    fun forceRefreshAll(context: Context) {
+    fun forceRefreshAll(@ApplicationContext context: Context) {
         WidgetPerformanceManager.runOnWidgetThread {
             val manager = AppWidgetManager.getInstance(context)
 
@@ -203,7 +205,7 @@ object WidgetUpdateScheduler {
     }
 
     private fun <T : android.appwidget.AppWidgetProvider> refreshFamily(
-        context: Context,
+        @ApplicationContext context: Context,
         manager: AppWidgetManager,
         clazz: Class<T>,
         updater: (Int) -> Unit

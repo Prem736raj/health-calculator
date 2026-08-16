@@ -1,11 +1,13 @@
 // notifications/NotificationStatistics.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import org.json.JSONObject
 
-class NotificationStatistics(context: Context) {
+class NotificationStatistics(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(
         "notification_stats",

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -9,7 +11,7 @@ import com.health.calculator.bmi.tracker.data.model.CriterionTrend
 import com.health.calculator.bmi.tracker.data.model.MetabolicSyndromeRecord
 import com.health.calculator.bmi.tracker.data.model.MetabolicTrendDirection
 
-class MetabolicSyndromeTrackingRepository(context: Context) {
+class MetabolicSyndromeTrackingRepository(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(
         "metabolic_syndrome_tracking", Context.MODE_PRIVATE

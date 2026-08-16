@@ -1,6 +1,9 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/data/repository/InactivityRepository.kt
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -13,7 +16,7 @@ private val Context.inactivityDataStore: DataStore<Preferences> by preferencesDa
     name = "inactivity_preferences"
 )
 
-class InactivityRepository(private val context: Context) {
+class InactivityRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private object Keys {
         val LAST_APP_OPEN = longPreferencesKey("last_app_open_time")

@@ -1,6 +1,9 @@
 // ui/screens/waterintake/components/WaterCelebration.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -103,7 +106,7 @@ fun WaterGoalCelebration(
                 )
 
                 Text(
-                    "🎉🏆🎉",
+                    stringResource(R.string.txt_text_placeholder_46),
                     fontSize = 48.sp,
                     modifier = Modifier.scale(trophyScale)
                 )
@@ -157,7 +160,7 @@ fun WaterGoalCelebration(
                         },
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Continue", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_continue), fontSize = 14.sp)
                     }
 
                     Button(
@@ -174,7 +177,7 @@ fun WaterGoalCelebration(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                     ) {
-                        Text("Share 🎉", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_share_1), fontSize = 14.sp)
                     }
                 }
             }

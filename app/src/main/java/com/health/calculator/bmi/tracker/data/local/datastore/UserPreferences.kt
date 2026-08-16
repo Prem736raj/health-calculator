@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.local.datastore
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -23,7 +25,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
  * Manages app-level preferences using DataStore.
  * Will be expanded in later prompts with full profile data.
  */
-class UserPreferences(private val context: Context) {
+class UserPreferences(@ApplicationContext private val context: Context) {
 
     companion object {
         // Onboarding

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget.core
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -20,13 +22,13 @@ object WidgetPerformanceManager {
     private const val LAST_UPDATE_KEY    = "last_update_"
     private const val UPDATE_COUNT_KEY   = "update_count_"
 
-    private fun prefs(context: Context): SharedPreferences =
+    private fun prefs(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     // ── Throttle gate: true = allow update ───────────────────────────
 
     fun shouldUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         widgetId: Int,
         isUserTriggered: Boolean = false
     ): Boolean {
@@ -56,7 +58,7 @@ object WidgetPerformanceManager {
         }
     }
 
-    fun recordUpdate(context: Context, widgetId: Int) {
+    fun recordUpdate(@ApplicationContext context: Context, widgetId: Int) {
         val p     = prefs(context)
         val count = p.getInt(UPDATE_COUNT_KEY + widgetId, 0)
         p.edit().apply {
@@ -67,13 +69,13 @@ object WidgetPerformanceManager {
         Log.d(TAG, "Widget $widgetId updated (total: ${count + 1})")
     }
 
-    fun markUserAction(context: Context, widgetId: Int) {
+    fun markUserAction(@ApplicationContext context: Context, widgetId: Int) {
         prefs(context).edit()
             .putBoolean(USER_ACTION_BYPASS + widgetId, true)
             .apply()
     }
 
-    private fun clearBypass(context: Context, widgetId: Int) {
+    private fun clearBypass(@ApplicationContext context: Context, widgetId: Int) {
         prefs(context).edit()
             .remove(USER_ACTION_BYPASS + widgetId)
             .apply()
@@ -82,7 +84,7 @@ object WidgetPerformanceManager {
     // ── Efficient batch update: only update changed widgets ───────────
 
     fun getWidgetsThatNeedUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         widgetIds: IntArray,
         isUserTriggered: Boolean
     ): IntArray {

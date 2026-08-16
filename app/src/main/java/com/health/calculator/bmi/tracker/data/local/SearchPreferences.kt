@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.local
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -9,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 private val Context.searchDataStore: DataStore<Preferences> by preferencesDataStore(name = "search_prefs")
 
-class SearchPreferences(private val context: Context) {
+class SearchPreferences(@ApplicationContext private val context: Context) {
     private object Keys {
         val RECENT_SEARCHES = stringPreferencesKey("recent_searches")
         val WATER_LOG_COUNT = intPreferencesKey("water_log_count")

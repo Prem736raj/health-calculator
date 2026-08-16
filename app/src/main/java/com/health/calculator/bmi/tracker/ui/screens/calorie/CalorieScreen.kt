@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.Intent
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -22,7 +28,7 @@ import com.health.calculator.bmi.tracker.core.navigation.Screen
 fun CalorieScreen(
     navController: NavHostController,
     onNavigateBack: () -> Unit,
-    viewModel: CalorieViewModel = viewModel()
+    viewModel: CalorieViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val haptic = LocalHapticFeedback.current
@@ -31,7 +37,7 @@ fun CalorieScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Daily Calorie Requirement") },
+                title = { Text(stringResource(R.string.txt_daily_calorie_requirement)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         if (uiState.showResult) viewModel.goBackToInput()

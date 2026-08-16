@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
@@ -16,7 +18,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class WhrResultViewModel(
+@HiltViewModel
+class WhrResultViewModel @Inject constructor(
     private val profileDataStore: ProfileDataStore,
     private val application: android.app.Application
 ) : ViewModel() {

@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
@@ -152,7 +158,7 @@ fun BmiResultSection(
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
-                        text = "BMI Scale",
+                        text = stringResource(R.string.txt_bmi_scale),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -261,14 +267,14 @@ private fun SavedToHistoryBanner() {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "Saved to History",
+                    text = stringResource(R.string.txt_saved_to_history),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
                     color = Color(0xFF43A047)
                 )
                 Text(
-                    text = "View all calculations in the History tab",
+                    text = stringResource(R.string.txt_view_all_calculations_in_the_h),
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
@@ -282,7 +288,7 @@ private fun SavedToHistoryBanner() {
 @Composable
 private fun ActionButtonsSection(
     shareText: String,
-    context: Context,
+    @ApplicationContext context: Context,
     onRecalculate: () -> Unit
 ) {
     Column(
@@ -323,7 +329,7 @@ private fun ActionButtonsSection(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Share",
+                    text = stringResource(R.string.txt_share),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -349,7 +355,7 @@ private fun ActionButtonsSection(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Edit & Redo",
+                    text = stringResource(R.string.txt_edit_redo),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -374,7 +380,7 @@ private fun ActionButtonsSection(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "BMI does not directly measure body fat. Consult a healthcare professional for a complete assessment.",
+                text = stringResource(R.string.txt_bmi_does_not_directly_measure_),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                 lineHeight = 16.sp
@@ -410,7 +416,7 @@ private fun BmiNumberCard(
             Text(text = result.category.emoji, fontSize = 36.sp)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Your BMI",
+                text = stringResource(R.string.txt_your_bmi),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -425,7 +431,7 @@ private fun BmiNumberCard(
                 color = categoryColor
             )
             Text(
-                text = "kg/m²",
+                text = stringResource(R.string.txt_kg_m_1),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
             )
@@ -474,7 +480,7 @@ private fun HealthDetailsCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "Health Assessment",
+                    text = stringResource(R.string.txt_health_assessment),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }
@@ -563,8 +569,8 @@ private fun WeightAdviceCard(result: BmiResult, categoryColor: Color) {
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
-                    Text("Great job! 🎉", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = Color(0xFF43A047))
-                    Text("Your BMI is in the healthy normal range. Keep maintaining your current weight!", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f), lineHeight = 18.sp)
+                    Text(stringResource(R.string.txt_great_job), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold), color = Color(0xFF43A047))
+                    Text(stringResource(R.string.txt_your_bmi_is_in_the_healthy_nor), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f), lineHeight = 18.sp)
                 }
             }
         }
@@ -593,8 +599,8 @@ private fun WeightAdviceCard(result: BmiResult, categoryColor: Color) {
                     }
                     Spacer(modifier = Modifier.width(14.dp))
                     Column {
-                        Text("To reach a healthy BMI", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold), color = MaterialTheme.colorScheme.onSurface)
-                        Text("Based on WHO normal range (18.5–24.9)", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+                        Text(stringResource(R.string.txt_to_reach_a_healthy_bmi), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold), color = MaterialTheme.colorScheme.onSurface)
+                        Text(stringResource(R.string.txt_based_on_who_normal_range_18_5), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -608,7 +614,7 @@ private fun WeightAdviceCard(result: BmiResult, categoryColor: Color) {
                         }
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("Target weight", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_target_weight), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text("~$targetDisplay $unitLabel", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold), color = Color(0xFF43A047))
                     }
                 }

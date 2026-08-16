@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -59,7 +62,7 @@ fun CalorieHistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Calorie History") },
+                title = { Text(stringResource(R.string.txt_calorie_history)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
@@ -143,15 +146,15 @@ private fun EmptyHistoryState() {
             modifier = Modifier.fillMaxWidth().padding(40.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("📊", fontSize = 48.sp)
+            Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 48.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "No tracking history yet",
+                stringResource(R.string.txt_no_tracking_history_yet),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
             Text(
-                "Start logging your food intake to see trends, calendar highlights, and insights here.",
+                stringResource(R.string.txt_start_logging_your_food_intake),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 textAlign = TextAlign.Center,
@@ -170,7 +173,7 @@ private fun StatisticsSummaryCard(stats: CalorieHistoryStats) {
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
-                "📈 Your Overview",
+                stringResource(R.string.txt_your_overview),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -425,7 +428,7 @@ private fun CalorieTrendGraph(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Calorie Trend",
+                    stringResource(R.string.txt_calorie_trend),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                 )
             }
@@ -456,7 +459,7 @@ private fun CalorieTrendGraph(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        "Not enough data for the selected period",
+                        stringResource(R.string.txt_not_enough_data_for_the_select),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                     )
@@ -562,7 +565,7 @@ private fun CalorieTrendGraph(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Intake", style = MaterialTheme.typography.labelSmall, fontSize = 10.sp)
+                Text(stringResource(R.string.txt_intake), style = MaterialTheme.typography.labelSmall, fontSize = 10.sp)
                 Spacer(modifier = Modifier.width(12.dp))
                 Box(modifier = Modifier.width(16.dp).height(2.dp).background(Color(0xFF4CAF50)))
                 Spacer(modifier = Modifier.width(4.dp))
@@ -583,7 +586,7 @@ private fun WeeklySummaryCard(weeklySummaries: List<WeeklyCalorieSummary>) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Weekly Summary",
+                stringResource(R.string.txt_weekly_summary),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -655,7 +658,7 @@ private fun MacroTrendCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Macro Trends",
+                stringResource(R.string.txt_macro_trends),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -755,7 +758,7 @@ private fun DetailedStatsCard(stats: CalorieHistoryStats) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Detailed Statistics",
+                stringResource(R.string.txt_detailed_statistics),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(12.dp))

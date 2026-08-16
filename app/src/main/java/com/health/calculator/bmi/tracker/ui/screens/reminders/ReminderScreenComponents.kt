@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.reminders
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,13 +44,13 @@ fun PermissionBanner(
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "Notifications Disabled",
+                    stringResource(R.string.txt_notifications_disabled),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onErrorContainer
                 )
                 Text(
-                    "You won't receive health reminders. Tap to enable.",
+                    stringResource(R.string.txt_you_won_t_receive_health_remin),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onErrorContainer
                 )
@@ -117,14 +120,14 @@ fun EmptyRemindersState(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            "No Reminders Set",
+            stringResource(R.string.txt_no_reminders_set),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "Add a reminder to stay consistent with your health goals and track your progress daily.",
+            stringResource(R.string.txt_add_a_reminder_to_stay_consist),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

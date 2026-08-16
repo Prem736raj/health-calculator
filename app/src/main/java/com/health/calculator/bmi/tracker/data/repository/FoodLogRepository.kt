@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.DailyFoodLog
 import com.health.calculator.bmi.tracker.data.model.FoodEntry
@@ -12,7 +15,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FoodLogRepository(private val context: Context) {
+class FoodLogRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val prefs by lazy {
         context.getSharedPreferences("food_log", Context.MODE_PRIVATE)

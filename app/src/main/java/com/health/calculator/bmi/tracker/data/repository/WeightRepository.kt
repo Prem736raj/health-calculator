@@ -1,11 +1,13 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.local.dao.WeightDao
 import com.health.calculator.bmi.tracker.data.model.*
 import kotlinx.coroutines.flow.*
 import java.util.Calendar
 
-class WeightRepository(private val weightDao: WeightDao) {
+class WeightRepository @Inject constructor(private val weightDao: WeightDao) {
 
     fun getAllWeights(): Flow<List<WeightEntry>> = weightDao.getAllWeights()
 

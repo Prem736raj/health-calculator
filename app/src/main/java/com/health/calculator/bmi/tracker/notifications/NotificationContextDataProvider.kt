@@ -1,6 +1,8 @@
 // notifications/NotificationContextDataProvider.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.repository.FoodLogRepository
@@ -12,7 +14,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import java.util.Calendar
 
 class NotificationContextDataProvider(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val waterRepo: WaterIntakeRepository,
     private val foodRepo: FoodLogRepository,
     private val historyRepo: HistoryRepository,

@@ -1,6 +1,8 @@
 // data/util/WaterDataIntegrity.kt
 package com.health.calculator.bmi.tracker.data.util
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.WaterStreakData
@@ -15,7 +17,7 @@ import java.util.*
  * - Streak calculations across timezones
  * - Historical data preservation
  */
-class WaterDataIntegrity(private val context: Context) {
+class WaterDataIntegrity(@ApplicationContext private val context: Context) {
 
     private val dateKeyFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val prefs = context.getSharedPreferences("water_data_integrity", Context.MODE_PRIVATE)

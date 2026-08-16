@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -79,7 +82,7 @@ fun ReminderEditDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = onTitleChange,
-                    label = { Text("Reminder Title") },
+                    label = { Text(stringResource(R.string.txt_reminder_title)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     leadingIcon = { Text(category.icon, modifier = Modifier.padding(start = 12.dp)) }
@@ -91,7 +94,7 @@ fun ReminderEditDialog(
                 OutlinedTextField(
                     value = message,
                     onValueChange = onMessageChange,
-                    label = { Text("Short Message (Optional)") },
+                    label = { Text(stringResource(R.string.txt_short_message_optional)) },
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 2
                 )
@@ -99,7 +102,7 @@ fun ReminderEditDialog(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Times Section
-                Text("Trigger Times", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_trigger_times), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 FlowRow(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -123,7 +126,7 @@ fun ReminderEditDialog(
                     }
                     AssistChip(
                         onClick = onAddTime,
-                        label = { Text("Add Time") },
+                        label = { Text(stringResource(R.string.txt_add_time)) },
                         leadingIcon = { Icon(Icons.Default.Add, null, modifier = Modifier.size(16.dp)) }
                     )
                 }
@@ -131,7 +134,7 @@ fun ReminderEditDialog(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Days Section
-                Text("Schedule", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_schedule), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 val dayNames = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
                 FlowRow(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -153,7 +156,7 @@ fun ReminderEditDialog(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Settings
-                Text("Notification Settings", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_notification_settings), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -161,7 +164,7 @@ fun ReminderEditDialog(
                 ) {
                     Icon(Icons.Default.Vibration, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text("Vibration", modifier = Modifier.weight(1f))
+                    Text(stringResource(R.string.txt_vibration), modifier = Modifier.weight(1f))
                     Switch(checked = vibration, onCheckedChange = onVibrationChange)
                 }
 
@@ -172,8 +175,8 @@ fun ReminderEditDialog(
                     Icon(Icons.Default.PriorityHigh, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("High Priority")
-                        Text("Overrides Quiet Hours if allowed", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.txt_high_priority))
+                        Text(stringResource(R.string.txt_overrides_quiet_hours_if_allow), style = MaterialTheme.typography.labelSmall)
                     }
                     Switch(checked = highPriority, onCheckedChange = onHighPriorityChange)
                 }

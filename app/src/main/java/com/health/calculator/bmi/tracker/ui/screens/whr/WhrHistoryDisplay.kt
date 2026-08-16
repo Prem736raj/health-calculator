@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -43,8 +46,8 @@ fun WhrHistoryEntryCard(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Entry?", fontWeight = FontWeight.Bold) },
-            text = { Text("This WHR reading will be permanently removed from your history.") },
+            title = { Text(stringResource(R.string.txt_delete_entry), fontWeight = FontWeight.Bold) },
+            text = { Text(stringResource(R.string.txt_this_whr_reading_will_be_perma)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -52,12 +55,12 @@ fun WhrHistoryEntryCard(
                         showDeleteDialog = false
                     }
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.txt_delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.txt_cancel))
                 }
             }
         )
@@ -96,7 +99,7 @@ fun WhrHistoryEntryCard(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            "📐",
+                            stringResource(R.string.txt_text_placeholder_42),
                             fontSize = 18.sp
                         )
                     }
@@ -127,7 +130,7 @@ fun WhrHistoryEntryCard(
                             }
                         }
                         Text(
-                            "Waist-to-Hip Ratio",
+                            stringResource(R.string.txt_waist_to_hip_ratio),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                             fontSize = 11.sp
@@ -295,9 +298,9 @@ fun WhrHistoryEntryDetailDialog(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("📐", fontSize = 24.sp)
+                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 24.sp)
                 Text(
-                    "WHR Details",
+                    stringResource(R.string.txt_whr_details),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -321,7 +324,7 @@ fun WhrHistoryEntryDetailDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Close")
+                Text(stringResource(R.string.txt_close))
             }
         }
     )

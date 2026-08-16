@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterIntakeInputScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -80,9 +83,9 @@ fun WaterIntakeInputScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("💧", fontSize = 24.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
                         Text(
-                            "Daily Water Intake",
+                            stringResource(R.string.txt_daily_water_intake),
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -109,7 +112,7 @@ fun WaterIntakeInputScreen(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(4.dp))
-                        Text("Clear")
+                        Text(stringResource(R.string.txt_clear))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -199,9 +202,9 @@ fun WaterIntakeInputScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        Text("📚", fontSize = 20.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 20.sp)
                         Text(
-                            "Learn about hydration science →",
+                            stringResource(R.string.txt_learn_about_hydration_science),
                             fontSize = 13.sp,
                             color = WaterBlueDark,
                             fontWeight = FontWeight.Medium
@@ -274,7 +277,7 @@ private fun WaterHeaderCard(waterDropOffset: Float) {
                         lineHeight = 26.sp
                     )
                     Text(
-                        text = "Proper hydration is essential for every body function.",
+                        text = stringResource(R.string.txt_proper_hydration_is_essential_),
                         color = Color.White.copy(alpha = 0.85f),
                         fontSize = 13.sp,
                         lineHeight = 18.sp
@@ -287,7 +290,7 @@ private fun WaterHeaderCard(waterDropOffset: Float) {
                     modifier = Modifier.offset(y = waterDropOffset.dp)
                 ) {
                     Text(
-                        text = "💧",
+                        text = stringResource(R.string.txt_text_placeholder_71),
                         fontSize = 52.sp
                     )
                 }
@@ -319,7 +322,7 @@ private fun ProfileDataBanner() {
                 modifier = Modifier.size(20.dp)
             )
             Text(
-                text = "Using profile data • You can override any value",
+                text = stringResource(R.string.txt_using_profile_data_you_can_ove_1),
                 fontSize = 13.sp,
                 color = WaterBlueDark
             )
@@ -337,7 +340,7 @@ private fun BodyInfoSection(
         // Weight Input
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                text = "Weight",
+                text = stringResource(R.string.txt_weight),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Medium
@@ -395,7 +398,7 @@ private fun BodyInfoSection(
         // Age Input
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                text = "Age",
+                text = stringResource(R.string.txt_age),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Medium
@@ -404,8 +407,8 @@ private fun BodyInfoSection(
                 value = viewModel.ageValue,
                 onValueChange = { viewModel.updateAge(it) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("e.g., 30") },
-                suffix = { Text("years", color = MaterialTheme.colorScheme.primary) },
+                placeholder = { Text(stringResource(R.string.txt_e_g_30)) },
+                suffix = { Text(stringResource(R.string.txt_years), color = MaterialTheme.colorScheme.primary) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 isError = viewModel.ageError != null,
@@ -421,7 +424,7 @@ private fun BodyInfoSection(
         // Gender Selection
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                text = "Gender",
+                text = stringResource(R.string.txt_gender),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Medium
@@ -616,12 +619,12 @@ private fun CalculateButton(onClick: () -> Unit) {
         )
     ) {
         Text(
-            text = "💧",
+            text = stringResource(R.string.txt_text_placeholder_71),
             fontSize = 20.sp
         )
         Spacer(Modifier.width(8.dp))
         Text(
-            text = "Calculate My Water Needs",
+            text = stringResource(R.string.txt_calculate_my_water_needs),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )

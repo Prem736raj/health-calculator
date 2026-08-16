@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -12,7 +14,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WaterWidgetRepository private constructor(context: Context) {
+class WaterWidgetRepository private constructor(@ApplicationContext context: Context) {
 
     private val applicationContext = context.applicationContext
     private val repositoryScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -30,7 +32,7 @@ class WaterWidgetRepository private constructor(context: Context) {
         @Volatile
         private var instance: WaterWidgetRepository? = null
 
-        fun getInstance(context: Context): WaterWidgetRepository {
+        fun getInstance(@ApplicationContext context: Context): WaterWidgetRepository {
             return instance ?: synchronized(this) {
                 instance ?: WaterWidgetRepository(context.applicationContext).also {
                     instance = it

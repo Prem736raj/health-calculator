@@ -1,6 +1,8 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/BMRViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,7 +25,8 @@ import com.health.calculator.bmi.tracker.data.calculator.BMRValidation
 import com.health.calculator.bmi.tracker.data.preferences.BMRLastValuePreferences
 import com.health.calculator.bmi.tracker.ui.screens.bmr.BMRShareFormatter
 
-class BMRViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BMRViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _inputState = MutableStateFlow(BMRInputState())
     val inputState: StateFlow<BMRInputState> = _inputState.asStateFlow()

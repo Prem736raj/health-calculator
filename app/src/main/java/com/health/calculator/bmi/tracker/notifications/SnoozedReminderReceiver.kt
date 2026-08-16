@@ -1,6 +1,8 @@
 // notifications/SnoozedReminderReceiver.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,7 +17,7 @@ class SnoozedReminderReceiver : BroadcastReceiver() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val reminderId = intent.getStringExtra("reminder_id") ?: return
         val snoozeMinutes = intent.getIntExtra("snooze_minutes", 15)
 

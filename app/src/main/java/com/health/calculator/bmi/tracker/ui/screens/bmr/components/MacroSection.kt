@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/MacroSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -81,11 +84,11 @@ fun MacroSection(
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "🥗", fontSize = 22.sp)
+                            Text(text = stringResource(R.string.txt_text_placeholder_30), fontSize = 22.sp)
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = "Macronutrient Breakdown",
+                                    text = stringResource(R.string.txt_macronutrient_breakdown),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -196,7 +199,7 @@ private fun DietApproachSelector(
 ) {
     Column {
         Text(
-            text = "Diet Approach",
+            text = stringResource(R.string.txt_diet_approach),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
@@ -389,7 +392,7 @@ private fun CustomMacroSliders(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "🎛️ Custom Ratios",
+                    text = stringResource(R.string.txt_custom_ratios),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -449,7 +452,7 @@ private fun CustomMacroSliders(
             if (!isBalanced) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "⚠️ Ratios should total 100%. Adjusting one slider auto-balances others.",
+                    text = stringResource(R.string.txt_ratios_should_total_100_adjust),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFFF9800),
                     fontSize = 10.sp
@@ -707,7 +710,7 @@ private fun MacroDonutChart(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "kcal/day",
+                text = stringResource(R.string.txt_kcal_day),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -884,10 +887,10 @@ private fun PerMealBreakdownCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "🍽️", fontSize = 18.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_29), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Per-Meal Breakdown",
+                    text = stringResource(R.string.txt_per_meal_breakdown),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -903,7 +906,7 @@ private fun PerMealBreakdownCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Meals per day:",
+                    text = stringResource(R.string.txt_meals_per_day),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -1037,7 +1040,7 @@ private fun PerMealBreakdownCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Tip: These are averages per meal. It's fine to vary between meals as long as your daily totals are consistent.",
+                    text = stringResource(R.string.txt_tip_these_are_averages_per_mea),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                     fontSize = 10.sp,

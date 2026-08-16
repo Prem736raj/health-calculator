@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.datastore
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -27,7 +29,7 @@ private val Context.settingsDataStore: DataStore<Preferences> by preferencesData
  * Each setting is stored as an individual preference key
  * for granular updates without full serialization.
  */
-class SettingsDataStore(private val context: Context) {
+class SettingsDataStore(@ApplicationContext private val context: Context) {
 
     // ─── Preference Keys ──────────────────────────────────────────────────
     private companion object {

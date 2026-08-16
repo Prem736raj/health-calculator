@@ -1,6 +1,8 @@
 // notifications/SmartNotificationContentBuilder.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.models.ReminderCategory
 import java.util.Calendar
@@ -15,7 +17,7 @@ data class SmartNotificationContent(
     val category: String
 )
 
-class SmartNotificationContentBuilder(private val context: Context) {
+class SmartNotificationContentBuilder(@ApplicationContext private val context: Context) {
 
     fun buildContent(
         category: ReminderCategory,

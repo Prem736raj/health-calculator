@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -48,7 +51,7 @@ fun QuietHoursDialog(
                         Icon(Icons.Default.DoNotDisturb, null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            "Quiet Hours",
+                            stringResource(R.string.txt_quiet_hours),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -60,7 +63,7 @@ fun QuietHoursDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "Suppress non-essential notifications during this period.",
+                    stringResource(R.string.txt_suppress_non_essential_notific),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -74,7 +77,7 @@ fun QuietHoursDialog(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                 ) {
-                    Text("Enable Quiet Hours", modifier = Modifier.weight(1f))
+                    Text(stringResource(R.string.txt_enable_quiet_hours), modifier = Modifier.weight(1f))
                     Switch(checked = quietHours.isEnabled, onCheckedChange = onToggle)
                 }
 
@@ -82,7 +85,7 @@ fun QuietHoursDialog(
 
                 // Start Time
                 ListItem(
-                    headlineContent = { Text("Start Time") },
+                    headlineContent = { Text(stringResource(R.string.txt_start_time)) },
                     trailingContent = {
                         Text(
                             quietHours.startTimeFormatted,
@@ -96,7 +99,7 @@ fun QuietHoursDialog(
 
                 // End Time
                 ListItem(
-                    headlineContent = { Text("End Time") },
+                    headlineContent = { Text(stringResource(R.string.txt_end_time)) },
                     trailingContent = {
                         Text(
                             quietHours.endTimeFormatted,
@@ -118,9 +121,9 @@ fun QuietHoursDialog(
                         .padding(vertical = 8.dp)
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Allow Emergency Alerts")
+                        Text(stringResource(R.string.txt_allow_emergency_alerts))
                         Text(
-                            "High priority reminders will still alert you",
+                            stringResource(R.string.txt_high_priority_reminders_will_s),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -138,7 +141,7 @@ fun QuietHoursDialog(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Done")
+                    Text(stringResource(R.string.txt_done))
                 }
             }
         }

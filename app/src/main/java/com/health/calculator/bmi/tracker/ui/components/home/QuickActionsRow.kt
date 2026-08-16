@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -28,7 +31,7 @@ fun QuickActionsRow(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = "Quick Actions",
+            text = stringResource(R.string.txt_quick_actions),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)

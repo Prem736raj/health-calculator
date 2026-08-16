@@ -1,11 +1,13 @@
 // notifications/NotificationRateLimiter.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 import java.util.Calendar
 
-class NotificationRateLimiter(context: Context) {
+class NotificationRateLimiter(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(
         "notification_rate_limiter",

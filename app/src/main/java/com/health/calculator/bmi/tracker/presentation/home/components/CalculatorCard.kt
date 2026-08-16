@@ -2,6 +2,9 @@
 
 package com.health.calculator.bmi.tracker.presentation.home.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -229,7 +232,7 @@ fun CalculatorCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Calculate",
+                        text = stringResource(R.string.txt_calculate),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.SemiBold,
                         color = data.color

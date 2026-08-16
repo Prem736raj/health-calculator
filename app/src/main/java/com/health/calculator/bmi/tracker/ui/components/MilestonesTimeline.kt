@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -44,7 +47,7 @@ fun MilestonesSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "🏅 Milestones",
+                text = stringResource(R.string.txt_milestones),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -66,7 +69,7 @@ fun MilestonesSection(
                 FilterChip(
                     selected = selectedCategory == null,
                     onClick = { onCategorySelected(null) },
-                    label = { Text("All", style = MaterialTheme.typography.labelSmall) },
+                    label = { Text(stringResource(R.string.txt_all), style = MaterialTheme.typography.labelSmall) },
                     shape = RoundedCornerShape(8.dp)
                 )
             }
@@ -114,7 +117,7 @@ fun MilestonesSection(
         if (unearnedMilestoneTypes.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Upcoming",
+                text = stringResource(R.string.txt_upcoming),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

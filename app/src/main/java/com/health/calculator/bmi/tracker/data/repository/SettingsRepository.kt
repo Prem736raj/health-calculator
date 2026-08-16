@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.model.SettingsData
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
@@ -10,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
  * Repository layer for settings data access.
  * Provides a clean API for the ViewModel to interact with settings storage.
  */
-class SettingsRepository(
+class SettingsRepository @Inject constructor(
     private val settingsDataStore: SettingsDataStore
 ) {
     /** Observable stream of all settings */

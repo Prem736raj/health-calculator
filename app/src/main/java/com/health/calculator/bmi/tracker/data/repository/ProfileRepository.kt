@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
 import com.health.calculator.bmi.tracker.data.model.ProfileData
 import com.health.calculator.bmi.tracker.domain.model.UserProfile
@@ -11,7 +13,7 @@ import kotlinx.coroutines.flow.map
  * Acts as a clean abstraction between the ViewModel and the DataStore,
  * following Clean Architecture principles.
  */
-class ProfileRepository(
+class ProfileRepository @Inject constructor(
     private val profileDataStore: ProfileDataStore
 ) {
     /**

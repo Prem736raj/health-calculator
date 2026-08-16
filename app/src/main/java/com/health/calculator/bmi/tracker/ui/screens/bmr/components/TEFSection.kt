@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/TEFSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -99,17 +102,17 @@ private fun TEFResultCard(tefData: TEFData) {
         Column(modifier = Modifier.padding(20.dp)) {
             // Header
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "🌡️", fontSize = 22.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_37), fontSize = 22.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = "Thermic Effect of Food",
+                        text = stringResource(R.string.txt_thermic_effect_of_food),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "Energy spent digesting your food",
+                        text = stringResource(R.string.txt_energy_spent_digesting_your_fo),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -134,7 +137,7 @@ private fun TEFResultCard(tefData: TEFData) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Column(modifier = Modifier.padding(bottom = 6.dp)) {
                     Text(
-                        text = "kcal/day",
+                        text = stringResource(R.string.txt_kcal_day),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -188,7 +191,7 @@ private fun TEFResultCard(tefData: TEFData) {
                 )
             ) {
                 Row(modifier = Modifier.padding(12.dp)) {
-                    Text(text = "💡", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = tefData.getInterpretation(),
@@ -210,7 +213,7 @@ private fun TEFResultCard(tefData: TEFData) {
                 )
             ) {
                 Row(modifier = Modifier.padding(12.dp)) {
-                    Text(text = "🎯", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_32), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = tefData.getPersonalizedInsight(),
@@ -254,10 +257,10 @@ private fun MacroTEFBreakdownCard(tefData: TEFData) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "🔬", fontSize = 18.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_23), fontSize = 18.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "TEF by Macronutrient",
+                            text = stringResource(R.string.txt_tef_by_macronutrient),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -300,7 +303,7 @@ private fun MacroTEFBreakdownCard(tefData: TEFData) {
                     ) {
                         Column(modifier = Modifier.padding(10.dp)) {
                             Text(
-                                text = "Thermic Effect Rates:",
+                                text = stringResource(R.string.txt_thermic_effect_rates),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -377,10 +380,10 @@ private fun MacroTEFBreakdownCard(tefData: TEFData) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "🌡️", fontSize = 16.sp)
+                            Text(text = stringResource(R.string.txt_text_placeholder_37), fontSize = 16.sp)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Total TEF",
+                                text = stringResource(R.string.txt_total_tef),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
@@ -584,17 +587,17 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
         Column(modifier = Modifier.padding(20.dp)) {
             // Header
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "⚡", fontSize = 22.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_33), fontSize = 22.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = "Complete Energy Expenditure",
+                        text = stringResource(R.string.txt_complete_energy_expenditure),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = "Your full daily energy breakdown",
+                        text = stringResource(R.string.txt_your_full_daily_energy_breakdo),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -672,13 +675,13 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                 ) {
                     Column {
                         Text(
-                            text = "Total Daily Energy Expenditure",
+                            text = stringResource(R.string.txt_total_daily_energy_expenditure),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "BMR + Activity + TEF",
+                            text = stringResource(R.string.txt_bmr_activity_tef),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -699,7 +702,7 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = "kcal/day",
+                            text = stringResource(R.string.txt_kcal_day),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -730,7 +733,7 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                         color = BMRColor
                     )
                     Text(
-                        text = " + ",
+                        text = stringResource(R.string.txt_text_placeholder_36),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold
@@ -741,7 +744,7 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                         color = ActivityColor
                     )
                     Text(
-                        text = " + ",
+                        text = stringResource(R.string.txt_text_placeholder_36),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold
@@ -752,7 +755,7 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                         color = TEFColor
                     )
                     Text(
-                        text = " = ",
+                        text = stringResource(R.string.txt_text_placeholder_34),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold
@@ -887,13 +890,13 @@ private fun EnergyDonutChart(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "kcal/day",
+                text = stringResource(R.string.txt_kcal_day),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 10.sp
             )
             Text(
-                text = "total",
+                text = stringResource(R.string.txt_total),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 9.sp

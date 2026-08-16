@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -34,7 +37,7 @@ fun CalorieEducationalContent() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Calorie Education",
+                stringResource(R.string.txt_calorie_education),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -205,9 +208,9 @@ private fun DeficitVsSurplusContent() {
                     modifier = Modifier.padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("📉", fontSize = 28.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_19), fontSize = 28.sp)
                     Text(
-                        "Deficit",
+                        stringResource(R.string.txt_deficit),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFF2196F3)
                     )
@@ -220,7 +223,7 @@ private fun DeficitVsSurplusContent() {
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        "→ Weight Loss",
+                        stringResource(R.string.txt_weight_loss),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFF2196F3)
                     )
@@ -235,9 +238,9 @@ private fun DeficitVsSurplusContent() {
                     modifier = Modifier.padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("📈", fontSize = 28.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 28.sp)
                     Text(
-                        "Surplus",
+                        stringResource(R.string.txt_surplus),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFF9C27B0)
                     )
@@ -250,7 +253,7 @@ private fun DeficitVsSurplusContent() {
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        "→ Weight Gain",
+                        stringResource(R.string.txt_weight_gain),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFF9C27B0)
                     )
@@ -298,7 +301,7 @@ private fun TooFewCaloriesContent() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Eating too few calories can be just as harmful as overeating. Here's what happens when you restrict calories too severely:",
+                    stringResource(R.string.txt_eating_too_few_calories_can_be),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFF44336).copy(alpha = 0.9f),
                     lineHeight = 18.sp
@@ -313,7 +316,7 @@ private fun TooFewCaloriesContent() {
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    "⚡ Minimum Daily Calorie Recommendations",
+                    stringResource(R.string.txt_minimum_daily_calorie_recommen),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -326,7 +329,7 @@ private fun TooFewCaloriesContent() {
                 }
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    "These are absolute minimums. Most people need significantly more for safe, sustainable results.",
+                    stringResource(R.string.txt_these_are_absolute_minimums_mo),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     fontSize = 10.sp
@@ -356,7 +359,7 @@ private fun TooFewCaloriesContent() {
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
-                    "🚨 Signs You May Be Eating Too Little",
+                    stringResource(R.string.txt_signs_you_may_be_eating_too_li),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFFF44336)
                 )
@@ -372,7 +375,7 @@ private fun TooFewCaloriesContent() {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         pair.forEach { sign ->
                             Row(modifier = Modifier.weight(1f).padding(vertical = 2.dp)) {
-                                Text("• ", color = Color(0xFFF44336), style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(R.string.txt_text_placeholder_50), color = Color(0xFFF44336), style = MaterialTheme.typography.bodySmall)
                                 Text(sign, style = MaterialTheme.typography.bodySmall, fontSize = 11.sp)
                             }
                         }
@@ -568,13 +571,13 @@ private fun CommonFoodsReferenceContent() {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    "Food Item",
+                                    stringResource(R.string.txt_food_item),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                                     modifier = Modifier.weight(1f)
                                 )
                                 Text(
-                                    "Calories",
+                                    stringResource(R.string.txt_calories),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                                 )
@@ -631,7 +634,7 @@ private fun CommonFoodsReferenceContent() {
                 Icon(Icons.Default.Info, null, Modifier.size(14.dp), tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    "Values are approximate and may vary by brand, cooking method, and exact size. Use a food scale for accuracy.",
+                    stringResource(R.string.txt_values_are_approximate_and_may),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     fontSize = 10.sp, lineHeight = 14.sp
@@ -725,17 +728,17 @@ private fun MindfulNoteCard() {
         )
     ) {
         Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.Top) {
-            Text("🌱", fontSize = 22.sp)
+            Text(stringResource(R.string.txt_text_placeholder_49), fontSize = 22.sp)
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    "A Mindful Approach to Tracking",
+                    stringResource(R.string.txt_a_mindful_approach_to_tracking),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFF4CAF50)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "Calorie tracking is a tool, not a lifestyle. Use it to learn about food, build awareness, and develop intuition. The goal is to eventually eat well naturally — without needing to count every calorie. If tracking becomes stressful or obsessive, take a break. Your mental health matters as much as your physical health.",
+                    stringResource(R.string.txt_calorie_tracking_is_a_tool_not),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                     lineHeight = 18.sp, fontSize = 12.sp
@@ -762,13 +765,13 @@ private fun MedicalDisclaimerEducation() {
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    "Medical Disclaimer",
+                    stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFFF44336).copy(alpha = 0.8f)
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    "This educational content is for informational purposes only and does not constitute medical advice. Individual calorie needs vary. Consult a registered dietitian or healthcare provider before significantly changing your diet, especially if you have any medical conditions.",
+                    stringResource(R.string.txt_this_educational_content_is_fo_3),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFF44336).copy(alpha = 0.7f),
                     fontSize = 11.sp, lineHeight = 16.sp

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.weight
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -25,7 +27,8 @@ data class WeightTrackingUiState(
     val snackbarMessage: String? = null
 )
 
-class WeightTrackingViewModel(
+@HiltViewModel
+class WeightTrackingViewModel @Inject constructor(
     private val weightRepository: WeightRepository,
     private val profileRepository: ProfileRepository,
     private val reminderManager: WeightReminderManager

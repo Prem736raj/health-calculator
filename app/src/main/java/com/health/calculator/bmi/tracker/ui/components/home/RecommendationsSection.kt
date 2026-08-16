@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -54,10 +57,10 @@ fun RecommendationsSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("💡", fontSize = 20.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 20.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Recommendations",
+                    text = stringResource(R.string.txt_recommendations),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -208,7 +211,7 @@ private fun RecommendationCard(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Dismiss",
+                            text = stringResource(R.string.txt_dismiss),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFFF44336),
                             fontWeight = FontWeight.Medium
@@ -304,7 +307,7 @@ private fun RecommendationCardContent(
                                 color = Color(0xFFFF9800).copy(alpha = 0.15f)
                             ) {
                                 Text(
-                                    text = "Important",
+                                    text = stringResource(R.string.txt_important),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
@@ -396,17 +399,17 @@ fun NoRecommendationsCard(
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("🌟", fontSize = 32.sp)
+            Text(stringResource(R.string.txt_text_placeholder_13), fontSize = 32.sp)
             Spacer(modifier = Modifier.width(14.dp))
             Column {
                 Text(
-                    text = "You're All Caught Up!",
+                    text = stringResource(R.string.txt_you_re_all_caught_up),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF4CAF50)
                 )
                 Text(
-                    text = "No new recommendations right now. Keep up the great work!",
+                    text = stringResource(R.string.txt_no_new_recommendations_right_n),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     lineHeight = 17.sp

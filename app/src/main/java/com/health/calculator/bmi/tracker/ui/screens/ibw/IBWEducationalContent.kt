@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -37,7 +40,7 @@ fun IBWEducationalContent() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Learn About Ideal Body Weight",
+                text = stringResource(R.string.txt_learn_about_ideal_body_weight),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -194,10 +197,10 @@ private fun WhatIsIBWContent() {
                 modifier = Modifier.padding(10.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Text("💡", fontSize = 14.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "A muscular person may weigh significantly more than their calculated IBW and be in excellent health. Conversely, someone at their IBW could have poor health markers.",
+                    text = stringResource(R.string.txt_a_muscular_person_may_weigh_si),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFF2196F3).copy(alpha = 0.9f),
                     fontSize = 12.sp
@@ -258,10 +261,10 @@ private fun WhyDifferentResultsContent() {
                 modifier = Modifier.padding(10.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Text("🎯", fontSize = 14.sp)
+                Text(stringResource(R.string.txt_text_placeholder_32), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Recommendation: Focus on the BMI-based healthy weight range rather than any single formula's exact number. A range is more realistic and practical than a specific number.",
+                    text = stringResource(R.string.txt_recommendation_focus_on_the_bm),
                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
                     color = Color(0xFF9C27B0).copy(alpha = 0.9f),
                     fontSize = 12.sp
@@ -374,10 +377,10 @@ private fun FrameSizeContent() {
                 modifier = Modifier.padding(10.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Text("💡", fontSize = 14.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Remember: Frame size explains why two people of the same height can have different healthy weights. One size truly doesn't fit all!",
+                    text = stringResource(R.string.txt_remember_frame_size_explains_w),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFFF9800).copy(alpha = 0.9f),
                     fontSize = 12.sp
@@ -511,7 +514,7 @@ private fun ComparisonCard(
                     verticalAlignment = Alignment.Top
                 ) {
                     Text(
-                        "•",
+                        stringResource(R.string.txt_text_placeholder_3),
                         color = color,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
                     )
@@ -603,13 +606,13 @@ private fun MedicalDisclaimerCard() {
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Medical Disclaimer",
+                    text = stringResource(R.string.txt_medical_disclaimer),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFFF44336).copy(alpha = 0.8f)
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "This information is for educational purposes only and should not replace professional medical advice. Ideal body weight is an estimate and may not be appropriate for everyone. Always consult a healthcare provider for personalized guidance.",
+                    text = stringResource(R.string.txt_this_information_is_for_educat_1),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFF44336).copy(alpha = 0.7f),
                     fontSize = 11.sp,

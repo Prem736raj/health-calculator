@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.settings
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,7 +55,8 @@ data class SettingsUiState(
  * ViewModel for the Settings screen.
  * Manages settings state, persistence, and data management actions.
  */
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
     private val appDatabase = AppDatabase.getDatabase(appContext)
 

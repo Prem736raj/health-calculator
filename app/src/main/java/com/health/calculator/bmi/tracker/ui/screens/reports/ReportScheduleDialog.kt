@@ -1,6 +1,9 @@
 // ui/screens/reports/ReportScheduleDialog.kt
 package com.health.calculator.bmi.tracker.ui.screens.reports
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +42,7 @@ fun ReportScheduleDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Outlined.Schedule, null, modifier = Modifier.size(28.dp)) },
-        title = { Text("Weekly Report Schedule", fontWeight = FontWeight.Bold) },
+        title = { Text(stringResource(R.string.txt_weekly_report_schedule), fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Row(
@@ -47,13 +50,13 @@ fun ReportScheduleDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Enable Weekly Reports", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.txt_enable_weekly_reports), style = MaterialTheme.typography.bodyMedium)
                     Switch(checked = enabled, onCheckedChange = onToggle)
                 }
 
                 if (enabled) {
                     // Day picker
-                    Text("Day", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.txt_day), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         val days = listOf(
                             Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY,
@@ -70,7 +73,7 @@ fun ReportScheduleDialog(
                     }
 
                     // Time picker
-                    Text("Time", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.txt_time), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
                     OutlinedCard(
                         onClick = { showTimePicker = true },
                         modifier = Modifier.fillMaxWidth(),
@@ -93,14 +96,14 @@ fun ReportScheduleDialog(
                     }
 
                     Text(
-                        "You'll receive a notification with your weekly health summary.",
+                        stringResource(R.string.txt_you_ll_receive_a_notification_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
         },
-        confirmButton = { Button(onClick = onDismiss) { Text("Done") } }
+        confirmButton = { Button(onClick = onDismiss) { Text(stringResource(R.string.txt_done)) } }
     )
 
     if (showTimePicker) {

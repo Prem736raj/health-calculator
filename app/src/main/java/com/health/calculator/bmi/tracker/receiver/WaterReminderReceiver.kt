@@ -1,6 +1,8 @@
 // receiver/WaterReminderReceiver.kt
 package com.health.calculator.bmi.tracker.receiver
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,7 +20,7 @@ class WaterReminderReceiver : BroadcastReceiver() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val prefs = WaterReminderPreferences(context)
         val settings = prefs.load()
 
@@ -116,7 +118,7 @@ class WaterReminderReceiver : BroadcastReceiver() {
         return deficit > (goalMl * 0.2f)
     }
 
-    private fun scheduleNext(context: Context, settings: WaterReminderSettings) {
+    private fun scheduleNext(@ApplicationContext context: Context, settings: WaterReminderSettings) {
         WaterReminderScheduler(context).schedule(settings)
     }
 }

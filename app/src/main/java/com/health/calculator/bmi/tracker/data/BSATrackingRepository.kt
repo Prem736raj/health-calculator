@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -16,7 +18,7 @@ import com.google.gson.reflect.TypeToken
 
 private val Context.bsaDataStore: DataStore<Preferences> by preferencesDataStore(name = "bsa_tracking_prefs")
 
-class BSATrackingRepository(private val context: Context) {
+class BSATrackingRepository(@ApplicationContext private val context: Context) {
 
     private val RECORDS_KEY = stringPreferencesKey("bsa_records_json")
     private val gson = Gson()

@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import android.content.Intent
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -29,7 +35,7 @@ fun IBWScreen(
     onNavigateToBMI: () -> Unit,
     onNavigateToBMR: () -> Unit,
     onNavigateToWHR: () -> Unit,
-    viewModel: IBWViewModel = viewModel()
+    viewModel: IBWViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val haptic = LocalHapticFeedback.current
@@ -38,7 +44,7 @@ fun IBWScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Ideal Body Weight") },
+                title = { Text(stringResource(R.string.txt_ideal_body_weight)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         when {
@@ -220,7 +226,7 @@ private fun IBWInputContent(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Ideal Body Weight is the weight that's associated with the lowest risk of health issues for your height and frame.",
+                    text = stringResource(R.string.txt_ideal_body_weight_is_the_weigh),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -245,7 +251,7 @@ private fun IBWInputContent(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        "Using profile data",
+                        stringResource(R.string.txt_using_profile_data),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.tertiary
                     )
@@ -255,7 +261,7 @@ private fun IBWInputContent(
 
         // Gender Selection
         Text(
-            text = "Gender",
+            text = stringResource(R.string.txt_gender),
             style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
         )
         Row(
@@ -279,7 +285,7 @@ private fun IBWInputContent(
 
         // Height Input
         Text(
-            text = "Height",
+            text = stringResource(R.string.txt_height),
             style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
         )
         Row(
@@ -291,7 +297,7 @@ private fun IBWInputContent(
                 OutlinedTextField(
                     value = uiState.heightValue,
                     onValueChange = onUpdateHeight,
-                    label = { Text("Height (cm)") },
+                    label = { Text(stringResource(R.string.txt_height_cm)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -301,7 +307,7 @@ private fun IBWInputContent(
                 OutlinedTextField(
                     value = uiState.heightFeet,
                     onValueChange = onUpdateHeightFeet,
-                    label = { Text("Feet") },
+                    label = { Text(stringResource(R.string.txt_feet)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -310,7 +316,7 @@ private fun IBWInputContent(
                 OutlinedTextField(
                     value = uiState.heightInches,
                     onValueChange = onUpdateHeightInches,
-                    label = { Text("Inches") },
+                    label = { Text(stringResource(R.string.txt_inches)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp),
@@ -331,7 +337,7 @@ private fun IBWInputContent(
 
         // Frame Size Selection
         Text(
-            text = "Frame Size",
+            text = stringResource(R.string.txt_frame_size),
             style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
         )
         Row(
@@ -364,7 +370,7 @@ private fun IBWInputContent(
                 modifier = Modifier.size(16.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Don't know your frame size?", style = MaterialTheme.typography.bodySmall)
+            Text(stringResource(R.string.txt_don_t_know_your_frame_size), style = MaterialTheme.typography.bodySmall)
         }
 
         AnimatedVisibility(visible = showFrameHelper) {
@@ -380,12 +386,12 @@ private fun IBWInputContent(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "Measure Your Wrist",
+                        stringResource(R.string.txt_measure_your_wrist),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Text(
-                        "Wrap a flexible tape measure around your wrist just below the wrist bone.",
+                        stringResource(R.string.txt_wrap_a_flexible_tape_measure_a),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
                     )
@@ -393,7 +399,7 @@ private fun IBWInputContent(
                     OutlinedTextField(
                         value = uiState.wristCircumference,
                         onValueChange = onUpdateWrist,
-                        label = { Text("Wrist circumference (cm)") },
+                        label = { Text(stringResource(R.string.txt_wrist_circumference_cm)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
@@ -406,7 +412,7 @@ private fun IBWInputContent(
                         shape = RoundedCornerShape(12.dp),
                         enabled = uiState.wristCircumference.isNotBlank()
                     ) {
-                        Text("Determine Frame Size")
+                        Text(stringResource(R.string.txt_determine_frame_size))
                     }
 
                     Text(
@@ -426,7 +432,7 @@ private fun IBWInputContent(
         OutlinedTextField(
             value = uiState.age,
             onValueChange = onUpdateAge,
-            label = { Text("Age (optional)") },
+            label = { Text(stringResource(R.string.txt_age_optional)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -435,7 +441,7 @@ private fun IBWInputContent(
 
         // Current Weight Input
         Text(
-            text = "Current Weight (highly recommended for comparison)",
+            text = stringResource(R.string.txt_current_weight_highly_recommen),
             style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
         )
         Row(
@@ -508,7 +514,7 @@ private fun IBWInputContent(
             Icon(Icons.Default.Calculate, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Calculate Ideal Weight",
+                stringResource(R.string.txt_calculate_ideal_weight),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -524,7 +530,7 @@ private fun IBWInputContent(
                 modifier = Modifier.size(16.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Text("Clear All")
+            Text(stringResource(R.string.txt_clear_all_1))
         }
 
         Spacer(modifier = Modifier.height(32.dp))

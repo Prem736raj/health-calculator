@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -73,7 +76,7 @@ fun BMIGoalSection(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "🎯 BMI Goal Tracker",
+                        text = stringResource(R.string.txt_bmi_goal_tracker),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
@@ -181,12 +184,12 @@ private fun GoalSetterView(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "💪",
+                    text = stringResource(R.string.txt_text_placeholder_48),
                     fontSize = 24.sp
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Set a goal that feels right for you. Every step toward a healthier you counts!",
+                    text = stringResource(R.string.txt_set_a_goal_that_feels_right_fo),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -203,7 +206,7 @@ private fun GoalSetterView(
             FilterChip(
                 selected = !useWeightMode,
                 onClick = { useWeightMode = false },
-                label = { Text("Target BMI") },
+                label = { Text(stringResource(R.string.txt_target_bmi)) },
                 leadingIcon = if (!useWeightMode) {
                     { Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
                 } else null
@@ -212,7 +215,7 @@ private fun GoalSetterView(
             FilterChip(
                 selected = useWeightMode,
                 onClick = { useWeightMode = true },
-                label = { Text("Target Weight") },
+                label = { Text(stringResource(R.string.txt_target_weight_2)) },
                 leadingIcon = if (useWeightMode) {
                     { Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(16.dp)) }
                 } else null
@@ -224,7 +227,7 @@ private fun GoalSetterView(
         if (!useWeightMode) {
             // BMI Slider
             Text(
-                text = "Target BMI",
+                text = stringResource(R.string.txt_target_bmi),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -244,7 +247,7 @@ private fun GoalSetterView(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "BMI",
+                    text = stringResource(R.string.txt_bmi),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(bottom = 4.dp)
@@ -279,9 +282,9 @@ private fun GoalSetterView(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("16.0", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("Normal: 18.5-24.9", style = MaterialTheme.typography.bodySmall, color = healthyGreen, fontWeight = FontWeight.Medium)
-                Text("35.0", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.txt_16_0), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.txt_normal_18_5_24_9), style = MaterialTheme.typography.bodySmall, color = healthyGreen, fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.txt_35_0), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -301,7 +304,7 @@ private fun GoalSetterView(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Target weight:",
+                        text = stringResource(R.string.txt_target_weight_1),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -348,7 +351,7 @@ private fun GoalSetterView(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "Corresponding BMI:",
+                            text = stringResource(R.string.txt_corresponding_bmi),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -405,7 +408,7 @@ private fun GoalSetterView(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.txt_cancel))
                 }
             }
             Button(
@@ -504,10 +507,10 @@ private fun TimelineEstimateCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "📅", fontSize = 20.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_47), fontSize = 20.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Estimated Timeline",
+                    text = stringResource(R.string.txt_estimated_timeline),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -733,7 +736,7 @@ fun GoalProgressView(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    "Clear Goal",
+                    stringResource(R.string.txt_clear_goal),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -800,7 +803,7 @@ private fun ProgressCircle(
                 color = progressColor
             )
             Text(
-                text = "progress",
+                text = stringResource(R.string.txt_progress_1),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -935,26 +938,26 @@ private fun GoalReachedCelebration() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "🎉🏆🎉",
+                text = stringResource(R.string.txt_text_placeholder_46),
                 fontSize = (32 * scale).sp
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Congratulations!",
+                text = stringResource(R.string.txt_congratulations),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = healthyGreen
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "You've reached your BMI goal!",
+                text = stringResource(R.string.txt_you_ve_reached_your_bmi_goal),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Amazing work! Keep maintaining your healthy lifestyle. You can set a new goal anytime.",
+                text = stringResource(R.string.txt_amazing_work_keep_maintaining_),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center

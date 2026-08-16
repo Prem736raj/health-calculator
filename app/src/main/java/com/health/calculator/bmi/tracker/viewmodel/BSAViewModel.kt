@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.viewmodel
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -43,7 +45,8 @@ data class BSAUiState(
     val validationWarnings: List<String> = emptyList()
 )
 
-class BSAViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BSAViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(BSAUiState())
     val uiState: StateFlow<BSAUiState> = _uiState.asStateFlow()

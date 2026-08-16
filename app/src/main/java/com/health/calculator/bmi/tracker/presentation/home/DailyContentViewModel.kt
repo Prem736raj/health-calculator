@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.presentation.home
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class DailyContentViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class DailyContentViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     
     private val database = AppDatabase.getDatabase(application)
     private val repository = DailyContentRepository(database.favoriteQuoteDao())

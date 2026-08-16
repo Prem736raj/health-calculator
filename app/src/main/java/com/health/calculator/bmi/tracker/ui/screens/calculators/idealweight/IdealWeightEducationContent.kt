@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.idealweight
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -74,7 +77,7 @@ fun IdealWeightEducationContent() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "This calculator is for informational purposes only. Please consult with a healthcare professional before making significant changes to your diet or exercise routine.",
+                    text = stringResource(R.string.txt_this_calculator_is_for_informa),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 16.sp

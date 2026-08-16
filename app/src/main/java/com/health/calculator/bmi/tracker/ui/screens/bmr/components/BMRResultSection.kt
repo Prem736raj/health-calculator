@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMRResultSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -267,7 +270,7 @@ private fun FlameVisual(bmrValue: Float) {
 
         // Flame emoji
         Text(
-            text = "🔥",
+            text = stringResource(R.string.txt_text_placeholder_6),
             fontSize = (40 * flameScale).sp,
             modifier = Modifier.graphicsLayer {
                 scaleX = flameScale
@@ -293,10 +296,10 @@ private fun InterpretationCard(resultData: BMRResultData) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "💡", fontSize = 20.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_1), fontSize = 20.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "What This Means",
+                    text = stringResource(R.string.txt_what_this_means),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -342,10 +345,10 @@ private fun BMRBreakdownCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "⏱️", fontSize = 18.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_27), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "BMR Breakdown",
+                    text = stringResource(R.string.txt_bmr_breakdown),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -399,7 +402,7 @@ private fun BMRBreakdownCard(
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     Text(
-                        text = "🔄 Unit Conversion",
+                        text = stringResource(R.string.txt_unit_conversion),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface
@@ -416,7 +419,7 @@ private fun BMRBreakdownCard(
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = "=",
+                            text = stringResource(R.string.txt_text_placeholder_26),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -498,10 +501,10 @@ private fun FormulaComparisonCard(resultData: BMRResultData) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "📊", fontSize = 18.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_9), fontSize = 18.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Formula Comparison",
+                            text = stringResource(R.string.txt_formula_comparison),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -566,7 +569,7 @@ private fun FormulaComparisonCard(resultData: BMRResultData) {
                             ) {
                                 Column {
                                     Text(
-                                        text = "Range",
+                                        text = stringResource(R.string.txt_range),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -579,7 +582,7 @@ private fun FormulaComparisonCard(resultData: BMRResultData) {
                                 }
                                 Column(horizontalAlignment = Alignment.End) {
                                     Text(
-                                        text = "Difference",
+                                        text = stringResource(R.string.txt_difference),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -592,7 +595,7 @@ private fun FormulaComparisonCard(resultData: BMRResultData) {
                                 }
                                 Column(horizontalAlignment = Alignment.End) {
                                     Text(
-                                        text = "Average",
+                                        text = stringResource(R.string.txt_average),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -720,11 +723,11 @@ private fun FormulaComparisonBar(
                     )
                     if (isSelected) {
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = "✓", fontSize = 12.sp, color = MaterialTheme.colorScheme.primary)
+                        Text(text = stringResource(R.string.txt_text_placeholder_25), fontSize = 12.sp, color = MaterialTheme.colorScheme.primary)
                     }
                     if (isRecommended && !isSelected) {
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = "⭐", fontSize = 10.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_22), fontSize = 10.sp)
                     }
                     if (requiresBodyFat) {
                         Spacer(modifier = Modifier.width(4.dp))
@@ -733,7 +736,7 @@ private fun FormulaComparisonBar(
                             color = MaterialTheme.colorScheme.tertiaryContainer
                         ) {
                             Text(
-                                text = "BF%",
+                                text = stringResource(R.string.txt_bf),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontSize = 9.sp,
                                 color = MaterialTheme.colorScheme.onTertiaryContainer,

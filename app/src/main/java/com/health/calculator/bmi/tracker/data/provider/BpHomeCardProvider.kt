@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.provider
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.BpCategory
@@ -16,7 +18,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class BpHomeCardProvider(context: Context) {
+class BpHomeCardProvider(@ApplicationContext context: Context) {
 
     private val database = AppDatabase.getDatabase(context)
     private val dao = database.bloodPressureDao()

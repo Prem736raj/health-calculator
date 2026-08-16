@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.settings
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -31,7 +37,7 @@ import com.health.calculator.bmi.tracker.data.model.CalculatorType
 fun DataManagementScreen(
     onNavigateBack: () -> Unit,
     onResetToOnboarding: () -> Unit,
-    viewModel: DataManagementViewModel = viewModel()
+    viewModel: DataManagementViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -104,7 +110,7 @@ fun DataManagementScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Data Management", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_data_management), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, "Back")
@@ -215,13 +221,13 @@ fun DataManagementScreen(
                             Spacer(Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    "Delete Everything",
+                                    stringResource(R.string.txt_delete_everything),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.error
                                 )
                                 Text(
-                                    "Permanently remove all data and reset the app",
+                                    stringResource(R.string.txt_permanently_remove_all_data_an),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                                 )
@@ -240,7 +246,7 @@ fun DataManagementScreen(
                         ) {
                             Icon(Icons.Default.DeleteForever, null, Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Delete All Data", fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.txt_delete_all_data), fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -275,7 +281,7 @@ private fun StorageCard(storageInfo: StorageInfo, isLoading: Boolean) {
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(48.dp))
                 Spacer(Modifier.height(8.dp))
-                Text("Analyzing storage...", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.txt_analyzing_storage), style = MaterialTheme.typography.bodySmall)
             } else {
                 // Storage ring
                 val segments = listOf(
@@ -326,7 +332,7 @@ private fun StorageCard(storageInfo: StorageInfo, isLoading: Boolean) {
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            "Total",
+                            stringResource(R.string.txt_total_1),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -366,7 +372,7 @@ private fun StorageCard(storageInfo: StorageInfo, isLoading: Boolean) {
 
                 if (segments.isEmpty()) {
                     Text(
-                        "No significant data stored",
+                        stringResource(R.string.txt_no_significant_data_stored),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -442,7 +448,7 @@ private fun IntegrityCard(
                     modifier = Modifier.size(24.dp)
                 )
                 Spacer(Modifier.width(10.dp))
-                Text("Data Verification", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_data_verification), fontWeight = FontWeight.Bold)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -451,7 +457,7 @@ private fun IntegrityCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
                     Spacer(Modifier.width(10.dp))
-                    Text("Checking data integrity...", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.txt_checking_data_integrity), style = MaterialTheme.typography.bodySmall)
                 }
             } else if (report.isComplete) {
                 Surface(
@@ -577,11 +583,11 @@ private fun CleanupByAgeDialog(
     AlertDialog(
         onDismissRequest = { if (!isClearing) onDismiss() },
         icon = { Icon(Icons.Default.DateRange, null) },
-        title = { Text("Clear Old Data", fontWeight = FontWeight.Bold) },
+        title = { Text(stringResource(R.string.txt_clear_old_data), fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    "Delete history entries older than:",
+                    stringResource(R.string.txt_delete_history_entries_older_t),
                     style = MaterialTheme.typography.bodyMedium
                 )
 
@@ -641,7 +647,7 @@ private fun CleanupByAgeDialog(
                     ) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
                         Spacer(Modifier.width(10.dp))
-                        Text("Clearing...", style = MaterialTheme.typography.bodySmall)
+                        Text(stringResource(R.string.txt_clearing), style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
@@ -652,10 +658,10 @@ private fun CleanupByAgeDialog(
                 enabled = selectedAge != null && (preview?.entriesAffected ?: 0) > 0 && !isClearing,
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
-            ) { Text("Delete") }
+            ) { Text(stringResource(R.string.txt_delete)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss, enabled = !isClearing) { Text("Cancel") }
+            TextButton(onClick = onDismiss, enabled = !isClearing) { Text(stringResource(R.string.txt_cancel)) }
         },
         shape = RoundedCornerShape(20.dp)
     )
@@ -672,11 +678,11 @@ private fun CleanupByCalculatorDialog(
     AlertDialog(
         onDismissRequest = { if (!isClearing) onDismiss() },
         icon = { Icon(Icons.Default.Calculate, null) },
-        title = { Text("Clear by Calculator", fontWeight = FontWeight.Bold) },
+        title = { Text(stringResource(R.string.txt_clear_by_calculator), fontWeight = FontWeight.Bold) },
         text = {
             Column {
                 Text(
-                    "Select calculators to clear history for:",
+                    stringResource(R.string.txt_select_calculators_to_clear_hi),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
@@ -719,10 +725,10 @@ private fun CleanupByCalculatorDialog(
                 enabled = selectedTypes.isNotEmpty() && !isClearing,
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
-            ) { Text("Delete Selected") }
+            ) { Text(stringResource(R.string.txt_delete_selected)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss, enabled = !isClearing) { Text("Cancel") }
+            TextButton(onClick = onDismiss, enabled = !isClearing) { Text(stringResource(R.string.txt_cancel)) }
         },
         shape = RoundedCornerShape(20.dp)
     )
@@ -763,7 +769,7 @@ private fun DeleteEverythingDialog(
             Column {
                 when (step) {
                     0 -> {
-                        Text("This will permanently delete:")
+                        Text(stringResource(R.string.txt_this_will_permanently_delete))
                         Spacer(Modifier.height(8.dp))
                         listOf(
                             "📊 All calculation history",
@@ -781,7 +787,7 @@ private fun DeleteEverythingDialog(
                         }
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            "The app will return to its initial state as if freshly installed.",
+                            stringResource(R.string.txt_the_app_will_return_to_its_ini),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error,
                             fontWeight = FontWeight.Medium
@@ -802,7 +808,7 @@ private fun DeleteEverythingDialog(
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    "This action CANNOT be undone. There is no way to recover your data after deletion.",
+                                    stringResource(R.string.txt_this_action_cannot_be_undone_t),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onErrorContainer,
                                     fontWeight = FontWeight.Bold
@@ -811,7 +817,7 @@ private fun DeleteEverythingDialog(
                         }
                         Spacer(Modifier.height(12.dp))
                         Text(
-                            "Type DELETE to confirm:",
+                            stringResource(R.string.txt_type_delete_to_confirm),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium
                         )
@@ -819,7 +825,7 @@ private fun DeleteEverythingDialog(
                         OutlinedTextField(
                             value = confirmText,
                             onValueChange = onConfirmTextChange,
-                            placeholder = { Text("Type DELETE here") },
+                            placeholder = { Text(stringResource(R.string.txt_type_delete_here)) },
                             singleLine = true,
                             shape = RoundedCornerShape(10.dp),
                             modifier = Modifier.fillMaxWidth(),
@@ -842,7 +848,7 @@ private fun DeleteEverythingDialog(
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            "Deleting all data...",
+                            stringResource(R.string.txt_deleting_all_data),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error
                         )
@@ -859,7 +865,7 @@ private fun DeleteEverythingDialog(
                             containerColor = MaterialTheme.colorScheme.error
                         ),
                         shape = RoundedCornerShape(10.dp)
-                    ) { Text("Yes, Continue") }
+                    ) { Text(stringResource(R.string.txt_yes_continue)) }
                 }
                 1 -> {
                     Button(
@@ -872,13 +878,13 @@ private fun DeleteEverythingDialog(
                     ) {
                         Icon(Icons.Default.DeleteForever, null, Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Delete Everything", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_delete_everything), fontWeight = FontWeight.Bold)
                     }
                 }
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss, enabled = !isDeleting) { Text("Cancel") }
+            TextButton(onClick = onDismiss, enabled = !isDeleting) { Text(stringResource(R.string.txt_cancel)) }
         },
         shape = RoundedCornerShape(20.dp)
     )

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -67,8 +70,8 @@ fun WaterGamificationScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("🏆", fontSize = 22.sp)
-                        Text("Achievements", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_achievements), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -126,7 +129,7 @@ fun WaterGamificationScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "🎖️ Badge Collection",
+                                stringResource(R.string.txt_badge_collection),
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.titleMedium
                             )
@@ -229,7 +232,7 @@ private fun StreakDisplayCard(streakData: WaterStreakData) {
                         fontWeight = FontWeight.ExtraBold
                     )
                     Text(
-                        text = "Day Streak",
+                        text = stringResource(R.string.txt_day_streak),
                         color = Color.White.copy(alpha = 0.9f),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium
@@ -258,7 +261,7 @@ private fun StreakDisplayCard(streakData: WaterStreakData) {
                     }
                 } else {
                     Text(
-                        text = "No Active Streak",
+                        text = stringResource(R.string.txt_no_active_streak),
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -270,7 +273,7 @@ private fun StreakDisplayCard(streakData: WaterStreakData) {
                         )
                     ) {
                         Text(
-                            text = "💪 Start a new streak today! Meet your water goal.",
+                            text = stringResource(R.string.txt_start_a_new_streak_today_meet_),
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                             color = Color.White,
                             fontSize = 13.sp,
@@ -284,7 +287,7 @@ private fun StreakDisplayCard(streakData: WaterStreakData) {
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("🏆", fontSize = 14.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_2), fontSize = 14.sp)
                     Text(
                         text = "Best: ${streakData.longestStreak} days",
                         color = Color.White.copy(alpha = 0.7f),
@@ -337,7 +340,7 @@ private fun HydrationScoreCard(score: HydrationScore?) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                "📊 Today's Hydration Score",
+                stringResource(R.string.txt_today_s_hydration_score),
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleSmall
             )
@@ -661,7 +664,7 @@ private fun MilestoneProgressCard(streakData: WaterStreakData) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "🎯 Streak Milestones",
+                stringResource(R.string.txt_streak_milestones),
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleSmall
             )
@@ -795,7 +798,7 @@ private fun BadgeUnlockOverlay(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text("🎉 Badge Unlocked!", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_badge_unlocked), fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
                 Box(
                     modifier = Modifier
@@ -839,7 +842,7 @@ private fun BadgeUnlockOverlay(
                 }
 
                 TextButton(onClick = onDismiss) {
-                    Text("Awesome! 🎊", fontSize = 14.sp)
+                    Text(stringResource(R.string.txt_awesome), fontSize = 14.sp)
                 }
             }
         }

@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMREducationalSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -47,17 +50,17 @@ fun BMREducationalSection(
             Column(modifier = Modifier.padding(20.dp)) {
                 // Header
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "📚", fontSize = 22.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_24), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Learn About BMR",
+                            text = stringResource(R.string.txt_learn_about_bmr),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Understand your metabolism better",
+                            text = stringResource(R.string.txt_understand_your_metabolism_bet),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -92,7 +95,7 @@ fun BMREducationalSection(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "This educational content is for informational purposes only and should not replace professional medical or nutritional advice. Always consult a healthcare provider for personalized guidance.",
+                        text = stringResource(R.string.txt_this_educational_content_is_fo),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                         fontSize = 10.sp,
@@ -245,7 +248,7 @@ private fun HighlightParagraph(paragraph: EducationalParagraph) {
         )
     ) {
         Row(modifier = Modifier.padding(10.dp)) {
-            Text(text = "💡", fontSize = 14.sp)
+            Text(text = stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = paragraph.text,
@@ -271,7 +274,7 @@ private fun TipParagraph(paragraph: EducationalParagraph) {
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Text(text = "✅", fontSize = 13.sp)
+            Text(text = stringResource(R.string.txt_text_placeholder_15), fontSize = 13.sp)
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = paragraph.text,
@@ -300,7 +303,7 @@ private fun WarningParagraph(paragraph: EducationalParagraph) {
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Text(text = "⚠️", fontSize = 13.sp)
+            Text(text = stringResource(R.string.txt_text_placeholder_21), fontSize = 13.sp)
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = paragraph.text,
@@ -339,17 +342,17 @@ fun BMRFormulaComparisonSection(
             Column(modifier = Modifier.padding(20.dp)) {
                 // Header
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "🔬", fontSize = 22.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_23), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Formula Insights",
+                            text = stringResource(R.string.txt_formula_insights),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Why formulas give different results",
+                            text = stringResource(R.string.txt_why_formulas_give_different_re),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -368,7 +371,7 @@ fun BMRFormulaComparisonSection(
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "Different BMR formulas use different mathematical models derived from different study populations. This is why they produce varying results:",
+                            text = stringResource(R.string.txt_different_bmr_formulas_use_dif),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface,
                             lineHeight = 18.sp
@@ -440,18 +443,18 @@ fun BMRFormulaComparisonSection(
                     )
                 ) {
                     Row(modifier = Modifier.padding(12.dp)) {
-                        Text(text = "⭐", fontSize = 16.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_22), fontSize = 16.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "Recommendation",
+                                text = stringResource(R.string.txt_recommendation),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF388E3C)
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "The Mifflin-St Jeor equation (1990) is considered the most accurate formula for estimating BMR in most adults. It's recommended by the Academy of Nutrition and Dietetics and has been validated in numerous studies. If you know your body fat percentage, the Katch-McArdle formula may be even more precise.",
+                                text = stringResource(R.string.txt_the_mifflin_st_jeor_equation_1),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 lineHeight = 18.sp

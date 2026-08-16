@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.settings
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +15,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class DataManagementViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class DataManagementViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getInstance(application)
     private val historyRepository = HistoryRepository(database.historyDao())

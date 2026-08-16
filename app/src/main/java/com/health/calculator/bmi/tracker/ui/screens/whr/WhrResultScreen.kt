@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -73,11 +76,11 @@ fun WhrResultScreen(
     if (showHeightDialog) {
         AlertDialog(
             onDismissRequest = { showHeightDialog = false },
-            title = { Text("Enter Your Height") },
+            title = { Text(stringResource(R.string.txt_enter_your_height)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        "Height is needed to calculate your Waist-to-Height Ratio",
+                        stringResource(R.string.txt_height_is_needed_to_calculate_),
                         style = MaterialTheme.typography.bodySmall
                     )
                     OutlinedTextField(
@@ -87,8 +90,8 @@ fun WhrResultScreen(
                                 heightInput = it
                             }
                         },
-                        label = { Text("Height (cm)") },
-                        suffix = { Text("cm") },
+                        label = { Text(stringResource(R.string.txt_height_cm)) },
+                        suffix = { Text(stringResource(R.string.txt_cm_1)) },
                         singleLine = true,
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -105,11 +108,11 @@ fun WhrResultScreen(
                             }
                         }
                     }
-                ) { Text("Calculate") }
+                ) { Text(stringResource(R.string.txt_calculate)) }
             },
             dismissButton = {
                 TextButton(onClick = { showHeightDialog = false }) {
-                    Text("Skip")
+                    Text(stringResource(R.string.txt_skip))
                 }
             }
         )
@@ -124,7 +127,7 @@ fun WhrResultScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("WHR Results", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_whr_results), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -164,7 +167,7 @@ fun WhrResultScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("⚠️", fontSize = 16.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 16.sp)
                         Text(
                             message,
                             style = MaterialTheme.typography.bodySmall,
@@ -257,7 +260,7 @@ fun WhrResultScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "View WHR Progress & Trends",
+                    stringResource(R.string.txt_view_whr_progress_trends),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -277,7 +280,7 @@ fun WhrResultScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Visceral Fat & Advanced Metrics",
+                    stringResource(R.string.txt_visceral_fat_advanced_metrics),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -297,7 +300,7 @@ fun WhrResultScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Learn About WHR",
+                    stringResource(R.string.txt_learn_about_whr),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -330,7 +333,7 @@ private fun WhrMainResultCard(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "Your Waist-to-Hip Ratio",
+                stringResource(R.string.txt_your_waist_to_hip_ratio),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
@@ -354,7 +357,7 @@ private fun WhrMainResultCard(
                         color = categoryColor
                     )
                     Text(
-                        "WHR",
+                        stringResource(R.string.txt_whr),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -531,7 +534,7 @@ private fun WhrVisualScale(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "WHO Risk Classification",
+                stringResource(R.string.txt_who_risk_classification),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -661,7 +664,7 @@ private fun BodyShapeCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    "Body Shape",
+                    stringResource(R.string.txt_body_shape),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
@@ -727,7 +730,7 @@ private fun WaistCircumferenceRiskCard(
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Waist Circumference Risk",
+                    stringResource(R.string.txt_waist_circumference_risk),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -774,7 +777,7 @@ private fun WaistCircumferenceRiskCard(
             ) {
                 Column {
                     Text(
-                        "Normal",
+                        stringResource(R.string.txt_normal),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFF4CAF50),
                         fontSize = 10.sp
@@ -788,7 +791,7 @@ private fun WaistCircumferenceRiskCard(
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        "Increased",
+                        stringResource(R.string.txt_increased),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFFFFA726),
                         fontSize = 10.sp
@@ -802,7 +805,7 @@ private fun WaistCircumferenceRiskCard(
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        "High",
+                        stringResource(R.string.txt_high),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFFF44336),
                         fontSize = 10.sp
@@ -924,7 +927,7 @@ private fun WaistToHeightCard(
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Waist-to-Height Ratio (WHtR)",
+                    stringResource(R.string.txt_waist_to_height_ratio_whtr),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -1006,8 +1009,8 @@ private fun WaistToHeightCard(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Normal (<0.5)", style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = Color(0xFF4CAF50))
-                    Text("At Risk (≥0.5)", style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = Color(0xFFF44336))
+                    Text(stringResource(R.string.txt_normal_0_5), style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = Color(0xFF4CAF50))
+                    Text(stringResource(R.string.txt_at_risk_0_5), style = MaterialTheme.typography.labelSmall, fontSize = 10.sp, color = Color(0xFFF44336))
                 }
 
                 Card(
@@ -1021,9 +1024,9 @@ private fun WaistToHeightCard(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("💡", fontSize = 16.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                         Text(
-                            "Keep your waist to less than half your height for optimal health.",
+                            stringResource(R.string.txt_keep_your_waist_to_less_than_h),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             lineHeight = 16.sp
@@ -1054,12 +1057,12 @@ private fun WaistToHeightCard(
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Add your height to calculate WHtR",
+                                stringResource(R.string.txt_add_your_height_to_calculate_w),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
-                                "Tap to enter height or add it in your profile",
+                                stringResource(R.string.txt_tap_to_enter_height_or_add_it_),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                             )
@@ -1104,7 +1107,7 @@ private fun HealthRisksSection(
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Health Risk Assessment",
+                    stringResource(R.string.txt_health_risk_assessment),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -1222,7 +1225,7 @@ private fun MeasurementSummaryCard(result: WhrResult) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Measurement Summary",
+                stringResource(R.string.txt_measurement_summary),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -1280,7 +1283,7 @@ private fun DisclaimerCard() {
                 modifier = Modifier.size(18.dp)
             )
             Text(
-                "This tool is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider.",
+                stringResource(R.string.txt_this_tool_is_for_informational),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f),
                 lineHeight = 16.sp,
@@ -1347,7 +1350,7 @@ private fun ActionButtonsRow(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Recalculate", fontSize = 13.sp)
+                Text(stringResource(R.string.txt_recalculate), fontSize = 13.sp)
             }
 
             // Share
@@ -1364,7 +1367,7 @@ private fun ActionButtonsRow(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Share", fontSize = 13.sp)
+                Text(stringResource(R.string.txt_share), fontSize = 13.sp)
             }
         }
     }

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +35,7 @@ fun CalorieCalculatorCrossLinks(
                 .padding(16.dp)
         ) {
             Text(
-                text = "🔗 Related Calculators",
+                text = stringResource(R.string.txt_related_calculators),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )

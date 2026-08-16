@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMRTrendSection.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -56,11 +59,11 @@ fun BMRTrendSection(
             Column(modifier = Modifier.padding(20.dp)) {
                 // Header
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "📈", fontSize = 22.sp)
+                    Text(text = stringResource(R.string.txt_text_placeholder_4), fontSize = 22.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "BMR & TDEE Trends",
+                            text = stringResource(R.string.txt_bmr_tdee_trends),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -131,17 +134,17 @@ private fun EmptyTrendState() {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "📊", fontSize = 40.sp)
+            Text(text = stringResource(R.string.txt_text_placeholder_9), fontSize = 40.sp)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "No BMR Readings Yet",
+                text = stringResource(R.string.txt_no_bmr_readings_yet),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Save your first BMR calculation to start tracking your metabolic trends. We recommend checking monthly for the best insights!",
+                text = stringResource(R.string.txt_save_your_first_bmr_calculatio),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -185,10 +188,10 @@ private fun SingleReadingState(stats: BMRTrendStats) {
             )
         ) {
             Row(modifier = Modifier.padding(12.dp)) {
-                Text(text = "💡", fontSize = 16.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Great start! Save another BMR reading in a few weeks to see your metabolic trends over time. Tracking changes helps you understand how diet and exercise affect your metabolism.",
+                    text = stringResource(R.string.txt_great_start_save_another_bmr_r),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     lineHeight = 18.sp
@@ -570,7 +573,7 @@ private fun LegendDot(color: Color, label: String) {
 private fun TrendStatisticsGrid(stats: BMRTrendStats) {
     Column {
         Text(
-            text = "📊 Statistics",
+            text = stringResource(R.string.txt_statistics),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
@@ -637,7 +640,7 @@ private fun TrendStatisticsGrid(stats: BMRTrendStats) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Change from first reading",
+                        text = stringResource(R.string.txt_change_from_first_reading),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -759,7 +762,7 @@ private fun InsightCard(stats: BMRTrendStats) {
                         modifier = Modifier.padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "⚖️", fontSize = 14.sp)
+                        Text(text = stringResource(R.string.txt_text_placeholder_28), fontSize = 14.sp)
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = "Weight changed ${wSign}${String.format(java.util.Locale.getDefault(), "%.1f", stats.weightChange)} kg since last reading",

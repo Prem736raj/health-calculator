@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -14,7 +16,7 @@ import com.health.calculator.bmi.tracker.R
 class StreakWidget : AppWidgetProvider() {
 
     override fun onUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
@@ -41,15 +43,13 @@ class StreakWidget : AppWidgetProvider() {
         )
 
         fun updateWidget(
-            context: Context,
+            @ApplicationContext context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
             val prefs      = WidgetPreferencesManager(context)
-            val streakData = com.health.calculator.bmi.tracker.data.repository.HealthSummaryRepository.getInstance(context)
-                .getHealthSummaryData().streak // Note: adjust to your actual Repo if needed
+            val streakDays = WaterWidgetDataProvider(context).getCachedData().streakDays
 
-            val streakDays = streakData.days
             val views      = RemoteViews(context.packageName, R.layout.widget_streak)
 
             // Streak count
@@ -126,7 +126,7 @@ class StreakWidget : AppWidgetProvider() {
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
-        fun refreshAll(context: Context) {
+        fun refreshAll(@ApplicationContext context: Context) {
             val manager   = AppWidgetManager.getInstance(context)
             val component = ComponentName(context, StreakWidget::class.java)
             manager.getAppWidgetIds(component).forEach {

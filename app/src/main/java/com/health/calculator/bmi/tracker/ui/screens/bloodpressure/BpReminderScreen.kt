@@ -1,6 +1,12 @@
 // ui/screens/bloodpressure/BpReminderScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -26,7 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun BpReminderScreen(
     onNavigateBack: () -> Unit,
-    viewModel: BpReminderViewModel = viewModel()
+    viewModel: BpReminderViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -34,7 +40,7 @@ fun BpReminderScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("BP Reminders", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_bp_reminders), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -69,7 +75,7 @@ fun BpReminderScreen(
                 ) {
                     Icon(Icons.Outlined.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
                     Text(
-                        "Doctors recommend measuring BP twice daily – morning and evening – for accurate tracking.",
+                        stringResource(R.string.txt_doctors_recommend_measuring_bp),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
@@ -109,13 +115,13 @@ fun BpReminderScreen(
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("Reminder Message", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.txt_reminder_message), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                     OutlinedTextField(
                         value = uiState.reminderMessage,
                         onValueChange = { viewModel.onReminderMessageChange(it) },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Custom message") },
-                        placeholder = { Text("Time to check your blood pressure! 🩺") },
+                        label = { Text(stringResource(R.string.txt_custom_message)) },
+                        placeholder = { Text(stringResource(R.string.txt_time_to_check_your_blood_press)) },
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true
                     )
@@ -140,11 +146,11 @@ fun BpReminderScreen(
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Outlined.LocalHospital, contentDescription = null, tint = Color(0xFF1E88E5), modifier = Modifier.size(22.dp))
-                            Text("Doctor Visit Reminder", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                            Text(stringResource(R.string.txt_doctor_visit_reminder), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                         }
                     }
                     Text(
-                        "Set a reminder for your next doctor appointment to follow up on blood pressure.",
+                        stringResource(R.string.txt_set_a_reminder_for_your_next_d),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -167,8 +173,8 @@ fun BpReminderScreen(
                             value = uiState.doctorNote,
                             onValueChange = { viewModel.onDoctorNoteChange(it) },
                             modifier = Modifier.fillMaxWidth(),
-                            label = { Text("Notes for visit") },
-                            placeholder = { Text("e.g., Ask about medication dosage...") },
+                            label = { Text(stringResource(R.string.txt_notes_for_visit)) },
+                            placeholder = { Text(stringResource(R.string.txt_e_g_ask_about_medication_dosag)) },
                             shape = RoundedCornerShape(12.dp),
                             singleLine = true
                         )
@@ -176,7 +182,7 @@ fun BpReminderScreen(
                             onClick = { viewModel.onCancelDoctorReminder() },
                             colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
                         ) {
-                            Text("Cancel Reminder")
+                            Text(stringResource(R.string.txt_cancel_reminder))
                         }
                     }
                 }
@@ -218,10 +224,10 @@ fun BpReminderScreen(
                     datePickerState.selectedDateMillis?.let {
                         viewModel.onDoctorDateSet(it)
                     }
-                }) { Text("Set Reminder") }
+                }) { Text(stringResource(R.string.txt_set_reminder)) }
             },
             dismissButton = {
-                TextButton(onClick = { viewModel.onShowDoctorDatePicker(false) }) { Text("Cancel") }
+                TextButton(onClick = { viewModel.onShowDoctorDatePicker(false) }) { Text(stringResource(R.string.txt_cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -316,10 +322,10 @@ private fun ReminderTimePickerDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = { onTimeSelected(state.hour, state.minute) }) { Text("OK") }
+            TextButton(onClick = { onTimeSelected(state.hour, state.minute) }) { Text(stringResource(R.string.txt_ok)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.txt_cancel)) }
         },
         title = { Text(title, style = MaterialTheme.typography.titleMedium) },
         text = { TimePicker(state = state, modifier = Modifier.fillMaxWidth()) }

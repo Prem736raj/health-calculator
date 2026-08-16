@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.reminders
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.models.QuietHours
@@ -40,7 +42,8 @@ data class RemindersUiState(
     val isLoading: Boolean = true
 )
 
-class RemindersViewModel(
+@HiltViewModel
+class RemindersViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderScheduler,
     private val context: android.content.Context

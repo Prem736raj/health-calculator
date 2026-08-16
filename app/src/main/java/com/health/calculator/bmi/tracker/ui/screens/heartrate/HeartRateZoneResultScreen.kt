@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -67,7 +70,7 @@ fun HeartRateZoneResultScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Heart Rate Zones", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_heart_rate_zones), fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
@@ -452,7 +455,7 @@ private fun AnimatedHeartWithBPM(bpm: Int, label: String) {
             }
             // Heart
             Text(
-                text = "❤️",
+                text = stringResource(R.string.txt_text_placeholder_5),
                 fontSize = (42 * scale).sp
             )
         }
@@ -466,7 +469,7 @@ private fun AnimatedHeartWithBPM(bpm: Int, label: String) {
             color = Color(0xFFE53935)
         )
         Text(
-            text = "BPM",
+            text = stringResource(R.string.txt_bpm_1),
             style = MaterialTheme.typography.titleMedium,
             color = Color(0xFFE53935).copy(alpha = 0.7f),
             fontWeight = FontWeight.Medium
@@ -526,11 +529,11 @@ private fun KarvonenInfoCard(result: HeartRateZoneResult) {
             modifier = Modifier.padding(14.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Text("📐", fontSize = 20.sp)
+            Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 20.sp)
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "Karvonen Method",
+                    text = stringResource(R.string.txt_karvonen_method),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF2196F3)
@@ -571,7 +574,7 @@ private fun ZoneVisualizationChart(
                 .padding(20.dp)
         ) {
             Text(
-                text = "Zone Overview",
+                text = stringResource(R.string.txt_zone_overview),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -833,7 +836,7 @@ private fun ZoneDetailCard(
             // Tap hint
             if (!isExpanded) {
                 Text(
-                    text = "Tap for details",
+                    text = stringResource(R.string.txt_tap_for_details),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier
@@ -913,7 +916,7 @@ private fun ZonePulsingHeart(zone: HeartRateZone) {
     )
 
     Text(
-        text = "❤️",
+        text = stringResource(R.string.txt_text_placeholder_5),
         fontSize = (20 * scale).sp,
         modifier = Modifier.offset(y = (-1).dp),
         color = Color.Unspecified.copy(alpha = alpha)
@@ -988,7 +991,7 @@ private fun ActionButtonsSection(
                 ) {
                     Icon(Icons.Default.Refresh, null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Recalculate", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.txt_recalculate), style = MaterialTheme.typography.labelSmall)
                 }
 
                 OutlinedButton(
@@ -1000,7 +1003,7 @@ private fun ActionButtonsSection(
                 ) {
                     Icon(Icons.Default.Share, null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Text", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.txt_text), style = MaterialTheme.typography.labelSmall)
                 }
 
                 OutlinedButton(
@@ -1012,7 +1015,7 @@ private fun ActionButtonsSection(
                 ) {
                     Icon(Icons.Default.Image, null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Image", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.txt_image), style = MaterialTheme.typography.labelSmall)
                 }
             }
         }

@@ -1,11 +1,13 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+
 import com.health.calculator.bmi.tracker.data.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
-class HealthOverviewRepository(
+class HealthOverviewRepository @Inject constructor(
     private val historyRepository: HistoryRepository,
     private val waterGamificationRepository: WaterGamificationRepository,
     private val foodLogRepository: FoodLogRepository

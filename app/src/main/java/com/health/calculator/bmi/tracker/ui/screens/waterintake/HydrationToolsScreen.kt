@@ -1,6 +1,9 @@
 // ui/screens/waterintake/HydrationToolsScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -63,8 +66,8 @@ fun HydrationToolsScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("🔬", fontSize = 22.sp)
-                        Text("Hydration Tools", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_23), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_hydration_tools), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -95,26 +98,26 @@ fun HydrationToolsScreen(
                 Tab(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
-                    text = { Text("Urine", fontSize = 11.sp) },
-                    icon = { Text("🎨", fontSize = 14.sp) }
+                    text = { Text(stringResource(R.string.txt_urine), fontSize = 11.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_75), fontSize = 14.sp) }
                 )
                 Tab(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    text = { Text("Symptoms", fontSize = 11.sp) },
-                    icon = { Text("🩺", fontSize = 14.sp) }
+                    text = { Text(stringResource(R.string.txt_symptoms), fontSize = 11.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_74), fontSize = 14.sp) }
                 )
                 Tab(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
-                    text = { Text("Food", fontSize = 11.sp) },
-                    icon = { Text("🥒", fontSize = 14.sp) }
+                    text = { Text(stringResource(R.string.txt_food), fontSize = 11.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_73), fontSize = 14.sp) }
                 )
                 Tab(
                     selected = selectedTab == 3,
                     onClick = { selectedTab = 3 },
-                    text = { Text("Electrolytes", fontSize = 11.sp) },
-                    icon = { Text("⚡", fontSize = 14.sp) }
+                    text = { Text(stringResource(R.string.txt_electrolytes), fontSize = 11.sp) },
+                    icon = { Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 14.sp) }
                 )
             }
 
@@ -222,7 +225,7 @@ private fun UrineColorTab(
                         enter = fadeIn(tween(500, 300))
                     ) {
                         Text(
-                            "📋 Recent Logs",
+                            stringResource(R.string.txt_recent_logs_1),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(top = 4.dp)
@@ -271,7 +274,7 @@ private fun UrineColorTab(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Icon(Icons.Default.Check, null, tint = Color.White, modifier = Modifier.size(20.dp))
-                    Text("Urine color logged!", color = Color.White, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.txt_urine_color_logged), color = Color.White, fontWeight = FontWeight.SemiBold)
                 }
             }
         }
@@ -301,16 +304,16 @@ private fun UrineChartHeaderCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text("🎨", fontSize = 40.sp)
+                Text(stringResource(R.string.txt_text_placeholder_75), fontSize = 40.sp)
                 Column {
                     Text(
-                        "Urine Color Chart",
+                        stringResource(R.string.txt_urine_color_chart),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
                     Text(
-                        "Your urine color is a quick indicator of hydration status. Tap a color to log it.",
+                        stringResource(R.string.txt_your_urine_color_is_a_quick_in),
                         color = Color.White.copy(alpha = 0.85f),
                         fontSize = 12.sp,
                         lineHeight = 16.sp
@@ -340,7 +343,7 @@ private fun UrineColorChartCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Tap your current urine color:",
+                stringResource(R.string.txt_tap_your_current_urine_color),
                 fontWeight = FontWeight.Medium,
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -461,7 +464,7 @@ private fun UrineColorChartCard(
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = WaterBlueMedium)
                 ) {
-                    Text("Log This Color 📝", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.txt_log_this_color), fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -565,7 +568,7 @@ private fun UrineDisclaimerCard() {
                 modifier = Modifier.size(18.dp)
             )
             Text(
-                text = "Note: Urine color can be affected by medications, supplements, and certain foods. " +
+                text = stringResource(R.string.txt_note_urine_color_can_be_affect) +
                         "This chart is a general guide and not a medical diagnostic tool. " +
                         "Consult a doctor if you have concerns.",
                 fontSize = 11.sp,
@@ -638,7 +641,7 @@ private fun DehydrationSymptomsTab(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "Check your symptoms:",
+                                stringResource(R.string.txt_check_your_symptoms),
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.titleSmall
                             )
@@ -649,7 +652,7 @@ private fun DehydrationSymptomsTab(
                                 }) {
                                     Icon(Icons.Default.Clear, null, modifier = Modifier.size(16.dp))
                                     Spacer(Modifier.width(4.dp))
-                                    Text("Clear", fontSize = 12.sp)
+                                    Text(stringResource(R.string.txt_clear), fontSize = 12.sp)
                                 }
                             }
                         }
@@ -702,7 +705,7 @@ private fun DehydrationSymptomsTab(
                     ) {
                         Icon(Icons.Default.Info, null, tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
                         Text(
-                            "This is not a medical diagnosis tool. If you experience severe dehydration symptoms, seek medical attention immediately.",
+                            stringResource(R.string.txt_this_is_not_a_medical_diagnosi),
                             fontSize = 11.sp, lineHeight = 16.sp,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
@@ -736,11 +739,11 @@ private fun SymptomsHeaderCard() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text("🩺", fontSize = 40.sp)
+                Text(stringResource(R.string.txt_text_placeholder_74), fontSize = 40.sp)
                 Column {
-                    Text("Dehydration Checker", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_dehydration_checker), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                     Text(
-                        "Check off any symptoms you're currently experiencing.",
+                        stringResource(R.string.txt_check_off_any_symptoms_you_re_),
                         color = Color.White.copy(alpha = 0.85f), fontSize = 12.sp, lineHeight = 16.sp
                     )
                 }
@@ -885,7 +888,7 @@ private fun DehydrationRecommendationCard(risk: DehydrationRisk) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text("💡 Recommendations", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.txt_recommendations_1), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
             recommendations.forEach { (icon, text) ->
@@ -946,8 +949,8 @@ private fun WaterFromFoodTab(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("🥗", fontSize = 18.sp)
-                    Text("Water-Rich Foods", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.txt_text_placeholder_30), fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_water_rich_foods), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
                 }
             }
         }
@@ -998,11 +1001,11 @@ private fun FoodWaterHeaderCard(estimatedMl: Int, goalMl: Int) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text("🥒", fontSize = 40.sp)
+                Text(stringResource(R.string.txt_text_placeholder_73), fontSize = 40.sp)
                 Column {
-                    Text("Water from Food", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_water_from_food), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                     Text(
-                        "Did you know? About 20% of your daily water intake comes from the foods you eat!",
+                        stringResource(R.string.txt_did_you_know_about_20_of_your_),
                         color = Color.White.copy(alpha = 0.85f), fontSize = 12.sp, lineHeight = 16.sp
                     )
                 }
@@ -1026,7 +1029,7 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("🍽️ Your Food Water Estimate", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = WaterBlueDark)
+            Text(stringResource(R.string.txt_your_food_water_estimate), fontWeight = FontWeight.Bold, fontSize = 15.sp, color = WaterBlueDark)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -1039,10 +1042,10 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
                         fontSize = 28.sp,
                         color = Color(0xFF4CAF50)
                     )
-                    Text("from food", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(stringResource(R.string.txt_from_food), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                 }
 
-                Text("+", fontSize = 24.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                Text(stringResource(R.string.txt_text_placeholder_72), fontSize = 24.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier.padding(top = 8.dp))
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1052,7 +1055,7 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
                         fontSize = 28.sp,
                         color = WaterBlueMedium
                     )
-                    Text("from drinks", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(stringResource(R.string.txt_from_drinks), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                 }
             }
 
@@ -1086,14 +1089,14 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Box(modifier = Modifier.size(10.dp).background(Color(0xFF4CAF50), CircleShape))
-                    Text("Food ~20%", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(stringResource(R.string.txt_food_20), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Box(modifier = Modifier.size(10.dp).background(WaterBlueMedium, CircleShape))
-                    Text("Drinks ~80%", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                    Text(stringResource(R.string.txt_drinks_80), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
                 }
             }
         }
@@ -1186,7 +1189,7 @@ private fun FoodHydrationTipsCard() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text("💡 Food Hydration Tips", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.txt_food_hydration_tips), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
             val tips = listOf(
@@ -1250,16 +1253,16 @@ private fun ElectrolytesTab(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            Text("⚡", fontSize = 36.sp)
+                            Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 36.sp)
                             Column {
                                 Text(
-                                    "Electrolyte Balance",
+                                    stringResource(R.string.txt_electrolyte_balance),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 18.sp
                                 )
                                 Text(
-                                    "Beyond water: minerals your body needs",
+                                    stringResource(R.string.txt_beyond_water_minerals_your_bod),
                                     color = Color.White.copy(alpha = 0.85f),
                                     fontSize = 12.sp
                                 )
@@ -1289,7 +1292,7 @@ private fun ElectrolytesTab(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
-                            "⚡ Key Electrolytes",
+                            stringResource(R.string.txt_key_electrolytes),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleSmall
                         )
@@ -1327,7 +1330,7 @@ private fun ElectrolytesTab(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
-                            "🤔 When You Need Electrolytes",
+                            stringResource(R.string.txt_when_you_need_electrolytes),
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.titleSmall
                         )
@@ -1369,10 +1372,10 @@ private fun ElectrolytesTab(
                         containerColor = Color(0xFFFF8F00)
                     )
                 ) {
-                    Text("⚡", fontSize = 18.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_33), fontSize = 18.sp)
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        "View Full Electrolyte Guide",
+                        stringResource(R.string.txt_view_full_electrolyte_guide),
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp
                     )
@@ -1400,20 +1403,20 @@ private fun ElectrolytesTab(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text("🍹", fontSize = 32.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_69), fontSize = 32.sp)
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "DIY Electrolyte Drink",
+                                stringResource(R.string.txt_diy_electrolyte_drink),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 14.sp
                             )
                             Text(
-                                "Simple recipe with water, salt, lemon & honey",
+                                stringResource(R.string.txt_simple_recipe_with_water_salt_),
                                 fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                             )
                         }
-                        Text("→", fontSize = 18.sp, color = Color(0xFF43A047))
+                        Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 18.sp, color = Color(0xFF43A047))
                     }
                 }
             }

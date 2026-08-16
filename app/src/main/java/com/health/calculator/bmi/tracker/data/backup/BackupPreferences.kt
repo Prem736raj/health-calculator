@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -12,7 +14,7 @@ private val Context.backupPrefsStore: DataStore<Preferences> by preferencesDataS
 )
 
 class BackupPreferences(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private object Keys {
         val LAST_BACKUP_TIME = longPreferencesKey("last_backup_time")
@@ -28,7 +30,7 @@ class BackupPreferences(
         @Volatile
         private var INSTANCE: BackupPreferences? = null
 
-        fun getInstance(context: Context): BackupPreferences {
+        fun getInstance(@ApplicationContext context: Context): BackupPreferences {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: BackupPreferences(context.applicationContext).also { INSTANCE = it }
             }

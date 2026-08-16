@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.profile
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -50,7 +53,7 @@ fun MyInfoSection(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Personal Details",
+            text = stringResource(R.string.txt_personal_details),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -81,7 +84,7 @@ fun MyInfoSection(
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Physical Parameters",
+            text = stringResource(R.string.txt_physical_parameters),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -117,7 +120,7 @@ fun MyInfoSection(
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Lifestyle & Goals",
+            text = stringResource(R.string.txt_lifestyle_goals),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary

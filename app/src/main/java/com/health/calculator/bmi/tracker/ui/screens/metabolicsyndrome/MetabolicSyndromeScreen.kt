@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -42,14 +48,14 @@ import android.content.Intent
 fun MetabolicSyndromeScreen(
     onNavigateBack: () -> Unit,
     onNavigateToCalculator: (String) -> Unit = {},
-    viewModel: MetabolicSyndromeViewModel = viewModel()
+    viewModel: MetabolicSyndromeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Metabolic Syndrome") },
+                title = { Text(stringResource(R.string.txt_metabolic_syndrome)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
@@ -99,7 +105,7 @@ fun MetabolicSyndromeScreen(
                         selectedTabIndex = 0
                         if (uiState.showTracking) viewModel.toggleTracking()
                     },
-                    text = { Text("Assess", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_assess), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         Icon(
                             Icons.Filled.Assessment,
@@ -115,7 +121,7 @@ fun MetabolicSyndromeScreen(
                         selectedTabIndex = 1
                         if (!uiState.showTracking) viewModel.toggleTracking()
                     },
-                    text = { Text("Progress", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_progress), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         BadgedBox(
                             badge = {
@@ -141,7 +147,7 @@ fun MetabolicSyndromeScreen(
                         selectedTabIndex = 2
                         if (uiState.showTracking) viewModel.toggleTracking()
                     },
-                    text = { Text("Learn", fontWeight = FontWeight.SemiBold) },
+                    text = { Text(stringResource(R.string.txt_learn), fontWeight = FontWeight.SemiBold) },
                     icon = {
                         Icon(
                             Icons.Filled.MenuBook,
@@ -401,7 +407,7 @@ private fun MetabolicSyndromeInputContent(
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("📊", fontSize = 16.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 16.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "Live Preview: ${partial.metCount} of ${partial.providedCount} entered criteria abnormal",
@@ -462,7 +468,7 @@ private fun MetabolicSyndromeInputContent(
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text("Clear")
+                Text(stringResource(R.string.txt_clear))
             }
 
             Button(
@@ -472,7 +478,7 @@ private fun MetabolicSyndromeInputContent(
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text("Analyze Risk", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.txt_analyze_risk), fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -502,7 +508,7 @@ fun GenderSelectionRow(
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
-                    text = "Male",
+                    text = stringResource(R.string.txt_male),
                     color = if (isMale) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Bold
                 )
@@ -519,7 +525,7 @@ fun GenderSelectionRow(
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
-                    text = "Female",
+                    text = stringResource(R.string.txt_female),
                     color = if (!isMale) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Bold
                 )
@@ -619,7 +625,7 @@ fun CriterionInputCard(
                         onCheckedChange = { onMedicationChange(it) }
                     )
                     Text(
-                        text = "On medication for this condition",
+                        text = stringResource(R.string.txt_on_medication_for_this_conditi),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -654,16 +660,16 @@ fun BloodPressureInputCard(
                 .padding(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "🫀", fontSize = 24.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_66), fontSize = 24.sp)
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Blood Pressure",
+                        text = stringResource(R.string.txt_blood_pressure),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Elevated blood pressure",
+                        text = stringResource(R.string.txt_elevated_blood_pressure),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -680,7 +686,7 @@ fun BloodPressureInputCard(
                     value = systolic,
                     onValueChange = { if (it.length <= 3) onSystolicChange(it) },
                     modifier = Modifier.weight(1f),
-                    label = { Text("Systolic") },
+                    label = { Text(stringResource(R.string.txt_systolic)) },
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                         keyboardType = androidx.compose.ui.text.input.KeyboardType.Number,
                         imeAction = androidx.compose.ui.text.input.ImeAction.Next
@@ -694,7 +700,7 @@ fun BloodPressureInputCard(
                     value = diastolic,
                     onValueChange = { if (it.length <= 3) onDiastolicChange(it) },
                     modifier = Modifier.weight(1f),
-                    label = { Text("Diastolic") },
+                    label = { Text(stringResource(R.string.txt_diastolic)) },
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                         keyboardType = androidx.compose.ui.text.input.KeyboardType.Number,
                         imeAction = androidx.compose.ui.text.input.ImeAction.Next
@@ -727,7 +733,7 @@ fun BloodPressureInputCard(
                     onCheckedChange = { onMedicationChange(it) }
                 )
                 Text(
-                    text = "On medication for high BP",
+                    text = stringResource(R.string.txt_on_medication_for_high_bp),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bsa
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -30,14 +33,14 @@ fun BSAEducationScreen(
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Learn About BSA",
+            text = stringResource(R.string.txt_learn_about_bsa),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Text(
-            text = "Everything you need to know about Body Surface Area",
+            text = stringResource(R.string.txt_everything_you_need_to_know_ab),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -107,7 +110,7 @@ fun BSAEducationScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "This educational content is for informational purposes only. For any medical questions or concerns, please consult a qualified healthcare professional.",
+                    text = stringResource(R.string.txt_this_educational_content_is_fo_1),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 16.sp
@@ -221,7 +224,7 @@ private fun WhatIsBSAContent() {
 
         // Key facts
         Text(
-            text = "Key Facts About BSA",
+            text = stringResource(R.string.txt_key_facts_about_bsa),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = HealthBlue,
@@ -264,7 +267,7 @@ private fun WhatIsBSAContent() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "To Put It in Perspective...",
+                    text = stringResource(R.string.txt_to_put_it_in_perspective),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold,
                     color = HealthBlue
@@ -334,7 +337,7 @@ private fun WhySoManyFormulasContent() {
 
         // Timeline
         Text(
-            text = "A Century of BSA Research",
+            text = stringResource(R.string.txt_a_century_of_bsa_research),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = HealthOrange,
@@ -595,10 +598,10 @@ private fun WhichFormulaContent() {
                 modifier = Modifier.padding(12.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Text("💡", fontSize = 16.sp)
+                Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 16.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Good news: For most adults, all formulas give results within about 3-5% of each other. The differences are usually too small to matter in most practical situations. The formula choice matters most at extreme body sizes (very small children or very large adults).",
+                    text = stringResource(R.string.txt_good_news_for_most_adults_all_),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 17.sp
@@ -704,7 +707,7 @@ private fun BSAvsBMIContent() {
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Head-to-Head Comparison",
+                    text = stringResource(R.string.txt_head_to_head_comparison),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 12.dp)
@@ -714,7 +717,7 @@ private fun BSAvsBMIContent() {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Spacer(modifier = Modifier.weight(0.8f))
                     Text(
-                        text = "BSA",
+                        text = stringResource(R.string.txt_bsa),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.ExtraBold,
                         color = HealthBlue,
@@ -722,7 +725,7 @@ private fun BSAvsBMIContent() {
                         modifier = Modifier.weight(1f)
                     )
                     Text(
-                        text = "BMI",
+                        text = stringResource(R.string.txt_bmi),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.ExtraBold,
                         color = HealthGreen,
@@ -748,7 +751,7 @@ private fun BSAvsBMIContent() {
 
         // When to use each
         Text(
-            text = "When Each Measurement Matters",
+            text = stringResource(R.string.txt_when_each_measurement_matters),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -798,7 +801,7 @@ private fun BSAvsBMIContent() {
 
         // Common misconceptions
         Text(
-            text = "Common Misconceptions",
+            text = stringResource(R.string.txt_common_misconceptions),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -920,7 +923,7 @@ private fun MythBusterItem(myth: String, truth: String) {
     ) {
         Column(modifier = Modifier.padding(10.dp)) {
             Row(verticalAlignment = Alignment.Top) {
-                Text("❌", fontSize = 12.sp)
+                Text(stringResource(R.string.txt_text_placeholder_16), fontSize = 12.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "Myth: \"$myth\"",
@@ -931,7 +934,7 @@ private fun MythBusterItem(myth: String, truth: String) {
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row(verticalAlignment = Alignment.Top) {
-                Text("✅", fontSize = 12.sp)
+                Text(stringResource(R.string.txt_text_placeholder_15), fontSize = 12.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "Truth: $truth",

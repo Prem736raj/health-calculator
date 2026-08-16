@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -76,7 +79,7 @@ fun WeightTrendGraph(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Weight Trend",
+                text = stringResource(R.string.txt_weight_trend),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -296,7 +299,7 @@ private fun NotEnoughDataCard(entryCount: Int, modifier: Modifier = Modifier) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "📈", style = MaterialTheme.typography.headlineLarge)
+            Text(text = stringResource(R.string.txt_text_placeholder_4), style = MaterialTheme.typography.headlineLarge)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = if (entryCount == 0) "No weight entries yet"
@@ -306,7 +309,7 @@ private fun NotEnoughDataCard(entryCount: Int, modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Track your weight regularly to see progress over time",
+                text = stringResource(R.string.txt_track_your_weight_regularly_to),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

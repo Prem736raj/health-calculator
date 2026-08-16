@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.presentation.weight
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -38,10 +41,10 @@ fun WeightTrackingScreen(
                 TextButton(onClick = {
                     datePickerState.selectedDateMillis?.let { viewModel.onDateChange(it) }
                     showDatePicker = false
-                }) { Text("OK") }
+                }) { Text(stringResource(R.string.txt_ok)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+                TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.txt_cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -51,7 +54,7 @@ fun WeightTrackingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Weight Tracking", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_weight_tracking), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -106,7 +109,7 @@ fun WeightTrackingScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "History & Trends",
+                            text = stringResource(R.string.txt_history_trends),
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold
                         )
@@ -134,7 +137,7 @@ fun WeightTrackingScreen(
             // Recent Entries Header
             item {
                 Text(
-                    text = "Recent Logs",
+                    text = stringResource(R.string.txt_recent_logs),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 8.dp)
@@ -151,7 +154,7 @@ fun WeightTrackingScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No history available",
+                            text = stringResource(R.string.txt_no_history_available),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
@@ -9,7 +11,7 @@ import java.io.BufferedWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CsvExportHelper(private val context: Context) {
+class CsvExportHelper(@ApplicationContext private val context: Context) {
 
     private val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 

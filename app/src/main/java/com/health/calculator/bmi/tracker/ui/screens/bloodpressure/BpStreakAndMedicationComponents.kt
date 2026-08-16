@@ -1,6 +1,9 @@
 // ui/screens/bloodpressure/BpStreakAndMedicationComponents.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -130,8 +133,8 @@ fun BpMedicationCard(
                         )
                     }
                     Column {
-                        Text("Medication Tracking", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                        Text("Tag readings with medication status", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                        Text(stringResource(R.string.txt_medication_tracking), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_tag_readings_with_medication_s), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
                     }
                 }
                 Switch(checked = onMedication, onCheckedChange = onToggle)
@@ -147,7 +150,7 @@ fun BpMedicationCard(
                         value = medicationName,
                         onValueChange = onNameChange,
                         modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Medication name (optional)") },
+                        placeholder = { Text(stringResource(R.string.txt_medication_name_optional)) },
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -187,13 +190,13 @@ fun BpDoctorSuggestionBanner(
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "Recommendation: Consult Doctor",
+                    stringResource(R.string.txt_recommendation_consult_doctor),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onErrorContainer
                 )
                 Text(
-                    "You've had multiple high readings recently. We suggest scheduling a visit to share your trends with a professional.",
+                    stringResource(R.string.txt_you_ve_had_multiple_high_readi),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
                 )
@@ -207,10 +210,10 @@ fun BpDoctorSuggestionBanner(
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text("Set Reminder", color = Color.White, style = MaterialTheme.typography.labelLarge)
+                        Text(stringResource(R.string.txt_set_reminder), color = Color.White, style = MaterialTheme.typography.labelLarge)
                     }
                     TextButton(onClick = onDismiss) {
-                        Text("Dismiss", color = MaterialTheme.colorScheme.onErrorContainer)
+                        Text(stringResource(R.string.txt_dismiss), color = MaterialTheme.colorScheme.onErrorContainer)
                     }
                 }
             }
@@ -228,12 +231,12 @@ fun BpMilestoneCelebrationDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             Button(onClick = onDismiss, modifier = Modifier.fillMaxWidth()) {
-                Text("Amazing!")
+                Text(stringResource(R.string.txt_amazing))
             }
         },
         title = {
             Text(
-                "Milestone Reached!",
+                stringResource(R.string.txt_milestone_reached),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
@@ -270,7 +273,7 @@ fun BpMilestoneCelebrationDialog(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    "You're doing a great job monitoring your health. Keep up the consistency!",
+                    stringResource(R.string.txt_you_re_doing_a_great_job_monit),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)

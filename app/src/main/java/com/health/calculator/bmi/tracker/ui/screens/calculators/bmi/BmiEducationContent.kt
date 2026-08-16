@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.EaseOutCubic
@@ -194,21 +197,21 @@ private fun EducationHeader() {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "📚", fontSize = 22.sp)
+                Text(text = stringResource(R.string.txt_text_placeholder_24), fontSize = 22.sp)
             }
 
             Spacer(modifier = Modifier.width(14.dp))
 
             Column {
                 Text(
-                    text = "Learn About BMI",
+                    text = stringResource(R.string.txt_learn_about_bmi),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Understand your results and what they mean for your health",
+                    text = stringResource(R.string.txt_understand_your_results_and_wh),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     lineHeight = 18.sp
@@ -337,7 +340,7 @@ private fun ExpandableEducationCard(
 private fun WhatIsBmiContent() {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ContentText(
-            "Body Mass Index (BMI) is a simple screening tool that estimates whether a person's weight is in a healthy proportion to their height. It was developed by Belgian mathematician Adolphe Quetelet in the 19th century and has been adopted by the World Health Organization (WHO) as a standard measure."
+            stringResource(R.string.txt_body_mass_index_bmi_is_a_simpl)
         )
 
         HighlightBox(
@@ -346,7 +349,7 @@ private fun WhatIsBmiContent() {
         )
 
         ContentText(
-            "While BMI is widely used because it's easy to calculate and requires only your height and weight, it's important to remember that it's a screening tool — not a diagnostic one. It provides a starting point for health conversations, not a final answer."
+            stringResource(R.string.txt_while_bmi_is_widely_used_becau)
         )
 
         KeyPoint(
@@ -372,7 +375,7 @@ private fun WhatIsBmiContent() {
 private fun HowCalculatedContent() {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ContentText(
-            "BMI uses a straightforward mathematical formula that compares your weight to the square of your height:"
+            stringResource(R.string.txt_bmi_uses_a_straightforward_mat)
         )
 
         // Formula card
@@ -389,7 +392,7 @@ private fun HowCalculatedContent() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "BMI Formula",
+                    text = stringResource(R.string.txt_bmi_formula),
                     style = MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.5.sp
@@ -411,7 +414,7 @@ private fun HowCalculatedContent() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Metric",
+                            text = stringResource(R.string.txt_metric),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -449,7 +452,7 @@ private fun HowCalculatedContent() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Imperial",
+                            text = stringResource(R.string.txt_imperial),
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.SemiBold
                             ),
@@ -483,7 +486,7 @@ private fun HowCalculatedContent() {
         )
 
         ContentText(
-            "The result is expressed in kg/m² (kilograms per square meter). This number is then compared against standard WHO ranges to determine your weight category."
+            stringResource(R.string.txt_the_result_is_expressed_in_kg_)
         )
     }
 }
@@ -513,7 +516,7 @@ private fun CategoriesContent() {
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ContentText(
-            "The World Health Organization classifies BMI into the following categories. Each category carries different levels of health risk:"
+            stringResource(R.string.txt_the_world_health_organization_)
         )
 
         // Category table
@@ -533,7 +536,7 @@ private fun CategoriesContent() {
                         .padding(horizontal = 8.dp, vertical = 6.dp)
                 ) {
                     Text(
-                        text = "Category",
+                        text = stringResource(R.string.txt_category),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -541,7 +544,7 @@ private fun CategoriesContent() {
                         modifier = Modifier.weight(1.1f)
                     )
                     Text(
-                        text = "BMI Range",
+                        text = stringResource(R.string.txt_bmi_range),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -550,7 +553,7 @@ private fun CategoriesContent() {
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        text = "Risk",
+                        text = stringResource(R.string.txt_risk),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -679,7 +682,7 @@ private fun LimitationsContent() {
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ContentText(
-            "While BMI is a useful starting point, it has several important limitations you should be aware of:"
+            stringResource(R.string.txt_while_bmi_is_a_useful_starting)
         )
 
         limitations.forEach { item ->
@@ -779,7 +782,7 @@ private fun TipsContent() {
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         ContentText(
-            "Maintaining a healthy weight isn't about extreme diets or intense exercise. It's about sustainable, balanced habits:"
+            stringResource(R.string.txt_maintaining_a_healthy_weight_i)
         )
 
         tips.forEach { tip ->
@@ -864,7 +867,7 @@ private fun WhenDoctorContent() {
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ContentText(
-            "While this calculator provides useful information, certain situations call for professional medical guidance. Consider seeing a doctor if:"
+            stringResource(R.string.txt_while_this_calculator_provides)
         )
 
         Card(
@@ -919,7 +922,7 @@ private fun WhenDoctorContent() {
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(
-                        text = "Your health matters",
+                        text = stringResource(R.string.txt_your_health_matters),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -927,7 +930,7 @@ private fun WhenDoctorContent() {
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "A healthcare professional can provide personalized guidance based on your complete health picture — not just a single number. Don't hesitate to reach out.",
+                        text = stringResource(R.string.txt_a_healthcare_professional_can_),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                         lineHeight = 18.sp
@@ -989,7 +992,7 @@ private fun KeyPoint(
 ) {
     Row(modifier = Modifier.padding(start = 4.dp)) {
         Text(
-            text = "•",
+            text = stringResource(R.string.txt_text_placeholder_3),
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             color = EducationAccent,
             modifier = Modifier.padding(end = 8.dp)
@@ -1030,7 +1033,7 @@ private fun EducationDisclaimer() {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "This educational content is for informational purposes only and does not constitute medical advice. The information provided is based on WHO guidelines and general health recommendations. Always consult a qualified healthcare professional for personalized medical guidance.",
+            text = stringResource(R.string.txt_this_educational_content_is_fo_2),
             style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             lineHeight = 16.sp

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -49,7 +52,7 @@ fun BpHomeCardOverlay(
                 color = categoryColor
             )
             Text(
-                "mmHg",
+                stringResource(R.string.txt_mmhg_1),
                 style = MaterialTheme.typography.labelSmall,
                 color = categoryColor.copy(alpha = 0.6f)
             )
@@ -78,7 +81,7 @@ fun BpHomeCardOverlay(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "🔥",
+                    stringResource(R.string.txt_text_placeholder_6),
                     style = MaterialTheme.typography.labelSmall
                 )
                 Text(
@@ -114,7 +117,7 @@ fun BpHomeCardOverlay(
                     modifier = Modifier.size(12.dp)
                 )
                 Text(
-                    "Needs attention",
+                    stringResource(R.string.txt_needs_attention),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFFF44336).copy(alpha = pulseAlpha)

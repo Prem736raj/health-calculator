@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.datastore
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -35,7 +37,7 @@ private val Context.profileDataStore: DataStore<Preferences> by preferencesDataS
  * Data persists across app restarts and is stored in the app's
  * private storage directory.
  */
-class ProfileDataStore(private val context: Context) {
+class ProfileDataStore(@ApplicationContext private val context: Context) {
 
     // ─── Preference Keys ──────────────────────────────────────────────────
     private companion object {

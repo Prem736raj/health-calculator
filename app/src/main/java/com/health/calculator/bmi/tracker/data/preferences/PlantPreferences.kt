@@ -1,10 +1,12 @@
 // data/preferences/PlantPreferences.kt
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.SharedPreferences
 
-class PlantPreferences(context: Context) {
+class PlantPreferences(@ApplicationContext context: Context) {
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences("plant_prefs", Context.MODE_PRIVATE)

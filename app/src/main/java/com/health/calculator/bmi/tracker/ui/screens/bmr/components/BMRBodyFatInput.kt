@@ -1,6 +1,9 @@
 // File: com/health/calculator/bmi/tracker/ui/screens/bmr/components/BMRBodyFatInput.kt
 package com.health.calculator.bmi.tracker.ui.screens.bmr.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
@@ -67,7 +70,7 @@ fun BMRBodyFatInput(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Don't know your body fat %?",
+                    text = stringResource(R.string.txt_don_t_know_your_body_fat),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium
@@ -94,7 +97,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
         },
         title = {
             Text(
-                text = "Estimating Body Fat %",
+                text = stringResource(R.string.txt_estimating_body_fat),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -102,7 +105,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
         text = {
             Column {
                 Text(
-                    text = "There are several ways to estimate your body fat percentage:",
+                    text = stringResource(R.string.txt_there_are_several_ways_to_esti),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -150,7 +153,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "General Body Fat Ranges:",
+                            text = stringResource(R.string.txt_general_body_fat_ranges),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -158,7 +161,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "Men:",
+                            text = stringResource(R.string.txt_men),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -172,7 +175,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "Women:",
+                            text = stringResource(R.string.txt_women),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -188,7 +191,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "💡 Tip: If you don't know your body fat %, use the Mifflin-St Jeor formula instead — it doesn't require it and is highly accurate.",
+                    text = stringResource(R.string.txt_tip_if_you_don_t_know_your_bod),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
                     lineHeight = 16.sp
@@ -197,7 +200,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Got it")
+                Text(stringResource(R.string.txt_got_it_1))
             }
         }
     )

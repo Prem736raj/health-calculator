@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -60,7 +63,7 @@ fun IBWMotivationalComparison(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Your Weight Journey",
+                text = stringResource(R.string.txt_your_weight_journey),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -237,7 +240,7 @@ private fun WeightRangeVisual(
             )
             Spacer(modifier = Modifier.width(3.dp))
             Text(
-                "Healthy Range",
+                stringResource(R.string.txt_healthy_range),
                 style = MaterialTheme.typography.labelSmall,
                 color = Color(0xFF4CAF50),
                 fontSize = 9.sp

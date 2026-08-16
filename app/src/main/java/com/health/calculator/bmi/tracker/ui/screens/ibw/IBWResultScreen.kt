@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.ibw
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -199,7 +202,7 @@ fun IBWResultScreen(
             ) {
                 Icon(Icons.AutoMirrored.Filled.MenuBook, null, Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("Learn", style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(R.string.txt_learn), style = MaterialTheme.typography.labelMedium)
             }
             OutlinedButton(
                 onClick = onToggleHistory,
@@ -290,7 +293,7 @@ private fun PrimaryResultCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Your Ideal Body Weight",
+                    text = stringResource(R.string.txt_your_ideal_body_weight),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -330,7 +333,7 @@ private fun PrimaryResultCard(
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "%.1f".format(animatedWeight),
+                            text = stringResource(R.string.txt_1f).format(animatedWeight),
                             style = MaterialTheme.typography.displayLarge.copy(
                                 fontWeight = FontWeight.Black,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -396,7 +399,7 @@ private fun BMIRangeCard(result: IBWResult, showInKg: Boolean) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Healthy BMI Range (18.5 - 24.9)",
+                stringResource(R.string.txt_healthy_bmi_range_18_5_24_9),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -431,7 +434,7 @@ private fun FormulaComparisonCard(result: IBWResult, showInKg: Boolean) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Compare Formulas",
+                    stringResource(R.string.txt_compare_formulas),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                 )
                 Icon(
@@ -456,7 +459,7 @@ private fun FormulaComparisonCard(result: IBWResult, showInKg: Boolean) {
                     }
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                     Text(
-                        "Different formulas are used by clinicians for different medical purposes. The Devine formula is the most universally accepted standard.",
+                        stringResource(R.string.txt_different_formulas_are_used_by),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -508,7 +511,7 @@ private fun ActionButtonsRow(
             ) {
                 Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Share")
+                Text(stringResource(R.string.txt_share))
             }
         }
 
@@ -525,7 +528,7 @@ private fun ActionButtonsRow(
             Icon(Icons.Default.Flag, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Set Weight Goal",
+                stringResource(R.string.txt_set_weight_goal),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -537,7 +540,7 @@ private fun ActionButtonsRow(
         ) {
             Icon(Icons.Default.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(6.dp))
-            Text("Recalculate")
+            Text(stringResource(R.string.txt_recalculate))
         }
     }
 }

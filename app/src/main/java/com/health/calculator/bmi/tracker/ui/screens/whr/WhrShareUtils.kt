@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import com.health.calculator.bmi.tracker.data.model.*
@@ -71,7 +73,7 @@ object WhrShareUtils {
         }
     }
 
-    fun shareResult(context: Context, text: String) {
+    fun shareResult(@ApplicationContext context: Context, text: String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, text)

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.data.repository
 
+import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -15,9 +18,9 @@ private val Context.reminderPrefsDataStore: DataStore<Preferences> by preference
     name = "reminder_preferences"
 )
 
-class ReminderRepository(
+class ReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private object Keys {
         val QUIET_ENABLED = booleanPreferencesKey("quiet_hours_enabled")

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -144,7 +147,7 @@ fun AddProfileButton(onClick: () -> Unit) {
         Spacer(modifier = Modifier.height(4.dp))
         
         Text(
-            text = "Add",
+            text = stringResource(R.string.txt_add),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -169,7 +172,7 @@ fun ProfileSwitcherSheet(
             .padding(16.dp)
     ) {
         Text(
-            text = "Switch Profile",
+            text = stringResource(R.string.txt_switch_profile),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -193,7 +196,7 @@ fun ProfileSwitcherSheet(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Add Family Member")
+                Text(stringResource(R.string.txt_add_family_member))
             }
         }
         

@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.idealweight
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -52,7 +55,7 @@ fun IdealWeightResultSection(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Your Ideal Weight",
+                    text = stringResource(R.string.txt_your_ideal_weight),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -68,7 +71,7 @@ fun IdealWeightResultSection(
                         fontSize = 64.sp
                     )
                     Text(
-                        text = "kg",
+                        text = stringResource(R.string.txt_kg),
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
                         modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
@@ -76,7 +79,7 @@ fun IdealWeightResultSection(
                 }
                 
                 Text(
-                    text = "(Based on Devine Formula)",
+                    text = stringResource(R.string.txt_based_on_devine_formula),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                 )
@@ -115,7 +118,7 @@ fun IdealWeightResultSection(
 
         // ---- Formula Comparison Table ----
         Text(
-            text = "Formula Comparison",
+            text = stringResource(R.string.txt_formula_comparison),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 4.dp, bottom = 12.dp)

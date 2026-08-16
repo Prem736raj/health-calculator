@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -53,7 +56,7 @@ fun HealthJourneySummaryCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "🌟 Your Health Journey",
+                    text = stringResource(R.string.txt_your_health_journey),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -62,7 +65,7 @@ fun HealthJourneySummaryCard(
 
                 if (summary.daysSinceFirstUse > 0) {
                     Text(
-                        text = "You've been tracking your health for",
+                        text = stringResource(R.string.txt_you_ve_been_tracking_your_heal),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -82,7 +85,7 @@ fun HealthJourneySummaryCard(
                     }
                 } else {
                     Text(
-                        text = "Welcome to your health journey!",
+                        text = stringResource(R.string.txt_welcome_to_your_health_journey),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

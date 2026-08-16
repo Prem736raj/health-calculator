@@ -1,6 +1,8 @@
 // ui/screens/bloodpressure/BpReminderViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +31,8 @@ data class BpReminderUiState(
     val showDoctorDatePicker: Boolean = false
 )
 
-class BpReminderViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BpReminderViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val bpPreferences = BpReminderPreferences(application)
     private val notificationHelper = BpNotificationHelper(application)

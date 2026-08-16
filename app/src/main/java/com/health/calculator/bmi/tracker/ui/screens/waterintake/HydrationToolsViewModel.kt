@@ -1,6 +1,8 @@
 // ui/screens/waterintake/HydrationToolsViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -17,7 +19,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HydrationToolsViewModel(
+@HiltViewModel
+class HydrationToolsViewModel @Inject constructor(
     application: Application,
     private val urineColorDao: UrineColorDao
 ) : AndroidViewModel(application) {

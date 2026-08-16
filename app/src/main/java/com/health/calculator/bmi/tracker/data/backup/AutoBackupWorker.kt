@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -19,7 +21,7 @@ import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import kotlinx.coroutines.flow.first
 
 class AutoBackupWorker(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 

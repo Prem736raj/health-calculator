@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calorie
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -203,7 +206,7 @@ fun CalorieResultScreen(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        "Target Progress Preview",
+                        stringResource(R.string.txt_target_progress_preview),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -391,7 +394,7 @@ fun AnimatedMacroDonutChart(
             )
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Macros", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.txt_macros), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
             Text("${total.toInt()}g", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         }
     }
@@ -462,7 +465,7 @@ private fun SafetyWarningCard(result: CalorieResult) {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "⚠️ Calorie Intake Below Recommended Minimum",
+                    text = stringResource(R.string.txt_calorie_intake_below_recommend),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFFF44336)
                 )
@@ -475,7 +478,7 @@ private fun SafetyWarningCard(result: CalorieResult) {
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "Consider a less aggressive approach or consult a healthcare provider for guidance on very low calorie intake.",
+                    text = stringResource(R.string.txt_consider_a_less_aggressive_app),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFF44336).copy(alpha = 0.7f),
                     fontSize = 11.sp
@@ -547,7 +550,7 @@ private fun PrimaryCalorieCard(result: CalorieResult) {
                 }
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("🔥", fontSize = 20.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_6), fontSize = 20.sp)
                     Text(
                         text = "${"%.0f".format(animatedCalories)}",
                         style = MaterialTheme.typography.displayMedium.copy(
@@ -556,7 +559,7 @@ private fun PrimaryCalorieCard(result: CalorieResult) {
                         color = goalColor
                     )
                     Text(
-                        text = "kcal/day",
+                        text = stringResource(R.string.txt_kcal_day),
                         style = MaterialTheme.typography.bodyMedium,
                         color = goalColor.copy(alpha = 0.7f)
                     )
@@ -679,7 +682,7 @@ private fun EnergyBreakdownCard(result: CalorieResult) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "Energy Expenditure Breakdown",
+                stringResource(R.string.txt_energy_expenditure_breakdown),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -725,7 +728,7 @@ private fun EnergyBreakdownCard(result: CalorieResult) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Total TDEE", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold))
+                Text(stringResource(R.string.txt_total_tdee), style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold))
                 Text("${"%.0f".format(result.tdee)} kcal", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary)
             }
         }
@@ -771,7 +774,7 @@ private fun ProjectedOutcomeCard(result: CalorieResult) {
                     contentDescription = null, tint = projColor, modifier = Modifier.size(22.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Projected Outcome", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold))
+                Text(stringResource(R.string.txt_projected_outcome), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold))
             }
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -807,7 +810,7 @@ private fun ProjectedOutcomeCard(result: CalorieResult) {
                         Icon(Icons.Default.Info, null, Modifier.size(14.dp), tint = Color(0xFFFF9800))
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            "Aggressive weight loss (>1 kg/week) may lead to muscle loss and metabolic slowdown. A moderate approach is recommended for long-term success.",
+                            stringResource(R.string.txt_aggressive_weight_loss_1_kg_we),
                             style = MaterialTheme.typography.bodySmall, color = Color(0xFFFF9800).copy(alpha = 0.8f), fontSize = 10.sp, lineHeight = 14.sp
                         )
                     }
@@ -842,7 +845,7 @@ private fun FormulaDetailsCard(result: CalorieResult) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Calculation Details", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))
+                Text(stringResource(R.string.txt_calculation_details), style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))
                 IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(24.dp)) {
                     Icon(if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore, "Toggle")
                 }
@@ -907,7 +910,7 @@ private fun ActionButtons(
             OutlinedButton(onClick = onShare, modifier = Modifier.weight(1f), shape = RoundedCornerShape(12.dp)) {
                 Icon(Icons.Default.Share, null, Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Share")
+                Text(stringResource(R.string.txt_share))
             }
         }
 
@@ -922,7 +925,7 @@ private fun ActionButtons(
             Icon(Icons.Default.Restaurant, null, Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Track Today's Food",
+                stringResource(R.string.txt_track_today_s_food),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -935,7 +938,7 @@ private fun ActionButtons(
             Icon(Icons.Default.BarChart, null, Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "View Calorie History",
+                stringResource(R.string.txt_view_calorie_history),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -943,7 +946,7 @@ private fun ActionButtons(
         OutlinedButton(onClick = onRecalculate, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
             Icon(Icons.Default.Refresh, null, Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(6.dp))
-            Text("Recalculate")
+            Text(stringResource(R.string.txt_recalculate))
         }
     }
 }

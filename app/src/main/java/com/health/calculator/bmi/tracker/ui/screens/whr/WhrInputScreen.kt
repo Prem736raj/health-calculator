@@ -1,5 +1,11 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -44,7 +50,7 @@ fun WhrInputScreen(
     onNavigateBack: () -> Unit,
     onCalculate: (waistCm: Float, hipCm: Float, gender: Gender, age: Int) -> Unit,
     onNavigateToEducation: () -> Unit = {},
-    viewModel: WhrViewModel = viewModel()
+    viewModel: WhrViewModel = hiltViewModel()
 ) {
     val inputState by viewModel.inputState.collectAsState()
     val haptic = LocalHapticFeedback.current
@@ -55,7 +61,7 @@ fun WhrInputScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Waist-to-Hip Ratio",
+                        stringResource(R.string.txt_waist_to_hip_ratio),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -69,7 +75,7 @@ fun WhrInputScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         viewModel.clearAll()
                     }) {
-                        Text("Clear All")
+                        Text(stringResource(R.string.txt_clear_all_1))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -206,12 +212,12 @@ fun WhrInputScreen(
             OutlinedTextField(
                 value = inputState.age,
                 onValueChange = { viewModel.updateAge(it) },
-                label = { Text("Age") },
+                label = { Text(stringResource(R.string.txt_age)) },
                 leadingIcon = {
                     Icon(Icons.Outlined.Cake, contentDescription = null)
                 },
-                suffix = { Text("years") },
-                placeholder = { Text("e.g., 30") },
+                suffix = { Text(stringResource(R.string.txt_years)) },
+                placeholder = { Text(stringResource(R.string.txt_e_g_30)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = inputState.ageError != null,
                 supportingText = inputState.ageError?.let { { Text(it) } },
@@ -265,7 +271,7 @@ fun WhrInputScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Calculate WHR",
+                    stringResource(R.string.txt_calculate_whr),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -289,7 +295,7 @@ fun WhrInputScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "Learn About WHR",
+                    stringResource(R.string.txt_learn_about_whr),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -321,18 +327,18 @@ private fun WhrHeaderCard() {
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text("📐", fontSize = 24.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 24.sp)
                 }
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "Waist-to-Hip Ratio",
+                    stringResource(R.string.txt_waist_to_hip_ratio),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    "Measures body fat distribution and helps assess health risks related to your body shape",
+                    stringResource(R.string.txt_measures_body_fat_distribution),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
@@ -363,7 +369,7 @@ private fun ProfileDataBanner() {
                 modifier = Modifier.size(16.dp)
             )
             Text(
-                "Using profile data for gender and age",
+                stringResource(R.string.txt_using_profile_data_for_gender_),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
@@ -387,7 +393,7 @@ private fun MeasurementGuideVisual() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "Measurement Points",
+                stringResource(R.string.txt_measurement_points),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -622,7 +628,7 @@ private fun MeasurementTipCard() {
                 modifier = Modifier.size(20.dp)
             )
             Text(
-                text = "Use a flexible tape measure. Stand straight and relaxed. Don't hold your breath while measuring.",
+                text = stringResource(R.string.txt_use_a_flexible_tape_measure_st),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
                 lineHeight = 18.sp
@@ -650,7 +656,7 @@ private fun UnitToggleSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Measurement Unit",
+                stringResource(R.string.txt_measurement_unit),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -669,7 +675,7 @@ private fun UnitToggleSection(
                         modifier = Modifier.clickable { if (!useMetric) onToggle() }
                     ) {
                         Text(
-                            "cm",
+                            stringResource(R.string.txt_cm_1),
                             modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                             color = if (useMetric)
                                 MaterialTheme.colorScheme.onPrimary
@@ -688,7 +694,7 @@ private fun UnitToggleSection(
                         modifier = Modifier.clickable { if (useMetric) onToggle() }
                     ) {
                         Text(
-                            "inches",
+                            stringResource(R.string.txt_inches_1),
                             modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                             color = if (!useMetric)
                                 MaterialTheme.colorScheme.onPrimary
@@ -830,7 +836,7 @@ private fun GenderSelectionSection(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            "Gender",
+            stringResource(R.string.txt_gender),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium
         )
@@ -949,7 +955,7 @@ private fun HowToMeasureExpandable(
                         modifier = Modifier.size(22.dp)
                     )
                     Text(
-                        "How to Measure Correctly",
+                        stringResource(R.string.txt_how_to_measure_correctly),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )

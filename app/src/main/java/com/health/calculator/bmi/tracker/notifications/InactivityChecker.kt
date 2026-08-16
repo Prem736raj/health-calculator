@@ -1,6 +1,8 @@
 // app/src/main/java/com/health/calculator/bmi/tracker/notifications/InactivityChecker.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class InactivityCheckScheduler(private val context: Context) {
+class InactivityCheckScheduler(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -62,7 +64,7 @@ class InactivityCheckScheduler(private val context: Context) {
 
 class InactivityCheckReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
             val prefs = context.getSharedPreferences("inactivity_quick", Context.MODE_PRIVATE)
             val lastOpen = prefs.getLong("last_open", System.currentTimeMillis())
@@ -95,7 +97,7 @@ class InactivityCheckReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun sendInactivityNotification(context: Context, level: InactivityLevel) {
+    private fun sendInactivityNotification(@ApplicationContext context: Context, level: InactivityLevel) {
         NotificationChannelsManager.createAllChannels(context)
 
         val openIntent = Intent(context, MainActivity::class.java).apply {

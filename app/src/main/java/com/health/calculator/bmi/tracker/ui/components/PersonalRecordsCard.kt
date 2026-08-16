@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -53,7 +56,7 @@ fun PersonalRecordsCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Personal Records",
+                    text = stringResource(R.string.txt_personal_records),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -178,15 +181,15 @@ private fun EmptyRecordsCard(modifier: Modifier = Modifier) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "🏆", style = MaterialTheme.typography.headlineMedium)
+            Text(text = stringResource(R.string.txt_text_placeholder_2), style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "No personal records yet",
+                text = stringResource(R.string.txt_no_personal_records_yet),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium
             )
             Text(
-                text = "Start calculating to set your first records!",
+                text = stringResource(R.string.txt_start_calculating_to_set_your_),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

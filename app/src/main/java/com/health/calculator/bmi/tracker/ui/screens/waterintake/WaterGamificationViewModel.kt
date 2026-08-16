@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -12,7 +14,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class WaterGamificationViewModel(
+@HiltViewModel
+class WaterGamificationViewModel @Inject constructor(
     application: Application,
     private val gamificationRepo: WaterGamificationRepository,
     private val waterRepo: WaterIntakeRepository

@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class DataExportManager(private val context: Context) {
+class DataExportManager(@ApplicationContext private val context: Context) {
     private val pdfHelper = PdfExportHelper(context)
     private val csvHelper = CsvExportHelper(context)
     private val jsonHelper = JsonExportHelper(context)
@@ -29,7 +31,7 @@ class DataExportManager(private val context: Context) {
         @Volatile
         private var INSTANCE: DataExportManager? = null
 
-        fun getInstance(context: Context): DataExportManager {
+        fun getInstance(@ApplicationContext context: Context): DataExportManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: DataExportManager(context.applicationContext).also { INSTANCE = it }
             }

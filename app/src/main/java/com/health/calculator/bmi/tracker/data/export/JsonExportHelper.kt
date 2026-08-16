@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
 import org.json.JSONArray
@@ -9,7 +11,7 @@ import java.io.FileWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class JsonExportHelper(private val context: Context) {
+class JsonExportHelper(@ApplicationContext private val context: Context) {
 
     private val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
 

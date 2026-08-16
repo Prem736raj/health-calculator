@@ -1,12 +1,14 @@
 // notifications/AppUsageTracker.kt
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ProcessLifecycleOwner
 
-class AppUsageTracker(context: Context) {
+class AppUsageTracker(@ApplicationContext context: Context) {
 
     private val rateLimiter = NotificationRateLimiter(context)
 

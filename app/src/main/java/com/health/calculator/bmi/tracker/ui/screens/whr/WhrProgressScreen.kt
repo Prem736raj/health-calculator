@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.whr
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -68,7 +71,7 @@ fun WhrProgressScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("WHR Progress", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.txt_whr_progress), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -169,7 +172,7 @@ fun WhrProgressScreen(
 
                 if (state.filteredEntries.isNotEmpty()) {
                     Text(
-                        "Recent Measurements",
+                        stringResource(R.string.txt_recent_measurements),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
@@ -209,16 +212,16 @@ private fun EmptyProgressState(modifier: Modifier = Modifier) {
                 modifier = Modifier.size(100.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text("📊", fontSize = 48.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 48.sp)
                 }
             }
             Text(
-                "No Measurements Yet",
+                stringResource(R.string.txt_no_measurements_yet),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                "Start tracking your waist-to-hip ratio to see trends and progress over time.",
+                stringResource(R.string.txt_start_tracking_your_waist_to_h),
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
@@ -280,7 +283,7 @@ private fun ComparisonCard(comparison: WhrComparison) {
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Since Last Measurement",
+                    stringResource(R.string.txt_since_last_measurement),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -453,7 +456,7 @@ private fun GoalProgressCard(
             ) {
                 Column {
                     Text(
-                        "Current",
+                        stringResource(R.string.txt_current),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -480,7 +483,7 @@ private fun GoalProgressCard(
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        "Target",
+                        stringResource(R.string.txt_target),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -607,7 +610,7 @@ private fun TrendGraphCard(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "Need at least 2 measurements to show trends",
+                    stringResource(R.string.txt_need_at_least_2_measurements_t),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center
@@ -647,7 +650,7 @@ private fun TrendGraphCard(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Trend",
+                stringResource(R.string.txt_trend),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -885,7 +888,7 @@ private fun ProgressStatsCard(stats: WhrProgressStats) {
                     modifier = Modifier.size(22.dp)
                 )
                 Text(
-                    "Progress Statistics",
+                    stringResource(R.string.txt_progress_statistics),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -895,7 +898,7 @@ private fun ProgressStatsCard(stats: WhrProgressStats) {
 
             // WHR Stats
             Text(
-                "WHR",
+                stringResource(R.string.txt_whr),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
@@ -914,7 +917,7 @@ private fun ProgressStatsCard(stats: WhrProgressStats) {
 
             // Waist Stats
             Text(
-                "Waist",
+                stringResource(R.string.txt_waist),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFFF44336)
@@ -942,7 +945,7 @@ private fun ProgressStatsCard(stats: WhrProgressStats) {
 
             // Hip Stats
             Text(
-                "Hip",
+                stringResource(R.string.txt_hip),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFF2196F3)
@@ -1023,7 +1026,7 @@ private fun CategoryDistributionCard(entries: List<WhrHistoryEntry>) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                "Category Distribution",
+                stringResource(R.string.txt_category_distribution),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
@@ -1112,7 +1115,7 @@ private fun GoalSettingDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
-                    "Set a target waist circumference to track your progress.",
+                    stringResource(R.string.txt_set_a_target_waist_circumferen),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
@@ -1124,8 +1127,8 @@ private fun GoalSettingDialog(
                             onInputChange(input)
                         }
                     },
-                    label = { Text("Target Waist") },
-                    suffix = { Text("cm") },
+                    label = { Text(stringResource(R.string.txt_target_waist)) },
+                    suffix = { Text(stringResource(R.string.txt_cm_1)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.Flag, contentDescription = null)
                     },
@@ -1148,7 +1151,7 @@ private fun GoalSettingDialog(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.Top
                     ) {
-                        Text("💡", fontSize = 14.sp)
+                        Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                         Text(
                             "WHO recommends waist circumference below ${
                                 "94 cm for men and 80 cm for women"
@@ -1167,18 +1170,18 @@ private fun GoalSettingDialog(
                 onClick = onSave,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Save Goal")
+                Text(stringResource(R.string.txt_save_goal))
             }
         },
         dismissButton = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (existingGoal != null) {
                     TextButton(onClick = onClear) {
-                        Text("Remove Goal", color = MaterialTheme.colorScheme.error)
+                        Text(stringResource(R.string.txt_remove_goal), color = MaterialTheme.colorScheme.error)
                     }
                 }
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.txt_cancel))
                 }
             }
         }

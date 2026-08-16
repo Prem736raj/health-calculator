@@ -1,6 +1,9 @@
 // ui/screens/waterintake/WaterReminderSettingsScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -73,8 +76,8 @@ fun WaterReminderSettingsScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("🔔", fontSize = 22.sp)
-                        Text("Water Reminders", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_text_placeholder_68), fontSize = 22.sp)
+                        Text(stringResource(R.string.txt_water_reminders), fontWeight = FontWeight.Bold)
                     }
                 },
                 navigationIcon = {
@@ -292,16 +295,16 @@ private fun EnableToggleCard(enabled: Boolean, onToggle: (Boolean) -> Unit) {
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("💧", fontSize = 22.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 22.sp)
                 }
                 Column {
                     Text(
-                        "Water Reminders",
+                        stringResource(R.string.txt_water_reminders),
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
                     Text(
-                        "Get notified to drink water",
+                        stringResource(R.string.txt_get_notified_to_drink_water),
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
@@ -341,8 +344,8 @@ private fun ScheduleCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("⏰", fontSize = 18.sp)
-                Text("Schedule", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_31), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_schedule), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
@@ -436,8 +439,8 @@ private fun FrequencyCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🔄", fontSize = 18.sp)
-                Text("Frequency", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_82), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_frequency), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
@@ -549,8 +552,8 @@ private fun NotificationStyleCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🔊", fontSize = 18.sp)
-                Text("Notification Style", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_81), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_notification_style), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
@@ -597,8 +600,8 @@ private fun SmartFeaturesCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("🧠", fontSize = 18.sp)
-                Text("Smart Features", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.txt_text_placeholder_80), fontSize = 18.sp)
+                Text(stringResource(R.string.txt_smart_features), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
@@ -676,7 +679,7 @@ private fun ReminderSummaryCard(settings: WaterReminderSettings) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("📋 Reminder Summary", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = WaterBlueDark)
+            Text(stringResource(R.string.txt_reminder_summary), fontWeight = FontWeight.Bold, fontSize = 14.sp, color = WaterBlueDark)
 
             val summaryItems = listOf(
                 "⏰ Active from ${settings.startTimeFormatted} to ${settings.endTimeFormatted}",
@@ -745,7 +748,7 @@ private fun WaterTimePicker(
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.txt_cancel))
                     }
                     Spacer(Modifier.width(8.dp))
                     Button(
@@ -755,7 +758,7 @@ private fun WaterTimePicker(
                         colors = ButtonDefaults.buttonColors(containerColor = WaterBlueMedium),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Set Time")
+                        Text(stringResource(R.string.txt_set_time))
                     }
                 }
             }

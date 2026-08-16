@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -19,7 +21,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
     // ─── onUpdate ─────────────────────────────────────────────────────
 
     override fun onUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
@@ -37,7 +39,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
 
     // ─── onReceive ────────────────────────────────────────────────────
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
         val repo = WaterWidgetRepository.getInstance(context)
@@ -65,12 +67,12 @@ class WaterIntakeWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onEnabled(context: Context) {
+    override fun onEnabled(@ApplicationContext context: Context) {
         super.onEnabled(context)
         scheduleMidnightReset(context)
     }
 
-    override fun onDisabled(context: Context) {
+    override fun onDisabled(@ApplicationContext context: Context) {
         super.onDisabled(context)
         cancelMidnightReset(context)
     }
@@ -78,7 +80,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
     // ─── Helper: refresh all widget instances ─────────────────────────
 
     private fun refreshAllWidgets(
-        context: Context,
+        @ApplicationContext context: Context,
         manager: AppWidgetManager,
         small: ComponentName,
         medium: ComponentName
@@ -97,7 +99,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
 
     // ─── Midnight Reset Alarm ─────────────────────────────────────────
 
-    fun scheduleMidnightReset(context: Context) {
+    fun scheduleMidnightReset(@ApplicationContext context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val midnight = Calendar.getInstance().apply {
@@ -135,7 +137,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
         }
     }
 
-    private fun cancelMidnightReset(context: Context) {
+    private fun cancelMidnightReset(@ApplicationContext context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, WaterIntakeWidget::class.java).apply {
             action = WaterWidgetActions.ACTION_MIDNIGHT_RESET
@@ -152,7 +154,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
         // ─── Update Small Widget ──────────────────────────────────────
 
         fun updateSmallWidget(
-            context: Context,
+            @ApplicationContext context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
@@ -192,7 +194,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
         // ─── Update Medium Widget ─────────────────────────────────────
 
         fun updateMediumWidget(
-            context: Context,
+            @ApplicationContext context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
@@ -271,7 +273,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
             size: Int,
             progress: Float,
             strokeWidthDp: Float,
-            context: Context
+            @ApplicationContext context: Context
         ): Bitmap {
             val density = context.resources.displayMetrics.density
             val strokeWidth = strokeWidthDp * density
@@ -332,7 +334,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
 
         // ─── Notify all widget instances to refresh ───────────────────
 
-        fun triggerRefresh(context: Context) {
+        fun triggerRefresh(@ApplicationContext context: Context) {
             val intent = Intent(context, WaterIntakeWidget::class.java).apply {
                 action = WaterWidgetActions.ACTION_REFRESH
             }

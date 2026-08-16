@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.history
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
@@ -73,7 +76,7 @@ fun BatchOperationsBar(
                             contentPadding = PaddingValues(horizontal = 8.dp)
                         ) {
                             Text(
-                                "Select All",
+                                stringResource(R.string.txt_select_all),
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Medium
                             )

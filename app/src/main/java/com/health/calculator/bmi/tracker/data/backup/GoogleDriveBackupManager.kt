@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.backup
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GoogleDriveBackupManager(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private const val APP_FOLDER = "HealthCalculatorBackups"
@@ -28,7 +30,7 @@ class GoogleDriveBackupManager(
         @Volatile
         private var INSTANCE: GoogleDriveBackupManager? = null
 
-        fun getInstance(context: Context): GoogleDriveBackupManager {
+        fun getInstance(@ApplicationContext context: Context): GoogleDriveBackupManager {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: GoogleDriveBackupManager(context.applicationContext).also { INSTANCE = it }
             }

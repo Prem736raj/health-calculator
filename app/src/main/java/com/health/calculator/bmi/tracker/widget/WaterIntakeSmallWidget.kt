@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.widget
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -13,7 +15,7 @@ import com.health.calculator.bmi.tracker.widget.core.PolishedWidgetUpdater
 class WaterIntakeSmallWidget : AppWidgetProvider() {
 
     override fun onUpdate(
-        context: Context,
+        @ApplicationContext context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
@@ -22,7 +24,7 @@ class WaterIntakeSmallWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         super.onReceive(context, intent)
         // Delegate specific actions to central logic
         when (intent.action) {
@@ -41,7 +43,7 @@ class WaterIntakeSmallWidget : AppWidgetProvider() {
     }
 
     companion object {
-        fun updateWidget(context: Context, manager: AppWidgetManager, widgetId: Int) {
+        fun updateWidget(@ApplicationContext context: Context, manager: AppWidgetManager, widgetId: Int) {
             PolishedWidgetUpdater.updateWater(context, manager, widgetId, isMedium = false)
         }
     }

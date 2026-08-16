@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.metabolicsyndrome
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -91,7 +94,7 @@ fun CrossLinksSection(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Related Calculators",
+                    text = stringResource(R.string.txt_related_calculators_1),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
@@ -107,7 +110,7 @@ fun CrossLinksSection(
             if (!expanded) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Quick links to update your measurements",
+                    text = stringResource(R.string.txt_quick_links_to_update_your_mea),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

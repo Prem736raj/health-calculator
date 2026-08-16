@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.preferences
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
@@ -39,7 +41,7 @@ data class BMILastUsedInput(
     }
 }
 
-class BMIInputMemoryPreferences(private val context: Context) {
+class BMIInputMemoryPreferences(@ApplicationContext private val context: Context) {
 
     companion object {
         private val LAST_WEIGHT_KG = floatPreferencesKey("last_weight_kg")

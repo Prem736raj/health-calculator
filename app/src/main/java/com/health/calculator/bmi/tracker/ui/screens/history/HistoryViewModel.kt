@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.history
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -46,7 +48,8 @@ sealed interface HistoryDialogState {
     object ClearAll : HistoryDialogState
 }
 
-class HistoryViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HistoryViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val database = AppDatabase.getInstance(application)
     private val repository = HistoryRepository(database.historyDao())

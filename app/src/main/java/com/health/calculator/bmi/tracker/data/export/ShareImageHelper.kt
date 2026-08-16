@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.data.export
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import android.graphics.*
 import java.io.File
@@ -7,7 +9,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShareImageHelper(private val context: Context) {
+class ShareImageHelper(@ApplicationContext private val context: Context) {
 
     private val primaryColor = Color.rgb(0, 121, 145)
     private val bgColor = Color.rgb(250, 252, 254)

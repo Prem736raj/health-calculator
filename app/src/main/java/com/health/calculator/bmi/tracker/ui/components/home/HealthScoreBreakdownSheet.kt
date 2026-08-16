@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.components.home
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -54,7 +57,7 @@ fun HealthScoreBreakdownSheet(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Health Score Breakdown",
+                        text = stringResource(R.string.txt_health_score_breakdown),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -91,7 +94,7 @@ fun HealthScoreBreakdownSheet(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "📊 How Your Score is Calculated",
+                        text = stringResource(R.string.txt_how_your_score_is_calculated),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -149,7 +152,7 @@ fun HealthScoreBreakdownSheet(
                     .height(50.dp),
                 shape = RoundedCornerShape(14.dp)
             ) {
-                Text("Got It", fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.txt_got_it), fontWeight = FontWeight.SemiBold)
             }
         }
     }
@@ -263,7 +266,7 @@ private fun ScoreComponentCard(
                         color = Color(0xFF9E9E9E).copy(alpha = 0.1f)
                     ) {
                         Text(
-                            text = "No data",
+                            text = stringResource(R.string.txt_no_data),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF9E9E9E),
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)

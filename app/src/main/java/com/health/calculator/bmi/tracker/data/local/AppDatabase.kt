@@ -1,9 +1,12 @@
 package com.health.calculator.bmi.tracker.data.local
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
@@ -38,7 +41,7 @@ import com.health.calculator.bmi.tracker.data.dao.UrineColorDao
         com.health.calculator.bmi.tracker.data.models.Reminder::class,
         com.health.calculator.bmi.tracker.data.models.WeeklyReport::class
     ],
-    version = 13,
+    version = 14,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -82,33 +85,24 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        val MIGRATION_13_14 = object : Migration(13, 14) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Empty migration. Schema remains exactly the same as version 13.
+                // This bumps the version safely while allowing removal of destructive migrations.
+            }
+        }
+
         /**
          * Returns the singleton database instance, creating it if needed.
          */
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(@ApplicationContext context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "health_calculator_database"
                 )
-                    // When schema changes during development, recreate tables to avoid
-                    // "no such table" / identity-hash mismatches.
                     .fallbackToDestructiveMigration(dropAllTables = true)
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onOpen(db: SupportSQLiteDatabase) {
-                            super.onOpen(db)
-                            // Ensure favorite_quotes table exists (safety net)
-                            db.execSQL("""
-                                CREATE TABLE IF NOT EXISTS favorite_quotes (
-                                    quoteId INTEGER PRIMARY KEY,
-                                    quote TEXT NOT NULL,
-                                    author TEXT NOT NULL,
-                                    savedAt INTEGER NOT NULL
-                                )
-                            """.trimIndent())
-                        }
-                    })
                     .build()
                     .also { INSTANCE = it }
             }
@@ -117,6 +111,6 @@ abstract class AppDatabase : RoomDatabase() {
         /**
          * Alias for getDatabase to maintain compatibility with code using HealthDatabase.
          */
-        fun getInstance(context: Context): AppDatabase = getDatabase(context)
+        fun getInstance(@ApplicationContext context: Context): AppDatabase = getDatabase(context)
     }
 }

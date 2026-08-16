@@ -1,6 +1,8 @@
 // ui/screens/waterintake/WaterTrackingViewModel.kt
 package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -30,7 +32,8 @@ import com.health.calculator.bmi.tracker.widget.WaterWidgetSyncManager
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.first
 
-class WaterTrackingViewModel(
+@HiltViewModel
+class WaterTrackingViewModel @Inject constructor(
     application: Application,
     private val repository: WaterIntakeRepository
 ) : AndroidViewModel(application) {

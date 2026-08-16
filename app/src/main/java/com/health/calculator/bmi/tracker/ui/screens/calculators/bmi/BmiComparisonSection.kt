@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.calculators.bmi
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
@@ -130,7 +133,7 @@ fun BmiComparisonSection(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Age & Gender Insights",
+                        text = stringResource(R.string.txt_age_gender_insights),
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -214,12 +217,12 @@ private fun PediatricSection(
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    "Child/Teen BMI Assessment",
+                    stringResource(R.string.txt_child_teen_bmi_assessment),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFF7B1FA2)
                 )
                 Text(
-                    "BMI-for-age percentile method (WHO standard)",
+                    stringResource(R.string.txt_bmi_for_age_percentile_method_),
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
@@ -275,7 +278,7 @@ private fun PediatricSection(
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "percentile",
+                    text = stringResource(R.string.txt_percentile),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     modifier = Modifier.padding(bottom = 4.dp)
@@ -347,15 +350,15 @@ private fun PercentileBar(percentile: Double, catColor: Color) {
         Spacer(modifier = Modifier.height(6.dp))
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Text("0", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_0), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
             Spacer(modifier = Modifier.weight(0.05f))
-            Text("5th", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFFF9800).copy(alpha = 0.6f))
+            Text(stringResource(R.string.txt_5th), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFFF9800).copy(alpha = 0.6f))
             Spacer(modifier = Modifier.weight(0.8f))
-            Text("85th", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFFFC107).copy(alpha = 0.6f))
+            Text(stringResource(R.string.txt_85th), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFFFC107).copy(alpha = 0.6f))
             Spacer(modifier = Modifier.weight(0.1f))
-            Text("95th", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFE53935).copy(alpha = 0.6f))
+            Text(stringResource(R.string.txt_95th), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = Color(0xFFE53935).copy(alpha = 0.6f))
             Spacer(modifier = Modifier.weight(0.05f))
-            Text("100", style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
+            Text(stringResource(R.string.txt_100_2), style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
         }
     }
 }
@@ -372,7 +375,7 @@ private fun PediatricCategoryTable(currentCategory: PediatricBmiCategory) {
     ) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
-                "WHO BMI-for-Age Categories",
+                stringResource(R.string.txt_who_bmi_for_age_categories),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
             )
@@ -413,7 +416,7 @@ private fun PediatricCategoryTable(currentCategory: PediatricBmiCategory) {
                     )
                     if (isSelected) {
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("◀", fontSize = 9.sp, color = color)
+                        Text(stringResource(R.string.txt_text_placeholder_44), fontSize = 9.sp, color = color)
                     }
                 }
             }
@@ -439,7 +442,7 @@ private fun AdultSection(
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
             Text(
-                "Recommended Range for Your Age",
+                stringResource(R.string.txt_recommended_range_for_your_age),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -499,11 +502,11 @@ private fun AdultSection(
             border = androidx.compose.foundation.BorderStroke(0.5.dp, Color(0xFF1E88E5).copy(alpha = 0.12f))
         ) {
             Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.Top) {
-                Text("👴", fontSize = 16.sp)
+                Text(stringResource(R.string.txt_text_placeholder_45), fontSize = 16.sp)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(
-                        "Note for Older Adults",
+                        stringResource(R.string.txt_note_for_older_adults),
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                         color = Color(0xFF1E88E5)
                     )
@@ -653,7 +656,7 @@ private fun PopulationComparisonRow(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "vs. Population Average",
+                    stringResource(R.string.txt_vs_population_average),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -696,11 +699,11 @@ private fun AgeContextCard(note: String) {
         border = androidx.compose.foundation.BorderStroke(0.5.dp, ComparisonAccent.copy(alpha = 0.12f))
     ) {
         Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.Top) {
-            Text("💡", fontSize = 14.sp, modifier = Modifier.padding(top = 1.dp))
+            Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp, modifier = Modifier.padding(top = 1.dp))
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    "Age-Specific Note",
+                    stringResource(R.string.txt_age_specific_note),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                     color = ComparisonAccent
                 )

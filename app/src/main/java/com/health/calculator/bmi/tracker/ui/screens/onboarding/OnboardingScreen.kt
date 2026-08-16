@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.onboarding
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOut
@@ -172,7 +175,7 @@ fun OnboardingScreen(
                     ) {
                         TextButton(onClick = onComplete) {
                             Text(
-                                text = "Skip",
+                                text = stringResource(R.string.txt_skip),
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                             )
@@ -439,7 +442,7 @@ private fun BottomSection(
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "Set Up My Profile",
+                        text = stringResource(R.string.txt_set_up_my_profile),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold
                         )
@@ -462,7 +465,7 @@ private fun BottomSection(
                     )
                 ) {
                     Text(
-                        text = "Skip for Now",
+                        text = stringResource(R.string.txt_skip_for_now),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Medium
                         )
@@ -492,7 +495,7 @@ private fun BottomSection(
                 )
             ) {
                 Text(
-                    text = "Next",
+                    text = stringResource(R.string.txt_next),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     )

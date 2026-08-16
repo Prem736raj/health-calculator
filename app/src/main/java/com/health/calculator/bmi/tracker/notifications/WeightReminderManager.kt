@@ -1,5 +1,7 @@
 package com.health.calculator.bmi.tracker.notifications
 
+import dagger.hilt.android.qualifiers.ApplicationContext
+
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,7 +14,7 @@ import androidx.core.app.NotificationCompat
 import java.util.Calendar
 
 class WeightReminderReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -51,7 +53,7 @@ class WeightReminderReceiver : BroadcastReceiver() {
     }
 }
 
-class WeightReminderManager(private val context: Context) {
+class WeightReminderManager(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

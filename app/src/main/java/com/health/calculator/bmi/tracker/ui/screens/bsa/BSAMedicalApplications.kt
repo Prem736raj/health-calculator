@@ -1,5 +1,8 @@
 package com.health.calculator.bmi.tracker.ui.screens.bsa
 
+import androidx.compose.ui.res.stringResource
+import com.health.calculator.bmi.tracker.R
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -77,12 +80,12 @@ fun BSAMedicalApplicationsSection(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Medical Applications of BSA",
+                        text = stringResource(R.string.txt_medical_applications_of_bsa),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "How BSA is used in medical practice",
+                        text = stringResource(R.string.txt_how_bsa_is_used_in_medical_pra),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -155,14 +158,14 @@ private fun CriticalDisclaimerBanner() {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "⚠️ Educational Information Only",
+                    text = stringResource(R.string.txt_educational_information_only),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.error
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "The medical applications described below are for educational purposes ONLY. This information is NOT intended for self-medication, self-diagnosis, or self-treatment. NEVER calculate your own medication doses. ALWAYS follow your doctor's instructions and prescriptions.",
+                    text = stringResource(R.string.txt_the_medical_applications_descr),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     lineHeight = 18.sp,
@@ -196,7 +199,7 @@ private fun DrugDosageSection(bsa: Float) {
     ) {
         Column {
             Text(
-                text = "Many medications — especially chemotherapy drugs, immunosuppressants, and some antibiotics — are dosed based on Body Surface Area rather than weight alone. BSA-based dosing is considered more accurate because it better correlates with metabolic rate and organ function than weight alone.",
+                text = stringResource(R.string.txt_many_medications_especially_ch),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 18.sp
@@ -205,7 +208,7 @@ private fun DrugDosageSection(bsa: Float) {
             Spacer(modifier = Modifier.height(14.dp))
 
             Text(
-                text = "Educational Example",
+                text = stringResource(R.string.txt_educational_example),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
                 color = HealthRed
@@ -248,20 +251,20 @@ private fun DrugDosageSection(bsa: Float) {
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = "Drug",
+                            text = stringResource(R.string.txt_drug),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f)
                         )
                         Text(
-                            text = "Dose Rate",
+                            text = stringResource(R.string.txt_dose_rate),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(0.8f),
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Your Dose",
+                            text = stringResource(R.string.txt_your_dose),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(0.8f),
@@ -317,10 +320,10 @@ private fun DrugDosageSection(bsa: Float) {
                     modifier = Modifier.padding(10.dp),
                     verticalAlignment = Alignment.Top
                 ) {
-                    Text("🚫", fontSize = 16.sp)
+                    Text(stringResource(R.string.txt_text_placeholder_39), fontSize = 16.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "These are FICTIONAL examples for education only. Drug names are made up. NEVER calculate or adjust your own medication doses. Your doctor considers many factors beyond BSA when prescribing medication.",
+                        text = stringResource(R.string.txt_these_are_fictional_examples_f),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = HealthRed,
@@ -332,7 +335,7 @@ private fun DrugDosageSection(bsa: Float) {
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "Why BSA instead of weight?",
+                text = stringResource(R.string.txt_why_bsa_instead_of_weight),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -409,7 +412,7 @@ private fun BurnAssessmentSection(bsa: Float) {
 
             // Burn area percentages table
             Text(
-                text = "Rule of Nines — Body Region Percentages (Adults)",
+                text = stringResource(R.string.txt_rule_of_nines_body_region_perc),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
                 color = HealthOrange
@@ -447,20 +450,20 @@ private fun BurnAssessmentSection(bsa: Float) {
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = "Body Region",
+                            text = stringResource(R.string.txt_body_region),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1.2f)
                         )
                         Text(
-                            text = "% of BSA",
+                            text = stringResource(R.string.txt_of_bsa),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(0.5f),
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Area (m²)",
+                            text = stringResource(R.string.txt_area_m),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(0.6f),
@@ -509,13 +512,13 @@ private fun BurnAssessmentSection(bsa: Float) {
                             .padding(horizontal = 8.dp, vertical = 5.dp)
                     ) {
                         Text(
-                            text = "Total",
+                            text = stringResource(R.string.txt_total_1),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.weight(1.2f)
                         )
                         Text(
-                            text = "100%",
+                            text = stringResource(R.string.txt_100_1),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.weight(0.5f),
@@ -537,7 +540,7 @@ private fun BurnAssessmentSection(bsa: Float) {
 
             // Burn severity info
             Text(
-                text = "Burn Severity Classification",
+                text = stringResource(R.string.txt_burn_severity_classification),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -550,7 +553,7 @@ private fun BurnAssessmentSection(bsa: Float) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "ℹ️ The Rule of Nines is modified for children, where the head represents a larger percentage. This reference is for adult proportions only.",
+                text = stringResource(R.string.txt_the_rule_of_nines_is_modified_),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 16.sp
@@ -617,7 +620,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     center = Offset(headCX, headCY),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("9%", headCX, headCY + 4.dp.toPx(), percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), headCX, headCY + 4.dp.toPx(), percentPaint)
 
                 // Torso front
                 val torsoTop = h * 0.14f
@@ -635,8 +638,8 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(torsoRight - torsoLeft, torsoBottom - torsoTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("18%", w * 0.5f, h * 0.31f, percentPaint)
-                drawContext.canvas.nativeCanvas.drawText("Front", w * 0.5f, h * 0.35f, textPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.5f, h * 0.31f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_front), w * 0.5f, h * 0.35f, textPaint)
 
                 // Left arm
                 drawRect(
@@ -650,7 +653,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.18f, h * 0.28f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("9%", w * 0.17f, h * 0.29f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), w * 0.17f, h * 0.29f, percentPaint)
 
                 // Right arm
                 drawRect(
@@ -664,7 +667,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.18f, h * 0.28f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("9%", w * 0.83f, h * 0.29f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), w * 0.83f, h * 0.29f, percentPaint)
 
                 // Groin
                 drawRect(
@@ -678,7 +681,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.24f, h * 0.04f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("1%", w * 0.5f, h * 0.48f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_1), w * 0.5f, h * 0.48f, percentPaint)
 
                 // Left leg
                 val legTop = h * 0.49f
@@ -694,7 +697,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.2f, legBottom - legTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("18%", w * 0.38f, h * 0.72f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.38f, h * 0.72f, percentPaint)
 
                 // Right leg
                 drawRect(
@@ -708,10 +711,10 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.2f, legBottom - legTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText("18%", w * 0.62f, h * 0.72f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.62f, h * 0.72f, percentPaint)
 
                 // Back label (pointer)
-                drawContext.canvas.nativeCanvas.drawText("Back: 18%", w * 0.5f, h * 0.99f, textPaint)
+                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_back_18), w * 0.5f, h * 0.99f, textPaint)
             }
         }
     }
@@ -769,7 +772,7 @@ private fun RenalFunctionSection(bsa: Float) {
     ) {
         Column {
             Text(
-                text = "Glomerular Filtration Rate (GFR) measures how well your kidneys filter blood. In clinical practice, GFR is normalized to a standard BSA of 1.73 m² to allow meaningful comparisons between individuals of different sizes.",
+                text = stringResource(R.string.txt_glomerular_filtration_rate_gfr),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 18.sp
@@ -790,7 +793,7 @@ private fun RenalFunctionSection(bsa: Float) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Standard Reference BSA",
+                        text = stringResource(R.string.txt_standard_reference_bsa),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = HealthTeal
@@ -803,12 +806,12 @@ private fun RenalFunctionSection(bsa: Float) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Standard", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("1.73 m²", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, color = HealthTeal)
+                            Text(stringResource(R.string.txt_standard), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(stringResource(R.string.txt_1_73_m), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, color = HealthTeal)
                         }
-                        Text("vs", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_vs), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Yours", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(stringResource(R.string.txt_yours), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             Text(
                                 "${"%.4f".format(bsa)} m²",
                                 style = MaterialTheme.typography.titleMedium,
@@ -834,7 +837,7 @@ private fun RenalFunctionSection(bsa: Float) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "GFR Adjustment Formula",
+                text = stringResource(R.string.txt_gfr_adjustment_formula),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -847,7 +850,7 @@ private fun RenalFunctionSection(bsa: Float) {
             ) {
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
-                        text = "Adjusted GFR = Measured GFR × (1.73 / Patient BSA)",
+                        text = stringResource(R.string.txt_adjusted_gfr_measured_gfr_1_73),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -863,7 +866,7 @@ private fun RenalFunctionSection(bsa: Float) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "Normal GFR by Age",
+                text = stringResource(R.string.txt_normal_gfr_by_age),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -932,7 +935,7 @@ private fun CardiacIndexSection(bsa: Float) {
     ) {
         Column {
             Text(
-                text = "Cardiac Index (CI) is the cardiac output (the amount of blood your heart pumps per minute) divided by your Body Surface Area. This normalization allows comparison of heart performance across people of different body sizes.",
+                text = stringResource(R.string.txt_cardiac_index_ci_is_the_cardia),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 18.sp
@@ -951,7 +954,7 @@ private fun CardiacIndexSection(bsa: Float) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Cardiac Index = Cardiac Output ÷ BSA",
+                        text = stringResource(R.string.txt_cardiac_index_cardiac_output_b),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
@@ -970,7 +973,7 @@ private fun CardiacIndexSection(bsa: Float) {
 
             // Example calculations
             Text(
-                text = "Example: If cardiac output is 5 L/min",
+                text = stringResource(R.string.txt_example_if_cardiac_output_is_5),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -992,17 +995,17 @@ private fun CardiacIndexSection(bsa: Float) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("CO", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("5.0 L/min", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.txt_co), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_5_0_l_min), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
                     }
-                    Text("÷", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.txt_text_placeholder_38), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("BSA", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_bsa), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text("${"%.2f".format(bsa)} m²", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
                     }
-                    Text("=", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.txt_text_placeholder_26), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("CI", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.txt_ci), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text(
                             "${"%.1f".format(ci)} L/min/m²",
                             style = MaterialTheme.typography.bodyMedium,
@@ -1017,7 +1020,7 @@ private fun CardiacIndexSection(bsa: Float) {
 
             // Normal ranges
             Text(
-                text = "Cardiac Index Reference Ranges",
+                text = stringResource(R.string.txt_cardiac_index_reference_ranges),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -1031,7 +1034,7 @@ private fun CardiacIndexSection(bsa: Float) {
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "ℹ️ Cardiac Index is measured using echocardiography or cardiac catheterization, not calculable from BSA alone. Your doctor uses CI to assess heart performance relative to your body size.",
+                text = stringResource(R.string.txt_cardiac_index_is_measured_usin),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 16.sp
@@ -1198,14 +1201,14 @@ private fun FinalDisclaimerCard() {
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
-                    text = "Important Reminder",
+                    text = stringResource(R.string.txt_important_reminder),
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.error
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "All medical applications shown above are for educational understanding only. BSA calculations in this app should not be used for clinical decision-making, drug dosing, or medical treatment. Always consult with qualified healthcare professionals for any medical decisions.",
+                    text = stringResource(R.string.txt_all_medical_applications_shown),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     lineHeight = 17.sp
