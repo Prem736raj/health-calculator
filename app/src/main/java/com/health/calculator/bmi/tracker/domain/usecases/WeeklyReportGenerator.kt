@@ -9,7 +9,7 @@ import com.health.calculator.bmi.tracker.data.repository.*
 import kotlinx.coroutines.flow.first
 import java.util.Calendar
 
-class WeeklyReportGenerator(
+class WeeklyReportGenerator @javax.inject.Inject constructor(
     private val weeklyReportDao: WeeklyReportDao,
     private val historyRepository: HistoryRepository,
     private val weightRepository: WeightRepository,

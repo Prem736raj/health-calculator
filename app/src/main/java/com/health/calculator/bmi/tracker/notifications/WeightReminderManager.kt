@@ -53,7 +53,7 @@ class WeightReminderReceiver : BroadcastReceiver() {
     }
 }
 
-class WeightReminderManager(@ApplicationContext private val context: Context) {
+class WeightReminderManager @javax.inject.Inject constructor(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

@@ -48,7 +48,6 @@ import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.BmiCalculato
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.BmiViewModel
 import com.health.calculator.bmi.tracker.ui.screens.bmr.BMRCalculatorScreen
 import com.health.calculator.bmi.tracker.presentation.profile.ProfileViewModel
-import com.health.calculator.bmi.tracker.presentation.profile.ProfileViewModelFactory
 import com.health.calculator.bmi.tracker.presentation.weight.WeightTrackingScreen
 import com.health.calculator.bmi.tracker.presentation.weight.WeightTrackingViewModel
 import com.health.calculator.bmi.tracker.presentation.profile.MultiProfileViewModel
@@ -92,6 +91,7 @@ import com.health.calculator.bmi.tracker.notifications.ReminderScheduler
 import com.health.calculator.bmi.tracker.ui.screens.welcomeback.WelcomeBackViewModel
 import com.health.calculator.bmi.tracker.ui.screens.welcomeback.WelcomeBackScreen
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
+import com.health.calculator.bmi.tracker.ui.screens.aicoach.AiCoachScreen
 
 private const val NAV_ANIMATION_DURATION = AppConstants.ANIMATION_DURATION_MEDIUM
 const val WATER_REMINDER_SETTINGS_ROUTE = "water_reminder_settings"
@@ -106,6 +106,7 @@ fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val app = context.applicationContext as HealthCalculatorApp
     val scope = rememberCoroutineScope()
 
@@ -220,7 +221,9 @@ fun NavGraph(
                 onNavigateToCalorie = { navController.navigate(Screen.DailyCalorieCalculator.route) { launchSingleTop = true } },
                 onNavigateToHeartRate = { navController.navigate(Screen.HeartRateZoneCalculator.route) { launchSingleTop = true } },
                 onNavigateToHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } },
-                onNavigateToProfile = { navController.navigate(Screen.Profile.route) { launchSingleTop = true } }
+                onNavigateToProfile = { navController.navigate(Screen.Profile.route) { launchSingleTop = true } },
+                onNavigateToSettings = { navController.navigate(Screen.Settings.route) { launchSingleTop = true } },
+                onNavigateToAiCoach = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } }
             )
         }
 
@@ -240,13 +243,11 @@ fun NavGraph(
 
         composable(route = Screen.Profile.route) {
             val multiProfileViewModel: MultiProfileViewModel = hiltViewModel()
-            )
             val profileViewModel: ProfileViewModel = hiltViewModel()
-                )
-            )
-
-            val milestonesViewModel: MilestonesViewModel = hiltViewModel(): T {
-                        @Suppress("UNCHECKED_CAST")
+            val milestonesViewModel: MilestonesViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         return MilestonesViewModel(
                             app.milestonesRepository,
                             app.healthOverviewRepository
@@ -291,8 +292,10 @@ fun NavGraph(
         }
 
         composable(route = Screen.Achievements.route) {
-            val milestonesViewModel: MilestonesViewModel = hiltViewModel(): T {
-                        @Suppress("UNCHECKED_CAST")
+            val milestonesViewModel: MilestonesViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         return MilestonesViewModel(
                             app.milestonesRepository,
                             app.healthOverviewRepository
@@ -310,8 +313,10 @@ fun NavGraph(
         }
 
         composable(route = Screen.Reminders.route) {
-            val remindersViewModel: RemindersViewModel = hiltViewModel(): T {
-                        @Suppress("UNCHECKED_CAST")
+            val remindersViewModel: RemindersViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         return RemindersViewModel(
                             reminderRepository = app.reminderRepository,
                             reminderScheduler = ReminderScheduler(context),
@@ -330,8 +335,10 @@ fun NavGraph(
         }
 
         composable(route = "welcome_back") {
-            val welcomeBackViewModel: WelcomeBackViewModel = hiltViewModel(): T {
-                        @Suppress("UNCHECKED_CAST")
+            val welcomeBackViewModel: WelcomeBackViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         return WelcomeBackViewModel(
                             inactivityRepository = InactivityRepository(context),
                             profileRepository = app.profileRepository,
@@ -357,8 +364,10 @@ fun NavGraph(
         }
 
         composable(route = Screen.WeeklyReport.route) {
-            val weeklyReportViewModel: com.health.calculator.bmi.tracker.ui.screens.reports.WeeklyReportViewModel = hiltViewModel(): T {
-                        @Suppress("UNCHECKED_CAST")
+            val weeklyReportViewModel: com.health.calculator.bmi.tracker.ui.screens.reports.WeeklyReportViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
                         return com.health.calculator.bmi.tracker.ui.screens.reports.WeeklyReportViewModel(
                             com.health.calculator.bmi.tracker.domain.usecases.WeeklyReportGenerator(
                                 app.weeklyReportDao,
@@ -386,7 +395,6 @@ fun NavGraph(
 
         composable(route = Screen.HealthConnections.route) {
             val multiProfileViewModel: MultiProfileViewModel = hiltViewModel()
-            )
             val state by multiProfileViewModel.uiState.collectAsState()
             
             HealthConnectionsScreen(
@@ -402,7 +410,6 @@ fun NavGraph(
 
         composable(route = Screen.WeightTracking.route) {
             val weightViewModel: WeightTrackingViewModel = hiltViewModel()
-            )
             WeightTrackingScreen(
                 viewModel = weightViewModel,
                 onBackClick = { navController.popBackStack() }
@@ -448,7 +455,6 @@ fun NavGraph(
         // ── BMI Calculator (Full Implementation) ──────────────────────
         composable(route = Screen.BmiCalculator.route) {
             val bmiViewModel: BmiViewModel = hiltViewModel()
-            )
             BmiCalculatorScreen(
                 viewModel = bmiViewModel,
                 onNavigateBack = {
@@ -461,8 +467,6 @@ fun NavGraph(
         }
         composable(route = Screen.BmrCalculator.route) {
             val profileViewModel: ProfileViewModel = hiltViewModel()
-                )
-            )
             val profileState = profileViewModel.uiState.collectAsState().value
 
             BMRCalculatorScreen(
@@ -492,7 +496,6 @@ fun NavGraph(
             }
         ) {
             val bpViewModel: BloodPressureViewModel = hiltViewModel()
-            )
             BloodPressureScreen(
                 viewModel = bpViewModel,
                 onNavigateBack = { navController.popBackStack() },
@@ -586,13 +589,15 @@ fun NavGraph(
                 val age = backStackEntry.arguments?.getInt("age") ?: 25
                 val profileStore = remember { com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore(context) }
                 val whrRepository = remember { com.health.calculator.bmi.tracker.data.repository.WhrRepository(context) }
-                val viewModel: com.health.calculator.bmi.tracker.ui.screens.whr.WhrResultViewModel = hiltViewModel(): T {
-                            @Suppress("UNCHECKED_CAST")
+                val viewModel: com.health.calculator.bmi.tracker.ui.screens.whr.WhrResultViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
                             return com.health.calculator.bmi.tracker.ui.screens.whr.WhrResultViewModel(profileStore, app) as T
                         }
                     }
                 )
-                
+
                 androidx.compose.runtime.LaunchedEffect(waist, hip, genderStr, age) {
                     viewModel.calculateResult(waist, hip, gender, age)
                 }
@@ -644,7 +649,6 @@ fun NavGraph(
         ) {
             val repository = remember { com.health.calculator.bmi.tracker.data.repository.WhrRepository(context) }
             val viewModel: com.health.calculator.bmi.tracker.ui.screens.whr.WhrProgressViewModel = hiltViewModel()
-            )
 
             com.health.calculator.bmi.tracker.ui.screens.whr.WhrProgressScreen(
                 viewModel = viewModel,
@@ -786,12 +790,9 @@ fun NavGraph(
                 ) 
             }
             val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel = hiltViewModel()
-            )
 
             // Auto-populate from profile if available
             val profileViewModel: ProfileViewModel = hiltViewModel()
-                )
-            )
             val profileState = profileViewModel.uiState.collectAsState().value
             
             androidx.compose.runtime.LaunchedEffect(profileState) {
@@ -836,13 +837,7 @@ fun NavGraph(
             }
             // Use the previous back stack entry to share the ViewModel
             val previousEntry = remember { navController.previousBackStackEntry }
-            val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel = if (previousEntry != null) {
-                hiltViewModel()
-                )
-            } else {
-                hiltViewModel()
-                )
-            }
+            val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel = hiltViewModel()
 
             com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeResultScreen(
                 viewModel = waterIntakeViewModel,
@@ -904,12 +899,9 @@ fun NavGraph(
             }
         ) {
             val profileViewModel: ProfileViewModel = hiltViewModel()
-                )
-            )
             val profileState by profileViewModel.uiState.collectAsState()
-            
+
             val bpViewModel: BloodPressureViewModel = hiltViewModel()
-            )
             val lastPulseReading by bpViewModel.lastPulseReading.collectAsState()
 
             val historyViewModel: HistoryViewModel = hiltViewModel()
@@ -1019,7 +1011,6 @@ fun NavGraph(
                 ) 
             }
             val waterTrackingViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterTrackingViewModel = hiltViewModel()
-            )
 
             val gamificationRepository = remember {
                 com.health.calculator.bmi.tracker.data.repository.WaterGamificationRepository(
@@ -1027,7 +1018,6 @@ fun NavGraph(
                 )
             }
             val gamificationViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterGamificationViewModel = hiltViewModel()
-            )
 
             // Check for yesterday's data on screen load
             androidx.compose.runtime.LaunchedEffect(Unit) {

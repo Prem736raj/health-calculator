@@ -46,7 +46,7 @@ data class RemindersUiState(
 class RemindersViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val reminderScheduler: ReminderScheduler,
-    private val context: android.content.Context
+    @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context
 ) : ViewModel() {
 
     private val notificationStats = com.health.calculator.bmi.tracker.notifications.NotificationStatistics(context)

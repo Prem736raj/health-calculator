@@ -652,7 +652,7 @@ private fun TrendStat(emoji: String, label: String, value: String) {
 // ============================================================
 
 fun shareHeartRateZonesAsImage(
-    @ApplicationContext context: Context,
+    context: Context,
     result: HeartRateZoneResult
 ) {
     val width = 1080
@@ -692,12 +692,12 @@ fun shareHeartRateZonesAsImage(
     }
 
     // Title
-    canvas.drawText(stringResource(R.string.txt_my_heart_rate_zones), 60f, 80f, titlePaint)
+    canvas.drawText(context.getString(R.string.txt_my_heart_rate_zones), 60f, 80f, titlePaint)
     canvas.drawText("Age: ${result.age} | ${result.formulaUsed.label} Formula", 60f, 130f, subtitlePaint)
 
     // MHR
     canvas.drawText("${result.maxHeartRate}", width / 2f, 250f, mhrPaint)
-    canvas.drawText(stringResource(R.string.txt_max_heart_rate_bpm), width / 2f, 290f, mhrLabelPaint)
+    canvas.drawText(context.getString(R.string.txt_max_heart_rate_bpm), width / 2f, 290f, mhrLabelPaint)
 
     if (result.restingHeartRate != null) {
         canvas.drawText("Resting: ${result.restingHeartRate} BPM | Reserve: ${result.heartRateReserve} BPM",
@@ -763,7 +763,7 @@ fun shareHeartRateZonesAsImage(
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
-    canvas.drawText(stringResource(R.string.txt_generated_by_health_calculator), width / 2f, yPos, footerPaint)
+    canvas.drawText(context.getString(R.string.txt_generated_by_health_calculator), width / 2f, yPos, footerPaint)
 
     // Save and share
     try {

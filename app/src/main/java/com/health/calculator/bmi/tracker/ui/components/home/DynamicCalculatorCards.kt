@@ -57,21 +57,21 @@ fun DynamicCalculatorCard(
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 onClick()
             },
-        shape = RoundedCornerShape(22.dp),
+        shape = RoundedCornerShape(24.dp),
         border = BorderStroke(
             1.dp,
-            accentColor.copy(alpha = 0.18f)
+            accentColor.copy(alpha = 0.15f)
         ),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.horizontalGradient(
+                    brush = Brush.verticalGradient(
                         colors = listOf(
                             accentColor.copy(alpha = 0.1f),
                             MaterialTheme.colorScheme.surface
@@ -79,113 +79,67 @@ fun DynamicCalculatorCard(
                     )
                 )
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalAlignment = Alignment.Start
         ) {
-            // Emoji/Progress ring container
-            Box(
-                modifier = Modifier.size(52.dp),
-                contentAlignment = Alignment.Center
+            // Header: Emoji / Progress Ring
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
             ) {
-                if (progressRing != null) {
-                    progressRing()
-                } else {
-                    // Default emoji background
-                    Box(
-                        modifier = Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(
-                                brush = Brush.radialGradient(
-                                    colors = listOf(
-                                        accentColor.copy(alpha = 0.28f),
-                                        accentColor.copy(alpha = 0.08f)
-                                    )
-                                )
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = emoji, fontSize = 24.sp)
-                    }
-                }
-
-                // Attention indicator
-                if (needsAttention) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .offset(x = 4.dp, y = (-4).dp)
-                            .size(14.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFFF44336)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_text_placeholder_7),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.width(14.dp))
-
-            // Content
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(2.dp))
-
-                if (hasData) {
-                    dataContent()
-                } else {
-                    Text(
-                        text = description,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        lineHeight = 16.sp
-                    )
-                }
-
-                // Attention message
-                if (needsAttention && attentionMessage != null) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier.size(48.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (progressRing != null) {
+                        progressRing()
+                    } else {
+                        // Default emoji background
                         Box(
                             modifier = Modifier
-                                .size(6.dp)
-                                .clip(CircleShape)
-                                .background(Color(0xFFF44336))
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = attentionMessage,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color(0xFFF44336),
-                            fontSize = 10.sp,
-                            maxLines = 1
-                        )
+                                .size(48.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(
+                                    brush = Brush.radialGradient(
+                                        colors = listOf(
+                                            accentColor.copy(alpha = 0.25f),
+                                            accentColor.copy(alpha = 0.05f)
+                                        )
+                                    )
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = emoji, fontSize = 22.sp)
+                        }
                     }
                 }
             }
 
-            // Chevron
-            Icon(
-                Icons.Default.ChevronRight,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Title and Description
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            if (hasData) {
+                dataContent()
+            } else {
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 14.sp
+                )
+            }
         }
     }
 }

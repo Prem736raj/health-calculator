@@ -19,3 +19,47 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# --- Custom ProGuard Rules ---
+
+# Keep line numbers for Crashlytics/stack traces
+-keepattributes SourceFile,LineNumberTable
+
+# Coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+
+# Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.health.calculator.bmi.tracker.data.model.** { *; }
+
+# Compose
+-keepclassmembers class * {
+    @androidx.compose.runtime.Composable <methods>;
+}
+
+# Room
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
+
+# Hilt
+-keep,allowobfuscation,allowshrinking @dagger.hilt.android.AndroidEntryPoint class *
+-keep,allowobfuscation,allowshrinking @dagger.hilt.android.HiltAndroidApp class *
+
+# Coil
+-keep class coil.** { *; }
+
+# Google Drive API
+-keep class com.google.api.services.drive.** { *; }
+-keep class com.google.api.client.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn org.ietf.jgss.**
+-dontwarn sun.misc.Unsafe
+-dontwarn javax.naming.**
+-dontwarn javax.net.ssl.**

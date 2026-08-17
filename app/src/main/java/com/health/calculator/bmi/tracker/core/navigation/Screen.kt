@@ -56,6 +56,7 @@ sealed class Screen(val route: String) {
     data object WeightTracking : Screen("weight_tracking")
     data object Reminders : Screen("reminders")
     data object WeeklyReport : Screen("weekly_report")
+    data object AiCoach : Screen("ai_coach")
 
     companion object {
         /**

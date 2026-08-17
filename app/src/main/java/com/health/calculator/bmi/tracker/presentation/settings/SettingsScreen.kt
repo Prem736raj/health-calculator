@@ -76,6 +76,9 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.HealthConnectClient
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -145,6 +148,13 @@ fun SettingsScreen(
         showContent = true
     }
 
+    // ── Health Connect ────────────────────────────────────────────────────
+    val healthConnectPermissionLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { granted ->
+        viewModel.checkHealthConnectStatus()
+    }
+
     // ── Snackbar Messages ─────────────────────────────────────────────────
     LaunchedEffect(uiState.showExportSuccessMessage) {
         if (uiState.showExportSuccessMessage) {
@@ -173,6 +183,16 @@ fun SettingsScreen(
                 duration = SnackbarDuration.Short
             )
             viewModel.dismissExportStatusMessage()
+        }
+    }
+
+    LaunchedEffect(uiState.healthConnectSyncStatus) {
+        uiState.healthConnectSyncStatus?.let { message ->
+            snackbarHostState.showSnackbar(
+                message = message,
+                duration = SnackbarDuration.Short
+            )
+            viewModel.dismissHealthConnectSyncStatus()
         }
     }
 
@@ -408,6 +428,26 @@ fun SettingsScreen(
                                 subtitle = "Cloud and local data sync",
                                 onClick = onNavigateToBackup
                             )
+
+                            if (uiState.isHealthConnectSupported) {
+                                SettingsDivider()
+
+                                SettingsClickItem(
+                                    icon = Icons.Outlined.Shield, // You could use a health icon
+                                    iconTint = Color(0xFFE91E63),
+                                    title = "Google Health Connect",
+                                    subtitle = if (uiState.isHealthConnectConnected) "Connected - Sync Data" else "Not Connected - Grant Permissions",
+                                    onClick = {
+                                        if (uiState.isHealthConnectConnected) {
+                                            viewModel.syncHealthConnectData()
+                                        } else {
+                                            healthConnectPermissionLauncher.launch(
+                                                viewModel.healthConnectManager.permissions
+                                            )
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
 

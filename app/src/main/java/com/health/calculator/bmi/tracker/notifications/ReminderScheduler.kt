@@ -10,7 +10,7 @@ import android.os.Build
 import com.health.calculator.bmi.tracker.data.models.Reminder
 import java.util.Calendar
 
-class ReminderScheduler(@ApplicationContext private val context: Context) {
+class ReminderScheduler @javax.inject.Inject constructor(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

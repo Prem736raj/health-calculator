@@ -32,12 +32,6 @@ fun CalculatorCardsGrid(
                 onClick = { onNavigate("bmi_calculator") },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
             BMRCalculatorCard(
                 lastBMR = state.lastBMR,
                 lastTDEE = state.lastTDEE,
@@ -58,12 +52,6 @@ fun CalculatorCardsGrid(
                 onClick = { onNavigate("blood_pressure_checker") },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
             WHRCalculatorCard(
                 lastWHR = state.lastWHR,
                 lastCategory = state.lastWHRCategory,
@@ -72,7 +60,7 @@ fun CalculatorCardsGrid(
             )
         }
 
-        // Row 3: Water & Calories (live progress)
+        // Row 3: Water & Calories
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -83,12 +71,6 @@ fun CalculatorCardsGrid(
                 onClick = { onNavigate("water_intake_calculator") },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
             CalorieCalculatorCard(
                 consumedCalories = state.caloriesConsumedToday,
                 targetCalories = state.calorieTargetToday,
@@ -107,12 +89,6 @@ fun CalculatorCardsGrid(
                 onClick = { onNavigate("metabolic_syndrome_checker") },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
             BSACalculatorCard(
                 lastBSA = state.lastBSA,
                 onClick = { onNavigate("bsa_calculator") },
@@ -131,12 +107,6 @@ fun CalculatorCardsGrid(
                 onClick = { onNavigate("ibw_calculator") },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
             HeartRateZonesCard(
                 maxHR = state.maxHeartRate,
                 restingHR = state.restingHeartRate,

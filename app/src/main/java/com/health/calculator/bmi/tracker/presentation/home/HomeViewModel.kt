@@ -5,6 +5,7 @@ import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectManager
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.BpHomeCardInfo
 import com.health.calculator.bmi.tracker.data.provider.BpHomeCardProvider
@@ -37,7 +38,10 @@ data class HomeUiState(
 )
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class HomeViewModel @Inject constructor(
+    application: Application,
+    private val healthConnectManager: HealthConnectManager
+) : AndroidViewModel(application) {
     
     private val database = AppDatabase.getInstance(application)
     private val bmrPrefs = com.health.calculator.bmi.tracker.data.preferences.BMRLastValuePreferences(application)
@@ -52,14 +56,30 @@ class HomeViewModel @Inject constructor(application: Application) : AndroidViewM
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    
+    private val stepsFlow = MutableStateFlow<Int?>(null)
 
     init {
         observeBmr()
         observeBp()
         observeWhr()
         observeHeartRate()
+        fetchHealthConnectData()
         observeHealthMetrics()
         observeRecommendations()
+    }
+    
+    private fun fetchHealthConnectData() {
+        viewModelScope.launch {
+            try {
+                if (healthConnectManager.isSupported.value && healthConnectManager.hasAllPermissions()) {
+                    val steps = healthConnectManager.readDailySteps()
+                    stepsFlow.update { steps.toInt() }
+                }
+            } catch (e: Exception) {
+                // Ignore errors silently for home screen
+            }
+        }
     }
 
     private fun observeWhr() {
@@ -131,12 +151,16 @@ class HomeViewModel @Inject constructor(application: Application) : AndroidViewM
                 kotlinx.coroutines.flow.combine(
                     bmrPrefs.lastValueFlow,
                     historyRepository.getLatestEntry(com.health.calculator.bmi.tracker.data.model.CalculatorType.BSA),
-                    bmiGoalPrefs.bmiGoalFlow
-                ) { bmr, bsa, goal -> Triple(bmr, bsa, goal) }
-            ) { firstThree, lastThree, extraThree ->
+                    bmiGoalPrefs.bmiGoalFlow,
+                    stepsFlow
+                ) { bmr, bsa, goal, steps -> listOf(bmr, bsa, goal, steps) }
+            ) { firstThree, lastThree, extraList ->
                 val (bmiEntry, bpReadings, whrEntries) = firstThree
                 val (waterIntake, dailyFoodLog, hrEntry) = lastThree
-                val (bmrValue, bsaEntry, bmiGoal) = extraThree
+                val bmrValue = extraList[0] as com.health.calculator.bmi.tracker.data.preferences.BMRLastValue
+                val bsaEntry = extraList[1] as? com.health.calculator.bmi.tracker.data.model.HistoryEntry
+                val bmiGoal = extraList[2] as com.health.calculator.bmi.tracker.data.model.BMIGoalData
+                val steps = extraList[3] as? Int
                 
                 val lastBp = bpReadings.maxByOrNull { it.measurementTimestamp }
                 val lastWhr = whrEntries.maxByOrNull { it.timestamp }
@@ -176,7 +200,8 @@ class HomeViewModel @Inject constructor(application: Application) : AndroidViewM
                     caloriesConsumedToday = dailyFoodLog.entries.sumOf { it.calories }.toInt(),
                     calorieTargetToday = dailyFoodLog.targetCalories.toInt(),
                     restingHR = restingHR,
-                    restingHRTimestamp = hrEntry?.timestamp
+                    restingHRTimestamp = hrEntry?.timestamp,
+                    stepsToday = steps
                 )
 
                 val score = com.health.calculator.bmi.tracker.util.HealthScoreCalculator.calculateHealthScore(metrics)

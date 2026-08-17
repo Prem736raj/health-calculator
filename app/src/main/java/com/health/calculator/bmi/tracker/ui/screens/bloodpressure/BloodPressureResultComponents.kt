@@ -458,6 +458,8 @@ private fun BpSemiCircularGauge(
 
     val density = LocalDensity.current
     val textColor = MaterialTheme.colorScheme.onSurface
+    val lowLabel = stringResource(R.string.txt_low)
+    val highLabel = stringResource(R.string.txt_high)
 
     Canvas(modifier = modifier) {
         val canvasWidth = size.width
@@ -555,13 +557,13 @@ private fun BpSemiCircularGauge(
 
         drawContext.canvas.nativeCanvas.apply {
             drawText(
-                stringResource(R.string.txt_low),
+                lowLabel,
                 centerX - radius - 4.dp.toPx(),
                 centerY + 16.dp.toPx(),
                 labelPaint
             )
             drawText(
-                stringResource(R.string.txt_high),
+                highLabel,
                 centerX + radius + 4.dp.toPx(),
                 centerY + 16.dp.toPx(),
                 labelPaint

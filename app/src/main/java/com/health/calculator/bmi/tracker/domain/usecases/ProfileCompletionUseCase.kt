@@ -9,7 +9,7 @@ data class ProfileCompletionResult(
     val suggestions: List<String>
 )
 
-class ProfileCompletionUseCase {
+class ProfileCompletionUseCase @javax.inject.Inject constructor() {
 
     fun calculate(profile: UserProfile): ProfileCompletionResult {
         val fields = mutableListOf<Pair<String, Boolean>>()

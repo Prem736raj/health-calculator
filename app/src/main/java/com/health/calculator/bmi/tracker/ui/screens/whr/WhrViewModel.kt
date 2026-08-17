@@ -35,7 +35,7 @@ data class WhrInputState(
 
 @HiltViewModel
 class WhrViewModel @Inject constructor(
-    private val profileDataStore: ProfileDataStore? = null
+    private val profileDataStore: ProfileDataStore
 ) : ViewModel() {
 
     private val _inputState = MutableStateFlow(WhrInputState())
@@ -47,26 +47,24 @@ class WhrViewModel @Inject constructor(
 
     private fun loadProfileData() {
         viewModelScope.launch {
-            profileDataStore?.let { prefs ->
-                prefs.profileFlow.collect { profile ->
-                    if (profile.heightCm > 0) {
-                        
-                        // Calculate age from DOB if available
-                        var userAge = 0
-                        profile.dateOfBirthMillis?.let { dobMillis ->
-                            val dob = Instant.ofEpochMilli(dobMillis).atZone(ZoneId.systemDefault()).toLocalDate()
-                            val now = LocalDate.now()
-                            userAge = ChronoUnit.YEARS.between(dob, now).toInt()
-                        }
-                        
-                        _inputState.update {
-                            it.copy(
-                                gender = if (profile.gender != Gender.NOT_SET) profile.gender else Gender.MALE,
-                                age = if (userAge > 0) userAge.toString() else "",
-                                useMetric = profile.heightUnit == HeightUnit.CM,
-                                isProfileDataLoaded = true
-                            )
-                        }
+            profileDataStore.profileFlow.collect { profile ->
+                if (profile.heightCm > 0) {
+                    
+                    // Calculate age from DOB if available
+                    var userAge = 0
+                    profile.dateOfBirthMillis?.let { dobMillis ->
+                        val dob = Instant.ofEpochMilli(dobMillis).atZone(ZoneId.systemDefault()).toLocalDate()
+                        val now = LocalDate.now()
+                        userAge = ChronoUnit.YEARS.between(dob, now).toInt()
+                    }
+                    
+                    _inputState.update {
+                        it.copy(
+                            gender = if (profile.gender != Gender.NOT_SET) profile.gender else Gender.MALE,
+                            age = if (userAge > 0) userAge.toString() else "",
+                            useMetric = profile.heightUnit == HeightUnit.CM,
+                            isProfileDataLoaded = true
+                        )
                     }
                 }
             }

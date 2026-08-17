@@ -93,7 +93,9 @@ data class HealthMetricsSnapshot(
     val calorieTargetToday: Int = 0,
     
     val restingHR: Int? = null,
-    val restingHRTimestamp: Long? = null
+    val restingHRTimestamp: Long? = null,
+    
+    val stepsToday: Int? = null
 )
 
 data class QuickStat(
@@ -507,6 +509,28 @@ object HealthScoreCalculator {
                     color = color,
                     progress = progress.coerceAtMost(1f),
                     calculatorRoute = "calorie_calculator"
+                )
+            )
+        }
+
+        // Steps Progress
+        if (metrics.stepsToday != null) {
+            val progress = (metrics.stepsToday.toFloat() / 10000).coerceIn(0f, 1f) // 10k default goal
+            val color = when {
+                progress >= 1f -> Color(0xFF4CAF50)
+                progress >= 0.5f -> Color(0xFF2196F3)
+                else -> Color(0xFFFF9800)
+            }
+            stats.add(
+                QuickStat(
+                    id = "steps",
+                    emoji = "👟",
+                    label = "Steps",
+                    value = "${metrics.stepsToday}",
+                    subValue = "/10000",
+                    color = color,
+                    progress = progress,
+                    calculatorRoute = "home" // No specific calculator route for steps yet
                 )
             )
         }

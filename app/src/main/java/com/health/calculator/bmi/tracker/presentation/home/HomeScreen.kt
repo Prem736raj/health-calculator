@@ -12,11 +12,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,6 +48,8 @@ fun HomeScreen(
     onNavigateToHeartRate: () -> Unit,
     onNavigateToHistory: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToAiCoach: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     searchViewModel: HomeSearchViewModel = hiltViewModel(),
     dailyViewModel: DailyContentViewModel = hiltViewModel()
@@ -86,10 +93,35 @@ fun HomeScreen(
                     )
                 )
             ) {
-                PersonalizedGreeting(
-                    userName = null, // Integration point for profile name in future prompts
-                    modifier = Modifier.statusBarsPadding()
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth().statusBarsPadding(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    PersonalizedGreeting(
+                        userName = null, // Integration point for profile name in future prompts
+                        modifier = Modifier.weight(1f)
+                    )
+                    Row(
+                        modifier = Modifier.padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = onNavigateToHistory) {
+                            Icon(
+                                imageVector = androidx.compose.material.icons.Icons.Default.History,
+                                contentDescription = "History",
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                        IconButton(onClick = onNavigateToSettings) {
+                            Icon(
+                                imageVector = androidx.compose.material.icons.Icons.Default.Settings,
+                                contentDescription = "Settings",
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
                 HomeSearchBar(
                     query = searchQuery,
                     onQueryChange = { 
@@ -120,6 +152,15 @@ fun HomeScreen(
                     }
                 )
             }
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = onNavigateToAiCoach,
+                icon = { Icon(Icons.Filled.AutoAwesome, "AI Coach") },
+                text = { Text("AI Coach") },
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         }
     ) { paddingValues ->
         PullToRefreshBox(
@@ -263,7 +304,8 @@ fun HomeScreen(
                                 "calorie_calculator" -> onNavigateToCalorie()
                                 "heart_rate_zone_calculator" -> onNavigateToHeartRate()
                             }
-                        }
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
 

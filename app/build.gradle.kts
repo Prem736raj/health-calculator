@@ -8,30 +8,53 @@ plugins {
     alias(libs.plugins.hilt.android)
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
 android {
     namespace = "com.health.calculator.bmi.tracker"
     compileSdk = 35
 
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(FileInputStream(localPropertiesFile))
+    }
+    val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY", "")
+
     defaultConfig {
         applicationId = "com.health.calculator.bmi.tracker"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+    }
+
+    signingConfigs {
+        create("release") {
+            // TODO: Replace with actual keystore properties via local.properties or environment variables
+            storeFile = file("release-key.keystore")
+            storePassword = "password"
+            keyAlias = "alias"
+            keyPassword = "password"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -44,6 +67,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     
     packaging {
@@ -55,8 +79,8 @@ android {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
-    
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -113,6 +137,12 @@ dependencies {
 
     // QR Code generation
     implementation(libs.zxing.core)
+
+    // Generative AI
+    implementation(libs.google.ai.client.generativeai)
+
+    // Health Connect
+    implementation(libs.androidx.health.connect.client)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

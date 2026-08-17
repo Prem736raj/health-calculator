@@ -5,6 +5,7 @@ import javax.inject.Inject
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectManager
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.export.DataExportManager
@@ -48,7 +49,12 @@ data class SettingsUiState(
     val exportStatusMessage: String? = null,
     val showClearSuccessMessage: Boolean = false,
     val showUnitSystemPicker: Boolean = false,
-    val showThemePicker: Boolean = false
+    val showThemePicker: Boolean = false,
+
+    // ── Health Connect State ──────────────────────────────────────────
+    val isHealthConnectSupported: Boolean = false,
+    val isHealthConnectConnected: Boolean = false,
+    val healthConnectSyncStatus: String? = null
 )
 
 /**
@@ -56,7 +62,10 @@ data class SettingsUiState(
  * Manages settings state, persistence, and data management actions.
  */
 @HiltViewModel
-class SettingsViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class SettingsViewModel @Inject constructor(
+    application: Application,
+    val healthConnectManager: HealthConnectManager
+) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
     private val appDatabase = AppDatabase.getDatabase(appContext)
 
@@ -75,6 +84,41 @@ class SettingsViewModel @Inject constructor(application: Application) : AndroidV
 
     init {
         loadSettings()
+        checkHealthConnectStatus()
+    }
+
+    fun checkHealthConnectStatus() {
+        viewModelScope.launch {
+            val supported = healthConnectManager.isSupported.value
+            val connected = if (supported) healthConnectManager.hasAllPermissions() else false
+            _uiState.update {
+                it.copy(
+                    isHealthConnectSupported = supported,
+                    isHealthConnectConnected = connected
+                )
+            }
+        }
+    }
+
+    fun syncHealthConnectData() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(healthConnectSyncStatus = "Syncing...") }
+            try {
+                if (healthConnectManager.hasAllPermissions()) {
+                    val steps = healthConnectManager.readDailySteps()
+                    _uiState.update { it.copy(healthConnectSyncStatus = "Synced! Today's steps: $steps") }
+                    // Further data updates would go here
+                } else {
+                    _uiState.update { it.copy(healthConnectSyncStatus = "Permissions not granted") }
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(healthConnectSyncStatus = "Sync failed: ${e.message}") }
+            }
+        }
+    }
+
+    fun dismissHealthConnectSyncStatus() {
+        _uiState.update { it.copy(healthConnectSyncStatus = null) }
     }
 
     // ─── Load Settings ────────────────────────────────────────────────────

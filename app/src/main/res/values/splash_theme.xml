@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme for Splash Screen -->
+    <style name="Theme.HealthCalculator.Splash" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background -->
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        
+        <!-- Use an animated icon or a static icon -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        
+        <!-- Set the theme of the Activity that follows your splash screen -->
+        <item name="postSplashScreenTheme">@style/Theme.HealthCalculator</item>
+    </style>
+</resources>

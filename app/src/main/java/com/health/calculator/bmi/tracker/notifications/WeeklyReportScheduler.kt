@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class WeeklyReportScheduler(@ApplicationContext private val context: Context) {
+class WeeklyReportScheduler @javax.inject.Inject constructor(@ApplicationContext private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

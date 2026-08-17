@@ -568,6 +568,11 @@ private fun RuleOfNinesDiagram(bsa: Float) {
     val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
     val onSurface = MaterialTheme.colorScheme.onSurface
     val density = LocalDensity.current
+    val txt9 = stringResource(R.string.txt_9)
+    val txt18 = stringResource(R.string.txt_18)
+    val txtFront = stringResource(R.string.txt_front)
+    val txt1 = stringResource(R.string.txt_1)
+    val txtBack18 = stringResource(R.string.txt_back_18)
 
     Card(
         colors = CardDefaults.cardColors(
@@ -620,7 +625,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     center = Offset(headCX, headCY),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), headCX, headCY + 4.dp.toPx(), percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt9, headCX, headCY + 4.dp.toPx(), percentPaint)
 
                 // Torso front
                 val torsoTop = h * 0.14f
@@ -638,8 +643,8 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(torsoRight - torsoLeft, torsoBottom - torsoTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.5f, h * 0.31f, percentPaint)
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_front), w * 0.5f, h * 0.35f, textPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt18, w * 0.5f, h * 0.31f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txtFront, w * 0.5f, h * 0.35f, textPaint)
 
                 // Left arm
                 drawRect(
@@ -653,7 +658,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.18f, h * 0.28f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), w * 0.17f, h * 0.29f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt9, w * 0.17f, h * 0.29f, percentPaint)
 
                 // Right arm
                 drawRect(
@@ -667,7 +672,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.18f, h * 0.28f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_9), w * 0.83f, h * 0.29f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt9, w * 0.83f, h * 0.29f, percentPaint)
 
                 // Groin
                 drawRect(
@@ -681,7 +686,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.24f, h * 0.04f),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_1), w * 0.5f, h * 0.48f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt1, w * 0.5f, h * 0.48f, percentPaint)
 
                 // Left leg
                 val legTop = h * 0.49f
@@ -697,7 +702,7 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.2f, legBottom - legTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.38f, h * 0.72f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt18, w * 0.38f, h * 0.72f, percentPaint)
 
                 // Right leg
                 drawRect(
@@ -711,10 +716,10 @@ private fun RuleOfNinesDiagram(bsa: Float) {
                     size = androidx.compose.ui.geometry.Size(w * 0.2f, legBottom - legTop),
                     style = Stroke(strokeW)
                 )
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_18), w * 0.62f, h * 0.72f, percentPaint)
+                drawContext.canvas.nativeCanvas.drawText(txt18, w * 0.62f, h * 0.72f, percentPaint)
 
                 // Back label (pointer)
-                drawContext.canvas.nativeCanvas.drawText(stringResource(R.string.txt_back_18), w * 0.5f, h * 0.99f, textPaint)
+                drawContext.canvas.nativeCanvas.drawText(txtBack18, w * 0.5f, h * 0.99f, textPaint)
             }
         }
     }

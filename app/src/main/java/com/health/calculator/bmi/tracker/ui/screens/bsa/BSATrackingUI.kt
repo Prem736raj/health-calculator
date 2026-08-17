@@ -540,6 +540,8 @@ private fun BSATrendGraph(records: List<BSARecord>) {
             val minVal = (values.min() - 0.1f).coerceAtLeast(0f)
             val maxVal = values.max() + 0.1f
             val range = (maxVal - minVal).coerceAtLeast(0.01f)
+            val formatStr = stringResource(R.string.txt_2f)
+            val avgLabel = stringResource(R.string.txt_avg_1)
 
             Canvas(
                 modifier = Modifier
@@ -560,7 +562,7 @@ private fun BSATrendGraph(records: List<BSARecord>) {
                     val y = pT + gH - (gH * i / ySteps)
                     drawLine(gridColor, Offset(pL, y), Offset(size.width - pR, y), 1.dp.toPx())
                     drawContext.canvas.nativeCanvas.drawText(
-                        stringResource(R.string.txt_2f).format(yVal),
+                        formatStr.format(yVal),
                         pL - 6.dp.toPx(),
                         y + 4.dp.toPx(),
                         android.graphics.Paint().apply {
@@ -581,7 +583,7 @@ private fun BSATrendGraph(records: List<BSARecord>) {
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 8f))
                 )
                 drawContext.canvas.nativeCanvas.drawText(
-                    stringResource(R.string.txt_avg_1),
+                    avgLabel,
                     size.width - pR + 2.dp.toPx(),
                     avgY - 4.dp.toPx(),
                     android.graphics.Paint().apply {

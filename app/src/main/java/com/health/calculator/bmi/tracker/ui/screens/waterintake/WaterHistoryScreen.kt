@@ -656,6 +656,8 @@ private fun BarChartCard(
                 Text(stringResource(R.string.txt_daily_intake), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
             }
 
+            val goalLabel = stringResource(R.string.txt_goal)
+
             // Chart
             Canvas(
                 modifier = Modifier
@@ -681,7 +683,7 @@ private fun BarChartCard(
                 // Goal label
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
-                        stringResource(R.string.txt_goal),
+                        goalLabel,
                         chartWidth - 50f,
                         goalY - 8f,
                         android.graphics.Paint().apply {
