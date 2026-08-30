@@ -58,16 +58,18 @@ object WidgetUpdateScheduler {
 
         val triggerAt = System.currentTimeMillis() + delayMs
 
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent
-                )
-            } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
-            }
-        } catch (e: SecurityException) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAt,
+                pendingIntent
+            )
+        } else {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                triggerAt,
+                pendingIntent
+            )
         }
     }
 
@@ -92,20 +94,20 @@ object WidgetUpdateScheduler {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP, midnight.timeInMillis, pendingIntent
-                )
-            } else {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP, midnight.timeInMillis, pendingIntent
-                )
-            }
-            Log.d(TAG, "Midnight reset scheduled for ${midnight.time}")
-        } catch (e: SecurityException) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, midnight.timeInMillis, pendingIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                midnight.timeInMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                midnight.timeInMillis,
+                pendingIntent
+            )
         }
+        Log.d(TAG, "Midnight reset scheduled for ${midnight.time}")
     }
 
     // ── Daily full refresh at 6 AM ─────────────────────────────────

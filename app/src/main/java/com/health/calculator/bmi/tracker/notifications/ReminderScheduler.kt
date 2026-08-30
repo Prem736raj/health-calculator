@@ -14,6 +14,25 @@ class ReminderScheduler @javax.inject.Inject constructor(@ApplicationContext pri
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    private fun scheduleAlarm(
+        triggerAtMillis: Long,
+        pendingIntent: PendingIntent
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+        } else {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pendingIntent
+            )
+        }
+    }
+
     fun scheduleReminder(reminder: Reminder) {
         if (!reminder.isEnabled) {
             cancelReminder(reminder)
@@ -52,19 +71,10 @@ class ReminderScheduler @javax.inject.Inject constructor(@ApplicationContext pri
 
                 val calendar = getNextTriggerTime(dayOfWeek, hour, minute)
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        pendingIntent
-                    )
-                } else {
-                    alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        pendingIntent
-                    )
-                }
+                scheduleAlarm(
+                    triggerAtMillis = calendar.timeInMillis,
+                    pendingIntent = pendingIntent
+                )
             }
         }
     }
@@ -166,18 +176,9 @@ class ReminderScheduler @javax.inject.Inject constructor(@ApplicationContext pri
             add(Calendar.MINUTE, minutes)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
-        } else {
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
-        }
+        scheduleAlarm(
+            triggerAtMillis = calendar.timeInMillis,
+            pendingIntent = pendingIntent
+        )
     }
 }

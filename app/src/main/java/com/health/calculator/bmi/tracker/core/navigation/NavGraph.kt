@@ -227,6 +227,14 @@ fun NavGraph(
             )
         }
 
+        composable(route = Screen.AiCoach.route) {
+            AiCoachScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
         composable(route = Screen.History.route) {
             HistoryScreen(
                 onNavigateBack = {

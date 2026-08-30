@@ -23,6 +23,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -153,15 +155,7 @@ fun HomeScreen(
                 )
             }
         },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = onNavigateToAiCoach,
-                icon = { Icon(Icons.Filled.AutoAwesome, "AI Coach") },
-                text = { Text("AI Coach") },
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
+        floatingActionButton = {} // Removed FAB, replaced with banner
     ) { paddingValues ->
         PullToRefreshBox(
             isRefreshing = isRefreshing,
@@ -234,6 +228,60 @@ fun HomeScreen(
                         onViewBreakdown = { showScoreBreakdown = true },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
+                }
+
+                // AI Coach Premium Banner
+                item(span = { GridItemSpan(2) }) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(140.dp)
+                            .padding(horizontal = 16.dp)
+                            .clickable { onNavigateToAiCoach() },
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                    ) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            androidx.compose.foundation.Image(
+                                painter = androidx.compose.ui.res.painterResource(id = R.drawable.ai_coach_bg),
+                                contentDescription = "AI Coach Background",
+                                contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(
+                                        Brush.horizontalGradient(
+                                            colors = listOf(Color(0xEE000000), Color.Transparent)
+                                        )
+                                    )
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(20.dp),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(Icons.Filled.AutoAwesome, contentDescription = null, tint = Color(0xFF06D6A0))
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "AI Wellness Assistant",
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.White
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "Tap to chat and get personalized insights",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.White.copy(alpha = 0.8f)
+                                )
+                            }
+                        }
+                    }
                 }
 
                 // Smart Recommendations

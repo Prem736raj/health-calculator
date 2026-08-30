@@ -21,6 +21,7 @@ import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -32,12 +33,55 @@ fun AiCoachScreen(
 ) {
     val messages by viewModel.messages.collectAsStateWithLifecycle()
     val isTyping by viewModel.isTyping.collectAsStateWithLifecycle()
+    val isDisclosureAccepted by viewModel.isDisclosureAccepted.collectAsStateWithLifecycle()
     var inputText by remember { mutableStateOf("") }
+
+    if (!isDisclosureAccepted) {
+        AlertDialog(
+            onDismissRequest = onNavigateBack,
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.AutoAwesome,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(32.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = "AI Wellness Assistant",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            },
+            text = {
+                Text(
+                    text = "Messages you send to the AI Assistant are processed using Google's Firebase AI Logic/Gemini service to generate responses.\n\nDo not enter passwords, financial information, or sensitive information you do not want processed by the AI service.\n\nAI responses are for general wellness information only and are not medical advice, diagnosis, or treatment.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    lineHeight = 20.sp
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { viewModel.acceptDisclosure() }
+                ) {
+                    Text("Continue")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onNavigateBack
+                ) {
+                    Text("Cancel")
+                }
+            },
+            shape = RoundedCornerShape(24.dp)
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("AI Health Coach") },
+                title = { Text("AI Wellness Assistant") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -87,7 +131,7 @@ fun AiCoachScreen(
                         value = inputText,
                         onValueChange = { inputText = it },
                         modifier = Modifier.weight(1f),
-                        placeholder = { Text("Ask about your health...") },
+                        placeholder = { Text("Ask about wellness & lifestyle...") },
                         shape = RoundedCornerShape(24.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -179,7 +223,7 @@ fun MessageBubble(message: ChatMessage) {
             }
         }
 
-        // Extract first URL for a dedicated action button (from KI)
+        // Extract first URL for a dedicated action button
         val firstUrl = remember(message.text) {
             val matcher = java.util.regex.Pattern.compile("(ht|f)tp(s?):\\/\\/[^\\s]+").matcher(message.text)
             if (matcher.find()) matcher.group() else null

@@ -170,12 +170,13 @@ object BSACalculator {
         } catch (e: Exception) { 0f }
     }
 
-    // Boyd (1935) - hardened against edge cases
+    // Boyd (1935) - requires weight in grams
     private fun boyd(w: Float, h: Float): Float {
         return try {
             if (w <= 0f || h <= 0f) return dubois(w, h) // Fallback
 
-            val logW = kotlin.math.log10(w.toDouble())
+            val wGrams = (w * 1000.0)
+            val logW = kotlin.math.log10(wGrams)
             val exponent = 0.7285 - 0.0188 * logW
 
             // Guard against problematic exponent values
@@ -183,7 +184,7 @@ object BSACalculator {
                 return dubois(w, h) // Fallback to Du Bois
             }
 
-            val result = (0.0003207f * w.toDouble().pow(exponent).toFloat() * h.toDouble().pow(0.3).toFloat())
+            val result = (0.0003207 * h.toDouble().pow(0.3) * wGrams.pow(exponent)).toFloat()
 
             // Sanity check
             if (result.isNaN() || result.isInfinite() || result <= 0f || result > 10f) {

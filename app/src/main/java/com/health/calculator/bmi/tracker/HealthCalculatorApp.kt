@@ -1,6 +1,11 @@
 package com.health.calculator.bmi.tracker
 
 import android.app.Application
+import com.google.firebase.Firebase
+import com.google.firebase.initialize
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
@@ -15,6 +20,22 @@ import dagger.hilt.android.HiltAndroidApp
  */
 @HiltAndroidApp
 class HealthCalculatorApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        Firebase.initialize(this)
+
+        if (BuildConfig.DEBUG) {
+            Firebase.appCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance()
+            )
+        } else {
+            Firebase.appCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance()
+            )
+        }
+    }
 
     val database by lazy { AppDatabase.getDatabase(this) }
 

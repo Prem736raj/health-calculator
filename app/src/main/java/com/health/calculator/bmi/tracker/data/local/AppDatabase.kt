@@ -39,10 +39,11 @@ import com.health.calculator.bmi.tracker.data.dao.UrineColorDao
         com.health.calculator.bmi.tracker.data.models.PersonalRecord::class,
         com.health.calculator.bmi.tracker.data.models.HealthMilestone::class,
         com.health.calculator.bmi.tracker.data.models.Reminder::class,
-        com.health.calculator.bmi.tracker.data.models.WeeklyReport::class
+        com.health.calculator.bmi.tracker.data.models.WeeklyReport::class,
+        com.health.calculator.bmi.tracker.data.local.entity.ChatMessageEntity::class
     ],
-    version = 14,
-    exportSchema = false
+    version = 15,
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -79,7 +80,8 @@ abstract class AppDatabase : RoomDatabase() {
     /** DAO for weekly reports */
     abstract fun weeklyReportDao(): com.health.calculator.bmi.tracker.data.local.dao.WeeklyReportDao
 
-
+    /** DAO for AI chat history */
+    abstract fun chatDao(): com.health.calculator.bmi.tracker.data.local.dao.ChatDao
 
     companion object {
         @Volatile
@@ -89,6 +91,14 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Empty migration. Schema remains exactly the same as version 13.
                 // This bumps the version safely while allowing removal of destructive migrations.
+            }
+        }
+
+        val MIGRATION_14_15 = object : Migration(14, 15) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `chat_messages` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `text` TEXT NOT NULL, `isUser` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL)"
+                )
             }
         }
 
@@ -102,7 +112,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "health_calculator_database"
                 )
-                    .fallbackToDestructiveMigration(dropAllTables = true)
+                    .addMigrations(MIGRATION_13_14, MIGRATION_14_15)
                     .build()
                     .also { INSTANCE = it }
             }

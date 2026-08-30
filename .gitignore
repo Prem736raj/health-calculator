@@ -1,37 +1,40 @@
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-
-# Additional Android/Gradle ignores
+.gradle/
+.gradle-local/
 .gradle-user-home/
-*.hprof
+/local.properties
+local.properties
+secrets.properties
+.env
+.env.*
+
+# Firebase local
+.firebase/
+
+# IDE
 .idea/
 Captures/
-gradle-app.setting
+captures/
+.DS_Store
+/build/
+.externalNativeBuild/
+.cxx/
 .kotlin/
-.idea/modules/
-.idea/shelf/
-.idea/assetWizardSettings.xml
-.idea/navEditor.xml
+gradle-app.setting
+
+# Signing
+keystore.properties
 *.keystore
 *.jks
 !gradle-wrapper.jar
 
 # Build logs and temporary files
 *.log
+*.hprof
+crash_log.txt
+crash-log*.txt
 build*.txt
+build*.log
 compile*.err
 compile*.log
 compile*.txt

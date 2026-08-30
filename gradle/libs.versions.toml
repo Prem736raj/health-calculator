@@ -1,6 +1,7 @@
 [versions]
-agp = "8.3.2"
+agp = "8.11.1"
 kotlin = "2.0.21"
+
 coreKtx = "1.15.0"
 lifecycle = "2.8.7"
 appcompat = "1.7.0"
@@ -10,23 +11,31 @@ navigation = "2.8.5"
 datastore = "1.1.1"
 googleFonts = "1.8.3"
 materialIcons = "1.7.5"
+
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+
 room = "2.7.1"
 ksp = "2.0.21-1.0.26"
 work = "2.10.0"
+
 googleAuth = "21.0.0"
 googleApiClient = "2.2.0"
 googleDrive = "v3-rev20231128-2.0.0"
 googleHttp = "1.43.3"
+
 zxing = "3.5.2"
 coil = "2.7.0"
+
 hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+
 coreSplashScreen = "1.0.1"
-generativeai = "0.7.0"
-healthConnect = "1.1.0-alpha07"
+
+healthConnect = "1.1.0"
+
+googleServices = "4.5.0"
 
 [libraries]
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashScreen" }
@@ -66,7 +75,6 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-google-ai-client-generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 androidx-health-connect-client = { group = "androidx.health.connect", name = "connect-client", version.ref = "healthConnect" }
 
 [plugins]
@@ -75,3 +83,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

@@ -73,15 +73,14 @@ class BpNotificationHelper(@ApplicationContext private val context: Context) {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        // Note: Using setExactAndAllowWhileIdle for doctor reminders
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
+            alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 timestamp,
                 pendingIntent
             )
         } else {
-            alarmManager.setExact(
+            alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 timestamp,
                 pendingIntent

@@ -36,7 +36,7 @@ data class BackupMetadata(
 
 enum class BackupSource(val label: String) {
     LOCAL("Local Device"),
-    GOOGLE_DRIVE("Google Drive"),
+    GOOGLE_DRIVE("Google Drive (Experimental)"),
     QR_TRANSFER("Device Transfer")
 }
 

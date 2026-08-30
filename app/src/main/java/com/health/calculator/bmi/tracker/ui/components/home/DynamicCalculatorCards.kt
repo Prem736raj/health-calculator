@@ -46,103 +46,135 @@ fun DynamicCalculatorCard(
     needsAttention: Boolean = false,
     attentionMessage: String? = null,
     accentColor: Color = MaterialTheme.colorScheme.primary,
-    progressRing: (@Composable BoxScope.() -> Unit)? = null
+    progressRing: (@Composable BoxScope.() -> Unit)? = null,
+    backgroundImageRes: Int? = null // NEW: Optional background image
 ) {
     val haptic = LocalHapticFeedback.current
 
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .height(180.dp) // Fixed height for premium feel
             .clickable {
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 onClick()
             },
         shape = RoundedCornerShape(24.dp),
-        border = BorderStroke(
-            1.dp,
-            accentColor.copy(alpha = 0.15f)
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        border = if (backgroundImageRes == null) BorderStroke(1.dp, accentColor.copy(alpha = 0.15f)) else null,
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (backgroundImageRes != null) 6.dp else 2.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            accentColor.copy(alpha = 0.1f),
-                            MaterialTheme.colorScheme.surface
-                        )
-                    )
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background Image with Gradient Overlay
+            if (backgroundImageRes != null) {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = backgroundImageRes),
+                    contentDescription = null,
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
                 )
-                .padding(16.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            // Header: Emoji / Progress Ring
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
-            ) {
+                // Dark gradient overlay for text readability
                 Box(
-                    modifier = Modifier.size(48.dp),
-                    contentAlignment = Alignment.Center
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color(0xCC000000)
+                                )
+                            )
+                        )
+                )
+            } else {
+                // Fallback gradient for cards without images
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    accentColor.copy(alpha = 0.1f),
+                                    MaterialTheme.colorScheme.surface
+                                )
+                            )
+                        )
+                )
+            }
+
+            // Content
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Top section (Emoji/Progress)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
                 ) {
-                    if (progressRing != null) {
-                        progressRing()
-                    } else {
-                        // Default emoji background
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(RoundedCornerShape(14.dp))
-                                .background(
-                                    brush = Brush.radialGradient(
-                                        colors = listOf(
-                                            accentColor.copy(alpha = 0.25f),
-                                            accentColor.copy(alpha = 0.05f)
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (progressRing != null) {
+                            progressRing()
+                        } else if (backgroundImageRes == null) {
+                            // Only show emoji box if there is no background image
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(
+                                        brush = Brush.radialGradient(
+                                            colors = listOf(
+                                                accentColor.copy(alpha = 0.25f),
+                                                accentColor.copy(alpha = 0.05f)
+                                            )
                                         )
-                                    )
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = emoji, fontSize = 22.sp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = emoji, fontSize = 22.sp)
+                            }
                         }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(12.dp))
+                // Bottom section (Text/Data)
+                Column {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (backgroundImageRes != null) Color.White else MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
-            // Title and Description
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+                    Spacer(modifier = Modifier.height(4.dp))
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-            if (hasData) {
-                dataContent()
-            } else {
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    lineHeight = 14.sp
-                )
+                    if (hasData) {
+                        dataContent()
+                    } else {
+                        Text(
+                            text = description,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = if (backgroundImageRes != null) Color.White.copy(alpha = 0.8f) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            lineHeight = 14.sp
+                        )
+                    }
+                }
             }
         }
     }
 }
+
 
 // ============================================================
 // 1. BMI CALCULATOR CARD
@@ -183,6 +215,7 @@ fun BMICalculatorCard(
                 else -> "Overweight range"
             }
         } else null,
+        backgroundImageRes = R.drawable.bmi_bg,
         dataContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // Color dot
@@ -196,17 +229,17 @@ fun BMICalculatorCard(
                 // BMI value
                 Text(
                     text = stringResource(R.string.txt_1f).format(lastBMI),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = categoryColor
+                    color = Color.White
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 // Category
                 lastCategory?.let {
                     Text(
                         text = it,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.White.copy(alpha = 0.8f)
                     )
                 }
             }
@@ -297,6 +330,7 @@ fun BloodPressureCard(
         accentColor = categoryColor,
         needsAttention = needsAttention,
         attentionMessage = if (needsAttention) "Elevated reading" else null,
+        backgroundImageRes = R.drawable.bp_bg,
         dataContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
@@ -308,22 +342,22 @@ fun BloodPressureCard(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "$lastSystolic/$lastDiastolic",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = categoryColor
+                    color = Color.White
                 )
                 Text(
                     text = stringResource(R.string.txt_mmhg),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White.copy(alpha = 0.8f)
                 )
             }
             lastCategory?.let {
                 Text(
                     text = it,
                     style = MaterialTheme.typography.labelSmall,
-                    color = categoryColor.copy(alpha = 0.8f),
-                    fontSize = 10.sp
+                    color = Color.White.copy(alpha = 0.9f),
+                    fontSize = 11.sp
                 )
             }
         }
@@ -432,26 +466,27 @@ fun WaterIntakeCard(
                 color = progressColor
             )
         },
+        backgroundImageRes = R.drawable.water_bg,
         dataContent = {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
                     text = "$percentage%",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = progressColor
+                    color = Color.White
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = stringResource(R.string.txt_of_goal),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White.copy(alpha = 0.8f)
                 )
             }
             Text(
                 text = "${currentIntake}ml / ${goalIntake}ml",
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                fontSize = 10.sp
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 11.sp
             )
         }
     )

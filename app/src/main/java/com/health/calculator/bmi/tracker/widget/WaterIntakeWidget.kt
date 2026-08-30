@@ -9,6 +9,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.graphics.*
 import android.widget.RemoteViews
 import com.health.calculator.bmi.tracker.R
@@ -121,14 +122,13 @@ class WaterIntakeWidget : AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        try {
-            alarmManager.setExactAndAllowWhileIdle(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 midnight.timeInMillis,
                 pendingIntent
             )
-        } catch (e: SecurityException) {
-            // Fallback for devices without exact alarm permission
+        } else {
             alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 midnight.timeInMillis,

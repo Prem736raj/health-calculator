@@ -59,7 +59,7 @@
     <!-- Extracted UI Strings -->
 <string name="txt_calculators">Calculators</string>
 <string name="txt_calculate">Calculate</string>
-<string name="txt_use_who_standard_calculators_t">Use WHO-standard calculators to monitor your well-being and stay on top of your health goals.</string>
+<string name="txt_use_who_standard_calculators_t">Explore evidence-based health calculators and track your wellness metrics over time.</string>
 <string name="txt_track_your_health">Track Your Health</string>
 <string name="txt_profile_data_changed">Profile data changed</string>
 <string name="txt_see_how_your_profile_data_flow">See how your profile data flows into different calculators and how they interconnect.</string>
@@ -157,14 +157,14 @@
 <string name="txt_add">Add</string>
 <string name="txt_view_trends">View Trends</string>
 <string name="txt_no_weight_logged_yet">No weight logged yet</string>
-<string name="txt_high_priority_reminders_will_s">High priority reminders will still alert you</string>
-<string name="txt_allow_emergency_alerts">Allow Emergency Alerts</string>
+<string name="txt_high_priority_reminders_will_s">Important reminders will still alert you</string>
+<string name="txt_allow_emergency_alerts">Allow Important Reminders</string>
 <string name="txt_end_time">End Time</string>
 <string name="txt_start_time">Start Time</string>
 <string name="txt_enable_quiet_hours">Enable Quiet Hours</string>
 <string name="txt_suppress_non_essential_notific">Suppress non-essential notifications during this period.</string>
 <string name="txt_quiet_hours">Quiet Hours</string>
-<string name="txt_high_priority">High Priority</string>
+<string name="txt_high_priority">Important</string>
 <string name="txt_overrides_quiet_hours_if_allow">Overrides Quiet Hours if allowed</string>
 <string name="txt_vibration">Vibration</string>
 <string name="txt_notification_settings">Notification Settings</string>
@@ -1403,5 +1403,10 @@
 <string name="txt_view_whr_progress_trends">View WHR Progress &amp; Trends</string>
 <string name="txt_whr_results">WHR Results</string>
 <string name="txt_height_is_needed_to_calculate_">Height is needed to calculate your Waist-to-Height Ratio</string>
-<string name="txt_enter_your_height">Enter Your Height</string>
+    <string name="txt_enter_your_height">Enter Your Height</string>
+    <string name="privacy_policy_url">https://YOUR-DOMAIN.com/privacy</string>
+    <string name="terms_of_service_url">https://YOUR-DOMAIN.com/terms</string>
+    <string name="ai_coach_welcome">Hi! I\'m your AI Wellness Assistant.\n\nI can explain general fitness, nutrition, hydration and wellness topics.\n\nI can\'t diagnose medical conditions or replace a healthcare professional.</string>
+    <string name="ai_coach_error">Oops, I encountered an error. Please try again later.</string>
+    <string name="ai_coach_system_prompt">You are a friendly, professional AI Wellness Assistant.\nKeep your answers concise, encouraging, and easy to read on a mobile device.\nUser asks: %s</string>
 </resources>

@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.presentation.settings
 
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.core.constants.AppLinks
 
 
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -455,13 +456,29 @@ fun SettingsScreen(
                     item { SectionHeader(title = "About", emoji = "ℹ️") }
 
                     item {
+                        val (versionName, versionCode) = remember(context) {
+                            try {
+                                val packageInfo = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                    context.packageManager.getPackageInfo(context.packageName, android.content.pm.PackageManager.PackageInfoFlags.of(0))
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    context.packageManager.getPackageInfo(context.packageName, 0)
+                                }
+                                val vName = packageInfo.versionName ?: "1.0.0"
+                                val vCode = androidx.core.content.pm.PackageInfoCompat.getLongVersionCode(packageInfo)
+                                Pair(vName, vCode)
+                            } catch (_: Exception) {
+                                Pair("1.0.0", 1L)
+                            }
+                        }
+
                         SettingsCard {
                             // App version
                             SettingsInfoItem(
                                 icon = Icons.Filled.Info,
                                 iconTint = SettingsAccent,
                                 title = "App Version",
-                                value = "1.0.0 (Build 1)"
+                                value = "$versionName ($versionCode)"
                             )
 
                             SettingsDivider()
@@ -472,7 +489,7 @@ fun SettingsScreen(
                                 title = "Privacy Policy",
                                 subtitle = "How we handle your data",
                                 onClick = {
-                                    openUrl(context, "https://policies.google.com/privacy")
+                                    openUrl(context, AppLinks.PRIVACY_POLICY)
                                 }
                             )
 
@@ -484,7 +501,7 @@ fun SettingsScreen(
                                 title = "Terms of Service",
                                 subtitle = "Usage terms and conditions",
                                 onClick = {
-                                    openUrl(context, "https://policies.google.com/terms")
+                                    openUrl(context, AppLinks.TERMS_OF_SERVICE)
                                 }
                             )
 
@@ -519,7 +536,7 @@ fun SettingsScreen(
                     // ── Footer ────────────────────────────────────────────
                     item {
                         Text(
-                            text = "Made with ❤️ for your health\nHealth Calculator © 2024",
+                            text = "Made with ❤️ for your health\nHealth Calculator © ${java.time.Year.now().value}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center,
@@ -902,9 +919,19 @@ private fun MedicalDisclaimerCard() {
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "Health Calculator is designed for educational and informational purposes only. It is NOT a medical device and should NOT be used as a substitute for professional medical advice, diagnosis, or treatment.\n\nAlways consult a qualified healthcare provider for any health concerns or before making health-related decisions based on calculations from this app.",
+                text = """
+This app provides health, fitness, and wellness information for educational and informational purposes only.
+
+Results from calculators, trackers, wellness scores, recommendations, and AI features are estimates and must not be interpreted as medical diagnoses.
+
+This app is not a medical device and does not replace professional medical advice, diagnosis, treatment, or emergency care.
+
+Always consult a qualified healthcare professional regarding medical concerns or before making significant health-related decisions.
+
+If you believe you may be experiencing a medical emergency, contact your local emergency services immediately.
+                """.trimIndent(),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 18.sp
             )
         }

@@ -40,6 +40,7 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
         val KEY_WEIGHT_REMINDER = booleanPreferencesKey("weight_reminder_enabled")
         val KEY_LAST_UPDATED = longPreferencesKey("settings_last_updated")
         val KEY_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
+        val KEY_AI_DISCLOSURE_ACCEPTED = booleanPreferencesKey("ai_disclosure_accepted")
     }
 
     // ─── Read Settings ────────────────────────────────────────────────────
@@ -102,6 +103,22 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
     suspend fun setOnboardingCompleted() {
         context.settingsDataStore.edit { prefs ->
             prefs[KEY_ONBOARDING_COMPLETED] = true
+        }
+    }
+
+    /**
+     * Flow that emits whether the user has accepted the AI Wellness Assistant privacy disclosure.
+     */
+    val aiDisclosureAcceptedFlow: Flow<Boolean> = context.settingsDataStore.data.map { prefs ->
+        prefs[KEY_AI_DISCLOSURE_ACCEPTED] ?: false
+    }
+
+    /**
+     * Saves whether the AI privacy disclosure has been accepted.
+     */
+    suspend fun setAiDisclosureAccepted(accepted: Boolean = true) {
+        context.settingsDataStore.edit { prefs ->
+            prefs[KEY_AI_DISCLOSURE_ACCEPTED] = accepted
         }
     }
 
