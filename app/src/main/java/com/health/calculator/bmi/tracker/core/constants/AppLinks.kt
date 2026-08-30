@@ -2,18 +2,15 @@ package com.health.calculator.bmi.tracker.core.constants
 
 object AppLinks {
 
-    /*
-     * MUST be replaced with your real public URL before release.
-     *
-     * Example:
-     * https://yourdomain.com/privacy
-     *
-     * Or a permanent GitHub Pages page.
+    /**
+     * Publicly accessible Privacy Policy hosted on GitHub Pages.
      */
-
     const val PRIVACY_POLICY =
-        "https://YOUR-DOMAIN.com/privacy"
+        "https://prem736raj.github.io/WHO-Standard-Health-Tracker/privacy.html"
 
+    /**
+     * Publicly accessible Terms of Service hosted on GitHub Pages.
+     */
     const val TERMS_OF_SERVICE =
-        "https://YOUR-DOMAIN.com/terms"
+        "https://prem736raj.github.io/WHO-Standard-Health-Tracker/terms.html"
 }

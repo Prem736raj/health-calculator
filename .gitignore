@@ -47,4 +47,6 @@ plain_log.txt
 fresh_build_log.txt
 latest_log.txt
 dependencies.txt
+extracted_strings.xml
+logs.txt
 *.ps1

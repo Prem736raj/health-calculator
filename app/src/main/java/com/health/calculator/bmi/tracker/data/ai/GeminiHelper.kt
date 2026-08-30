@@ -31,7 +31,7 @@ class GeminiHelper @Inject constructor() {
                 backend = GenerativeBackend.googleAI()
             )
             .generativeModel(
-                modelName = "gemini-2.5-flash",
+                modelName = "gemini-3.7-flash",
 
                 systemInstruction = content {
 

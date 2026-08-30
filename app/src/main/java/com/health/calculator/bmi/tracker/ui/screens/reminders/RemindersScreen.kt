@@ -167,7 +167,13 @@ fun RemindersScreen(
                             reminder = reminder,
                             onToggle = {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                viewModel.toggleReminder(reminder)
+                                if (!reminder.isEnabled && !uiState.hasNotificationPermission && NotificationPermissionHelper.needsPermissionRequest()) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                    }
+                                } else {
+                                    viewModel.toggleReminder(reminder)
+                                }
                             },
                             onEdit = { viewModel.showEditDialog(reminder) },
                             onDelete = { viewModel.confirmDelete(reminder) }

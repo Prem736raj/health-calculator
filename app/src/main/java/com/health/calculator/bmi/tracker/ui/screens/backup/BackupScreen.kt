@@ -94,27 +94,7 @@ fun BackupScreen(
                     isBackingUp = state.isBackingUp,
                     progress = state.progress,
                     statusMessage = state.statusMessage,
-                    onCreateLocal = { viewModel.createLocalBackup() },
-                    onCloudBackup = {
-                        if (GoogleDriveBackupManager.getInstance(context).isSignedIn()) {
-                            viewModel.backupToGoogleDrive()
-                        } else {
-                            signInLauncher.launch(GoogleDriveBackupManager.getInstance(context).getSignInIntent())
-                        }
-                    },
-                    onDeviceTransfer = { viewModel.generateTransferQr() }
-                )
-            }
-
-            // Auto-Backup Settings
-            item {
-                AutoBackupSection(
-                    enabled = state.autoBackupEnabled,
-                    frequency = state.autoBackupFrequency,
-                    wifiOnly = state.wifiOnlyBackup,
-                    onToggleEnabled = { viewModel.toggleAutoBackup(it) },
-                    onFrequencyChange = { viewModel.updateAutoBackupFrequency(it) },
-                    onWifiToggle = { viewModel.updateWifiOnly(it) }
+                    onCreateLocal = { viewModel.createLocalBackup() }
                 )
             }
 
@@ -211,9 +191,7 @@ fun BackupActionsSection(
     isBackingUp: Boolean,
     progress: Float,
     statusMessage: String,
-    onCreateLocal: () -> Unit,
-    onCloudBackup: () -> Unit,
-    onDeviceTransfer: () -> Unit
+    onCreateLocal: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -226,31 +204,25 @@ fun BackupActionsSection(
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.txt_manual_backup), fontWeight = FontWeight.Bold)
             }
+
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = "Create an encrypted local backup of your health records on this device. You can restore it anytime or export it to files.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
             
             Spacer(Modifier.height(16.dp))
 
-            Row(
+            Button(
+                onClick = onCreateLocal,
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                shape = RoundedCornerShape(12.dp),
+                enabled = !isBackingUp
             ) {
-                BackupActionButton(
-                    icon = Icons.Default.SdCard,
-                    label = "Local",
-                    modifier = Modifier.weight(1f),
-                    onClick = onCreateLocal
-                )
-                BackupActionButton(
-                    icon = Icons.Default.CloudUpload,
-                    label = "Cloud",
-                    modifier = Modifier.weight(1f),
-                    onClick = onCloudBackup
-                )
-                BackupActionButton(
-                    icon = Icons.Default.QrCode,
-                    label = "Transfer",
-                    modifier = Modifier.weight(1f),
-                    onClick = onDeviceTransfer
-                )
+                Icon(Icons.Default.SdCard, null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text("Create Local Backup")
             }
         }
     }

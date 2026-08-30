@@ -82,6 +82,13 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
             rateLimiter.recordNotificationSent(reminder.category)
             stats.recordSent(reminder.category)
             repository.updateLastTriggered(reminder.id, System.currentTimeMillis())
+
+            // 7. Reschedule recurring occurrence
+            val isSnooze = intent.getBooleanExtra("is_snooze", false)
+            if (!isSnooze) {
+                val scheduler = ReminderScheduler(context)
+                scheduler.scheduleReminder(reminder)
+            }
         }
     }
 }

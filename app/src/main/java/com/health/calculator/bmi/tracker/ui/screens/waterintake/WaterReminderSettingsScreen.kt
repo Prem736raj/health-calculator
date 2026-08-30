@@ -36,6 +36,12 @@ import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
 import com.health.calculator.bmi.tracker.data.preferences.WaterReminderPreferences
 import com.health.calculator.bmi.tracker.notification.WaterReminderScheduler
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.health.calculator.bmi.tracker.notifications.NotificationPermissionHelper
+
 private val WaterBlueMedium = Color(0xFF2196F3)
 private val WaterBlueDark = Color(0xFF1565C0)
 private val WaterBlueSurface = Color(0xFFE3F2FD)
@@ -55,6 +61,16 @@ fun WaterReminderSettingsScreen(
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showSavedConfirm by remember { mutableStateOf(false) }
     var isVisible by remember { mutableStateOf(false) }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            settings = settings.copy(isEnabled = true)
+        } else {
+            settings = settings.copy(isEnabled = false)
+        }
+    }
 
     LaunchedEffect(Unit) { isVisible = true }
 
@@ -121,9 +137,14 @@ fun WaterReminderSettingsScreen(
                 ) {
                     EnableToggleCard(
                         enabled = settings.isEnabled,
-                        onToggle = {
+                        onToggle = { enable ->
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            settings = settings.copy(isEnabled = it)
+                            if (enable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                                !NotificationPermissionHelper.isNotificationPermissionGranted(context)) {
+                                permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            } else {
+                                settings = settings.copy(isEnabled = enable)
+                            }
                         }
                     )
                 }

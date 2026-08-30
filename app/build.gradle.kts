@@ -205,12 +205,12 @@ dependencies {
     implementation("com.google.firebase:firebase-ai")
 
     // Real production protection
-    implementation(
+    releaseImplementation(
         "com.google.firebase:firebase-appcheck-playintegrity"
     )
 
     // Emulator/development only
-    implementation(
+    debugImplementation(
         "com.google.firebase:firebase-appcheck-debug"
     )
 
