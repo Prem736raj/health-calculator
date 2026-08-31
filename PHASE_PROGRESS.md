@@ -20,11 +20,11 @@ This file is the source of truth for the sequential product-development phases. 
 
 ## Phase 3 — Simplify Product Structure
 
-- **Status:** Not started
-- **Major changes:** —
-- **Tests:** —
-- **Known limitations:** —
-- **Next phase:** Audit navigation, feature hierarchy and dead/duplicate screens.
+- **Status:** Complete
+- **Major changes:** Replaced the old four-item Home/History/Profile/Settings bottom navigation with five focused areas: Home, Track, Calculators, Insights and Profile. Added dedicated Track, Calculators and Insights hubs that keep high-value actions discoverable while moving detailed logs, reports, education, settings and advanced tools behind progressive navigation. Preserved existing routes for deep links and older saved navigation state.
+- **Tests:** Added `NavigationStructureTest` to lock the primary route set and ensure History/Settings remain secondary destinations. Debug unit tests pass.
+- **Known limitations:** Existing feature screens remain available as secondary destinations; the next phase will reduce the Home surface itself and unify its daily-value hierarchy.
+- **Next phase:** Redesign Home around a concise daily check-in and progressive disclosure.
 
 ## Phases 4–15
 

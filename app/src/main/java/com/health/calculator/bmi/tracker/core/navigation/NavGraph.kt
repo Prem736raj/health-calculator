@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -92,6 +95,11 @@ import com.health.calculator.bmi.tracker.ui.screens.welcomeback.WelcomeBackViewM
 import com.health.calculator.bmi.tracker.ui.screens.welcomeback.WelcomeBackScreen
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import com.health.calculator.bmi.tracker.ui.screens.aicoach.AiCoachScreen
+import com.health.calculator.bmi.tracker.presentation.components.BottomNavigationBar
+import com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination
+import com.health.calculator.bmi.tracker.presentation.navigation.CalculatorsHubScreen
+import com.health.calculator.bmi.tracker.presentation.navigation.InsightsHubScreen
+import com.health.calculator.bmi.tracker.presentation.navigation.TrackHubScreen
 
 private const val NAV_ANIMATION_DURATION = AppConstants.ANIMATION_DURATION_MEDIUM
 const val WATER_REMINDER_SETTINGS_ROUTE = "water_reminder_settings"
@@ -116,10 +124,30 @@ fun NavGraph(
     // Wait until we know the onboarding state before rendering
     if (onboardingCompleted == null) return
 
-    NavHost(
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            if (Screen.isBottomNavRoute(currentRoute)) {
+                BottomNavigationBar(
+                    currentRoute = currentRoute,
+                    onItemClick = { item ->
+                        navController.navigate(item.route) {
+                            popUpTo(Screen.Home.route) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
         navController = navController,
         startDestination = Screen.Splash.route,
-        modifier = modifier,
+        modifier = Modifier.padding(innerPadding),
         enterTransition = {
             fadeIn(animationSpec = tween(NAV_ANIMATION_DURATION)) +
                     slideIntoContainer(
@@ -224,6 +252,49 @@ fun NavGraph(
                 onNavigateToProfile = { navController.navigate(Screen.Profile.route) { launchSingleTop = true } },
                 onNavigateToSettings = { navController.navigate(Screen.Settings.route) { launchSingleTop = true } },
                 onNavigateToAiCoach = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } }
+            )
+        }
+
+        composable(route = Screen.Track.route) {
+            TrackHubScreen(
+                onOpenWeight = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
+                onOpenWater = { navController.navigate(Screen.WaterTracker.route) { launchSingleTop = true } },
+                onOpenBloodPressure = { navController.navigate(Screen.BloodPressureLog.route) { launchSingleTop = true } },
+                onOpenFood = { navController.navigate(Screen.FoodLog.route) { launchSingleTop = true } },
+                onOpenHealthConnections = { navController.navigate(Screen.HealthConnections.route) { launchSingleTop = true } },
+                onOpenHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } },
+                onOpenReminders = { navController.navigate(Screen.Reminders.route) { launchSingleTop = true } }
+            )
+        }
+
+        composable(route = Screen.Calculators.route) {
+            CalculatorsHubScreen(
+                onOpen = { destination ->
+                    val route = when (destination) {
+                        CalculatorDestination.BMI -> Screen.BmiCalculator.route
+                        CalculatorDestination.BMR -> Screen.BmrCalculator.route
+                        CalculatorDestination.BLOOD_PRESSURE -> Screen.BloodPressureCalculator.route
+                        CalculatorDestination.WATER -> Screen.WaterIntakeCalculator.route
+                        CalculatorDestination.CALORIES -> Screen.DailyCalorieCalculator.route
+                        CalculatorDestination.WAIST_HIP -> Screen.WaistToHipCalculator.route
+                        CalculatorDestination.HEART_RATE -> Screen.HeartRateZoneCalculator.route
+                        CalculatorDestination.IDEAL_WEIGHT -> Screen.IdealWeightCalculator.route
+                        CalculatorDestination.BSA -> Screen.BsaCalculator.route
+                        CalculatorDestination.METABOLIC -> Screen.MetabolicSyndromeCalculator.route
+                    }
+                    navController.navigate(route) { launchSingleTop = true }
+                }
+            )
+        }
+
+        composable(route = Screen.Insights.route) {
+            InsightsHubScreen(
+                onOpenWeeklyReport = { navController.navigate(Screen.WeeklyReport.route) { launchSingleTop = true } },
+                onOpenTrends = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
+                onOpenAssistant = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } },
+                onOpenAchievements = { navController.navigate(Screen.Achievements.route) { launchSingleTop = true } },
+                onOpenArticles = { navController.navigate(Screen.HealthArticles.route) { launchSingleTop = true } },
+                onOpenHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } }
             )
         }
 
@@ -1258,5 +1329,6 @@ fun NavGraph(
                 onOpenDataManagement = { navController.navigate(Screen.DataManagement.route) }
             )
         }
+    }
     }
 }

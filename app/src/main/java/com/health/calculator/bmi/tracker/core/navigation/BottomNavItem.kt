@@ -3,14 +3,16 @@
 package com.health.calculator.bmi.tracker.core.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Calculate
+import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Calculate
+import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -31,12 +33,26 @@ enum class BottomNavItem(
         unselectedIcon = Icons.Outlined.Home,
         contentDescription = "Home Dashboard"
     ),
-    HISTORY(
-        route = Screen.History.route,
-        title = "History",
-        selectedIcon = Icons.Rounded.History,
-        unselectedIcon = Icons.Outlined.History,
-        contentDescription = "Calculation History"
+    TRACK(
+        route = Screen.Track.route,
+        title = "Track",
+        selectedIcon = Icons.Rounded.DirectionsWalk,
+        unselectedIcon = Icons.Outlined.DirectionsWalk,
+        contentDescription = "Daily tracking"
+    ),
+    CALCULATORS(
+        route = Screen.Calculators.route,
+        title = "Calculate",
+        selectedIcon = Icons.Rounded.Calculate,
+        unselectedIcon = Icons.Outlined.Calculate,
+        contentDescription = "Health calculators"
+    ),
+    INSIGHTS(
+        route = Screen.Insights.route,
+        title = "Insights",
+        selectedIcon = Icons.Rounded.Insights,
+        unselectedIcon = Icons.Outlined.Insights,
+        contentDescription = "Wellness insights"
     ),
     PROFILE(
         route = Screen.Profile.route,
@@ -44,13 +60,6 @@ enum class BottomNavItem(
         selectedIcon = Icons.Rounded.Person,
         unselectedIcon = Icons.Outlined.Person,
         contentDescription = "User Profile"
-    ),
-    SETTINGS(
-        route = Screen.Settings.route,
-        title = "Settings",
-        selectedIcon = Icons.Rounded.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-        contentDescription = "App Settings"
     );
 
     companion object {

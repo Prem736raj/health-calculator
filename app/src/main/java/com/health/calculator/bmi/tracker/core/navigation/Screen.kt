@@ -14,6 +14,12 @@ sealed class Screen(val route: String) {
 
     // ── Main Bottom Navigation Screens ───────────────────────────────
     data object Home : Screen("home")
+    /** Daily logging and connected data hub. */
+    data object Track : Screen("track")
+    /** Curated calculator directory; individual calculators remain deep links. */
+    data object Calculators : Screen("calculators")
+    /** Trends, reports and assistant hub. */
+    data object Insights : Screen("insights")
     data object History : Screen("history")
     data object Profile : Screen("profile")
     data object Settings : Screen("settings")
@@ -62,12 +68,17 @@ sealed class Screen(val route: String) {
         /**
          * All bottom navigation routes for easy checking
          */
-        val bottomNavRoutes = listOf(
-            Home.route,
-            History.route,
-            Profile.route,
-            Settings.route
-        )
+        // Lazy initialization avoids JVM test/classloader ordering issues with
+        // Kotlin sealed-object destinations while keeping one source of truth.
+        val bottomNavRoutes: List<String> by lazy {
+            listOf(
+                Home.route,
+                Track.route,
+                Calculators.route,
+                Insights.route,
+                Profile.route
+            )
+        }
 
         /**
          * Check if a route is a bottom navigation destination
