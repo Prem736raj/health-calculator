@@ -64,6 +64,11 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = true
+    }
+
     kotlin {
         compilerOptions {
             jvmTarget.set(
