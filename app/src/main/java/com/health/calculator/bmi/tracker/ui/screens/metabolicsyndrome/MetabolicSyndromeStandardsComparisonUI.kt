@@ -261,7 +261,7 @@ private fun StandardQuickBadge(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = if (isMet) "Present" else "Not Present",
+                    text = if (isMet) "Reference met" else "Reference not met",
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.SemiBold,
             color = if (isMet) HealthRed else HealthGreen
@@ -393,7 +393,7 @@ private fun StandardDetailCard(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
-    val diagnosisColor = if (result.isMet) HealthRed else HealthGreen
+    val diagnosisColor = if (result.isMet) HealthOrange else HealthGreen
 
     Card(
         colors = CardDefaults.cardColors(
@@ -448,7 +448,7 @@ private fun StandardDetailCard(
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = if (result.isMet) "Present" else "Absent",
+                        text = if (result.isMet) "Reference met" else "Reference not met",
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.ExtraBold,
                         color = diagnosisColor,

@@ -859,9 +859,9 @@ private fun FormulaDetailsCard(result: CalorieResult) {
                         DetailRow("BMR (Katch-McArdle)", "${"%.0f".format(it)} kcal")
                     }
                     DetailRow("Activity Level", "${result.activityLevelName} (×${result.activityMultiplier})")
-                    DetailRow("TDEE before TEF", "${"%.0f".format(result.tdee - result.tef)} kcal")
-                    DetailRow("TEF (~10%)", "${"%.0f".format(result.tef)} kcal")
-                    DetailRow("Total TDEE", "${"%.0f".format(result.tdee)} kcal")
+                    DetailRow("Activity-adjusted TDEE", "${"%.0f".format(result.tdee)} kcal")
+                    DetailRow("Illustrative TEF (included)", "${"%.0f".format(result.tef)} kcal")
+                    DetailRow("TDEE used for planning", "${"%.0f".format(result.tdee)} kcal")
                     DetailRow("Goal Adjustment", "${if (result.goalAdjustment >= 0) "+" else ""}${result.goalAdjustment} kcal")
                     DetailRow("Final Target", "${"%.0f".format(result.safeGoalCalories)} kcal")
                     HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))

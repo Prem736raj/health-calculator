@@ -104,7 +104,7 @@ fun IdealWeightResultSection(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Healthy Range: ${String.format(Locale.US, "%.1f", resultData.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", resultData.healthyRangeMax)} kg",
+                            text = "Adult BMI reference range: ${String.format(Locale.US, "%.1f", resultData.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", resultData.healthyRangeMax)} kg",
                             style = MaterialTheme.typography.labelLarge,
                             color = Color(0xFF2E7D32),
                             fontWeight = FontWeight.Bold

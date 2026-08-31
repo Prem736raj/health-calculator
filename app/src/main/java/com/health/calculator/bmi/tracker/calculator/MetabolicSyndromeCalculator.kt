@@ -13,24 +13,32 @@ data class MetabolicSyndromeResult(
     val criteria: List<MetabolicCriterion>,
     val criteriaMet: Int,
     val totalCriteria: Int = 5,
+    /** Legacy field retained for persistence compatibility; UI must call this a screening result. */
     val isSyndromePresent: Boolean,
     val riskLevel: MetabolicRiskLevel,
     val atpIIICriteriaMet: Int,
     val idfCriteriaMet: Int,
     val idfDiagnosis: Boolean,
-    val diagnosisDiffers: Boolean
+    val diagnosisDiffers: Boolean,
+    val selectedEthnicity: Ethnicity = Ethnicity.US_ATP,
+    val isClinicallyValidated: Boolean = false,
+    val interpretation: String = "Informational screening summary; a clinician must confirm any diagnosis."
 )
 
 enum class MetabolicRiskLevel(val label: String, val description: String) {
-    NONE("No Risk", "No metabolic syndrome indicators detected"),
-    LOW("Low Risk", "At risk — Monitor these factors closely"),
-    MODERATE("Moderate Risk", "At risk — Monitor these factors and consult your doctor"),
-    HIGH("High Risk", "Metabolic Syndrome Present — Consult your healthcare provider"),
-    VERY_HIGH("Very High Risk", "Metabolic Syndrome Present — Seek medical attention")
+    NONE("0 markers", "No screening markers met in the values entered."),
+    LOW("1 marker", "One screening marker met; review the value and keep tracking."),
+    MODERATE("2 markers", "Two screening markers met; consider discussing the pattern at a routine visit."),
+    HIGH("3 markers", "Three screening markers met. This is not a diagnosis; ask a healthcare professional for context."),
+    VERY_HIGH("4–5 markers", "Several screening markers met. This is not a diagnosis; arrange professional review.")
 }
 
+/**
+ * Harmonized five-marker screening reference. It is deliberately described as
+ * a screen: medication status and one-time measurements cannot establish a
+ * diagnosis, and fasting status/laboratory quality matter.
+ */
 object MetabolicSyndromeCalculator {
-
     fun evaluate(
         waistCm: Float,
         isMale: Boolean,
@@ -43,127 +51,68 @@ object MetabolicSyndromeCalculator {
         onBpMedication: Boolean,
         onGlucoseMedication: Boolean,
         onTriglyceridesMedication: Boolean,
-        onHdlMedication: Boolean
+        onHdlMedication: Boolean,
+        ethnicity: Ethnicity = Ethnicity.US_ATP
     ): MetabolicSyndromeResult {
-
-        // --- ATP III Criteria ---
-        val atpCriteria = mutableListOf<MetabolicCriterion>()
-
-        // 1. Central Obesity (ATP III)
-        val waistThresholdAtp = if (isMale) 102f else 88f
-        val waistThresholdUnit = "cm"
-        val waistMet = waistCm > waistThresholdAtp || onWaistMedication
-        atpCriteria.add(
-            MetabolicCriterion(
-                name = "Central Obesity",
-                description = if (isMale) "Waist > 102 cm (40 in)" else "Waist > 88 cm (35 in)",
-                userValue = "%.1f %s".format(waistCm, waistThresholdUnit),
-                threshold = "> %.0f %s".format(waistThresholdAtp, waistThresholdUnit),
-                isMet = waistMet,
-                isOnMedication = onWaistMedication
-            )
-        )
-
-        // 2. Elevated Triglycerides
-        val trigThreshold = 150f
-        val trigMet = triglyceridesMgDl >= trigThreshold || onTriglyceridesMedication
-        atpCriteria.add(
-            MetabolicCriterion(
-                name = "Elevated Triglycerides",
-                description = "≥ 150 mg/dL (1.7 mmol/L)",
-                userValue = "%.0f mg/dL".format(triglyceridesMgDl),
-                threshold = "≥ 150 mg/dL",
-                isMet = trigMet,
-                isOnMedication = onTriglyceridesMedication
-            )
-        )
-
-        // 3. Reduced HDL Cholesterol
-        val hdlThreshold = if (isMale) 40f else 50f
-        val hdlMet = hdlMgDl < hdlThreshold || onHdlMedication
-        atpCriteria.add(
-            MetabolicCriterion(
-                name = "Reduced HDL Cholesterol",
-                description = if (isMale) "< 40 mg/dL (1.03 mmol/L)" else "< 50 mg/dL (1.3 mmol/L)",
-                userValue = "%.0f mg/dL".format(hdlMgDl),
-                threshold = "< %.0f mg/dL".format(hdlThreshold),
-                isMet = hdlMet,
-                isOnMedication = onHdlMedication
-            )
-        )
-
-        // 4. Elevated Blood Pressure
-        val bpMet = systolic >= 130f || diastolic >= 85f || onBpMedication
-        atpCriteria.add(
-            MetabolicCriterion(
-                name = "Elevated Blood Pressure",
-                description = "Systolic ≥ 130 OR Diastolic ≥ 85 mmHg",
-                userValue = "%.0f/%.0f mmHg".format(systolic, diastolic),
-                threshold = "≥ 130/85 mmHg",
-                isMet = bpMet,
-                isOnMedication = onBpMedication
-            )
-        )
-
-        // 5. Elevated Fasting Glucose
-        val glucoseThreshold = 100f
-        val glucoseMet = fastingGlucoseMgDl >= glucoseThreshold || onGlucoseMedication
-        atpCriteria.add(
-            MetabolicCriterion(
-                name = "Elevated Fasting Glucose",
-                description = "≥ 100 mg/dL (5.6 mmol/L)",
-                userValue = "%.0f mg/dL".format(fastingGlucoseMgDl),
-                threshold = "≥ 100 mg/dL",
-                isMet = glucoseMet,
-                isOnMedication = onGlucoseMedication
-            )
-        )
-
-        val atpMetCount = atpCriteria.count { it.isMet }
-        val atpDiagnosis = atpMetCount >= 3
-
-        // --- IDF Criteria (lower waist cutoffs) ---
-        val waistThresholdIdf = if (isMale) 94f else 80f
-        val waistMetIdf = waistCm > waistThresholdIdf || onWaistMedication
-        // IDF requires central obesity + 2 of remaining 4
-        val otherMetCount = listOf(trigMet, hdlMet, bpMet, glucoseMet).count { it }
-        val idfCriteriaMet = (if (waistMetIdf) 1 else 0) + otherMetCount
-        val idfDiagnosis = waistMetIdf && otherMetCount >= 2
-
-        val diagnosisDiffers = atpDiagnosis != idfDiagnosis
-
-        val riskLevel = when (atpMetCount) {
-            0 -> MetabolicRiskLevel.NONE
-            1 -> MetabolicRiskLevel.LOW
-            2 -> MetabolicRiskLevel.MODERATE
-            3 -> MetabolicRiskLevel.HIGH
-            4, 5 -> MetabolicRiskLevel.VERY_HIGH
-            else -> MetabolicRiskLevel.NONE
+        require(listOf(waistCm, systolic, diastolic, fastingGlucoseMgDl, triglyceridesMgDl, hdlMgDl).all { it.isFinite() }) {
+            "Metabolic screening values must be finite"
+        }
+        require(waistCm > 0f && systolic > 0f && diastolic > 0f && fastingGlucoseMgDl >= 0f && triglyceridesMgDl >= 0f && hdlMgDl >= 0f) {
+            "Metabolic screening values must be positive"
         }
 
+        val waistThreshold = if (isMale) ethnicity.maleWaistCm else ethnicity.femaleWaistCm
+        val hdlThreshold = if (isMale) 40f else 50f
+        val waistMet = waistCm >= waistThreshold || onWaistMedication
+        val triglyceridesMet = triglyceridesMgDl >= 150f || onTriglyceridesMedication
+        val hdlMet = hdlMgDl < hdlThreshold || onHdlMedication
+        val bpMet = systolic >= 130f || diastolic >= 85f || onBpMedication
+        val glucoseMet = fastingGlucoseMgDl >= 100f || onGlucoseMedication
+
+        val criteria = listOf(
+            MetabolicCriterion(
+                "Central waist measurement",
+                "Selected ${ethnicity.displayName} reference",
+                "%.1f cm".format(waistCm),
+                "≥ %.0f cm".format(waistThreshold),
+                waistMet,
+                onWaistMedication
+            ),
+            MetabolicCriterion("Elevated triglycerides", "Fasting or clinician-reported laboratory value", "%.0f mg/dL".format(triglyceridesMgDl), "≥ 150 mg/dL", triglyceridesMet, onTriglyceridesMedication),
+            MetabolicCriterion("Reduced HDL cholesterol", "Sex-specific reference", "%.0f mg/dL".format(hdlMgDl), "< %.0f mg/dL".format(hdlThreshold), hdlMet, onHdlMedication),
+            MetabolicCriterion("Elevated blood pressure", "Either number can meet this marker", "%.0f/%.0f mmHg".format(systolic, diastolic), "≥ 130 systolic or ≥ 85 diastolic", bpMet, onBpMedication),
+            MetabolicCriterion("Elevated fasting glucose", "Fasting value or glucose-lowering medication", "%.0f mg/dL".format(fastingGlucoseMgDl), "≥ 100 mg/dL", glucoseMet, onGlucoseMedication)
+        )
+
+        val count = criteria.count { it.isMet }
+        val idfWaistMet = waistCm >= waistThreshold || onWaistMedication
+        val idfOther = listOf(triglyceridesMet, hdlMet, bpMet, glucoseMet).count { it }
+        val idfScreen = idfWaistMet && idfOther >= 2
         return MetabolicSyndromeResult(
-            criteria = atpCriteria,
-            criteriaMet = atpMetCount,
-            totalCriteria = 5,
-            isSyndromePresent = atpDiagnosis,
-            riskLevel = riskLevel,
-            atpIIICriteriaMet = atpMetCount,
-            idfCriteriaMet = idfCriteriaMet,
-            idfDiagnosis = idfDiagnosis,
-            diagnosisDiffers = diagnosisDiffers
+            criteria = criteria,
+            criteriaMet = count,
+            isSyndromePresent = count >= 3,
+            riskLevel = when (count) {
+                0 -> MetabolicRiskLevel.NONE
+                1 -> MetabolicRiskLevel.LOW
+                2 -> MetabolicRiskLevel.MODERATE
+                3 -> MetabolicRiskLevel.HIGH
+                else -> MetabolicRiskLevel.VERY_HIGH
+            },
+            atpIIICriteriaMet = count,
+            idfCriteriaMet = (if (idfWaistMet) 1 else 0) + idfOther,
+            idfDiagnosis = idfScreen,
+            diagnosisDiffers = (count >= 3) != idfScreen,
+            selectedEthnicity = ethnicity
         )
     }
 
-    // Unit conversions
     fun mgDlToMmolL_glucose(mgDl: Float): Float = mgDl / 18.0182f
     fun mmolLToMgDl_glucose(mmolL: Float): Float = mmolL * 18.0182f
-
     fun mgDlToMmolL_triglycerides(mgDl: Float): Float = mgDl / 88.57f
     fun mmolLToMgDl_triglycerides(mmolL: Float): Float = mmolL * 88.57f
-
     fun mgDlToMmolL_hdl(mgDl: Float): Float = mgDl / 38.67f
     fun mmolLToMgDl_hdl(mmolL: Float): Float = mmolL * 38.67f
-
     fun cmToInches(cm: Float): Float = cm / 2.54f
     fun inchesToCm(inches: Float): Float = inches * 2.54f
 }

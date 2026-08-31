@@ -1,9 +1,9 @@
 package com.health.calculator.bmi.tracker.data.calculator
 
-import kotlin.math.roundToInt
-
 /**
- * Calculator for Ideal Body Weight (IBW) using various scientific formulas.
+ * Educational adult weight estimates using historical height-based formulas.
+ * These are not an "ideal" prescription and are not validated for children,
+ * pregnancy, athletes, or individual treatment decisions.
  */
 object IdealWeightCalculator {
 
@@ -18,6 +18,7 @@ object IdealWeightCalculator {
      * Female: 49 kg + 1.7 kg per inch over 5 feet
      */
     fun calculateRobinson(heightCm: Float, isMale: Boolean): Float {
+        requireValidHeight(heightCm)
         val heightInches = heightCm / 2.54f
         val inchesOver5Feet = (heightInches - 60f).coerceAtLeast(0f)
         return if (isMale) {
@@ -33,6 +34,7 @@ object IdealWeightCalculator {
      * Female: 53.1 kg + 1.36 kg per inch over 5 feet
      */
     fun calculateMiller(heightCm: Float, isMale: Boolean): Float {
+        requireValidHeight(heightCm)
         val heightInches = heightCm / 2.54f
         val inchesOver5Feet = (heightInches - 60f).coerceAtLeast(0f)
         return if (isMale) {
@@ -48,6 +50,7 @@ object IdealWeightCalculator {
      * Female: 45.5 kg + 2.3 kg per inch over 5 feet
      */
     fun calculateDevine(heightCm: Float, isMale: Boolean): Float {
+        requireValidHeight(heightCm)
         val heightInches = heightCm / 2.54f
         val inchesOver5Feet = (heightInches - 60f).coerceAtLeast(0f)
         return if (isMale) {
@@ -63,6 +66,7 @@ object IdealWeightCalculator {
      * Female: 45.5 kg + 2.2 kg per inch over 5 feet
      */
     fun calculateHamwi(heightCm: Float, isMale: Boolean): Float {
+        requireValidHeight(heightCm)
         val heightInches = heightCm / 2.54f
         val inchesOver5Feet = (heightInches - 60f).coerceAtLeast(0f)
         return if (isMale) {
@@ -73,12 +77,13 @@ object IdealWeightCalculator {
     }
 
     /**
-     * Calculate healthy weight range based on WHO BMI (18.5 - 25)
+     * Calculate the adult BMI reference range (18.5–24.9), in kilograms.
      */
     fun calculateHealthyRange(heightCm: Float): Pair<Float, Float> {
+        requireValidHeight(heightCm)
         val heightMeters = heightCm / 100f
         val minWeight = 18.5f * (heightMeters * heightMeters)
-        val maxWeight = 25.0f * (heightMeters * heightMeters)
+        val maxWeight = 24.9f * (heightMeters * heightMeters)
         return Pair(minWeight, maxWeight)
     }
 
@@ -88,7 +93,7 @@ object IdealWeightCalculator {
     fun validateHeight(heightCm: Float): String? {
         return when {
             heightCm <= 0 -> "Please enter your height"
-            heightCm < 30 -> "Height is too low"
+            heightCm < 100 -> "Adult height estimates require at least 100 cm"
             heightCm > 300 -> "Height is too high"
             else -> null
         }
@@ -97,9 +102,15 @@ object IdealWeightCalculator {
     fun validateAge(age: Int): String? {
         return when {
             age <= 0 -> "Please enter your age"
-            age < 2 -> "Age must be at least 2"
-            age > 120 -> "Please enter a valid age"
+            age < MedicalCalculationPolicy.ADULT_MIN_AGE -> "This estimate is for adults aged ${MedicalCalculationPolicy.ADULT_MIN_AGE} and over"
+            age > MedicalCalculationPolicy.MAX_AGE -> "Please enter a valid age"
             else -> null
+        }
+    }
+
+    private fun requireValidHeight(heightCm: Float) {
+        require(heightCm.isFinite() && heightCm in 100f..300f) {
+            "Height must be between 100 and 300 cm for an adult estimate"
         }
     }
 }

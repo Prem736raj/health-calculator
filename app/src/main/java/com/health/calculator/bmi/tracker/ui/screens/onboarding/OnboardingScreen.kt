@@ -100,7 +100,7 @@ private val onboardingPages = listOf(
     OnboardingPage(
         emoji = "🏥",
         decorativeEmojis = listOf("⚖️", "🔥", "❤️", "💧", "📊", "🎯", "💓", "🩺", "📐", "🍎"),
-        title = "10 WHO-Standard\nCalculators",
+        title = "10 practical\nhealth calculators",
         subtitle = "Medical-Grade Accuracy",
         description = "From BMI and BMR to Blood Pressure and Heart Rate Zones — all calculations follow World Health Organization standards.",
         accentColor = Color(0xFF1E88E5)

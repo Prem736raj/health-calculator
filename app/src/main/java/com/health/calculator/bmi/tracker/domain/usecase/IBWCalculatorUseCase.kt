@@ -18,6 +18,13 @@ class IBWCalculatorUseCase {
         currentWeightKg: Double? = null,
         age: Int? = null
     ): IBWResult {
+        require(heightCm.isFinite() && heightCm in 100.0..250.0) {
+            "Height must be between 100 and 250 cm"
+        }
+        require(currentWeightKg == null || (currentWeightKg.isFinite() && currentWeightKg > 0.0)) {
+            "Current weight must be a positive finite value"
+        }
+        require(age == null || age in 18..120) { "These adult estimates support ages 18–120" }
         val heightInches = heightCm / 2.54
         val heightM = heightCm / 100.0
         val isMale = gender.equals("Male", ignoreCase = true)
@@ -65,7 +72,7 @@ class IBWCalculatorUseCase {
             hamwiBase + hamwiFactor * heightDelta
         }
 
-        // 5. BMI-based Range (always reliable)
+        // 5. BMI-based reference range (informational adult context)
         val bmiLower = 18.5 * heightM.pow(2)
         val bmiUpper = 24.9 * heightM.pow(2)
 
@@ -88,11 +95,11 @@ class IBWCalculatorUseCase {
         // Height warning flags
         val heightWarning = when {
             heightInches < MINIMUM_HEIGHT_INCHES ->
-                "Your height is below the reliable range for these formulas. Results are estimated using scaling. The BMI-based range is most reliable for your height."
+                "Your height is outside the usual validation range for these formulas. Results are estimates and should be interpreted with personal context."
             heightInches > MAXIMUM_HEIGHT_INCHES ->
-                "Your height is above the typical range for these formulas. Results may be less accurate. The BMI-based range is most reliable."
+                "Your height is outside the usual validation range for these formulas. Results may be less comparable across equations."
             isVeryShort ->
-                "Standard IBW formulas were designed for heights above 5 feet (152 cm). Results have been adjusted using proportional scaling."
+                "Several historical IBW equations were developed mainly from adult samples around average heights. Treat the result as a range estimate."
             else -> null
         }
 

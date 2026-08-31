@@ -266,7 +266,7 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
                 append("\n\n👋 We've missed you! It's been ${data.daysSinceLastAppUse} days since your last check-in.")
             }
             if (data.healthScore > 0) {
-                append("\n🏆 Your health score: ${data.healthScore}/100")
+                append("\n🏆 Your Wellness Score: ${data.healthScore}/100")
             }
         }
 

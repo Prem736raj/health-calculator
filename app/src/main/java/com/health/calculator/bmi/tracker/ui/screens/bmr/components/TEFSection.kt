@@ -561,9 +561,9 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
         EnergyComponent(
             label = "Physical Activity",
             emoji = "🏃",
-            calories = tefData.activityCalories,
+            calories = tefData.activityCaloriesForBreakdown,
             percentage = tefData.activityPercentOfTotal,
-            description = "Energy for exercise and daily movement",
+            description = "Illustrative movement slice after the TEF estimate",
             color = ActivityColor
         ),
         EnergyComponent(
@@ -739,7 +739,7 @@ private fun CompleteEnergyBreakdownCard(tefData: TEFData) {
                         fontWeight = FontWeight.Bold
                     )
                     EquationChip(
-                        value = "${tefData.activityCalories.toInt()}",
+                        value = "${tefData.activityCaloriesForBreakdown.toInt()}",
                         label = "Activity",
                         color = ActivityColor
                     )

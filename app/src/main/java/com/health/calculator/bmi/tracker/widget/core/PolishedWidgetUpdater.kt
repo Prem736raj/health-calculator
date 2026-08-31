@@ -205,7 +205,7 @@ object PolishedWidgetUpdater {
         }
 
         // Accessibility
-        views.setContentDescription(R.id.img_health_arc, "Overall health score is $score percent")
+        views.setContentDescription(R.id.img_health_arc, "Wellness Score consistency is $score percent")
         
         manager.updateAppWidget(widgetId, views)
     }

@@ -30,10 +30,10 @@ object BSAEdgeCaseValidator {
         }
 
         // Zero/Negative
-        if (weightKg <= 0f) {
+        if (!weightKg.isFinite() || weightKg <= 0f) {
             return BSAValidationResult(false, weightError = "Weight must be greater than zero")
         }
-        if (heightCm <= 0f) {
+        if (!heightCm.isFinite() || heightCm <= 0f) {
             return BSAValidationResult(false, heightError = "Height must be greater than zero")
         }
 

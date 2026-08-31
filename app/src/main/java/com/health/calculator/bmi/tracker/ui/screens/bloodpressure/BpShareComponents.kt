@@ -148,7 +148,7 @@ private fun shareReadingAsText(@ApplicationContext context: Context, reading: Bl
     sb.appendLine("🩺 Blood Pressure Reading")
     sb.appendLine("━━━━━━━━━━━━━━━━━━━━━━")
     sb.appendLine("📊 ${reading.systolic}/${reading.diastolic} mmHg")
-    sb.appendLine("📋 Category: $categoryDisplay (WHO)")
+    sb.appendLine("📋 Category: $categoryDisplay (reference context)")
 
     reading.pulse?.let {
         sb.appendLine("❤️ Pulse: $it BPM")

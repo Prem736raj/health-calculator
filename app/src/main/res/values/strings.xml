@@ -12,7 +12,7 @@
     <!-- Health Summary Widget -->
 <string name="widget_health_medium_description">Comprehensive health summary at a glance (3x2)</string>
 <string name="widget_health_large_description">Detailed health dashboard with all metrics (4x3)</string>
-<string name="widget_health_score">Health Score</string>
+<string name="widget_health_score">Wellness Score</string>
 <string name="widget_score_label">Calculated Score</string>
 <string name="widget_bmi_label">BMI</string>
 <string name="widget_bp_label">BP</string>
@@ -39,7 +39,7 @@
 <string name="widget_a11y_add_bottle">Add 500ml bottle of water</string>
 <string name="widget_a11y_refresh">Refresh widget data</string>
 <string name="widget_a11y_settings">Open widget settings</string>
-<string name="widget_a11y_health_score">Overall health score indicator</string>
+<string name="widget_a11y_health_score">Wellness Score consistency indicator</string>
 
     <!-- NavGraph Extracted Screens -->
 <string name="health_articles_title">Health Articles</string>
@@ -59,14 +59,14 @@
     <!-- Extracted UI Strings -->
 <string name="txt_calculators">Calculators</string>
 <string name="txt_calculate">Calculate</string>
-<string name="txt_use_who_standard_calculators_t">Explore evidence-based health calculators and track your wellness metrics over time.</string>
+<string name="txt_use_who_standard_calculators_t">Explore evidence-informed calculators and track your wellness metrics over time.</string>
 <string name="txt_track_your_health">Track Your Health</string>
 <string name="txt_profile_data_changed">Profile data changed</string>
 <string name="txt_see_how_your_profile_data_flow">See how your profile data flows into different calculators and how they interconnect.</string>
 <string name="txt_your_health_data_network">Your Health Data Network</string>
 <string name="txt_health_connections">Health Connections</string>
 <string name="txt_based_on_your_aggregated_healt">Based on your aggregated health data</string>
-<string name="txt_overall_health_score">Overall Health Score</string>
+<string name="txt_overall_health_score">Wellness Score</string>
 <string name="txt_activity_nutrition">Activity &amp; Nutrition</string>
 <string name="txt_latest_results_from_your_calcu">Latest results from your calculations</string>
 <string name="txt_your_health_status">Your Health Status</string>
@@ -232,8 +232,8 @@
 <string name="txt_text_placeholder_12">✨</string>
 <string name="txt_no_data">No data</string>
 <string name="txt_got_it">Got It</string>
-<string name="txt_how_your_score_is_calculated">📊 How Your Score is Calculated</string>
-<string name="txt_health_score_breakdown">Health Score Breakdown</string>
+<string name="txt_how_your_score_is_calculated">📊 How Your Wellness Score is calculated</string>
+<string name="txt_health_score_breakdown">Wellness Score breakdown</string>
 <string name="txt_search_health_tools_terms">Search health tools, terms...</string>
 <string name="txt_clear_all_1">Clear All</string>
 <string name="txt_recent_searches">Recent Searches</string>
@@ -272,14 +272,14 @@
 <string name="txt_recent_backups">Recent Backups</string>
 <string name="txt_backup_restore">Backup &amp; Restore</string>
 <string name="txt_i_understand">I Understand</string>
-<string name="txt_emergency_911_112">Emergency: 911 / 112</string>
-<string name="txt_call_emergency_services">Call Emergency Services</string>
+<string name="txt_emergency_911_112">Use local urgent-care or emergency services if symptoms are present</string>
+<string name="txt_call_emergency_services">Seek local medical care</string>
 <string name="txt_if_you_experience_any_of_these">If you experience any of these symptoms:</string>
-<string name="txt_this_reading_indicates_a_hyper">This reading indicates a hypertensive crisis that requires immediate medical attention.</string>
+<string name="txt_this_reading_indicates_a_hyper">This markedly elevated reading needs a careful repeat and prompt professional advice.</string>
 <string name="txt_your_reading">Your Reading</string>
-<string name="txt_hypertensive_crisis">⚠️ HYPERTENSIVE CRISIS</string>
+<string name="txt_hypertensive_crisis">⚠️ Markedly elevated reading</string>
 <string name="txt_risk_assessment">Risk Assessment</string>
-<string name="txt_who_classification">WHO Classification</string>
+<string name="txt_who_classification">Reference classification</string>
 <string name="txt_high">High</string>
 <string name="txt_low">Low</string>
 <string name="txt_blood_pressure_gauge">Blood Pressure Gauge</string>
@@ -314,8 +314,8 @@
 <string name="txt_heart_beating">Heart beating</string>
 <string name="txt_sys">SYS</string>
 <string name="txt_understanding_your_reading">Understanding Your Reading</string>
-<string name="txt_if_your_reading_is_above_180_1">If your reading is above 180/120, seek immediate medical attention.</string>
-<string name="txt_emergency_reading_detected">⚠️ Emergency Reading Detected!</string>
+<string name="txt_if_your_reading_is_above_180_1">If a repeat is still at or above 180/120, or symptoms are present, seek prompt medical care.</string>
+<string name="txt_emergency_reading_detected">⚠️ Markedly elevated reading</string>
 <string name="txt_enter_your_blood_pressure_read">Enter your blood pressure reading from your monitor</string>
 <string name="txt_results">RESULTS</string>
 <string name="txt_set_blood_pressure_reminders">Set Blood Pressure Reminders</string>
@@ -362,8 +362,8 @@
 <string name="txt_delete_reading_1">Delete Reading?</string>
 <string name="txt_bp_log">BP Log</string>
 <string name="txt_reading_saved_to_bp_log">Reading saved to BP log ✓</string>
-<string name="txt_seek_emergency_care_if_you_exp">Seek emergency care if you experience:</string>
-<string name="txt_this_reading_indicates_a_hyper_1">This reading indicates a hypertensive crisis requiring immediate medical attention.</string>
+<string name="txt_seek_emergency_care_if_you_exp">If you have concerning symptoms, seek urgent medical care:</string>
+<string name="txt_this_reading_indicates_a_hyper_1">This markedly elevated reading needs confirmation and prompt professional advice.</string>
 <string name="txt_use">Use</string>
 <string name="txt_quick_log">Quick Log</string>
 <string name="txt_this_information_is_for_educat">This information is for educational purposes only and should not replace professional medical advice, diagnosis, or treatment. Always consult your healthcare provider for personal medical decisions. If you believe you are experiencing a medical emergency, call your local emergency services immediately.</string>
@@ -431,7 +431,7 @@
 <string name="txt_how_your_bmr_compares_with_age">How your BMR compares with age averages</string>
 <string name="txt_bmr_age_comparison">BMR &amp; Age Comparison</string>
 <string name="txt_got_it_1">Got it</string>
-<string name="txt_tip_if_you_don_t_know_your_bod">💡 Tip: If you don\'t know your body fat %, use the Mifflin-St Jeor formula instead — it doesn\'t require it and is highly accurate.</string>
+<string name="txt_tip_if_you_don_t_know_your_bod">💡 Tip: If you don\'t know your body fat %, use the Mifflin-St Jeor estimate instead — it does not require that input.</string>
 <string name="txt_women">Women:</string>
 <string name="txt_men">Men:</string>
 <string name="txt_general_body_fat_ranges">General Body Fat Ranges:</string>
@@ -439,7 +439,7 @@
 <string name="txt_estimating_body_fat">Estimating Body Fat %</string>
 <string name="txt_don_t_know_your_body_fat">Don\'t know your body fat %?</string>
 <string name="txt_text_placeholder_21">⚠️</string>
-<string name="txt_the_mifflin_st_jeor_equation_1">The Mifflin-St Jeor equation (1990) is considered the most accurate formula for estimating BMR in most adults. It\'s recommended by the Academy of Nutrition and Dietetics and has been validated in numerous studies. If you know your body fat percentage, the Katch-McArdle formula may be even more precise.</string>
+<string name="txt_the_mifflin_st_jeor_equation_1">The Mifflin-St Jeor equation is a commonly used adult BMR estimate. Katch-McArdle uses an optional body-fat input, but neither formula replaces a measured metabolic assessment.</string>
 <string name="txt_recommendation">Recommendation</string>
 <string name="txt_text_placeholder_22">⭐</string>
 <string name="txt_different_bmr_formulas_use_dif">Different BMR formulas use different mathematical models derived from different study populations. This is why they produce varying results:</string>
@@ -496,8 +496,8 @@
 <string name="txt_plan_when_and_how_often_to_eat">Plan when and how often to eat</string>
 <string name="txt_meal_timing_schedule">Meal Timing &amp; Schedule</string>
 <string name="txt_text_placeholder_31">⏰</string>
-<string name="txt_minimum_1_200_kcal_day_applied">⚠️ Minimum 1,200 kcal/day applied for safety</string>
-<string name="txt_extreme_deficits_are_not_recom">Extreme deficits are not recommended without medical supervision. Consult a healthcare provider.</string>
+<string name="txt_minimum_1_200_kcal_day_applied">⚠️ App planning floor applied (not a universal medical minimum)</string>
+<string name="txt_extreme_deficits_are_not_recom">Very low targets need individual professional guidance; this app does not prescribe a diet.</string>
 <string name="txt_weight_change_estimates_assume">Weight change estimates assume 1 kg ≈ 7,700 kcal. </string>
 <string name="txt_tap_any_goal_to_see_details_an">Tap any goal to see details and projected weight change</string>
 <string name="txt_calorie_targets_by_goal">Calorie Targets by Goal</string>
@@ -514,7 +514,7 @@
 <string name="txt_total_daily_energy_expenditure">Total Daily Energy Expenditure</string>
 <string name="txt_total">total</string>
 <string name="txt_text_placeholder_36"> + </string>
-<string name="txt_bmr_activity_tef">BMR + Activity + TEF</string>
+<string name="txt_bmr_activity_tef">BMR + activity estimate (TEF is already reflected)</string>
 <string name="txt_your_full_daily_energy_breakdo">Your full daily energy breakdown</string>
 <string name="txt_complete_energy_expenditure">Complete Energy Expenditure</string>
 <string name="txt_total_tef">Total TEF</string>
@@ -637,7 +637,7 @@
 <string name="txt_text_placeholder_44">◀</string>
 <string name="txt_bmi_range">BMI Range</string>
 <string name="txt_category">Category</string>
-<string name="txt_research_shows_asian_populatio">💡 Research shows Asian populations tend to develop health risks like diabetes and cardiovascular disease at lower BMI values. The WHO recommends these adjusted cutoffs for Asian, South Asian, and Southeast Asian populations.</string>
+<string name="txt_research_shows_asian_populatio">💡 Some guidelines use population-specific BMI action points. They are context for discussion, not a diagnosis or a replacement for individualized assessment.</string>
 <string name="txt_different_from_standard_classi">Different from standard classification</string>
 <string name="txt_20">20</string>
 <string name="txt_15">15</string>
@@ -666,13 +666,13 @@
 <string name="txt_note_for_older_adults">Note for Older Adults</string>
 <string name="txt_text_placeholder_45">👴</string>
 <string name="txt_recommended_range_for_your_age">Recommended Range for Your Age</string>
-<string name="txt_who_bmi_for_age_categories">WHO BMI-for-Age Categories</string>
+<string name="txt_who_bmi_for_age_categories">BMI-for-age reference categories</string>
 <string name="txt_100_2">100</string>
 <string name="txt_95th">95th</string>
 <string name="txt_85th">85th</string>
 <string name="txt_5th">5th</string>
 <string name="txt_percentile">percentile</string>
-<string name="txt_bmi_for_age_percentile_method_">BMI-for-age percentile method (WHO standard)</string>
+<string name="txt_bmi_for_age_percentile_method_">BMI-for-age percentile method (growth-chart reference)</string>
 <string name="txt_child_teen_bmi_assessment">Child/Teen BMI Assessment</string>
 <string name="txt_age_gender_insights">Age &amp; Gender Insights</string>
 <string name="txt_this_educational_content_is_fo_2">This educational content is for informational purposes only and does not constitute medical advice. The information provided is based on WHO guidelines and general health recommendations. Always consult a qualified healthcare professional for personalized medical guidance.</string>
@@ -683,13 +683,13 @@
 <string name="txt_while_bmi_is_a_useful_starting">While BMI is a useful starting point, it has several important limitations you should be aware of:</string>
 <string name="txt_risk">Risk</string>
 <string name="txt_the_world_health_organization_">The World Health Organization classifies BMI into the following categories. Each category carries different levels of health risk:</string>
-<string name="txt_the_result_is_expressed_in_kg_">The result is expressed in kg/m² (kilograms per square meter). This number is then compared against standard WHO ranges to determine your weight category.</string>
+<string name="txt_the_result_is_expressed_in_kg_">The result is expressed in kg/m² (kilograms per square meter) and compared with adult reference ranges for context.</string>
 <string name="txt_imperial">Imperial</string>
 <string name="txt_metric">Metric</string>
 <string name="txt_bmi_formula">BMI Formula</string>
 <string name="txt_bmi_uses_a_straightforward_mat">BMI uses a straightforward mathematical formula that compares your weight to the square of your height:</string>
 <string name="txt_while_bmi_is_widely_used_becau">While BMI is widely used because it\'s easy to calculate and requires only your height and weight, it\'s important to remember that it\'s a screening tool — not a diagnostic one. It provides a starting point for health conversations, not a final answer.</string>
-<string name="txt_body_mass_index_bmi_is_a_simpl">Body Mass Index (BMI) is a simple screening tool that estimates whether a person\'s weight is in a healthy proportion to their height. It was developed by Belgian mathematician Adolphe Quetelet in the 19th century and has been adopted by the World Health Organization (WHO) as a standard measure.</string>
+<string name="txt_body_mass_index_bmi_is_a_simpl">Body Mass Index (BMI) is a simple population-level screening measure based on weight and height. It can provide context, but it does not measure body fat or diagnose a condition.</string>
 <string name="txt_understand_your_results_and_wh">Understand your results and what they mean for your health</string>
 <string name="txt_learn_about_bmi">Learn About BMI</string>
 <string name="txt_40">40</string>
@@ -703,7 +703,7 @@
 <string name="txt_normal">Normal</string>
 <string name="txt_underweight">Underweight</string>
 <string name="txt_target_weight">Target weight</string>
-<string name="txt_based_on_who_normal_range_18_5">Based on WHO normal range (18.5–24.9)</string>
+<string name="txt_based_on_who_normal_range_18_5">Based on the adult BMI reference range (18.5–24.9)</string>
 <string name="txt_to_reach_a_healthy_bmi">To reach a healthy BMI</string>
 <string name="txt_your_bmi_is_in_the_healthy_nor">Your BMI is in the healthy normal range. Keep maintaining your current weight!</string>
 <string name="txt_great_job">Great job! 🎉</string>
@@ -722,9 +722,9 @@
 <string name="txt_loading_trend_data">Loading trend data...</string>
 <string name="txt_calculate_bmi">Calculate BMI</string>
 <string name="txt_please_fix_the_following">Please fix the following:</string>
-<string name="txt_contact_your_healthcare_provid">Contact your healthcare provider, visit an </string>
-<string name="txt_please_seek_help">Please Seek Help</string>
-<string name="txt_immediate_attention_needed">IMMEDIATE ATTENTION NEEDED</string>
+<string name="txt_contact_your_healthcare_provid">Consider contacting your healthcare provider or a </string>
+<string name="txt_please_seek_help">Consider professional guidance</string>
+<string name="txt_immediate_attention_needed">PLEASE VERIFY YOUR INPUTS</string>
 <string name="txt_amazing_work_keep_maintaining_">Amazing work! Keep maintaining your healthy lifestyle. You can set a new goal anytime.</string>
 <string name="txt_you_ve_reached_your_bmi_goal">You\'ve reached your BMI goal!</string>
 <string name="txt_congratulations">Congratulations!</string>
@@ -744,15 +744,15 @@
 <string name="txt_text_placeholder_48">💪</string>
 <string name="txt_bmi_goal_tracker">🎯 BMI Goal Tracker</string>
 <string name="txt_medical_disclaimer_this_health">Medical Disclaimer: This health risk information is for educational </string>
-<string name="txt_based_on_your_bmi_category">Based on your BMI category</string>
-<string name="txt_health_risk_assessment">Health Risk Assessment</string>
+<string name="txt_based_on_your_bmi_category">Informational BMI context</string>
+<string name="txt_health_risk_assessment">BMI context</string>
 <string name="txt_quick_check">⚡ Quick Check</string>
 <string name="txt_sliders">🎚️ Sliders</string>
 <string name="txt_keyboard">⌨️ Keyboard</string>
 <string name="txt_fine_tune_1_cm">Fine-tune (1 cm)</string>
 <string name="txt_fine_tune">Fine-tune</string>
 <string name="txt_live_bmi_preview">Live BMI Preview</string>
-<string name="txt_ideal_body_weight">Ideal Body Weight</string>
+<string name="txt_ideal_body_weight">Height-based weight estimates</string>
 <string name="txt_this_calculator_is_for_informa">This calculator is for informational purposes only. Please consult with a healthcare professional before making significant changes to your diet or exercise routine.</string>
 <string name="txt_based_on_devine_formula">(Based on Devine Formula)</string>
 <string name="txt_kg">kg</string>
@@ -1022,11 +1022,11 @@
 <string name="txt_healthy_range">Healthy Range</string>
 <string name="txt_your_weight_journey">Your Weight Journey</string>
 <string name="txt_set_weight_goal">Set Weight Goal</string>
-<string name="txt_different_formulas_are_used_by">Different formulas are used by clinicians for different medical purposes. The Devine formula is the most universally accepted standard.</string>
+<string name="txt_different_formulas_are_used_by">Several historical formulas are shown for comparison. None is an ideal or required weight, and none should guide treatment or medication dosing.</string>
 <string name="txt_compare_formulas">Compare Formulas</string>
-<string name="txt_healthy_bmi_range_18_5_24_9">Healthy BMI Range (18.5 - 24.9)</string>
-<string name="txt_your_ideal_body_weight">Your Ideal Body Weight</string>
-<string name="txt_calculate_ideal_weight">Calculate Ideal Weight</string>
+<string name="txt_healthy_bmi_range_18_5_24_9">Adult BMI reference range (18.5–24.9)</string>
+<string name="txt_your_ideal_body_weight">Your height-based estimates</string>
+<string name="txt_calculate_ideal_weight">Calculate weight estimates</string>
 <string name="txt_current_weight_highly_recommen">Current Weight (highly recommended for comparison)</string>
 <string name="txt_age_optional">Age (optional)</string>
 <string name="txt_determine_frame_size">Determine Frame Size</string>
@@ -1035,7 +1035,7 @@
 <string name="txt_measure_your_wrist">Measure Your Wrist</string>
 <string name="txt_don_t_know_your_frame_size">Don\'t know your frame size?</string>
 <string name="txt_frame_size">Frame Size</string>
-<string name="txt_ideal_body_weight_is_the_weigh">Ideal Body Weight is the weight that\'s associated with the lowest risk of health issues for your height and frame.</string>
+<string name="txt_ideal_body_weight_is_the_weigh">Height-based formulas are historical estimates, not an ideal or required weight. They do not account for muscle, body composition, pregnancy, ethnicity, or medical context.</string>
 <string name="txt_quick_links_to_update_your_mea">Quick links to update your measurements</string>
 <string name="txt_this_educational_content_is_fo_4">This educational content is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. The information provided should not be used as a substitute for professional medical consultation. Always consult with a qualified healthcare provider regarding any medical condition or treatment decisions. Individual health needs vary — what\'s appropriate for one person may not be suitable for another.</string>
 <string name="txt_why_it_matters">Why it matters:</string>

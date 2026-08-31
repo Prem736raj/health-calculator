@@ -29,64 +29,64 @@ enum class BpCategory(
     val sortOrder: Int
 ) {
     HYPOTENSION(
-        displayName = "Hypotension",
-        description = "Blood pressure is below normal range",
+        displayName = "Below 90/60",
+        description = "A low reading; symptoms and repeated readings matter",
         systolicRange = "< 90",
         diastolicRange = "< 60",
         sortOrder = 0
     ),
     OPTIMAL(
-        displayName = "Optimal",
-        description = "Ideal blood pressure – keep it up!",
+        displayName = "Normal",
+        description = "Below 120/80 mmHg",
         systolicRange = "< 120",
         diastolicRange = "< 80",
         sortOrder = 1
     ),
     NORMAL(
-        displayName = "Normal",
-        description = "Blood pressure is within normal range",
+        displayName = "Elevated",
+        description = "120–129 systolic and below 80 diastolic",
         systolicRange = "120–129",
-        diastolicRange = "80–84",
+        diastolicRange = "< 80",
         sortOrder = 2
     ),
     HIGH_NORMAL(
-        displayName = "High Normal",
-        description = "Slightly elevated – monitor regularly",
+        displayName = "Stage 1 range",
+        description = "130–139 systolic or 80–89 diastolic",
         systolicRange = "130–139",
-        diastolicRange = "85–89",
+        diastolicRange = "80–89",
         sortOrder = 3
     ),
     ISOLATED_SYSTOLIC(
-        displayName = "Isolated Systolic HTN",
-        description = "Systolic elevated but diastolic normal",
+        displayName = "Stage 2 range (systolic)",
+        description = "Systolic ≥ 140 with diastolic below 90",
         systolicRange = "≥ 140",
         diastolicRange = "< 90",
         sortOrder = 4
     ),
     GRADE_1_HYPERTENSION(
-        displayName = "Grade 1 Hypertension",
-        description = "Mild high blood pressure",
-        systolicRange = "140–159",
-        diastolicRange = "90–99",
+        displayName = "Stage 2 range",
+        description = "140+ systolic or 90+ diastolic",
+        systolicRange = "≥ 140",
+        diastolicRange = "≥ 90",
         sortOrder = 5
     ),
     GRADE_2_HYPERTENSION(
-        displayName = "Grade 2 Hypertension",
-        description = "Moderate high blood pressure",
-        systolicRange = "160–179",
-        diastolicRange = "100–109",
+        displayName = "Stage 2 range",
+        description = "140+ systolic or 90+ diastolic",
+        systolicRange = "≥ 140",
+        diastolicRange = "≥ 90",
         sortOrder = 6
     ),
     GRADE_3_HYPERTENSION(
-        displayName = "Grade 3 Hypertension",
-        description = "Severe high blood pressure",
+        displayName = "Severely elevated",
+        description = "180+ systolic or 120+ diastolic",
         systolicRange = "≥ 180",
         diastolicRange = "≥ 110",
         sortOrder = 7
     ),
     HYPERTENSIVE_CRISIS(
-        displayName = "Hypertensive Crisis",
-        description = "Seek immediate medical attention!",
+        displayName = "Severely elevated reading",
+        description = "Repeat carefully and seek urgent advice, especially with symptoms",
         systolicRange = "≥ 180",
         diastolicRange = "≥ 120",
         sortOrder = 8
@@ -94,11 +94,11 @@ enum class BpCategory(
 }
 
 enum class BpRiskLevel(val displayName: String, val description: String) {
-    LOW("Low Risk", "Your blood pressure is in a healthy range."),
-    MODERATE("Moderate Risk", "Consider lifestyle changes and regular monitoring."),
-    HIGH("High Risk", "Consult a healthcare provider. Lifestyle changes recommended."),
-    VERY_HIGH("Very High Risk", "Medical attention strongly recommended."),
-    EMERGENCY("EMERGENCY", "Seek immediate medical attention. Call emergency services if experiencing symptoms.")
+    LOW("Within reference", "One reading is informational; keep a consistent measurement routine."),
+    MODERATE("Above or below reference", "Repeat readings on separate occasions and review the trend."),
+    HIGH("Higher reading", "Discuss repeated readings with a healthcare professional."),
+    VERY_HIGH("Markedly elevated", "Repeat after resting and seek prompt professional advice."),
+    EMERGENCY("Severely elevated", "If a repeat reading is still ≥180/120 or you have concerning symptoms, seek urgent medical care.")
 }
 data class BloodPressureReading(
     val systolic: Int,
@@ -134,8 +134,9 @@ data class BloodPressureReading(
 object BloodPressureCalculator {
 
     fun categorize(systolic: Int, diastolic: Int): BpCategory {
-        // Emergency check first
-        if (systolic >= 180 && diastolic >= 120) {
+        // A severe value in either number needs a careful repeat and prompt
+        // advice; do not wait for both numbers to cross the threshold.
+        if (systolic >= 180 || diastolic >= 120) {
             return BpCategory.HYPERTENSIVE_CRISIS
         }
 
@@ -144,23 +145,13 @@ object BloodPressureCalculator {
         // Determine diastolic category
         val diastolicCategory = categorizeDiastolic(diastolic)
 
-        // Isolated Systolic Hypertension: systolic ≥ 140 AND diastolic < 90
-        if (systolic >= 140 && diastolic < 90) {
-            // But if diastolic is also very low, still consider ISH
-            // Unless it's a crisis
-            val sysGrade = systolicCategory
-            if (sysGrade == BpCategory.GRADE_3_HYPERTENSION ||
-                sysGrade == BpCategory.HYPERTENSIVE_CRISIS
-            ) {
-                return sysGrade
-            }
-            return BpCategory.ISOLATED_SYSTOLIC
-        }
-
         // Hypotension check
         if (systolic < 90 || diastolic < 60) {
             return BpCategory.HYPOTENSION
         }
+
+        // Isolated systolic elevation remains useful as a descriptive label.
+        if (systolic >= 140 && diastolic < 90) return BpCategory.ISOLATED_SYSTOLIC
 
         // Use the HIGHER (worse) category when they differ
         return if (systolicCategory.sortOrder >= diastolicCategory.sortOrder) {
@@ -173,8 +164,7 @@ object BloodPressureCalculator {
     private fun categorizeSystolic(systolic: Int): BpCategory {
         return when {
             systolic >= 180 -> BpCategory.GRADE_3_HYPERTENSION
-            systolic in 160..179 -> BpCategory.GRADE_2_HYPERTENSION
-            systolic in 140..159 -> BpCategory.GRADE_1_HYPERTENSION
+            systolic >= 140 -> BpCategory.GRADE_2_HYPERTENSION
             systolic in 130..139 -> BpCategory.HIGH_NORMAL
             systolic in 120..129 -> BpCategory.NORMAL
             systolic >= 90 -> BpCategory.OPTIMAL
@@ -184,11 +174,9 @@ object BloodPressureCalculator {
 
     private fun categorizeDiastolic(diastolic: Int): BpCategory {
         return when {
-            diastolic >= 110 -> BpCategory.GRADE_3_HYPERTENSION
-            diastolic in 100..109 -> BpCategory.GRADE_2_HYPERTENSION
-            diastolic in 90..99 -> BpCategory.GRADE_1_HYPERTENSION
-            diastolic in 85..89 -> BpCategory.HIGH_NORMAL
-            diastolic in 80..84 -> BpCategory.NORMAL
+            diastolic >= 120 -> BpCategory.GRADE_3_HYPERTENSION
+            diastolic >= 90 -> BpCategory.GRADE_2_HYPERTENSION
+            diastolic in 80..89 -> BpCategory.HIGH_NORMAL
             diastolic >= 60 -> BpCategory.OPTIMAL
             else -> BpCategory.HYPOTENSION
         }

@@ -112,7 +112,7 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
     )
 
     val goalOptions = listOf(
-        GoalOption("lose_aggressive", "Lose Weight - Aggressive", "~1 kg/week (2.2 lbs) • 1000 cal deficit", -1000, -1.0, "⚡", 0xFFF44336),
+        GoalOption("lose_aggressive", "Lose Weight - Faster", "~0.75 kg/week (1.7 lbs) • 750 cal deficit", -750, -0.75, "⚡", 0xFFF44336),
         GoalOption("lose_moderate", "Lose Weight - Moderate", "~0.5 kg/week (1.1 lbs) • 500 cal deficit", -500, -0.5, "📉", 0xFFFF9800),
         GoalOption("lose_slow", "Lose Weight - Slow", "~0.25 kg/week (0.55 lbs) • 250 cal deficit", -250, -0.25, "🐢", 0xFFFFC107),
         GoalOption("maintain", "Maintain Weight", "Keep your current weight • No adjustment", 0, 0.0, "⚖️", 0xFF4CAF50),

@@ -412,7 +412,7 @@ private fun CalculatorCardPreview() {
                 data = CalculatorCardData(
                     id = "bmi",
                     title = "BMI Calculator",
-                    description = "Calculate your Body Mass Index using WHO standards",
+                    description = "Calculate your Body Mass Index using adult reference categories",
                     icon = Icons.Rounded.MonitorWeight,
                     color = CalculatorColors.BMI,
                     route = "calculator/bmi"
@@ -432,7 +432,7 @@ private fun CalculatorCardWidePreview() {
                 data = CalculatorCardData(
                     id = "bmi",
                     title = "BMI Calculator",
-                    description = "Calculate your Body Mass Index using WHO standards",
+                    description = "Calculate your Body Mass Index using adult reference categories",
                     icon = Icons.Rounded.MonitorWeight,
                     color = CalculatorColors.BMI,
                     route = "calculator/bmi"
@@ -456,7 +456,7 @@ private fun CalculatorCardDarkPreview() {
                 data = CalculatorCardData(
                     id = "bp",
                     title = "Blood Pressure",
-                    description = "Check your blood pressure category per WHO guidelines",
+                    description = "Review a blood-pressure reading using current reference categories",
                     icon = Icons.Rounded.MonitorWeight,
                     color = CalculatorColors.BloodPressure,
                     route = "calculator/bp"

@@ -71,8 +71,8 @@ import kotlin.math.roundToInt
 private val ComparisonAccent = Color(0xFF0097A7)
 
 /**
- * BMI comparison section that shows age/gender-specific BMI insights.
- * Displays differently for pediatric (2-19) vs adult (20+) users.
+ * BMI context section for adult reference interpretation. Pediatric BMI-for-age
+ * is intentionally not approximated without a validated growth-chart dataset.
  */
 @Composable
 fun BmiComparisonSection(
@@ -295,8 +295,7 @@ private fun PediatricSection(
     // Percentile category table
     PediatricCategoryTable(currentCategory = data.pediatricCategory)
 
-    // Population comparison
-    PopulationComparisonRow(data = data, bmiValue = bmiValue)
+    ReferenceContextCard()
 }
 
 @Composable
@@ -494,7 +493,7 @@ private fun AdultSection(
     // Population comparison
     PopulationComparisonRow(data = data, bmiValue = bmiValue)
 
-    // Age-specific note for seniors
+    // Older-age context is intentionally short and non-prescriptive.
     if (data.ageGroup == AgeGroupType.SENIOR) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -512,13 +511,32 @@ private fun AdultSection(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        "Research suggests that for adults over 65, a BMI in the range of 23–27 may be associated with the lowest mortality risk, which is slightly higher than the standard \"normal\" range. Discuss your optimal weight with your healthcare provider.",
+                        "BMI can be less informative as body composition changes with age. Review this result alongside weight trend, strength, nutrition, symptoms, and your clinician's advice.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                         lineHeight = 18.sp
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ReferenceContextCard() {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.06f)
+    ) {
+        Row(modifier = Modifier.padding(14.dp), verticalAlignment = Alignment.Top) {
+            Text("ℹ️", fontSize = 16.sp)
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                "No population average is shown. Averages depend on the country and dataset and are not a personal target. BMI also does not measure body fat or diagnose a condition.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 18.sp
+            )
         }
     }
 }

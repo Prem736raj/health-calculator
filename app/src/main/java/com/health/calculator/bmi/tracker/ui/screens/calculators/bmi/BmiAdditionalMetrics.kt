@@ -539,8 +539,8 @@ private fun AsianBmiCard(
     MetricCard(
         icon = Icons.Outlined.Groups,
         iconColor = Color(0xFFE65100),
-        title = "Asian BMI Classification",
-        formulaText = "WHO Adjusted Cutoffs for Asian Populations"
+        title = "Optional Asian-population action points",
+        formulaText = "Not a WHO reclassification; use as context only"
     ) {
         // Show the classification
         Row(
@@ -611,7 +611,7 @@ private fun AsianBmiCard(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "Standard WHO: ${standardCategory.label} • Asian WHO: ${asianCategory.label}",
+                            text = "Adult reference: ${standardCategory.label} • Action-point context: ${asianCategory.label}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                         )

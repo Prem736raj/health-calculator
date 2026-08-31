@@ -168,7 +168,7 @@ private fun EducationalExpandableCard(
 private fun WhatIsIBWContent() {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         EducationalParagraph(
-            text = "Ideal Body Weight (IBW) is an estimated weight range that medical professionals use as a reference point. It was originally developed to help calculate proper medication dosages, not as a strict health target."
+            text = "Ideal Body Weight (IBW) is a historical height-based estimate. Some equations were developed for clinical dosing contexts, but this app does not provide medication doses and the result is not a strict health target."
         )
 
         KeyPointCard(
@@ -219,7 +219,7 @@ private fun WhyDifferentResultsContent() {
 
         FormulaHistoryItem(
             name = "Devine (1974)",
-            detail = "Created for calculating medication doses. Based on limited data from a specific population. Most widely used but not the most accurate for health assessment.",
+            detail = "A historical height-based equation. It can differ from other formulas and is not a diagnostic or dosing instruction.",
             highlight = "Most Common"
         )
 
@@ -243,7 +243,7 @@ private fun WhyDifferentResultsContent() {
 
         FormulaHistoryItem(
             name = "BMI-based Range",
-            detail = "Uses the WHO healthy BMI range (18.5-24.9) to calculate a weight range. This is generally considered the most holistic approach.",
+            detail = "Uses the adult BMI reference range (18.5–24.9) to calculate a height-based weight range. It is context, not a personal target.",
             highlight = "Most Holistic"
         )
 

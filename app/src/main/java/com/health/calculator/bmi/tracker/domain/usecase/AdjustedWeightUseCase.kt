@@ -25,6 +25,9 @@ class AdjustedWeightUseCase {
         heightCm: Double,
         isMale: Boolean
     ): AdjustedWeightMetrics {
+        require(actualWeightKg.isFinite() && actualWeightKg > 0.0) { "Weight must be a positive finite value" }
+        require(idealWeightKg.isFinite() && idealWeightKg > 0.0) { "Reference weight must be a positive finite value" }
+        require(heightCm.isFinite() && heightCm in 100.0..250.0) { "Height must be between 100 and 250 cm" }
         val heightM = heightCm / 100.0
         val bmi = actualWeightKg / heightM.pow(2)
 
@@ -45,15 +48,15 @@ class AdjustedWeightUseCase {
         // 3. Weight category relative to IBW
         val (category, description) = when {
             percentOfIBW < 80 -> "Significantly Underweight" to
-                    "Your weight is below 80% of your ideal body weight. This may indicate malnutrition or an underlying health condition. Please consult a healthcare provider."
+                    "This result is below the selected height-based reference. Consider your history, goals, and nutrition context with a qualified professional."
             percentOfIBW < 90 -> "Underweight" to
-                    "Your weight is between 80-89% of your ideal. Consider a balanced nutrition plan to gradually reach a healthier weight."
+                    "This result is below the selected height-based reference. Use it as context rather than a diagnosis."
             percentOfIBW <= 110 -> "Normal / Ideal Range" to
-                    "Your weight falls within the ideal range (90-110% of IBW). Keep maintaining your healthy habits!"
+                    "This result is close to the selected height-based reference. Body composition and personal goals still matter."
             percentOfIBW <= 120 -> "Overweight" to
-                    "Your weight is 111-120% of ideal. Small lifestyle adjustments in diet and exercise can help you move toward your ideal range."
+                    "This result is above the selected height-based reference. Focus on sustainable habits rather than a single target."
             else -> "Significantly Overweight" to
-                    "Your weight exceeds 120% of your ideal body weight. A structured approach with professional guidance is recommended."
+                    "This result is well above the selected height-based reference. Individualized, non-judgmental guidance may be useful."
         }
 
         return AdjustedWeightMetrics(
@@ -81,7 +84,7 @@ fun getSportWeightNotes(): List<SportWeightNote> {
             sport = "General Population",
             icon = "👤",
             bmiRange = "BMI 18.5 - 24.9",
-            note = "Standard healthy weight range recommended by WHO for most adults."
+            note = "Adult BMI reference context; not a personal target or diagnosis."
         ),
         SportWeightNote(
             sport = "Distance Running",

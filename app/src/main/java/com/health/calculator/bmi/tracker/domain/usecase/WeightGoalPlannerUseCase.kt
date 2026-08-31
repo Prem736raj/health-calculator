@@ -16,13 +16,15 @@ class WeightGoalPlannerUseCase {
         currentWeightKg: Double,
         targetWeightKg: Double
     ): List<WeightPaceOption> {
+        require(currentWeightKg.isFinite() && currentWeightKg > 0.0) { "Current weight must be a positive finite value" }
+        require(targetWeightKg.isFinite() && targetWeightKg > 0.0) { "Target weight must be a positive finite value" }
         val difference = abs(targetWeightKg - currentWeightKg)
         val isLoss = currentWeightKg > targetWeightKg
 
         val paces = listOf(
-            Triple("Conservative", 0.25, "Safest & most sustainable"),
-            Triple("Moderate", 0.5, "Recommended pace"),
-            Triple("Aggressive", 1.0, "Maximum safe rate")
+            Triple("Gentle", 0.25, "A slower, habit-focused pace"),
+            Triple("Moderate", 0.5, "A commonly used planning pace"),
+            Triple("Faster", 0.75, "Faster change; individual guidance matters")
         )
 
         return paces.map { (name, weeklyKg, label) ->
@@ -44,6 +46,7 @@ class WeightGoalPlannerUseCase {
     }
 
     fun getMilestoneReached(progressPercent: Float): Int? {
+        if (!progressPercent.isFinite()) return null
         return when {
             progressPercent >= 100f -> 100
             progressPercent >= 75f -> 75
@@ -54,6 +57,7 @@ class WeightGoalPlannerUseCase {
     }
 
     fun getNextMilestone(progressPercent: Float): Int {
+        if (!progressPercent.isFinite()) return 25
         return when {
             progressPercent < 25f -> 25
             progressPercent < 50f -> 50

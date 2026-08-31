@@ -223,8 +223,8 @@ class WhrViewModel @Inject constructor(
         if (age == null || state.age.isBlank()) {
             _inputState.update { it.copy(ageError = "Please enter your age") }
             isValid = false
-        } else if (age < 2 || age > 120) {
-            _inputState.update { it.copy(ageError = "Age must be between 2 and 120") }
+        } else if (age < 18 || age > 120) {
+            _inputState.update { it.copy(ageError = "This adult comparison is for ages 18–120") }
             isValid = false
         }
 

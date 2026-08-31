@@ -188,7 +188,7 @@ fun FormulaComparisonCard(
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = buildString {
-                                    append("Most accurate for you: ${bestForUser.label}. ")
+                                    append("A practical starting option for you: ${bestForUser.label}; sensor accuracy varies. ")
                                     when (bestForUser) {
                                         HeartRateFormula.GULATI -> append("Gulati was designed specifically for women and tends to be more accurate for female heart rate estimation.")
                                         HeartRateFormula.TANAKA -> append("Tanaka is more accurate for adults over 40, as the standard 220-age formula tends to overestimate MHR with age.")

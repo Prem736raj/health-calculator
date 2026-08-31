@@ -539,40 +539,37 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
     fun getShareText(): String {
         val state = _uiState.value
         val result = state.result ?: return ""
-        val diagnosis = if (result.isSyndromePresent) "Present" else "Not Present"
+        val screeningSummary = if (result.isSyndromePresent) "3 or more markers met" else "Fewer than 3 markers met"
 
         val criteriaDetails = result.criteria.joinToString("\n") { criterion ->
-            val status = if (criterion.isMet) "⚠️ Abnormal" else "✅ Normal"
+            val status = if (criterion.isMet) "⚠️ Marker met" else "✅ Marker not met"
             val medNote = if (criterion.isOnMedication) " (Medicated)" else ""
             "  ${criterion.name}: ${criterion.userValue} → $status$medNote"
         }
-
-        val cvRisk = com.health.calculator.bmi.tracker.calculator.MetabolicSyndromeRecommendations
-            .getCardiovascularRiskSummary(result.criteriaMet)
 
         val standardsText = state.standardsComparison?.let { comp ->
             """
             |
             |Standards Comparison:
-            |  ATP III: ${if (comp.atpResult.isMet) "Present" else "Not Present"} (${comp.atpResult.criteriaMetCount}/5)
-            |  IDF (${comp.selectedEthnicity.displayName}): ${if (comp.idfResult.isMet) "Present" else "Not Present"} (${comp.idfResult.criteriaMetCount}/5)
-            |  WHO: ${if (comp.whoResult.isMet) "Present" else "Not Present"} (${comp.whoResult.criteriaMetCount}/5)
+            |  ATP III reference: ${if (comp.atpResult.isMet) "met" else "not met"} (${comp.atpResult.criteriaMetCount}/5)
+            |  IDF reference (${comp.selectedEthnicity.displayName}): ${if (comp.idfResult.isMet) "met" else "not met"} (${comp.idfResult.criteriaMetCount}/5)
+            |  WHO historical reference: not scored (${comp.whoResult.criteriaMetCount}/5)
             """.trimMargin()
         } ?: ""
 
         return """
-            |Metabolic Syndrome Assessment
+            |Metabolic marker screening summary
             |━━━━━━━━━━━━━━━━━━━━━━━━━━
             |Criteria Met: ${result.criteriaMet}/5
-            |Diagnosis: $diagnosis (ATP III)
-            |Risk Level: ${result.riskLevel.label}
-            |Cardiovascular Risk: ${cvRisk.riskLevel} (${cvRisk.riskScore}/100)
+            |Screening summary: $screeningSummary
+            |Marker count: ${result.riskLevel.label}
+            |${result.interpretation}
             |
             |Criteria Breakdown:
             |$criteriaDetails
             |$standardsText
-            |${if (result.diagnosisDiffers) "\n⚠️ IDF criteria result differs: ${if (result.idfDiagnosis) "Present" else "Not Present"}\n" else ""}
-            |⚕️ For educational purposes only — not medical advice.
+            |${if (result.diagnosisDiffers) "\nℹ️ The reference definitions differ because they use different waist rules.\n" else ""}
+            |⚕️ Informational wellness data — not a diagnosis or medical advice.
             |
             |Assessed using Health Calculator: BMI Tracker
         """.trimMargin()

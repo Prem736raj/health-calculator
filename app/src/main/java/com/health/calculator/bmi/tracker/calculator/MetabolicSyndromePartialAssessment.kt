@@ -14,14 +14,17 @@ data class PartialAssessmentResult(
     val criteria: List<PartialCriterionResult>,
     val providedCount: Int,
     val metCount: Int,
-    val canDiagnose: Boolean,
+    /** Whether the entered values are sufficient to show a complete screen. */
+    val canReport: Boolean,
     val partialMessage: String,
     val minimumPossible: Int,
     val maximumPossible: Int
-)
+) {
+    /** Legacy name retained for source compatibility; this app never diagnoses. */
+    val canDiagnose: Boolean get() = false
+}
 
 object MetabolicSyndromePartialAssessment {
-
     fun evaluatePartial(
         waistCm: Float?,
         isMale: Boolean,
@@ -34,91 +37,33 @@ object MetabolicSyndromePartialAssessment {
         onBpMed: Boolean,
         onGlucoseMed: Boolean,
         onTrigMed: Boolean,
-        onHdlMed: Boolean
+        onHdlMed: Boolean,
+        ethnicity: Ethnicity = Ethnicity.US_ATP
     ): PartialAssessmentResult {
-
-        val waistThreshold = if (isMale) 102f else 88f
+        val waistThreshold = if (isMale) ethnicity.maleWaistCm else ethnicity.femaleWaistCm
         val hdlThreshold = if (isMale) 40f else 50f
-
         val criteria = listOf(
-            PartialCriterionResult(
-                name = "Central Obesity",
-                icon = "📏",
-                isProvided = waistCm != null,
-                isMet = waistCm?.let { it > waistThreshold || onWaistMed },
-                value = waistCm?.let { "%.1f cm".format(it) },
-                threshold = "> ${waistThreshold.toInt()} cm",
-                missingMessage = "Enter waist circumference"
-            ),
-            PartialCriterionResult(
-                name = "Elevated Triglycerides",
-                icon = "🩸",
-                isProvided = trigMgDl != null,
-                isMet = trigMgDl?.let { it >= 150f || onTrigMed },
-                value = trigMgDl?.let { "%.0f mg/dL".format(it) },
-                threshold = "≥ 150 mg/dL",
-                missingMessage = "Enter triglycerides value"
-            ),
-            PartialCriterionResult(
-                name = "Reduced HDL",
-                icon = "💛",
-                isProvided = hdlMgDl != null,
-                isMet = hdlMgDl?.let { it < hdlThreshold || onHdlMed },
-                value = hdlMgDl?.let { "%.0f mg/dL".format(it) },
-                threshold = "< ${hdlThreshold.toInt()} mg/dL",
-                missingMessage = "Enter HDL cholesterol value"
-            ),
-            PartialCriterionResult(
-                name = "Elevated Blood Pressure",
-                icon = "❤️",
-                isProvided = systolic != null && diastolic != null,
-                isMet = if (systolic != null && diastolic != null) {
-                    systolic >= 130f || diastolic >= 85f || onBpMed
-                } else null,
-                value = if (systolic != null && diastolic != null) {
-                    "%.0f/%.0f mmHg".format(systolic, diastolic)
-                } else null,
-                threshold = "≥ 130/85 mmHg",
-                missingMessage = "Enter blood pressure values"
-            ),
-            PartialCriterionResult(
-                name = "Elevated Fasting Glucose",
-                icon = "🍯",
-                isProvided = glucoseMgDl != null,
-                isMet = glucoseMgDl?.let { it >= 100f || onGlucoseMed },
-                value = glucoseMgDl?.let { "%.0f mg/dL".format(it) },
-                threshold = "≥ 100 mg/dL",
-                missingMessage = "Enter fasting glucose value"
-            )
+            PartialCriterionResult("Central waist measurement", "📏", waistCm != null, waistCm?.let { it >= waistThreshold || onWaistMed }, waistCm?.let { "%.1f cm".format(it) }, "≥ ${waistThreshold.toInt()} cm", "Enter waist circumference"),
+            PartialCriterionResult("Elevated triglycerides", "🩸", trigMgDl != null, trigMgDl?.let { it >= 150f || onTrigMed }, trigMgDl?.let { "%.0f mg/dL".format(it) }, "≥ 150 mg/dL", "Enter triglycerides value"),
+            PartialCriterionResult("Reduced HDL", "💛", hdlMgDl != null, hdlMgDl?.let { it < hdlThreshold || onHdlMed }, hdlMgDl?.let { "%.0f mg/dL".format(it) }, "< ${hdlThreshold.toInt()} mg/dL", "Enter HDL cholesterol value"),
+            PartialCriterionResult("Elevated blood pressure", "❤️", systolic != null && diastolic != null, if (systolic != null && diastolic != null) systolic >= 130f || diastolic >= 85f || onBpMed else null, if (systolic != null && diastolic != null) "%.0f/%.0f mmHg".format(systolic, diastolic) else null, "≥ 130 systolic or ≥ 85 diastolic", "Enter blood pressure values"),
+            PartialCriterionResult("Elevated fasting glucose", "🍯", glucoseMgDl != null, glucoseMgDl?.let { it >= 100f || onGlucoseMed }, glucoseMgDl?.let { "%.0f mg/dL".format(it) }, "≥ 100 mg/dL", "Enter fasting glucose value")
         )
-
-        val providedCount = criteria.count { it.isProvided }
-        val metCount = criteria.count { it.isMet == true }
-        val missingCount = 5 - providedCount
-
-        val minimumPossible = metCount
-        val maximumPossible = metCount + missingCount
-
-        val canDiagnose = providedCount == 5 ||
-                metCount >= 3 ||
-                (providedCount >= 3 && maximumPossible < 3)
-
-        val partialMessage = when {
-            providedCount == 5 -> "Complete assessment"
-            providedCount == 0 -> "Enter your values to begin the assessment"
-            metCount >= 3 -> "Metabolic syndrome is indicated even with incomplete data ($metCount criteria already met)"
-            maximumPossible < 3 -> "Even if all remaining criteria were abnormal, the threshold would not be met"
-            else -> "Partial assessment: $providedCount of 5 criteria entered. $missingCount more needed for complete results."
-        }
-
+        val provided = criteria.count { it.isProvided }
+        val met = criteria.count { it.isMet == true }
+        val maximum = met + (criteria.size - provided)
         return PartialAssessmentResult(
             criteria = criteria,
-            providedCount = providedCount,
-            metCount = metCount,
-            canDiagnose = canDiagnose,
-            partialMessage = partialMessage,
-            minimumPossible = minimumPossible,
-            maximumPossible = maximumPossible
+            providedCount = provided,
+            metCount = met,
+            canReport = provided == criteria.size,
+            partialMessage = when {
+                provided == 0 -> "Enter values to see a screening summary"
+                provided == criteria.size -> "Complete screening reference"
+                else -> "Partial screening: $provided of 5 values entered."
+            },
+            minimumPossible = met,
+            maximumPossible = maximum
         )
     }
 }

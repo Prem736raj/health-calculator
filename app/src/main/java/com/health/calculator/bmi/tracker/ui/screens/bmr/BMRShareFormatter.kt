@@ -37,9 +37,9 @@ object BMRShareFormatter {
             // TEF
             if (tefData != null) {
                 append("🌡️ Thermic Effect of Food (TEF)\n")
-                append("   ${tefData.totalTEF.toInt()} kcal/day")
-                append(" (~${tefData.tefPercentOfIntake.toInt()}% of intake)\n")
-                append("   Adjusted Total: ${tefData.adjustedTDEE.toInt()} kcal/day\n\n")
+                append("   Illustrative estimate: ${tefData.totalTEF.toInt()} kcal/day")
+                append(" (~${tefData.tefPercentOfIntake.toInt()}% of the estimate)\n")
+                append("   TEF is already reflected in activity-multiplier TDEE; it is not added again.\n\n")
             }
 
             // Macros

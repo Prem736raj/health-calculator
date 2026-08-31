@@ -489,7 +489,7 @@ private fun HealthDetailsCard(
 
             DetailRow(
                 icon = { Icon(Icons.Filled.Warning, null, tint = categoryColor, modifier = Modifier.size(18.dp)) },
-                label = "Health Risk Level",
+                label = "Reference context",
                 value = result.category.riskLevel,
                 valueColor = categoryColor
             )

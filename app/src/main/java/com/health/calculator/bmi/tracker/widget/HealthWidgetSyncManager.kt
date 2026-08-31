@@ -7,7 +7,7 @@ import com.health.calculator.bmi.tracker.widget.core.WidgetDataChangeReceiver
 
 /**
  * Manages the aggregation of health metrics and computes
- * the overall "Health Score" for the summary widgets.
+ * the Wellness Score consistency indicator for the summary widgets.
  */
 object HealthWidgetSyncManager {
 
@@ -42,8 +42,8 @@ object HealthWidgetSyncManager {
     }
 
     /**
-     * Computes a weighted health score (0-100) based on latest known metrics.
-     * Weights: BMI (30%), BP (30%), Water (20%), Calories (20%).
+     * Computes a weighted logging-consistency score (0-100). It does not
+     * judge BMI or blood-pressure values as healthy/unhealthy.
      */
     private fun calculateNewScore(
         @ApplicationContext context: Context,
@@ -64,26 +64,17 @@ object HealthWidgetSyncManager {
         var totalWeight = 0f
         var weightedScore = 0f
 
-        // BMI Score (Normal range 18.5 - 25.0 is 100 pts)
+        // BMI is complete when a value exists; the score never grades the value.
         if (currentBmi > 0) {
-            val bmiScore = when {
-                currentBmi in 18.5..25.0 -> 100
-                currentBmi in 25.0..30.0 -> 70
-                currentBmi in 17.0..18.5 -> 70
-                else -> 40
-            }
+            val bmiScore = 100
             weightedScore += bmiScore * 0.3f
             totalWeight += 0.3f
         }
 
-        // BP Score (Normal < 120/80 is 100 pts)
+        // BP is complete when both numbers exist; repeated readings need their
+        // own context and are never converted into a medical score here.
         if (currentSys > 0 && currentDia > 0) {
-            val bpScore = when {
-                currentSys < 120 && currentDia < 80 -> 100
-                currentSys < 130 && currentDia < 85 -> 80
-                currentSys < 140 && currentDia < 90 -> 60
-                else -> 40
-            }
+            val bpScore = 100
             weightedScore += bpScore * 0.3f
             totalWeight += 0.3f
         }

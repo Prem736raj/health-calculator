@@ -23,9 +23,12 @@ object BMRCalculator {
         bodyFatPercentage: Float = 0f,
         formula: BMRFormula
     ): Float? {
-        if (weightKg <= 0 || heightCm <= 0 || age <= 0) return null
+        if (!weightKg.isFinite() || !heightCm.isFinite() ||
+            weightKg !in 10f..500f || heightCm !in 100f..250f ||
+            age !in MedicalCalculationPolicy.ADULT_MIN_AGE..MedicalCalculationPolicy.MAX_AGE
+        ) return null
 
-        return when (formula) {
+        val result = when (formula) {
             BMRFormula.HARRIS_BENEDICT_ORIGINAL -> harrisBenedictOriginal(weightKg, heightCm, age, isMale)
             BMRFormula.HARRIS_BENEDICT_REVISED -> harrisBenedictRevised(weightKg, heightCm, age, isMale)
             BMRFormula.MIFFLIN_ST_JEOR -> mifflinStJeor(weightKg, heightCm, age, isMale)
@@ -39,6 +42,7 @@ object BMRCalculator {
                 cunningham(weightKg, bodyFatPercentage)
             }
         }
+        return result.takeIf { it.isFinite() && it > 0f }
     }
 
     /**
@@ -145,8 +149,8 @@ object BMRCalculator {
     fun validateAge(age: Int): String? {
         return when {
             age <= 0 -> "Please enter a valid age"
-            age < 2 -> "Age must be 2 or above"
-            age > 120 -> "Please enter a valid age (2-120)"
+            age < MedicalCalculationPolicy.ADULT_MIN_AGE -> "This adult estimate is for ages ${MedicalCalculationPolicy.ADULT_MIN_AGE} and over"
+            age > MedicalCalculationPolicy.MAX_AGE -> "Please enter a valid age (${MedicalCalculationPolicy.ADULT_MIN_AGE}-${MedicalCalculationPolicy.MAX_AGE})"
             else -> null
         }
     }

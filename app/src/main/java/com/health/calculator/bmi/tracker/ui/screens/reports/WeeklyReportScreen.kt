@@ -90,7 +90,7 @@ fun WeeklyReportScreen(
                         )
                     }
 
-                    // Health Score Change
+                    // Wellness Score change
                     if (summary.report.healthScoreEnd >= 0) {
                         item(key = "score") {
                             HealthScoreChangeCard(
@@ -278,7 +278,7 @@ private fun HealthScoreChangeCard(scoreStart: Int, scoreEnd: Int, change: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text("\uD83C\uDFC6 Health Score", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text("\uD83C\uDFC6 Wellness Score", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(

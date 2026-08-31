@@ -16,12 +16,12 @@ data class TDEEData(
     fun getCalorieGoals(): List<CalorieGoal> {
         return listOf(
             CalorieGoal(
-                name = "Extreme Weight Loss",
+                name = "Faster Weight Loss",
                 emoji = "🔴",
-                calorieAdjustment = -1000,
-                dailyCalories = (tdee - 1000f).coerceAtLeast(1200f),
-                weeklyWeightChangeKg = -1000f / 7700f * 7f, // ~0.91 kg/week loss
-                description = "Aggressive deficit — medical supervision recommended",
+                calorieAdjustment = -750,
+                dailyCalories = (tdee - 750f).coerceAtLeast(1200f),
+                weeklyWeightChangeKg = -750f / 7700f * 7f, // ~0.68 kg/week planning estimate
+                description = "Faster change; personal context and professional guidance matter",
                 goalType = GoalType.EXTREME_LOSS
             ),
             CalorieGoal(

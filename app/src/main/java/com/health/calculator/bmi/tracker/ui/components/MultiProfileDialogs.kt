@@ -208,7 +208,7 @@ fun ProfileShareDialog(
                 ) {
                     ShareOptionItem("Include Name", config.includeName) { onConfigChange(config.copy(includeName = it)) }
                     ShareOptionItem("Include Age", config.includeAge) { onConfigChange(config.copy(includeAge = it)) }
-                    ShareOptionItem("Include Health Score", config.includeHealthScore) { onConfigChange(config.copy(includeHealthScore = it)) }
+                    ShareOptionItem("Include Wellness Score", config.includeHealthScore) { onConfigChange(config.copy(includeHealthScore = it)) }
                     ShareOptionItem("Include BMI", config.includeBmi) { onConfigChange(config.copy(includeBmi = it)) }
                     ShareOptionItem("Include Blood Pressure", config.includeBp) { onConfigChange(config.copy(includeBp = it)) }
                     ShareOptionItem("Include Water Streak", config.includeWaterStreak) { onConfigChange(config.copy(includeWaterStreak = it)) }

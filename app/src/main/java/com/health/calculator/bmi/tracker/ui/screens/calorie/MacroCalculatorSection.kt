@@ -470,10 +470,10 @@ private fun MacroDetailsSection(
             percent = macroResult.fatPercent,
             color = fatColor,
             extraInfo = listOf(
-                "Saturated: <${"%.0f".format(macroResult.saturatedFatGrams)}g",
-                "Unsaturated: ~${"%.0f".format(macroResult.unsaturatedFatGrams)}g"
+                "Saturated-fat guide: ≤${"%.0f".format(macroResult.saturatedFatGrams)}g",
+                "Remaining fat allocation: ~${"%.0f".format(macroResult.unsaturatedFatGrams)}g"
             ),
-            recommendation = "Minimum 20% fat is essential for hormone production"
+            recommendation = "Include varied unsaturated fat sources; this is a general planning guide"
         )
     }
 }

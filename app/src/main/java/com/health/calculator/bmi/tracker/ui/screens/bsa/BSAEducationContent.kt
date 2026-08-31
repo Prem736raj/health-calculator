@@ -243,13 +243,13 @@ private fun WhatIsBSAContent() {
         )
         FactItem(
             emoji = "🏥",
-            title = "Critical in Medicine",
-            description = "Doctors use BSA for calculating medication doses (especially chemotherapy), assessing burn injuries, determining kidney function, and evaluating heart performance."
+            title = "Used in clinical context",
+            description = "Clinicians may use BSA as one input in specialized decisions. This app provides an informational estimate and never supplies medication or treatment doses."
         )
         FactItem(
             emoji = "🔬",
-            title = "More Accurate Than Weight Alone",
-            description = "BSA correlates better with metabolic rate, blood volume, and organ size than body weight alone, making it a more precise basis for many medical calculations."
+            title = "Adds context beyond weight",
+            description = "BSA combines height and weight into a body-size estimate; different equations can vary and none measures health on its own."
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -388,7 +388,7 @@ private fun WhySoManyFormulasContent() {
             year = "1978",
             formula = "Haycock",
             highlight = "Pediatric Focus",
-            description = "Specifically validated for infants, children, and adolescents. Addressed the limitation that adult-derived formulas were less accurate for small body sizes. Now the preferred formula for pediatric use.",
+            description = "Developed from pediatric measurements; pediatric interpretation still needs clinical context.",
             color = HealthOrange
         )
 
@@ -404,7 +404,7 @@ private fun WhySoManyFormulasContent() {
             year = "2000",
             formula = "Shuter & Aslani",
             highlight = "CT-Based",
-            description = "Used modern CT (computed tomography) scanning to directly measure body surface area, then developed a formula from these precise measurements. Considered the most anatomically accurate.",
+            description = "Derived from body-surface measurements; different equations can produce different estimates.",
             color = MaterialTheme.colorScheme.primary
         )
 
@@ -525,7 +525,7 @@ private fun WhichFormulaContent() {
             emoji = "🏥",
             scenario = "General Adult Use",
             recommendation = "Du Bois & Du Bois",
-            reason = "The most widely accepted formula worldwide. Used by the vast majority of hospitals and clinical guidelines. When your doctor mentions BSA, they almost certainly use this formula.",
+            reason = "A commonly cited historical equation. A professional may use a different method for a specific context.",
             color = HealthBlue,
             tag = "RECOMMENDED"
         )
@@ -547,7 +547,7 @@ private fun WhichFormulaContent() {
             emoji = "👶",
             scenario = "Children & Infants",
             recommendation = "Haycock",
-            reason = "Specifically validated for pediatric patients from newborns to adolescents. Adult formulas can significantly overestimate or underestimate BSA in children because their body proportions are different.",
+            reason = "Developed from pediatric measurements; use with a professional when the result affects care.",
             color = HealthOrange,
             tag = "PEDIATRIC"
         )
@@ -558,7 +558,7 @@ private fun WhichFormulaContent() {
             emoji = "🌏",
             scenario = "Japanese / East Asian",
             recommendation = "Fujimoto or Takahira",
-            reason = "These formulas were derived from Asian population data and may provide more accurate results for individuals of Japanese or East Asian descent. Commonly used in Japan and some other Asian countries.",
+            reason = "These equations were derived from Asian population data and are included for comparison; population fit does not guarantee individual accuracy.",
             color = HealthTeal,
             tag = "REGIONAL"
         )
@@ -762,11 +762,11 @@ private fun BSAvsBMIContent() {
             title = "Use BSA when...",
             color = HealthBlue,
             useCases = listOf(
-                "Calculating medication doses (especially chemotherapy)",
+                "Supporting clinician calculations (never a self-dosing tool)",
                 "Assessing burn injury extent",
                 "Evaluating kidney function (GFR normalization)",
                 "Measuring cardiac output (Cardiac Index)",
-                "Determining radiation therapy doses",
+                "Providing context alongside clinical measurements",
                 "Research involving metabolic rate"
             )
         )
@@ -817,7 +817,7 @@ private fun BSAvsBMIContent() {
         )
         MythBusterItem(
             myth = "You need to know your BSA for daily health tracking",
-            truth = "BSA is primarily a medical/clinical tool. For general health tracking, BMI, weight, and waist circumference are more useful."
+            truth = "BSA is mainly a clinical context measure. For personal wellness tracking, weight and other trends may be more practical."
         )
         MythBusterItem(
             myth = "A higher BSA means you're less healthy",

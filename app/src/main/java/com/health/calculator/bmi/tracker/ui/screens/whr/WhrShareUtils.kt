@@ -14,7 +14,7 @@ object WhrShareUtils {
         return buildString {
             appendLine("📐 Waist-to-Hip Ratio Result")
             appendLine("━━━━━━━━━━━━━━━━━━━━━━")
-            appendLine("WHR: ${String.format("%.2f", result.whr)} — ${result.whrCategory.label} (WHO)")
+            appendLine("WHR: ${String.format("%.2f", result.whr)} — ${result.whrCategory.label} (reference context)")
             appendLine("Waist: ${String.format("%.1f", result.waistCm)} cm")
             appendLine("Hip: ${String.format("%.1f", result.hipCm)} cm")
             appendLine("Body Shape: ${result.bodyShape.emoji} ${result.bodyShape.label}")
@@ -28,7 +28,7 @@ object WhrShareUtils {
     }
 
     fun buildCompactShareText(result: WhrResult): String {
-        return "WHR: ${String.format("%.2f", result.whr)} - ${result.whrCategory.label} (WHO) | Waist: ${String.format("%.0f", result.waistCm)}cm | Hip: ${String.format("%.0f", result.hipCm)}cm"
+        return "WHR: ${String.format("%.2f", result.whr)} - ${result.whrCategory.label} (reference context) | Waist: ${String.format("%.0f", result.waistCm)}cm | Hip: ${String.format("%.0f", result.hipCm)}cm"
     }
 
     fun buildDetailedShareText(
@@ -41,7 +41,7 @@ object WhrShareUtils {
             appendLine()
             appendLine("📊 Waist-to-Hip Ratio")
             appendLine("   Value: ${String.format("%.2f", result.whr)}")
-            appendLine("   Category: ${result.whrCategory.label} (WHO Standard)")
+            appendLine("   Category: ${result.whrCategory.label} (reference context)")
             appendLine("   Gender: ${if (result.gender == Gender.FEMALE) "Female" else "Male"}")
             appendLine("   Age: ${result.age} years")
             appendLine()

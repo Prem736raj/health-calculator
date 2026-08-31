@@ -18,7 +18,9 @@ data class BSAResult(
     val selectedFormula: BSAFormulaInfo,
     val allResults: List<Pair<BSAFormulaInfo, Float>>,
     val weightKg: Float,
-    val heightCm: Float
+    val heightCm: Float,
+    val isClinicallyValidated: Boolean = false,
+    val disclaimer: String = "Informational body-surface-area estimate only; not a medication-dose instruction."
 )
 
 object BSACalculator {
@@ -27,10 +29,10 @@ object BSACalculator {
         BSAFormulaInfo(
             id = "dubois",
             name = "Du Bois & Du Bois",
-            label = "Most Used",
+            label = "Historical reference",
             authors = "Du Bois D, Du Bois EF",
             year = "1916",
-            description = "The most widely used formula in clinical practice worldwide. Based on measurements of 9 individuals.",
+            description = "A historical formula derived from a small adult sample; useful for comparison, with measurement error.",
             bestFor = "General adult use",
             formula = "BSA = 0.007184 × W^0.425 × H^0.725"
         ),
@@ -40,7 +42,7 @@ object BSACalculator {
             label = "Simplified",
             authors = "Mosteller RD",
             year = "1987",
-            description = "A simplified formula that's easy to calculate. Provides results very close to Du Bois for most adults.",
+            description = "A simplified estimate that is easy to reproduce and often close to other BSA equations.",
             bestFor = "Quick calculations",
             formula = "BSA = √(W × H / 3600)"
         ),
@@ -50,7 +52,7 @@ object BSACalculator {
             label = "Pediatric",
             authors = "Haycock GB, Schwartz GJ, Wisotsky DH",
             year = "1978",
-            description = "Specifically validated for infants, children, and adolescents. Considered the most accurate for pediatric patients.",
+            description = "A formula developed from pediatric measurements; pediatric interpretation needs clinical context.",
             bestFor = "Children & infants",
             formula = "BSA = 0.024265 × W^0.5378 × H^0.3964"
         ),
@@ -60,7 +62,7 @@ object BSACalculator {
             label = "Research",
             authors = "Gehan EA, George SL",
             year = "1970",
-            description = "Derived from a large dataset of 401 subjects. Considered very accurate across a wide range of body sizes.",
+            description = "A historical equation derived from a broader subject dataset; results can differ across body sizes.",
             bestFor = "Research & wide range of sizes",
             formula = "BSA = 0.0235 × W^0.51456 × H^0.42246"
         ),
@@ -70,7 +72,7 @@ object BSACalculator {
             label = "Historical",
             authors = "Boyd E",
             year = "1935",
-            description = "One of the earliest formulas, based on extensive body measurement data. Still used in some clinical settings.",
+            description = "An older equation retained for historical comparison.",
             bestFor = "Historical reference",
             formula = "BSA = 0.0003207 × W^(0.7285-0.0188×log₁₀W) × H^0.3"
         ),
@@ -80,7 +82,7 @@ object BSACalculator {
             label = "Japanese",
             authors = "Fujimoto S, et al.",
             year = "1968",
-            description = "Derived from Japanese population data. May be more accurate for East Asian body types.",
+            description = "An equation derived from Japanese population data; population fit does not guarantee individual accuracy.",
             bestFor = "Japanese / East Asian population",
             formula = "BSA = 0.008883 × W^0.444 × H^0.663"
         ),
@@ -90,7 +92,7 @@ object BSACalculator {
             label = "Asian",
             authors = "Takahira H",
             year = "1925",
-            description = "Another formula derived from Asian population measurements. Commonly used in Japan.",
+            description = "An equation derived from Asian population measurements and retained for comparison.",
             bestFor = "Asian population",
             formula = "BSA = 0.007241 × W^0.425 × H^0.725"
         ),
@@ -100,13 +102,15 @@ object BSACalculator {
             label = "Modern",
             authors = "Shuter B, Aslani A",
             year = "2000",
-            description = "A modern formula using CT-based body surface measurements for improved accuracy.",
+            description = "A later equation derived from body-surface measurements; not a diagnostic or dosing standard.",
             bestFor = "Modern clinical use",
             formula = "BSA = 0.00949 × W^0.441 × H^0.655"
         )
     )
 
     fun calculate(weightKg: Float, heightCm: Float, formulaId: String): BSAResult {
+        require(weightKg.isFinite() && weightKg > 0f) { "Weight must be a positive finite value" }
+        require(heightCm.isFinite() && heightCm > 0f) { "Height must be a positive finite value" }
         val selectedFormula = formulas.find { it.id == formulaId } ?: formulas[0]
 
         val allResults = formulas.map { formula ->
@@ -125,6 +129,7 @@ object BSACalculator {
     }
 
     fun calculateSingle(weightKg: Float, heightCm: Float, formulaId: String): Float {
+        if (!weightKg.isFinite() || !heightCm.isFinite() || weightKg <= 0f || heightCm <= 0f) return 0f
         return when (formulaId) {
             "dubois" -> dubois(weightKg, heightCm)
             "mosteller" -> mosteller(weightKg, heightCm)

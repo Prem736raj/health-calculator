@@ -100,9 +100,8 @@ fun HealthScoreBreakdownSheet(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Your health score is based on ${healthScore.availableMetrics} of ${healthScore.totalMetrics} tracked metrics. " +
-                                "The score is normalized to 100 based on available data. " +
-                                "Track more metrics for a more complete picture of your health!",
+                        text = "Your Wellness Score reflects whether ${healthScore.availableMetrics} of ${healthScore.totalMetrics} selected metrics were recorded or logged. " +
+                                "It is a custom informational consistency measure—not a clinical score or diagnosis.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                         lineHeight = 17.sp
@@ -111,12 +110,12 @@ fun HealthScoreBreakdownSheet(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     val metricsList = listOf(
-                        "BMI in normal range" to "20 pts",
-                        "BP in optimal/normal" to "20 pts",
-                        "WHR in low risk" to "15 pts",
-                        "Meeting water goal" to "15 pts",
-                        "Meeting calorie target" to "15 pts",
-                        "Resting HR healthy" to "15 pts"
+                        "BMI recorded" to "20 pts",
+                        "Blood pressure recorded" to "20 pts",
+                        "Waist/hip ratio recorded" to "15 pts",
+                        "Hydration logged" to "15 pts",
+                        "Calories logged" to "15 pts",
+                        "Resting heart rate recorded" to "15 pts"
                     )
 
                     metricsList.forEach { (metric, points) ->

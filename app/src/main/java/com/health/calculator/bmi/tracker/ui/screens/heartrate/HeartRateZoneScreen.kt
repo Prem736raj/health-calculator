@@ -1078,7 +1078,7 @@ private fun validateAge(age: String): String? {
     if (age.isBlank()) return "Age is required"
     val ageVal = age.toIntOrNull() ?: return "Enter a valid age"
     return when {
-        ageVal < 5 -> "Age must be at least 5 years"
+        ageVal < 18 -> "Heart-rate zone estimates in this screen are for adults (18+)"
         ageVal > 120 -> "Please enter a realistic age"
         else -> null
     }
@@ -1091,7 +1091,7 @@ private fun validateRestingHR(restingHR: String, isRequired: Boolean): String? {
     val hr = restingHR.toIntOrNull() ?: return "Enter a valid heart rate"
     return when {
         hr < 30 -> "Resting HR seems too low. Normal range: 40-100 BPM"
-        hr > 120 -> "This seems high for a resting heart rate. Measure at rest."
+        hr > 200 -> "Please enter a resting heart rate at or below 200 BPM"
         else -> null
     }
 }
@@ -1100,8 +1100,8 @@ private fun validateCustomMaxHR(maxHR: String): String? {
     if (maxHR.isBlank()) return "Max heart rate is required for custom formula"
     val hr = maxHR.toIntOrNull() ?: return "Enter a valid heart rate"
     return when {
-        hr < 100 -> "Max HR seems too low. Normal range: 150-220 BPM"
-        hr > 250 -> "Max HR seems unrealistically high"
+        hr < 80 -> "Max HR seems too low for this estimate"
+        hr > 240 -> "Please enter a maximum heart rate at or below 240 BPM"
         else -> null
     }
 }
@@ -1115,18 +1115,18 @@ private fun isInputValid(
 ): Boolean {
     if (age.isBlank() || age.toIntOrNull() == null) return false
     val ageVal = age.toInt()
-    if (ageVal < 5 || ageVal > 120) return false
+    if (ageVal < 18 || ageVal > 120) return false
 
     if (isRestingHRRequired) {
         if (restingHR.isBlank() || restingHR.toIntOrNull() == null) return false
         val hr = restingHR.toInt()
-        if (hr < 30 || hr > 120) return false
+        if (hr < 30 || hr > 200) return false
     }
 
     if (selectedFormula == HeartRateFormula.CUSTOM) {
         if (customMaxHR.isBlank() || customMaxHR.toIntOrNull() == null) return false
         val hr = customMaxHR.toInt()
-        if (hr < 100 || hr > 250) return false
+        if (hr < 80 || hr > 240) return false
     }
 
     return true

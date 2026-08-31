@@ -152,21 +152,21 @@ private fun WhatIsWhrSection() {
             SectionSubheading("Why does WHR matter?")
 
             InfoParagraph(
-                "WHR is one of the best indicators of how your body distributes fat. Unlike weight or BMI alone, WHR specifically reveals whether you carry excess fat around your midsection — a pattern strongly linked to serious health conditions."
+                "WHR describes body proportions and can add context alongside other measurements. It does not measure visceral fat or diagnose a health condition."
             )
 
             KeyPointCard(
                 emoji = "🔬",
                 title = "Research Finding",
-                text = "Studies published in The Lancet show that WHR is a stronger predictor of heart attack risk than BMI. People with a high WHR have up to 2x the risk of cardiovascular events, regardless of their overall weight."
+                text = "Research finds that waist and hip measures can add population-level context beyond BMI. Associations do not predict an individual's outcome, and the measures should not be used as a diagnosis."
             )
 
-            SectionSubheading("WHO Classifications")
+            SectionSubheading("Reference classifications")
 
             WhrReferenceTable()
 
             InfoParagraph(
-                "A healthy WHR indicates that you don't carry excess fat around your abdomen. Even people with normal BMI can have a high WHR, which still puts them at increased risk."
+                "A WHR below a reference point does not prove that abdominal fat is absent. People with similar measurements can have different health contexts."
             )
         }
     }
@@ -333,7 +333,7 @@ private fun WhrVsBmiSection() {
             KeyPointCard(
                 emoji = "💡",
                 title = "Best Practice",
-                text = "Health professionals recommend using BMI and WHR together. BMI assesses overall weight status, while WHR evaluates fat distribution. A person with normal BMI but high WHR may be at greater risk than someone with slightly elevated BMI but healthy WHR."
+                text = "BMI and WHR describe different aspects of body size and proportion. Use both as conversation starters, not as standalone risk predictions."
             )
 
             SectionSubheading("The 4-quadrant approach")
@@ -515,7 +515,7 @@ private fun CentralObesityRiskSection() {
             DiseaseRiskCard(
                 emoji = "❤️",
                 disease = "Heart Disease & Stroke",
-                riskInfo = "People with high WHR have 1.5–2x the risk of heart attack compared to those with normal WHR.",
+                riskInfo = "Higher WHR is associated with different outcomes in population studies; it cannot predict an individual's heart-attack risk.",
                 source = "INTERHEART Study (52 countries, 27,000+ participants)",
                 color = Color(0xFFF44336),
                 details = listOf(
@@ -536,7 +536,7 @@ private fun CentralObesityRiskSection() {
                 color = Color(0xFFFFA726),
                 details = listOf(
                     "Visceral fat interferes with insulin signaling",
-                    "Waist circumference is a stronger diabetes predictor than BMI",
+                    "Waist circumference can add context alongside BMI",
                     "Each 5 cm increase in waist raises diabetes risk by 11%",
                     "Waist reduction can improve insulin sensitivity within weeks"
                 )
@@ -560,8 +560,8 @@ private fun CentralObesityRiskSection() {
 
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 MiniRiskItem("🧠", "Alzheimer's Disease", "Central obesity in midlife linked to 3x higher dementia risk in later life")
-                MiniRiskItem("🫁", "Sleep Apnea", "High WHR associated with 2x greater risk of obstructive sleep apnea")
-                MiniRiskItem("🎗️", "Certain Cancers", "Increased risk of breast, colorectal, and liver cancers linked to abdominal fat")
+                MiniRiskItem("🫁", "Sleep and breathing", "Body-size measures may be relevant context; they cannot screen for sleep apnea")
+                MiniRiskItem("🎗️", "Long-term health", "Associations in research do not determine an individual's cancer risk")
                 MiniRiskItem("💉", "Hypertension", "Visceral fat releases hormones that constrict blood vessels and raise blood pressure")
                 MiniRiskItem("🦴", "Joint Problems", "Excess abdominal weight places additional stress on the lower back and knees")
                 MiniRiskItem("😞", "Depression", "Studies show a bidirectional relationship between central obesity and depression")
@@ -570,7 +570,7 @@ private fun CentralObesityRiskSection() {
             KeyPointCard(
                 emoji = "📊",
                 title = "Key Statistic",
-                text = "The INTERHEART study found that WHR explained 24.3% of heart attack risk — making it the single most important modifiable risk factor, ahead of smoking (19.4%) and diabetes (9.9%)."
+                text = "Large studies have found associations between body-size measures and cardiovascular outcomes. Percentages from a population study should not be interpreted as an individual's preventable-risk score."
             )
         }
     }
@@ -723,8 +723,8 @@ private fun ReduceWaistSection() {
             NumberedStrategy(
                 number = 1,
                 title = "Aerobic Exercise (Most Effective)",
-                description = "Brisk walking, jogging, cycling, or swimming for 150-300 minutes per week. Aerobic exercise is the single most effective method for reducing visceral fat.",
-                keyFact = "Research shows 150 min/week of moderate cardio reduces waist by 2-3 cm over 12 weeks",
+                description = "Brisk walking, jogging, cycling or swimming can support fitness. Build toward activity that feels manageable and fits your abilities.",
+                keyFact = "Use a weekly activity target as a flexible guide, not a guaranteed waist change",
                 color = Color(0xFF4CAF50)
             )
 
@@ -732,7 +732,7 @@ private fun ReduceWaistSection() {
                 number = 2,
                 title = "High-Intensity Interval Training (HIIT)",
                 description = "Alternating between intense bursts (30-60 seconds) and recovery periods. HIIT is 28% more effective at reducing abdominal fat than continuous moderate exercise.",
-                keyFact = "3 HIIT sessions per week for 12 weeks can reduce waist by 3-4 cm",
+                keyFact = "Short intervals are optional; response and tolerance vary",
                 color = Color(0xFF4CAF50)
             )
 
@@ -749,32 +749,32 @@ private fun ReduceWaistSection() {
             NumberedStrategy(
                 number = 4,
                 title = "Increase Soluble Fiber",
-                description = "Eat more oats, beans, lentils, flaxseeds, avocados, and Brussels sprouts. Soluble fiber reduces belly fat by slowing digestion and reducing calorie absorption.",
-                keyFact = "Each 10g increase in daily soluble fiber reduces visceral fat by 3.7% over 5 years",
+                description = "Oats, beans, lentils, fruit and vegetables can add fiber to a varied eating pattern. Increase gradually and consider your tolerance.",
+                keyFact = "Fiber supports overall nutrition; it does not guarantee a change in waist or visceral fat",
                 color = Color(0xFFFFA726)
             )
 
             NumberedStrategy(
                 number = 5,
                 title = "Reduce Added Sugars & Refined Carbs",
-                description = "Cut back on sugary drinks, white bread, pastries, and processed snacks. Excess sugar is directly converted to visceral fat by the liver.",
-                keyFact = "Eliminating sugary drinks alone can reduce waist circumference by 1-2 cm in 10 weeks",
+                description = "If desired, reduce sugary drinks and highly refined snacks in a way that still supports adequate nutrition.",
+                keyFact = "Results vary; avoid promises tied to one food change",
                 color = Color(0xFFFFA726)
             )
 
             NumberedStrategy(
                 number = 6,
                 title = "Eat More Protein",
-                description = "Aim for 25-30% of calories from protein. Higher protein intake reduces appetite, boosts metabolism, and preferentially helps retain lean mass during weight loss.",
-                keyFact = "Higher protein diets lead to 2x more reduction in waist circumference",
+                description = "Include protein from varied foods. A percentage target is optional planning context, not a prescription.",
+                keyFact = "Individual needs and responses vary",
                 color = Color(0xFFFFA726)
             )
 
             NumberedStrategy(
                 number = 7,
                 title = "Mediterranean Diet Pattern",
-                description = "Focus on olive oil, fish, nuts, vegetables, fruits, and whole grains. This dietary pattern is proven to reduce visceral fat even without calorie counting.",
-                keyFact = "Mediterranean diet reduces waist by 2-4 cm more than low-fat diets over 12 months",
+                description = "A Mediterranean-style pattern can be a flexible way to include plants, whole grains, fish or alternatives and unsaturated fats.",
+                keyFact = "Choose a sustainable pattern that fits your culture, budget and health needs",
                 color = Color(0xFFFFA726)
             )
 
@@ -783,7 +783,7 @@ private fun ReduceWaistSection() {
             NumberedStrategy(
                 number = 8,
                 title = "Prioritize Sleep (7-9 Hours)",
-                description = "Short sleep (<6 hours) increases cortisol and ghrelin, promoting visceral fat storage. Quality sleep is essential for waist reduction.",
+                description = "Consistent, restorative sleep supports wellbeing and daily activity; sleep needs vary.",
                 keyFact = "People sleeping <5 hours gain 2.5x more abdominal fat over 5 years",
                 color = Color(0xFF2196F3)
             )
@@ -791,8 +791,8 @@ private fun ReduceWaistSection() {
             NumberedStrategy(
                 number = 9,
                 title = "Manage Stress",
-                description = "Chronic stress elevates cortisol, which directly triggers visceral fat storage. Practice meditation, deep breathing, yoga, or regular relaxation.",
-                keyFact = "8 weeks of mindfulness meditation reduces cortisol by 25% and waist by 1-2 cm",
+                description = "Stress support such as breathing exercises, social connection or enjoyable relaxation can help wellbeing.",
+                keyFact = "There is no guaranteed waist change from one stress-management method",
                 color = Color(0xFF2196F3)
             )
 

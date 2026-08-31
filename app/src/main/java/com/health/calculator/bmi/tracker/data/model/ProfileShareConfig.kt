@@ -46,7 +46,7 @@ fun generateShareText(
             overview.healthScore >= 40 -> "Fair"
             else -> "Needs Attention"
         }
-        parts.add("🏆 Health Score: ${overview.healthScore}/100 ($label)")
+        parts.add("🏆 Wellness Score: ${overview.healthScore}/100 ($label)")
     }
 
     parts.add("")

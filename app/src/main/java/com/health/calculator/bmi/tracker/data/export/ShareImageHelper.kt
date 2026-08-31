@@ -113,7 +113,7 @@ class ShareImageHelper(@ApplicationContext private val context: Context) {
                 textAlign = Paint.Align.CENTER
                 isAntiAlias = true
             }
-            canvas.drawText("Health Score", centerX, yPos + radius + 50f, labelPaint)
+            canvas.drawText("Wellness Score", centerX, yPos + radius + 50f, labelPaint)
 
             yPos += 2 * radius + 80f
         }

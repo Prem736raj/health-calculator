@@ -589,9 +589,9 @@ private fun HealthStatusSection(
                         viewModel.updateHealthStatus(status)
                     },
                     subtitle = when (status) {
-                        HealthStatus.PREGNANT -> "+300ml recommended"
-                        HealthStatus.BREASTFEEDING -> "+700ml recommended"
-                        HealthStatus.ILLNESS -> "+500ml recommended"
+                        HealthStatus.PREGNANT -> "+300ml context adjustment"
+                        HealthStatus.BREASTFEEDING -> "+700ml context adjustment"
+                        HealthStatus.ILLNESS -> "No automatic adjustment — ask a clinician"
                         else -> null
                     }
                 )

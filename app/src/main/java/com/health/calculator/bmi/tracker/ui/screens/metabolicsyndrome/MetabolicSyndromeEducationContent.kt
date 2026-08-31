@@ -199,7 +199,7 @@ private fun EducationSection(
 private fun WhatIsMetabolicSyndromeContent() {
     Column {
         InfoParagraph(
-            text = "Metabolic Syndrome is a cluster of interconnected metabolic abnormalities that significantly increase your risk of developing heart disease, stroke, and type 2 diabetes. It's not a single disease, but rather a group of risk factors that occur together."
+            text = "Metabolic syndrome is a clinical term for a cluster of measurements that can occur together. Definitions differ, and a professional must interpret repeat readings, medicines and laboratory context."
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -231,22 +231,22 @@ private fun WhatIsMetabolicSyndromeContent() {
 
         KeyPointCard(
             title = "The Core Problem: Insulin Resistance",
-            content = "At the heart of metabolic syndrome is insulin resistance — a condition where your cells don't respond properly to insulin. This causes your body to produce more insulin, leading to a cascade of metabolic problems including high blood sugar, abnormal fat storage, and inflammation."
+            content = "Insulin sensitivity, body fat distribution, blood pressure and blood lipids can influence one another, but this app cannot measure or explain the cause of an individual's result."
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         InfoParagraph(
-            text = "The diagnosis is made when at least 3 of the 5 risk factors are present. The more criteria you meet, the higher your health risk. However, even having 1-2 factors should prompt lifestyle changes."
+            text = "Many clinical definitions use at least 3 of 5 markers, but a clinician must interpret repeat measurements, medication status, and laboratory context. This app shows an educational screening reference only."
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         StatRow(
             stats = listOf(
-                StatItem("2x", "Heart disease risk"),
-                StatItem("5x", "Diabetes risk"),
-                StatItem("2-4x", "Stroke risk")
+                StatItem("5", "Screening markers"),
+                StatItem("1", "Reading at a time"),
+                StatItem("—", "No personal risk score")
             )
         )
     }
@@ -258,7 +258,7 @@ private fun WhatIsMetabolicSyndromeContent() {
 private fun FiveRiskFactorsContent() {
     Column {
         InfoParagraph(
-            text = "Each of the 5 criteria targets a different aspect of metabolic health. While each is a risk factor on its own, together they create a synergistic effect — the combined risk is greater than the sum of individual risks."
+            text = "Each of the five criteria describes a different measurement. The count is a screening reference, not a diagnosis or an individual's event-risk calculation."
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -270,8 +270,8 @@ private fun FiveRiskFactorsContent() {
             icon = "📏",
             threshold = "Men: > 102 cm (40 in) | Women: > 88 cm (35 in)",
             color = HealthRed,
-            explanation = "Excess fat around the abdomen (visceral fat) is metabolically active tissue that releases inflammatory chemicals and hormones. Unlike fat on hips or thighs, belly fat directly contributes to insulin resistance and cardiovascular disease.",
-            whyItMatters = "Visceral fat wraps around your internal organs and releases fatty acids directly into the liver via the portal vein, disrupting normal metabolism. It also produces inflammatory cytokines that damage blood vessels."
+            explanation = "Waist circumference is a practical body-size measure used in some screening definitions; it cannot show visceral fat.",
+            whyItMatters = "Use the measurement consistently and discuss a persistent pattern with a professional."
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -284,7 +284,7 @@ private fun FiveRiskFactorsContent() {
             threshold = "≥ 150 mg/dL (1.7 mmol/L)",
             color = HealthOrange,
             explanation = "Triglycerides are the most common type of fat in your body. When elevated, they contribute to atherosclerosis (hardening and narrowing of arteries). High triglycerides often accompany low HDL cholesterol — a dangerous combination.",
-            whyItMatters = "Insulin resistance causes the liver to produce more triglyceride-rich lipoproteins. These particles are small and dense, making them especially effective at penetrating and damaging artery walls."
+            whyItMatters = "Triglycerides are one laboratory marker; fasting status, medicines and the wider lipid panel matter."
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -309,8 +309,8 @@ private fun FiveRiskFactorsContent() {
             icon = "❤️",
             threshold = "Systolic ≥ 130 OR Diastolic ≥ 85 mmHg",
             color = HealthRed,
-            explanation = "Blood pressure is the force of blood pushing against artery walls. When consistently elevated, it damages the delicate lining of blood vessels, accelerates atherosclerosis, and forces the heart to work harder.",
-            whyItMatters = "Insulin resistance increases sodium retention by the kidneys and stimulates the sympathetic nervous system, both of which raise blood pressure. The damaged artery walls become sites for cholesterol plaque buildup."
+            explanation = "Blood pressure is a measurement that varies with technique, timing and context. Repeated readings are more useful than one value.",
+            whyItMatters = "Use the blood-pressure tracker for a consistent log and ask a professional to interpret persistent elevation."
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -322,8 +322,8 @@ private fun FiveRiskFactorsContent() {
             icon = "🍯",
             threshold = "≥ 100 mg/dL (5.6 mmol/L)",
             color = HealthOrange,
-            explanation = "Fasting blood glucose measures your blood sugar after 8+ hours without food. Elevated levels indicate your body is struggling to regulate blood sugar properly — an early sign of insulin resistance and potential progression to type 2 diabetes.",
-            whyItMatters = "Chronic high blood sugar damages blood vessels, nerves, and organs over time. Even \"pre-diabetic\" levels (100-125 mg/dL) significantly increase cardiovascular risk and indicate the metabolic machinery is already impaired."
+            explanation = "Fasting blood glucose is a laboratory measurement whose interpretation depends on the lab, fasting status, medicines and repeat testing.",
+            whyItMatters = "This app cannot diagnose diabetes or insulin resistance from a value; discuss results with a qualified professional."
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -341,7 +341,7 @@ private fun FiveRiskFactorsContent() {
 private fun WhoIsAtRiskContent() {
     Column {
         InfoParagraph(
-            text = "While anyone can develop metabolic syndrome, certain factors significantly increase your risk. Understanding these can help you take preventive action."
+            text = "Many factors can influence these measurements. Population associations do not determine an individual's diagnosis or future outcome."
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -364,12 +364,12 @@ private fun WhoIsAtRiskContent() {
         RiskFactorItem(
             emoji = "🎂",
             title = "Age",
-            description = "Risk increases significantly after age 40, though it can occur at any age. Over 40% of adults aged 60+ have metabolic syndrome."
+            description = "Age can be associated with different measurement patterns, but people of any adult age can have varied results."
         )
         RiskFactorItem(
             emoji = "👨👩👧",
             title = "Family History",
-            description = "A family history of diabetes, heart disease, or metabolic syndrome increases your risk. Genetics influence how your body handles insulin and stores fat."
+            description = "Family history can be useful context to share with a professional; it does not predict an individual's result."
         )
         RiskFactorItem(
             emoji = "🌍",
@@ -379,7 +379,7 @@ private fun WhoIsAtRiskContent() {
         RiskFactorItem(
             emoji = "♀️",
             title = "Gender-Specific Risks",
-            description = "Post-menopausal women face increased risk due to hormonal changes. Women with PCOS (Polycystic Ovary Syndrome) are at 2-3x higher risk."
+            description = "Life stage and conditions such as PCOS can be relevant context; only a professional can assess personal risk."
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -402,7 +402,7 @@ private fun WhoIsAtRiskContent() {
         RiskFactorItem(
             emoji = "⚖️",
             title = "Obesity (especially central obesity)",
-            description = "The strongest modifiable risk factor. Excess abdominal fat drives insulin resistance. Even modest weight loss (5-10%) significantly reduces risk."
+            description = "Body-size measures are one part of metabolic health. Sustainable habits can support wellbeing without promising a specific risk change."
         )
         RiskFactorItem(
             emoji = "🛋️",
@@ -412,12 +412,12 @@ private fun WhoIsAtRiskContent() {
         RiskFactorItem(
             emoji = "🍔",
             title = "Unhealthy Diet",
-            description = "Diets high in refined carbohydrates, added sugars, processed foods, and saturated fats directly contribute. The Western diet is strongly associated with metabolic syndrome."
+            description = "Food patterns vary by culture and access. A varied, adequately nourishing pattern is a reasonable general goal."
         )
         RiskFactorItem(
             emoji = "😴",
             title = "Poor Sleep & Sleep Apnea",
-            description = "Sleeping less than 6 hours or having obstructive sleep apnea significantly increases risk. Sleep deprivation disrupts hormones that regulate hunger and blood sugar."
+            description = "Sleep quality and duration can affect wellbeing; persistent sleep concerns deserve professional discussion."
         )
         RiskFactorItem(
             emoji = "😰",
@@ -450,7 +450,7 @@ private fun WhoIsAtRiskContent() {
 private fun PreventionTreatmentContent() {
     Column {
         InfoParagraph(
-            text = "The encouraging news is that metabolic syndrome is largely preventable and often reversible. Lifestyle modifications are the first-line treatment and can dramatically improve all 5 risk factors simultaneously."
+            text = "Lifestyle habits can support wellbeing, but these measurements can have many causes. Use the app to prepare questions and discuss persistent changes with a professional."
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -502,12 +502,12 @@ private fun PreventionTreatmentContent() {
             title = "Dietary Changes",
             color = HealthTeal,
             points = listOf(
-                "Mediterranean diet: Rich in olive oil, fish, nuts, vegetables, whole grains — clinically proven to reduce metabolic syndrome risk by 50%",
+                "A Mediterranean-style pattern can be a flexible option: plants, whole grains, varied protein and unsaturated fats",
                 "DASH diet: Designed for blood pressure, also improves other markers",
                 "Reduce refined carbohydrates and added sugars significantly",
                 "Increase fiber intake to 25-30g daily from vegetables, legumes, and whole grains",
                 "Eat fatty fish 2-3x per week for omega-3 fatty acids",
-                "Limit sodium to under 2,300 mg/day (ideally 1,500 mg)",
+                "Notice sodium in food labels; an appropriate target depends on personal context",
                 "Choose whole, unprocessed foods over packaged alternatives"
             )
         )
@@ -534,15 +534,14 @@ private fun PreventionTreatmentContent() {
         // Medication
         TreatmentCard(
             icon = "💊",
-            title = "Medication Options",
+            title = "Discuss treatment with a professional",
             color = HealthOrange,
             points = listOf(
-                "Medications are not a replacement for lifestyle changes — they work together",
-                "For blood pressure: ACE inhibitors, ARBs, or other antihypertensives",
-                "For triglycerides/cholesterol: Statins, fibrates, or fish oil supplements",
-                "For blood sugar: Metformin is often the first choice for insulin resistance",
-                "For weight: Some medications may be appropriate — discuss with your doctor",
-                "Never self-medicate — always consult your healthcare provider"
+                "Treatment depends on confirmed measurements, history and clinician assessment",
+                "A professional may discuss lifestyle, monitoring or medicines when appropriate",
+                "Do not start, stop or change a medicine based on this app",
+                "Bring your logs and questions to an appointment",
+                "Never self-medicate — follow the instructions of your healthcare team"
             )
         )
 
@@ -550,7 +549,7 @@ private fun PreventionTreatmentContent() {
 
         KeyPointCard(
             title = "Your Action Plan",
-            content = "1. Start with one change at a time — don't overwhelm yourself\n2. Walk 30 minutes daily — the single most impactful change\n3. Reduce sugary drinks and processed foods\n4. Get regular check-ups every 3-6 months\n5. Track your progress — small improvements matter!\n6. Be patient — metabolic improvements can take 3-6 months to appear in blood work"
+            content = "1. Start with one manageable change at a time\n2. Choose movement you can do consistently\n3. Build a varied, adequately nourishing eating pattern\n4. Keep repeat measurements and questions for your clinician\n5. Track trends without treating them as a diagnosis\n6. Give changes time and seek support when needed"
         )
     }
 }

@@ -14,12 +14,12 @@ enum class PpCategory(
     val displayName: String,
     val rangeLabel: String
 ) {
-    VERY_NARROW("Very Narrow", "< 25 mmHg"),
+    VERY_NARROW("Very narrow", "< 25 mmHg"),
     NARROW("Narrow", "25–39 mmHg"),
-    NORMAL("Normal", "40–60 mmHg"),
-    SLIGHTLY_WIDE("Slightly Wide", "61–80 mmHg"),
+    NORMAL("Common reference", "40–60 mmHg"),
+    SLIGHTLY_WIDE("Somewhat wide", "61–80 mmHg"),
     WIDE("Wide", "81–100 mmHg"),
-    VERY_WIDE("Very Wide", "> 100 mmHg")
+    VERY_WIDE("Very wide", "> 100 mmHg")
 }
 
 data class MapAnalysis(
@@ -35,12 +35,12 @@ enum class MapCategory(
     val displayName: String,
     val rangeLabel: String
 ) {
-    CRITICALLY_LOW("Critically Low", "< 60 mmHg"),
+    CRITICALLY_LOW("Markedly low", "< 60 mmHg"),
     LOW("Low", "60–69 mmHg"),
     NORMAL("Normal", "70–100 mmHg"),
     ELEVATED("Elevated", "101–110 mmHg"),
     HIGH("High", "111–130 mmHg"),
-    VERY_HIGH("Very High", "> 130 mmHg")
+    VERY_HIGH("Very high", "> 130 mmHg")
 }
 
 data class HeartRateAnalysis(
@@ -57,13 +57,13 @@ enum class HrCategory(
     val displayName: String,
     val rangeLabel: String
 ) {
-    SEVERELY_LOW("Severely Low", "< 40 BPM"),
-    BRADYCARDIA("Bradycardia", "40–59 BPM"),
-    ATHLETIC("Athletic Normal", "40–59 BPM"),
-    NORMAL("Normal", "60–100 BPM"),
+    SEVERELY_LOW("Very low", "< 40 BPM"),
+    BRADYCARDIA("Below common range", "40–59 BPM"),
+    ATHLETIC("Lower range", "40–59 BPM"),
+    NORMAL("Common reference", "60–100 BPM"),
     ELEVATED("Elevated", "101–120 BPM"),
-    TACHYCARDIA("Tachycardia", "121–150 BPM"),
-    DANGEROUS("Dangerously High", "> 150 BPM")
+    TACHYCARDIA("Markedly elevated", "121–150 BPM"),
+    DANGEROUS("Very high", "> 150 BPM")
 }
 
 object BpAdvancedMetrics {
@@ -71,6 +71,9 @@ object BpAdvancedMetrics {
     // ─── Pulse Pressure ────────────────────────────────────────────────────
 
     fun analyzePulsePressure(systolic: Int, diastolic: Int): PulsePressureAnalysis {
+        require(systolic > diastolic && systolic in 60..300 && diastolic in 30..200) {
+            "Enter a valid blood-pressure pair"
+        }
         val pp = systolic - diastolic
 
         val category = when {
@@ -83,21 +86,21 @@ object BpAdvancedMetrics {
         }
 
         val interpretation = when (category) {
-            PpCategory.VERY_NARROW -> "Very narrow pulse pressure detected"
-            PpCategory.NARROW -> "Pulse pressure is below normal range"
-            PpCategory.NORMAL -> "Pulse pressure is within the healthy range"
-            PpCategory.SLIGHTLY_WIDE -> "Pulse pressure is slightly above normal"
-            PpCategory.WIDE -> "Wide pulse pressure detected"
-            PpCategory.VERY_WIDE -> "Very wide pulse pressure – consult a doctor"
+            PpCategory.VERY_NARROW -> "Pulse pressure is in a very narrow reference band"
+            PpCategory.NARROW -> "Pulse pressure is below the common reference band"
+            PpCategory.NORMAL -> "Pulse pressure is within the common reference band"
+            PpCategory.SLIGHTLY_WIDE -> "Pulse pressure is above the common reference band"
+            PpCategory.WIDE -> "Pulse pressure is in a wide reference band"
+            PpCategory.VERY_WIDE -> "Pulse pressure is in a very wide reference band; repeat and discuss persistent results"
         }
 
         val details = when (category) {
-            PpCategory.VERY_NARROW -> "A very narrow pulse pressure (< 25 mmHg) may indicate significantly reduced cardiac output, severe heart failure, cardiac tamponade, or significant blood loss. This warrants medical evaluation."
-            PpCategory.NARROW -> "A narrow pulse pressure (25–39 mmHg) may suggest reduced stroke volume or increased peripheral vascular resistance. It can occur with dehydration, heart failure, or aortic stenosis. Monitor and discuss with your healthcare provider."
-            PpCategory.NORMAL -> "Your pulse pressure is in the ideal range (40–60 mmHg). This suggests good cardiovascular function with appropriate arterial compliance and cardiac output. Keep maintaining your healthy lifestyle!"
-            PpCategory.SLIGHTLY_WIDE -> "A slightly widened pulse pressure (61–80 mmHg) may be normal during exercise or stress. If consistently elevated at rest, it could indicate early arterial stiffening. Worth monitoring over time."
-            PpCategory.WIDE -> "A wide pulse pressure (81–100 mmHg) often indicates arterial stiffness, which is more common with aging. It can also occur with aortic regurgitation, hyperthyroidism, or anemia. Consider discussing with your doctor."
-            PpCategory.VERY_WIDE -> "A very wide pulse pressure (> 100 mmHg) is a significant finding that strongly suggests arterial stiffness or another underlying condition. This is associated with increased cardiovascular risk. Medical consultation is recommended."
+            PpCategory.VERY_NARROW -> "Pulse pressure is sensitive to measurement error and context. Repeat the pair carefully and seek professional advice if it persists or symptoms concern you."
+            PpCategory.NARROW -> "Repeat the blood-pressure pair under consistent conditions; a single pulse-pressure value cannot identify a cause."
+            PpCategory.NORMAL -> "This range is commonly used for reference. Pulse pressure alone does not describe overall cardiovascular health."
+            PpCategory.SLIGHTLY_WIDE -> "Exercise, stress, age and technique can affect this value. Use repeated readings and personal context."
+            PpCategory.WIDE -> "A persistent wide value deserves discussion with a healthcare professional, especially if other readings or symptoms are concerning."
+            PpCategory.VERY_WIDE -> "Repeat the pair carefully and discuss persistent results with a healthcare professional; this metric cannot diagnose a condition."
         }
 
         val normalizedPos = when {
@@ -123,6 +126,9 @@ object BpAdvancedMetrics {
     // ─── Mean Arterial Pressure ────────────────────────────────────────────
 
     fun analyzeMAP(systolic: Int, diastolic: Int): MapAnalysis {
+        require(systolic > diastolic && systolic in 60..300 && diastolic in 30..200) {
+            "Enter a valid blood-pressure pair"
+        }
         val map = diastolic + (systolic - diastolic) / 3.0
         val roundedMap = Math.round(map * 10.0) / 10.0
 
@@ -136,21 +142,21 @@ object BpAdvancedMetrics {
         }
 
         val interpretation = when (category) {
-            MapCategory.CRITICALLY_LOW -> "Critically low – organs may not receive adequate blood flow"
-            MapCategory.LOW -> "Below normal – may indicate insufficient perfusion"
-            MapCategory.NORMAL -> "Normal – adequate blood flow to organs"
-            MapCategory.ELEVATED -> "Slightly elevated – increased vascular resistance"
-            MapCategory.HIGH -> "High – significant risk of organ damage"
-            MapCategory.VERY_HIGH -> "Very high – urgent risk of organ damage"
+            MapCategory.CRITICALLY_LOW -> "Markedly low reference value"
+            MapCategory.LOW -> "Below common reference band"
+            MapCategory.NORMAL -> "Within common reference band"
+            MapCategory.ELEVATED -> "Above common reference band"
+            MapCategory.HIGH -> "High reference value"
+            MapCategory.VERY_HIGH -> "Very high reference value"
         }
 
         val details = when (category) {
-            MapCategory.CRITICALLY_LOW -> "A MAP below 60 mmHg is considered a medical concern. At this level, vital organs (brain, kidneys, heart) may not receive enough blood flow to function properly. This can lead to organ damage if sustained. Possible causes include severe dehydration, blood loss, sepsis, or heart failure."
-            MapCategory.LOW -> "A MAP of 60–69 mmHg is at the lower boundary of adequate organ perfusion. While some people function normally at this level, it may indicate mild hypotension. Watch for symptoms like dizziness, fatigue, or confusion."
-            MapCategory.NORMAL -> "Your MAP is within the ideal range (70–100 mmHg). This means your heart is effectively pumping blood and your organs are receiving adequate perfusion. A MAP in this range is associated with good cardiovascular health."
-            MapCategory.ELEVATED -> "A MAP of 101–110 mmHg suggests mildly elevated average arterial pressure. This can indicate increased vascular resistance or early hypertension. Lifestyle modifications may help bring this into the normal range."
-            MapCategory.HIGH -> "A MAP above 110 mmHg indicates significantly elevated average arterial pressure. Sustained high MAP can damage blood vessel walls, kidneys, brain, and eyes. This often correlates with Stage 2+ hypertension."
-            MapCategory.VERY_HIGH -> "A MAP above 130 mmHg is dangerously elevated. At this level, there is significant risk of immediate organ damage including stroke, kidney injury, and heart damage. Medical attention is strongly recommended."
+            MapCategory.CRITICALLY_LOW -> "MAP is an approximate derived value and is sensitive to the input pair. Repeat carefully and seek prompt professional advice if it remains very low or symptoms are present."
+            MapCategory.LOW -> "Some people have lower values without a problem. Consider symptoms, repeat readings and personal context."
+            MapCategory.NORMAL -> "This is a commonly used reference band; MAP alone cannot establish overall cardiovascular health."
+            MapCategory.ELEVATED -> "Repeat the blood-pressure pair under consistent conditions and review the trend rather than inferring a cause."
+            MapCategory.HIGH -> "A persistent high value merits professional review, particularly alongside repeated high blood-pressure readings."
+            MapCategory.VERY_HIGH -> "Repeat the pair carefully and seek prompt professional advice if it remains very high or symptoms are present."
         }
 
         val normalizedPos = when {
@@ -176,6 +182,7 @@ object BpAdvancedMetrics {
     // ─── Heart Rate ────────────────────────────────────────────────────────
 
     fun analyzeHeartRate(bpm: Int, isAthlete: Boolean = false): HeartRateAnalysis {
+        require(bpm in 30..250) { "Resting heart rate must be between 30 and 250 BPM" }
         val category = when {
             bpm < 40 -> HrCategory.SEVERELY_LOW
             bpm in 40..59 && isAthlete -> HrCategory.ATHLETIC
@@ -187,60 +194,60 @@ object BpAdvancedMetrics {
         }
 
         val interpretation = when (category) {
-            HrCategory.SEVERELY_LOW -> "Severely low heart rate"
-            HrCategory.BRADYCARDIA -> "Below normal resting heart rate"
-            HrCategory.ATHLETIC -> "Normal for trained athletes"
-            HrCategory.NORMAL -> "Normal resting heart rate"
-            HrCategory.ELEVATED -> "Slightly elevated heart rate"
-            HrCategory.TACHYCARDIA -> "Elevated heart rate (tachycardia)"
-            HrCategory.DANGEROUS -> "Dangerously high heart rate"
+            HrCategory.SEVERELY_LOW -> "Very low resting heart rate"
+            HrCategory.BRADYCARDIA -> "Below common resting reference"
+            HrCategory.ATHLETIC -> "Lower resting reference (athlete context)"
+            HrCategory.NORMAL -> "Within common resting reference"
+            HrCategory.ELEVATED -> "Elevated resting reference"
+            HrCategory.TACHYCARDIA -> "Markedly elevated resting reference"
+            HrCategory.DANGEROUS -> "Very high resting reference"
         }
 
         val details = when (category) {
-            HrCategory.SEVERELY_LOW -> "A heart rate below 40 BPM at rest is very low and may indicate a serious conduction problem or other cardiac issue. Seek medical evaluation, especially if accompanied by dizziness, fainting, or shortness of breath."
-            HrCategory.BRADYCARDIA -> "A resting heart rate of 40–59 BPM is classified as bradycardia. While this can be normal for very fit individuals, in non-athletes it may indicate an underactive thyroid, medication effects, or a conduction disorder. If you experience symptoms, consult your doctor."
-            HrCategory.ATHLETIC -> "For trained athletes, a resting heart rate of 40–59 BPM is completely normal and actually indicates excellent cardiovascular fitness. Your heart is so efficient that it can pump sufficient blood with fewer beats."
-            HrCategory.NORMAL -> "Your resting heart rate is within the normal range (60–100 BPM). A lower resting heart rate generally indicates better cardiovascular fitness. Most healthy adults fall in the 60–80 BPM range."
-            HrCategory.ELEVATED -> "A resting heart rate of 101–120 BPM is mildly elevated. This can be caused by stress, caffeine, dehydration, recent physical activity, fever, or anxiety. If consistently elevated at rest, discuss with your healthcare provider."
-            HrCategory.TACHYCARDIA -> "A resting heart rate above 120 BPM is classified as tachycardia. Possible causes include anxiety, caffeine, fever, anemia, hyperthyroidism, or cardiac arrhythmia. If this is a resting rate, medical evaluation is recommended."
-            HrCategory.DANGEROUS -> "A resting heart rate above 150 BPM is dangerously elevated. This may indicate a serious cardiac arrhythmia or other medical emergency. Seek immediate medical attention, especially if accompanied by chest pain, shortness of breath, or dizziness."
+            HrCategory.SEVERELY_LOW -> "A very low resting value can be affected by measurement conditions or personal context. Repeat it and seek professional advice if persistent or symptomatic."
+            HrCategory.BRADYCARDIA -> "A lower resting value can be normal for some people and relevant for others. Consider symptoms, medicines, training and repeated readings."
+            HrCategory.ATHLETIC -> "A lower value may occur in trained people, but this label is not a fitness diagnosis. Use symptoms and context."
+            HrCategory.NORMAL -> "This is a common adult resting reference band. Resting heart rate varies with sleep, stress, illness, medicines and fitness."
+            HrCategory.ELEVATED -> "Stress, caffeine, illness, dehydration or recent activity can affect a resting value. Repeat when rested and discuss persistent elevation."
+            HrCategory.TACHYCARDIA -> "A markedly elevated resting value deserves repeat measurement and professional review, especially with symptoms."
+            HrCategory.DANGEROUS -> "A very high resting value needs prompt confirmation and professional advice, particularly with chest discomfort, breathlessness, fainting or other concerning symptoms."
         }
 
         val riskFactors = when (category) {
             HrCategory.SEVERELY_LOW -> listOf(
-                "Risk of fainting or syncope",
-                "Potential organ hypoperfusion",
-                "May need pacemaker evaluation"
+                "Symptoms such as dizziness or fainting can matter",
+                "Repeat measurement and context are important",
+                "Discuss persistent or symptomatic readings with a professional"
             )
             HrCategory.BRADYCARDIA -> listOf(
-                "May cause fatigue or dizziness",
-                "Could indicate medication side effects",
-                "Check thyroid function if persistent"
+                "Symptoms such as fatigue or dizziness can matter",
+                "Medicines and training can affect readings",
+                "Discuss persistent readings with a professional"
             )
             HrCategory.ATHLETIC -> listOf(
-                "Sign of excellent cardiovascular fitness",
-                "Normal if asymptomatic",
-                "Continue regular exercise routine"
+                "Can occur in trained people",
+                "Use symptoms and personal context",
+                "Track under similar conditions"
             )
             HrCategory.NORMAL -> listOf(
-                "Healthy cardiovascular function",
-                "Lower end of range indicates better fitness",
-                "Regular exercise can lower resting HR"
+                "Common adult resting reference",
+                "Values vary day to day",
+                "Track under similar conditions"
             )
             HrCategory.ELEVATED -> listOf(
-                "May indicate dehydration or stress",
-                "Could be caffeine or stimulant related",
-                "Higher resting HR linked to increased CV risk"
+                "Stress, caffeine and illness can affect it",
+                "Measurement timing matters",
+                "Review a repeated pattern rather than one value"
             )
             HrCategory.TACHYCARDIA -> listOf(
-                "Increased cardiac workload",
-                "Higher risk of cardiac events",
-                "May indicate underlying condition"
+                "Repeat when rested",
+                "Symptoms and medicines provide context",
+                "Discuss a repeated pattern with a professional"
             )
             HrCategory.DANGEROUS -> listOf(
-                "Immediate cardiac risk",
-                "Possible arrhythmia",
-                "Seek emergency care if symptomatic"
+                "Repeat and verify the measurement",
+                "Symptoms change the appropriate next step",
+                "Seek prompt professional advice if persistent or symptomatic"
             )
         }
 

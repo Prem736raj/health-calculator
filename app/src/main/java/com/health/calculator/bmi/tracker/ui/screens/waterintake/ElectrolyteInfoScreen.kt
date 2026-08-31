@@ -1063,7 +1063,7 @@ private fun DIYElectrolyteDrinksCard() {
     }
 }
 
-// ─── WHO ORS Formula ─────────────────────────────────────────────────────────
+// ─── Oral rehydration information ────────────────────────────────────────────
 
 @Composable
 private fun WHOORSCard() {
@@ -1085,7 +1085,7 @@ private fun WHOORSCard() {
             ) {
                 Text(stringResource(R.string.txt_text_placeholder_64), fontSize = 20.sp)
                 Text(
-                    stringResource(R.string.txt_who_oral_rehydration_solution),
+                    "Oral rehydration solution (educational)",
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall
                 )
@@ -1110,7 +1110,7 @@ private fun WHOORSCard() {
                     Text(stringResource(R.string.txt_text_placeholder_21), fontSize = 18.sp)
                     Text(
                         stringResource(R.string.txt_for_cases_of_severe_dehydratio) +
-                                "the WHO recommends a specific oral rehydration solution (ORS):",
+                                "Commercial oral rehydration products follow standardized formulations. This recipe is shown for education, not as a substitute for professional advice:",
                         fontSize = 13.sp,
                         lineHeight = 18.sp,
                         color = Color(0xFFC62828)
@@ -1173,7 +1173,7 @@ private fun WHOORSCard() {
 
                     Text(
                         stringResource(R.string.txt_sip_small_amounts_frequently_f) +
-                                "For adults: frequent small sips or about 200-400ml after each loose stool.",
+                                "Follow the product label or a clinician's instructions; avoid using a fixed volume for everyone.",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -1186,7 +1186,7 @@ private fun WHOORSCard() {
                 "🔬" to "The glucose in ORS helps the intestine absorb sodium and water more effectively",
                 "❌" to "Do NOT add extra sugar or salt — precise proportions are important",
                 "🏪" to "Pre-made ORS packets are available at pharmacies and are recommended for accuracy",
-                "🏥" to "Seek medical attention if dehydration is severe or symptoms persist"
+                "🏥" to "Seek prompt professional care if dehydration is severe or symptoms persist"
             )
 
             notes.forEach { (icon, text) ->

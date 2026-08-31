@@ -18,35 +18,35 @@ enum class BMRFormula(
     HARRIS_BENEDICT_REVISED(
         displayName = "Harris-Benedict Revised",
         year = "1984",
-        description = "Updated version by Roza & Shizgal with improved accuracy over the original equation.",
+        description = "Updated historical equation; individual accuracy varies.",
         requiresBodyFat = false,
         isRecommended = false
     ),
     MIFFLIN_ST_JEOR(
         displayName = "Mifflin-St Jeor",
         year = "1990",
-        description = "Considered the most accurate for most adults. Recommended by the Academy of Nutrition and Dietetics.",
+        description = "A widely used predictive equation for adult resting energy expenditure; it is not a measurement.",
         requiresBodyFat = false,
         isRecommended = true
     ),
     WHO_FAO_UNU(
         displayName = "WHO/FAO/UNU",
         year = "1985",
-        description = "Developed by the World Health Organization. Uses age-grouped equations for global applicability.",
+        description = "Historical FAO/WHO/UNU age-grouped equations; included for comparison and not a personal measurement.",
         requiresBodyFat = false,
         isRecommended = false
     ),
     KATCH_MCARDLE(
         displayName = "Katch-McArdle",
         year = "1996",
-        description = "Uses lean body mass for calculation, making it more accurate for people who know their body fat percentage.",
+        description = "Uses estimated lean mass; body-fat measurement error can materially change the result.",
         requiresBodyFat = true,
         isRecommended = false
     ),
     CUNNINGHAM(
         displayName = "Cunningham",
         year = "1991",
-        description = "Similar to Katch-McArdle but designed for athletic populations. Best for active individuals.",
+        description = "Lean-mass equation sometimes used in research; not validated for every athletic or clinical setting.",
         requiresBodyFat = true,
         isRecommended = false
     );

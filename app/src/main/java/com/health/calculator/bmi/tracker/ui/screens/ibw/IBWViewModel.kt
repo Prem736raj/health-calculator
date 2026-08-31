@@ -174,14 +174,14 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
             (feet * 30.48) + (inches * 2.54)
         }
 
-        if (heightCm == null || !heightCm.isFinite() || heightCm < 50 || heightCm > 300) {
-            _uiState.value = state.copy(errorMessage = "Please enter a valid height (50-300 cm)")
+        if (heightCm == null || !heightCm.isFinite() || heightCm < 100 || heightCm > 250) {
+            _uiState.value = state.copy(errorMessage = "Please enter an adult height (100-250 cm)")
             return
         }
 
         val age = state.age.toIntOrNull()
-        if (age != null && (age < 2 || age > 120)) {
-            _uiState.value = state.copy(errorMessage = "Please enter a valid age (2-120)")
+        if (age != null && (age !in 18..120)) {
+            _uiState.value = state.copy(errorMessage = "Please enter an adult age (18-120)")
             return
         }
 

@@ -1153,9 +1153,9 @@ private fun GoalSettingDialog(
                     ) {
                         Text(stringResource(R.string.txt_text_placeholder_1), fontSize = 14.sp)
                         Text(
-                            "WHO recommends waist circumference below ${
+                            "A commonly used waist action point is ${
                                 "94 cm for men and 80 cm for women"
-                            } for lower health risk.",
+                            }. Thresholds vary by guideline and population; use this as context, not a diagnosis.",
                             style = MaterialTheme.typography.bodySmall,
                             fontSize = 11.sp,
                             lineHeight = 16.sp,

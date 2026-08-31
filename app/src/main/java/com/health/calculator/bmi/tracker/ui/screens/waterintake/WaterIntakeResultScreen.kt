@@ -351,9 +351,9 @@ private fun WaterBottleResultCard(result: WaterIntakeCalculation) {
 
                 // Motivational message
                 val motivationText = when {
-                    result.recommendedIntakeMl >= 3500 -> "💪 You need extra hydration! Stay on top of it."
-                    result.recommendedIntakeMl >= 2500 -> "🌊 A solid water goal — your body will thank you!"
-                    else -> "✨ A healthy daily target — easy to achieve!"
+                    result.recommendedIntakeMl >= 3500 -> "💪 A higher starting point for your selected context. Sip steadily and adjust to thirst."
+                    result.recommendedIntakeMl >= 2500 -> "🌊 A practical starting point — adjust for thirst, food and daily conditions."
+                    else -> "✨ A starting point for planning fluids; your needs can vary day to day."
                 }
                 Text(
                     text = motivationText,
@@ -857,30 +857,23 @@ private fun HourlyTimeline(hourlyMl: Int, wakingHours: Int) {
 private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
     val result = viewModel.calculationResult ?: return
 
-    val weightKg = result.weightKg
-    val baseMl = (weightKg * 35).toInt()
-
-    // Recalculate individual adjustments for display
-    val ageAdjusted = calculateAgeAdjustedBase(baseMl, result.age, weightKg)
-    val genderAdjustment = if (result.gender == "Female" && result.age >= 18) {
-        -(ageAdjusted * 0.1f).toInt()
-    } else 0
-
-    val afterGender = ageAdjusted + genderAdjustment
+    // Keep the explanation aligned with the calculator: this is a beverage
+    // starting point, not a weight-based prescription or a medical target.
+    val baseMl = if (result.gender.equals("Female", ignoreCase = true)) 2200 else 3000
 
     val activityLevel = try {
         com.health.calculator.bmi.tracker.data.model.WaterActivityLevel.valueOf(result.activityLevel)
     } catch (e: Exception) {
         com.health.calculator.bmi.tracker.data.model.WaterActivityLevel.SEDENTARY
     }
-    val activityAdjustment = (afterGender * (activityLevel.multiplier - 1f)).toInt()
+    val activityAdjustment = activityLevel.multiplier.toInt()
 
     val climate = try {
         com.health.calculator.bmi.tracker.data.model.ClimateType.valueOf(result.climate)
     } catch (e: Exception) {
         com.health.calculator.bmi.tracker.data.model.ClimateType.TEMPERATE
     }
-    val climateAdjustment = (afterGender * (climate.multiplier - 1f)).toInt()
+    val climateAdjustment = climate.multiplier.toInt()
 
     val healthStatus = try {
         com.health.calculator.bmi.tracker.data.model.HealthStatus.valueOf(result.healthStatus)
@@ -915,34 +908,17 @@ private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
-            // Base requirement
+            // Beverage starting point
             BreakdownRow(
-                label = "Base requirement",
-                detail = "${String.format("%.1f", weightKg)} kg × 35 ml/kg",
+                label = "Beverage starting point",
+                detail = if (result.gender.equals("Female", ignoreCase = true)) {
+                    "National Academies adult reference (2,200 ml)"
+                } else {
+                    "National Academies adult reference (3,000 ml)"
+                },
                 value = "$baseMl ml",
                 color = WaterBlueMedium
             )
-
-            // Age adjustment
-            if (ageAdjusted != baseMl) {
-                val ageSign = if (ageAdjusted - baseMl >= 0) "+" else ""
-                BreakdownRow(
-                    label = "Age adjustment",
-                    detail = "Age ${result.age}",
-                    value = "$ageSign${ageAdjusted - baseMl} ml",
-                    color = Color(0xFFFF9800)
-                )
-            }
-
-            // Gender adjustment
-            if (genderAdjustment != 0) {
-                BreakdownRow(
-                    label = "Gender adjustment",
-                    detail = result.gender,
-                    value = "${genderAdjustment} ml",
-                    color = Color(0xFFE91E63)
-                )
-            }
 
             // Activity adjustment
             if (activityAdjustment > 0) {
@@ -1116,19 +1092,6 @@ private fun FactorBar(
                     .background(Color(0xFFFF9800))
             )
         }
-    }
-}
-
-private fun calculateAgeAdjustedBase(baseMl: Int, age: Int, weightKg: Float): Int {
-    return when {
-        age < 4 -> (weightKg * 100).toInt().coerceAtMost(1300)
-        age < 9 -> 1400
-        age < 14 -> 1800
-        age < 18 -> 2200
-        age in 18..30 -> baseMl
-        age in 31..55 -> (baseMl * 0.95f).toInt()
-        age in 56..75 -> (baseMl * 0.90f).toInt()
-        else -> (baseMl * 0.85f).toInt()
     }
 }
 

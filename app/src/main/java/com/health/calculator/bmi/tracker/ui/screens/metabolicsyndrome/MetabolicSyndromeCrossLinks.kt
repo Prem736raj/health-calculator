@@ -56,9 +56,9 @@ fun CrossLinksSection(
         CrossLink(
             emoji = "⚖️",
             title = "Calculate BMI",
-            description = "Check your BMI — used by WHO criteria for obesity assessment",
+            description = "Add BMI context; it is not one of the five markers shown here",
             route = "bmi",
-            criterionName = "Obesity (WHO)"
+            criterionName = "Additional context"
         ),
         CrossLink(
             emoji = "🔥",

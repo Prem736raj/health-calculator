@@ -282,7 +282,7 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
 
         if (report.healthScoreChange > 0) {
             highlights.add(WeeklyHighlight(
-                icon = "📈", title = "Health Score Improved",
+                icon = "📈", title = "Wellness Score improved",
                 description = "Up ${report.healthScoreChange} points from last week!",
                 type = HighlightType.IMPROVEMENT
             ))

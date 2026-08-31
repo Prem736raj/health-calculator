@@ -338,7 +338,7 @@ class IdealWeightViewModel @Inject constructor(application: Application) : Andro
             append("📍 Miller: ${String.format(Locale.US, "%.1f", res.miller)} kg\n")
             append("📍 Hamwi: ${String.format(Locale.US, "%.1f", res.hamwi)} kg\n")
             append("━━━━━━━━━━━━━━━━\n\n")
-            append("💪 WHO Healthy Range: ${String.format(Locale.US, "%.1f", res.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", res.healthyRangeMax)} kg\n\n")
+            append("💪 Adult BMI reference range: ${String.format(Locale.US, "%.1f", res.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", res.healthyRangeMax)} kg\n\n")
             append("Calculated via Health Calculator App")
         }
     }

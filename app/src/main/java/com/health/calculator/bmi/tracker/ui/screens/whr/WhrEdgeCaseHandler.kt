@@ -48,8 +48,8 @@ object WhrEdgeCaseHandler {
                 return ValidationResult(false, "Hip should be between 20-80 inches")
         }
 
-        if (age < 2 || age > 120)
-            return ValidationResult(false, "Age must be between 2 and 120")
+        if (age < 18 || age > 120)
+            return ValidationResult(false, "This adult comparison is for ages 18–120")
 
         // Equal waist and hip
         if (waist == hip) {

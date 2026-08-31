@@ -83,8 +83,8 @@ enum class WeightUnit(val displayName: String) {
 }
 
 /**
- * Physical activity level categories based on WHO guidelines.
- * Used in BMR/TDEE calculations with standard multipliers.
+ * Conventional activity categories used as inputs to a predictive TDEE
+ * estimate. These multipliers are not WHO recommendations.
  */
 enum class ActivityLevel(
     val displayName: String,

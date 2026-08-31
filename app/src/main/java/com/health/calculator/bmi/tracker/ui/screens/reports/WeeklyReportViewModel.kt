@@ -198,7 +198,7 @@ class WeeklyReportViewModel @Inject constructor(
         lines.add("")
 
         if (state.shareIncludeScore && report.healthScoreEnd >= 0) {
-            lines.add("\uD83C\uDFC6 Health Score: ${report.healthScoreEnd}/100 (${if (report.healthScoreChange >= 0) "+" else ""}${report.healthScoreChange})")
+            lines.add("\uD83C\uDFC6 Wellness Score: ${report.healthScoreEnd}/100 (${if (report.healthScoreChange >= 0) "+" else ""}${report.healthScoreChange})")
         }
         if (state.shareIncludeWeight && report.weightEntryCount > 0) {
             val change = report.weightChange?.let { String.format("%.1f", it) } ?: "0"

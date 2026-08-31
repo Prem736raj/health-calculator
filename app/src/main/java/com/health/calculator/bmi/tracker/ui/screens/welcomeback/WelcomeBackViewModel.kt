@@ -127,7 +127,7 @@ class WelcomeBackViewModel @Inject constructor(
         }
 
         if (overview.healthScore >= 0) {
-            metrics.add(0, LastKnownMetric("🏆", "Health Score", "${overview.healthScore}/100", "", 0, "home"))
+            metrics.add(0, LastKnownMetric("🏆", "Wellness Score", "${overview.healthScore}/100", "", 0, "home"))
         }
 
         return metrics.take(4)

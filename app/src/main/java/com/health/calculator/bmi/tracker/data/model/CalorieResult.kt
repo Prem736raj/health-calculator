@@ -21,10 +21,12 @@ data class CalorieResult(
     val isBelowMinimum: Boolean,
     val minimumCalories: Double,
     val safeGoalCalories: Double,
+    /** Activity multipliers already approximate total daily expenditure, so TEF is informational and not added twice. */
+    val tefIncludedInTdee: Boolean = true,
     val timestamp: Long = System.currentTimeMillis()
 ) {
     val bmrCalories: Double get() = usedBmr
-    val activityCalories: Double get() = tdee - usedBmr - tef
+    val activityCalories: Double get() = (tdee - usedBmr).coerceAtLeast(0.0)
     val bmrPercent: Float get() = ((usedBmr / tdee) * 100).toFloat()
     val activityPercent: Float get() = ((activityCalories / tdee) * 100).toFloat()
     val tefPercent: Float get() = ((tef / tdee) * 100).toFloat()

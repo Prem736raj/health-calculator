@@ -57,9 +57,9 @@ enum class PersonalRecordType(
         lowerIsBetter = false
     ),
     HIGHEST_HEALTH_SCORE(
-        displayName = "Highest Health Score",
+        displayName = "Highest Wellness Score",
         icon = "🏆",
-        description = "Best overall health score achieved",
+        description = "Best consistency score achieved",
         lowerIsBetter = false
     ),
     MOST_WATER_SINGLE_DAY(

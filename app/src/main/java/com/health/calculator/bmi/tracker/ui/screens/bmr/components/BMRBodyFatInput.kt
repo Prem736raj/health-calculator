@@ -139,7 +139,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
                 BodyFatMethod(
                     emoji = "🏥",
                     title = "DEXA Scan",
-                    description = "Most accurate method. Available at medical facilities and some gyms."
+                    description = "Direct measurement method; availability and measurement error vary by device."
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))

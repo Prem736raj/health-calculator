@@ -34,7 +34,7 @@ fun ReportShareDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(stringResource(R.string.txt_choose_what_to_include), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
-                ShareToggle("\uD83C\uDFC6 Health Score", includeScore) { onToggleSection("score", it) }
+                ShareToggle("\uD83C\uDFC6 Wellness Score", includeScore) { onToggleSection("score", it) }
                 ShareToggle("⚖️ Weight", includeWeight) { onToggleSection("weight", it) }
                 ShareToggle("\uD83D\uDCCA BMI", includeBmi) { onToggleSection("bmi", it) }
                 ShareToggle("❤️ Blood Pressure", includeBp) { onToggleSection("bp", it) }

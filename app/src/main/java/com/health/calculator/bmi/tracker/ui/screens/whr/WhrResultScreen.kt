@@ -396,7 +396,7 @@ private fun WhrMainResultCard(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
 
-            // WHO Thresholds reference
+            // Reference thresholds
             val thresholds = if (gender == Gender.FEMALE) {
                 "Female thresholds — Low: <0.80 | Moderate: 0.80-0.84 | High: ≥0.85"
             } else {
@@ -620,7 +620,7 @@ private fun WhrVisualScale(
             }
 
             Text(
-                "Gender: ${if (gender == Gender.FEMALE) "Female" else "Male"} (WHO standards)",
+                "Sex-specific reference context: ${if (gender == Gender.FEMALE) "Female" else "Male"}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 fontSize = 10.sp
@@ -820,7 +820,7 @@ private fun WaistCircumferenceRiskCard(
             }
 
             Text(
-                "WHO cutoffs for ${if (gender == Gender.FEMALE) "females" else "males"}",
+                "Selected waist reference for ${if (gender == Gender.FEMALE) "females" else "males"}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 fontSize = 10.sp

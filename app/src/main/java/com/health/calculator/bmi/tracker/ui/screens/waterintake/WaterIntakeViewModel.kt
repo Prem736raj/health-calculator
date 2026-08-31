@@ -15,6 +15,7 @@ import com.health.calculator.bmi.tracker.data.model.ClimateType
 import com.health.calculator.bmi.tracker.data.model.HealthStatus
 import com.health.calculator.bmi.tracker.data.model.WaterActivityLevel
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculation
+import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculator
 import com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository
 import kotlinx.coroutines.launch
 
@@ -151,8 +152,8 @@ class WaterIntakeViewModel @Inject constructor(
         if (age == null || age < 1) {
             ageError = "Please enter a valid age"
             isValid = false
-        } else if (age < 2 || age > 120) {
-            ageError = "Age must be between 2 and 120"
+        } else if (age < 18 || age > 120) {
+            ageError = "This estimate is for adults aged 18–120"
             isValid = false
         }
 
@@ -166,37 +167,17 @@ class WaterIntakeViewModel @Inject constructor(
         val weightKg = if (isMetric) weight else weight / 2.20462f
         val age = ageValue.toInt()
 
-        // Base water calculation: 35ml per kg of body weight (WHO guideline)
-        var baseIntakeMl = (weightKg * 35).toInt()
-
-        // Age adjustment
-        baseIntakeMl = when {
-            age < 4 -> (weightKg * 100).toInt().coerceAtMost(1300)
-            age < 9 -> 1400
-            age < 14 -> 1800
-            age < 18 -> 2200
-            age in 18..30 -> baseIntakeMl
-            age in 31..55 -> (baseIntakeMl * 0.95f).toInt()
-            age in 56..75 -> (baseIntakeMl * 0.90f).toInt()
-            else -> (baseIntakeMl * 0.85f).toInt()
-        }
-
-        // Gender adjustment
-        if (selectedGender == "Female" && age >= 18) {
-            baseIntakeMl = (baseIntakeMl * 0.9f).toInt()
-        }
-
-        // Activity level multiplier
-        baseIntakeMl = (baseIntakeMl * selectedActivityLevel.multiplier).toInt()
-
-        // Climate multiplier
-        baseIntakeMl = (baseIntakeMl * selectedClimate.multiplier).toInt()
-
-        // Health status additional
-        baseIntakeMl += selectedHealthStatus.additionalMl
-
-        // Clamp to reasonable range
-        val recommendedMl = baseIntakeMl.coerceIn(1000, 6000)
+        // National Academies beverage adequate-intake estimates. Food also
+        // supplies water, and heat/exercise needs vary, so this is a starting
+        // point rather than a prescription. Illness does not add an automatic
+        // amount; users should ask a clinician about fever, vomiting or fluid
+        // restrictions.
+        val recommendedMl = WaterIntakeCalculator.beverageTargetMl(
+            gender = selectedGender,
+            activity = selectedActivityLevel,
+            climate = selectedClimate,
+            healthStatus = selectedHealthStatus
+        )
         val recommendedOz = recommendedMl / 29.5735f
         val glasses = (recommendedMl / 250f).toInt() // 250ml per glass
 

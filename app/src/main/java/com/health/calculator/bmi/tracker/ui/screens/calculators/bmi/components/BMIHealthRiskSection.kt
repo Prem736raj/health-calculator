@@ -98,7 +98,7 @@ fun BMIHealthRiskSection(
             // Health Risks (not shown for Normal BMI)
             if (healthRiskInfo.healthRisks.isNotEmpty()) {
                 ExpandableRiskSection(
-                    title = "Potential Health Risks",
+                        title = "How to interpret this result",
                     icon = "⚕️",
                     itemCount = healthRiskInfo.healthRisks.size,
                     expanded = expandedRisks,
@@ -556,22 +556,6 @@ private fun DoctorNoteCard(
             )
             Spacer(modifier = Modifier.width(10.dp))
             Column(modifier = Modifier.weight(1f)) {
-                if (riskLevel == RiskLevel.VERY_HIGH || riskLevel == RiskLevel.EXTREMELY_HIGH) {
-                    Surface(
-                        shape = RoundedCornerShape(4.dp),
-                        color = urgencyColor.copy(alpha = 0.12f)
-                    ) {
-                        Text(
-                            text = if (riskLevel == RiskLevel.EXTREMELY_HIGH) "URGENT"
-                            else "IMPORTANT",
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = urgencyColor,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(6.dp))
-                }
                 Text(
                     text = note,
                     style = MaterialTheme.typography.bodySmall,

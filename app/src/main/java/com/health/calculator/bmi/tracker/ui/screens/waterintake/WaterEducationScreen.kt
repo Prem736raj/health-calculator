@@ -387,8 +387,8 @@ private fun HowMuchWaterSection() {
                     Text(stringResource(R.string.txt_general_guidelines), fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF004D40))
                     HorizontalDivider(color = Color(0xFF004D40).copy(alpha = 0.1f))
 
-                    GuidelineRow("🏢", "WHO Recommendation", "Approximately 2-2.5L/day for adults in temperate climates")
-                    GuidelineRow("⚖️", "Body Weight Method", "30-35ml per kg of body weight is a good baseline")
+                    GuidelineRow("📚", "National Academies reference", "Adequate intake includes food and beverages; healthy adults vary by sex, climate, activity, and diet")
+                    GuidelineRow("⚖️", "Use the app as a starting point", "There is no universal weight-based prescription. Adjust for thirst and professional advice")
                     GuidelineRow("🚽", "Urine Test", "If your urine is pale yellow, you're likely well hydrated")
                     GuidelineRow("🥵", "Thirst Mechanism", "For most healthy adults, drinking when thirsty is reasonable")
                 }
@@ -546,13 +546,13 @@ private fun OverhydrationSection() {
             Text(stringResource(R.string.txt_warning_signs), fontWeight = FontWeight.Bold, fontSize = 14.sp)
 
             val symptoms = listOf(
-                "🤢" to "Nausea and vomiting" to "Early warning sign of water intoxication",
-                "🤕" to "Persistent headache" to "Caused by brain cell swelling",
-                "😵💫" to "Confusion or disorientation" to "Serious sign — seek medical attention",
-                "💪" to "Muscle cramps or weakness" to "Due to electrolyte imbalance",
+                "🤢" to "Nausea and vomiting" to "Can occur with fluid or electrolyte imbalance",
+                "🤕" to "Persistent headache" to "May have many causes; consider the wider context",
+                "😵💫" to "Confusion or disorientation" to "Concerning symptom — seek urgent medical care",
+                "💪" to "Muscle cramps or weakness" to "Can occur with fluid or electrolyte imbalance",
                 "🫧" to "Bloating and swelling" to "Especially in hands and feet",
                 "😴" to "Extreme fatigue" to "Beyond normal tiredness",
-                "🚨" to "Seizures (severe cases)" to "Medical emergency — call 911"
+                "🚨" to "Seizures (severe cases)" to "Urgent medical care is needed"
             )
 
             symptoms.forEach { (iconLabel, description) ->
@@ -802,14 +802,14 @@ private fun SpecialNeedsSection() {
                 emoji = "🤰",
                 title = "Pregnancy",
                 color = Color(0xFFE91E63),
-                additionalMl = "+300ml/day",
+                additionalMl = "Context +300ml/day",
                 details = listOf(
-                    "Recommended total: ~2.3L (10 cups) per day",
+                    "The app's +300ml is a planning reference, not a prescription",
                     "Water helps form amniotic fluid",
                     "Supports increased blood volume (up to 50% more)",
                     "Helps prevent constipation and UTIs",
                     "Morning sickness? Try small, frequent sips",
-                    "Dehydration can trigger contractions — stay ahead"
+                    "Discuss hydration, nausea or swelling with your maternity team"
                 )
             )
 
@@ -818,9 +818,9 @@ private fun SpecialNeedsSection() {
                 emoji = "🤱",
                 title = "Breastfeeding",
                 color = Color(0xFF9C27B0),
-                additionalMl = "+700ml/day",
+                additionalMl = "Context +700ml/day",
                 details = listOf(
-                    "Recommended total: ~3.1L (13 cups) per day",
+                    "The app's +700ml is a planning reference, not a prescription",
                     "Breast milk is about 87% water",
                     "Drink a glass of water each time you nurse",
                     "Watch for signs of dehydration in yourself",
@@ -833,14 +833,13 @@ private fun SpecialNeedsSection() {
                 emoji = "🤒",
                 title = "Illness & Fever",
                 color = Color(0xFFF44336),
-                additionalMl = "+500-1000ml/day",
+                additionalMl = "No fixed target",
                 details = listOf(
-                    "Fever increases water loss through sweating",
-                    "Vomiting and diarrhea rapidly deplete fluids",
-                    "Use oral rehydration solutions for severe cases",
-                    "Sip frequently rather than large amounts at once",
-                    "Include electrolytes — broth and sports drinks can help",
-                    "Seek medical attention if unable to keep fluids down"
+                    "Fever, vomiting and diarrhea can change fluid needs",
+                    "Use an appropriate oral rehydration product only as directed",
+                    "Small, frequent sips may be easier to tolerate",
+                    "Ask a clinician or pharmacist for tailored advice",
+                    "Seek prompt care if you cannot keep fluids down or symptoms are severe"
                 )
             )
 
@@ -849,12 +848,12 @@ private fun SpecialNeedsSection() {
                 emoji = "🏔️",
                 title = "High Altitude",
                 color = Color(0xFF1565C0),
-                additionalMl = "+500ml/day",
+                additionalMl = "Context varies",
                 details = listOf(
-                    "Above 2,500m (8,200ft): increase water intake",
+                    "Altitude, humidity and activity can change fluid needs",
                     "Lower humidity and faster breathing increase water loss",
                     "Increased urination is common at altitude",
-                    "Proper hydration helps prevent altitude sickness",
+                    "Hydration does not prevent altitude illness; follow travel guidance",
                     "Avoid alcohol which worsens dehydration at altitude"
                 )
             )
@@ -864,14 +863,13 @@ private fun SpecialNeedsSection() {
                 emoji = "🌡️",
                 title = "Hot & Humid Climate",
                 color = Color(0xFFFF6F00),
-                additionalMl = "+500-750ml/day",
+                additionalMl = "Context varies",
                 details = listOf(
-                    "You can lose 1-2L per hour of sweat in extreme heat",
-                    "Don't wait until thirsty — drink proactively",
-                    "Take breaks in shade and drink regularly",
-                    "Watch for heat exhaustion signs: heavy sweating, weakness, nausea",
-                    "Cold water is absorbed faster than warm water",
-                    "Electrolyte drinks are helpful for prolonged heat exposure"
+                    "Heat and sweat can change fluid needs substantially",
+                    "Drink regularly and use thirst, breaks and local heat guidance",
+                    "Take breaks in shade and monitor how you feel",
+                    "If you feel unwell in heat, stop activity and seek help",
+                    "Electrolytes may be useful for prolonged heavy sweating; avoid over-drinking"
                 )
             )
 

@@ -50,7 +50,7 @@ object HealthConnectionsRegistry {
                 icon = "⚖️",
                 inputsFromProfile = listOf("Weight", "Height", "Age", "Gender"),
                 inputsFromOtherCalculators = emptyList(),
-                outputsUsedBy = listOf("Health Score", "Metabolic Syndrome"),
+                outputsUsedBy = listOf("Wellness Score", "Metabolic Syndrome screening"),
                 lastCalculated = lastCalculatedTimes["BMI"],
                 needsRecalculation = shouldRecalculate(lastCalculatedTimes["BMI"], profileLastModified)
             ),
@@ -70,7 +70,7 @@ object HealthConnectionsRegistry {
                 icon = "❤️",
                 inputsFromProfile = emptyList(),
                 inputsFromOtherCalculators = emptyList(),
-                outputsUsedBy = listOf("Metabolic Syndrome", "Health Score", "Heart Rate Zones"),
+                outputsUsedBy = listOf("Metabolic Syndrome screening", "Wellness Score", "Heart Rate Zones"),
                 lastCalculated = lastCalculatedTimes["BP"],
                 needsRecalculation = false // Profile changes don't affect manually entered BP
             ),
@@ -80,7 +80,7 @@ object HealthConnectionsRegistry {
                 icon = "📏",
                 inputsFromProfile = listOf("Gender", "Height"),
                 inputsFromOtherCalculators = emptyList(),
-                outputsUsedBy = listOf("Metabolic Syndrome", "Health Score"),
+                outputsUsedBy = listOf("Metabolic Syndrome screening", "Wellness Score"),
                 lastCalculated = lastCalculatedTimes["WHR"],
                 needsRecalculation = shouldRecalculate(lastCalculatedTimes["WHR"], profileLastModified)
             ),
@@ -90,7 +90,7 @@ object HealthConnectionsRegistry {
                 icon = "💧",
                 inputsFromProfile = listOf("Weight", "Age", "Gender", "Activity Level"),
                 inputsFromOtherCalculators = emptyList(),
-                outputsUsedBy = listOf("Health Score"),
+                outputsUsedBy = listOf("Wellness Score"),
                 lastCalculated = lastCalculatedTimes["WATER"],
                 needsRecalculation = shouldRecalculate(lastCalculatedTimes["WATER"], profileLastModified)
             ),
@@ -103,7 +103,7 @@ object HealthConnectionsRegistry {
                     CalculatorDataLink("Blood Pressure", "Systolic/Diastolic", "Uses latest BP reading"),
                     CalculatorDataLink("Waist-to-Hip Ratio", "Waist Circumference", "Uses latest waist measurement")
                 ),
-                outputsUsedBy = listOf("Health Score"),
+                outputsUsedBy = listOf("Wellness Score"),
                 lastCalculated = lastCalculatedTimes["METABOLIC_SYNDROME"],
                 needsRecalculation = false
             ),
@@ -135,7 +135,7 @@ object HealthConnectionsRegistry {
                 inputsFromOtherCalculators = listOf(
                     CalculatorDataLink("BMR Calculator", "BMR Value", "Uses BMR as base for TDEE")
                 ),
-                outputsUsedBy = listOf("Health Score"),
+                outputsUsedBy = listOf("Wellness Score"),
                 lastCalculated = lastCalculatedTimes["CALORIE"],
                 needsRecalculation = shouldRecalculate(lastCalculatedTimes["CALORIE"], profileLastModified)
             ),
@@ -147,7 +147,7 @@ object HealthConnectionsRegistry {
                 inputsFromOtherCalculators = listOf(
                     CalculatorDataLink("Blood Pressure", "Pulse/HR", "Can use resting HR from BP readings")
                 ),
-                outputsUsedBy = listOf("Health Score"),
+                outputsUsedBy = listOf("Wellness Score"),
                 lastCalculated = lastCalculatedTimes["HEART_RATE"],
                 needsRecalculation = shouldRecalculate(lastCalculatedTimes["HEART_RATE"], profileLastModified)
             )

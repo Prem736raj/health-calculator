@@ -9,7 +9,8 @@ class MacroCalculatorUseCase {
         const val CALORIES_PER_GRAM_PROTEIN = 4.0
         const val CALORIES_PER_GRAM_CARB = 4.0
         const val CALORIES_PER_GRAM_FAT = 9.0
-        const val SATURATED_FAT_RATIO = 0.33 // ~1/3 of fat intake can be saturated
+        /** Upper-limit share of total energy used for the saturated-fat guide. */
+        const val SATURATED_FAT_ENERGY_LIMIT = 0.10
     }
 
     val dietPresets = listOf(
@@ -83,10 +84,10 @@ class MacroCalculatorUseCase {
         activityLevel: String,
         goalType: String
     ): Double {
+        require(weightKg.isFinite() && weightKg > 0.0) { "Weight must be a positive finite value" }
         val proteinPerKg = when {
-            // Weight loss - higher protein to preserve muscle
+            // Goal-oriented ranges are planning estimates, not prescriptions.
             goalType.contains("lose", ignoreCase = true) -> 1.8
-            // Muscle gain - high protein for muscle synthesis
             goalType.contains("gain", ignoreCase = true) -> 2.0
             // Active maintenance
             activityLevel in listOf("very_active", "extremely_active") -> 1.6
@@ -109,6 +110,16 @@ class MacroCalculatorUseCase {
         presetName: String,
         numberOfMeals: Int = 3
     ): MacroResult {
+        require(totalCalories.isFinite() && totalCalories > 0.0) { "Calories must be a positive finite value" }
+        require(weightKg.isFinite() && weightKg > 0.0) { "Weight must be a positive finite value" }
+        require(carbPercent in 0..100 && proteinPercent in 0..100 && fatPercent in 0..100) {
+            "Macro percentages must be between 0 and 100"
+        }
+        require(carbPercent + proteinPercent + fatPercent == 100) {
+            "Macro percentages must add up to 100"
+        }
+        require(numberOfMeals in 1..12) { "Number of meals must be between 1 and 12" }
+
         // Calculate calories for each macro
         val proteinCalories = totalCalories * proteinPercent / 100.0
         val fatCalories = totalCalories * fatPercent / 100.0
@@ -119,9 +130,10 @@ class MacroCalculatorUseCase {
         val fatGrams = fatCalories / CALORIES_PER_GRAM_FAT
         val carbGrams = carbCalories / CALORIES_PER_GRAM_CARB
 
-        // Fat breakdown (recommended: 1/3 saturated, 2/3 unsaturated)
-        val saturatedFatGrams = fatGrams * SATURATED_FAT_RATIO
-        val unsaturatedFatGrams = fatGrams * (1 - SATURATED_FAT_RATIO)
+        // Show a conservative saturated-fat upper limit based on total energy.
+        // It is not a claim about the user's actual fat composition.
+        val saturatedFatGrams = minOf(fatGrams, totalCalories * SATURATED_FAT_ENERGY_LIMIT / CALORIES_PER_GRAM_FAT)
+        val unsaturatedFatGrams = (fatGrams - saturatedFatGrams).coerceAtLeast(0.0)
 
         // Fiber recommendation based on calories (rough estimate)
         val fiberRecommendation = when {
@@ -162,6 +174,10 @@ class MacroCalculatorUseCase {
         fatPercent: Int = 30,
         numberOfMeals: Int = 3
     ): MacroResult {
+        require(totalCalories.isFinite() && totalCalories > 0.0) { "Calories must be a positive finite value" }
+        require(weightKg.isFinite() && weightKg > 0.0) { "Weight must be a positive finite value" }
+        require(numberOfMeals in 1..12) { "Number of meals must be between 1 and 12" }
+        require(fatPercent in 0..80) { "Fat percentage must be between 0 and 80" }
         // Calculate recommended protein
         val recommendedProteinGrams = calculateRecommendedProtein(weightKg, activityLevel, goalType)
         val proteinCalories = recommendedProteinGrams * CALORIES_PER_GRAM_PROTEIN
@@ -193,15 +209,15 @@ class MacroCalculatorUseCase {
     fun getProteinRecommendationText(activityLevel: String, goalType: String): String {
         return when {
             goalType.contains("lose", ignoreCase = true) ->
-                "1.6-2.0 g/kg recommended during weight loss to preserve muscle mass"
+                "A planning range of about 1.6–2.0 g/kg; individual needs vary"
             goalType.contains("gain", ignoreCase = true) ->
-                "1.6-2.2 g/kg recommended for muscle building and recovery"
+                "A planning range of about 1.6–2.2 g/kg; individual needs vary"
             activityLevel in listOf("very_active", "extremely_active") ->
-                "1.4-1.6 g/kg recommended for your high activity level"
+                "A planning range of about 1.4–1.6 g/kg for higher activity"
             activityLevel in listOf("moderate", "light") ->
-                "1.2-1.6 g/kg recommended for active individuals"
+                "A planning range of about 1.2–1.6 g/kg for active adults"
             else ->
-                "0.8-1.0 g/kg is the minimum for sedentary individuals"
+                "A general reference range of about 0.8–1.0 g/kg; personal needs vary"
         }
     }
 }

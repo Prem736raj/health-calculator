@@ -34,6 +34,9 @@ data class HeartRateZoneResult(
 
 object HeartRateZoneCalculator {
 
+    private const val MIN_ADULT_AGE = 18
+    private const val MAX_ADULT_AGE = 120
+
     /**
      * Calculate Max Heart Rate using selected formula
      */
@@ -43,6 +46,10 @@ object HeartRateZoneCalculator {
         gender: String? = null,
         customMaxHR: Int? = null
     ): Int {
+        require(age in MIN_ADULT_AGE..MAX_ADULT_AGE) { "Heart-rate zones support adult ages 18–120" }
+        require(customMaxHR == null || customMaxHR in 80..240) {
+            "Custom maximum heart rate must be between 80 and 240 BPM"
+        }
         return when (formula) {
             HeartRateFormula.STANDARD -> 220 - age
             HeartRateFormula.TANAKA -> (208 - (0.7 * age)).toInt()
@@ -83,7 +90,14 @@ object HeartRateZoneCalculator {
         fitnessLevel: FitnessLevel = FitnessLevel.INTERMEDIATE,
         customMaxHR: Int? = null
     ): HeartRateZoneResult {
+        require(age in MIN_ADULT_AGE..MAX_ADULT_AGE) { "Heart-rate zones support adult ages 18–120" }
+        require(restingHR == null || restingHR in 30..200) {
+            "Resting heart rate must be between 30 and 200 BPM"
+        }
         val mhr = calculateMaxHR(age, formula, gender, customMaxHR)
+        require(restingHR == null || restingHR < mhr) {
+            "Resting heart rate must be below estimated maximum heart rate"
+        }
         val useKarvonen = formula == HeartRateFormula.KARVONEN && restingHR != null
         val hrr = if (useKarvonen && restingHR != null) mhr - restingHR else null
 
@@ -157,14 +171,14 @@ object HeartRateZoneCalculator {
             ),
             HeartRateZone(
                 zoneNumber = 2,
-                zoneName = "Fat Burn",
+                zoneName = "Base Endurance",
                 subtitle = "Light",
                 bpmLow = calcBPM(zoneRanges[1].low),
                 bpmHigh = calcBPM(zoneRanges[1].high),
                 percentLow = zoneRanges[1].low,
                 percentHigh = zoneRanges[1].high,
                 color = Color(0xFF42A5F5), // Blue
-                purpose = "Primary fat burning zone. Builds endurance base and improves body's ability to use fat as fuel.",
+                purpose = "Comfortable aerobic work that can support an endurance base.",
                 effortDescription = "Easy, comfortable pace. You should feel like you can keep going for a long time.",
                 talkTest = "Can talk easily in full sentences",
                 icon = "🔥",
@@ -214,15 +228,15 @@ object HeartRateZoneCalculator {
             ),
             HeartRateZone(
                 zoneNumber = 5,
-                zoneName = "VO₂ Max",
+                zoneName = "High Intensity",
                 subtitle = "Maximum",
                 bpmLow = calcBPM(zoneRanges[4].low),
                 bpmHigh = calcBPM(zoneRanges[4].high),
                 percentLow = zoneRanges[4].low,
                 percentHigh = zoneRanges[4].high,
                 color = Color(0xFFEF5350), // Red
-                purpose = "Maximum performance and sprint capacity. Only for short bursts. Pushes absolute limits.",
-                effortDescription = "All-out, maximum effort. Unsustainable for more than a few minutes.",
+                purpose = "Short, demanding intervals for experienced exercisers; intensity varies by person.",
+                effortDescription = "Very hard effort. Use the talk test and recover as needed; this is not a medical target.",
                 talkTest = "Cannot speak at all",
                 icon = "🚀",
                 recommendedDuration = when (fitnessLevel) {

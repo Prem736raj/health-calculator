@@ -207,7 +207,7 @@ fun BmiCalculatorScreen(
                             text = if (uiState.showResult) "Your Result"
                                    else if (pagerState.currentPage == 1) "Your BMI History"
                                    else if (pagerState.currentPage == 2) "Educational Content"
-                                   else "WHO Standard Classification",
+                                   else "Adult BMI reference categories",
                             style = MaterialTheme.typography.bodySmall,
                             color = if (uiState.showResult)
                                 uiState.bmiResult?.let { Color(it.category.colorHex) } ?: Color(0xFF1E88E5)

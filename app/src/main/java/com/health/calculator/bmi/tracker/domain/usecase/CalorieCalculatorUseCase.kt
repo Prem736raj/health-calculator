@@ -23,6 +23,14 @@ class CalorieCalculatorUseCase {
         goalName: String,
         weeklyChangeKg: Double
     ): CalorieResult {
+        require(weightKg.isFinite() && weightKg > 0.0) { "Weight must be a positive finite value" }
+        require(heightCm.isFinite() && heightCm > 0.0) { "Height must be a positive finite value" }
+        require(age in 18..120) { "This estimate is for adults aged 18–120" }
+        require(activityMultiplier.isFinite() && activityMultiplier in 1.0..3.0) { "Activity multiplier is outside the supported range" }
+        require(bodyFatPercent == null || (bodyFatPercent.isFinite() && bodyFatPercent in 2.0..75.0)) {
+            "Body fat percentage must be between 2 and 75"
+        }
+
         val isMale = gender.equals("Male", ignoreCase = true)
 
         // 1. BMR - Mifflin-St Jeor
@@ -49,14 +57,12 @@ class CalorieCalculatorUseCase {
             formulaUsed = "Mifflin-St Jeor"
         }
 
-        // 3. TDEE (before TEF)
-        val tdeeBeforeTef = usedBmr * activityMultiplier
+        // Activity multipliers are conventional estimates of total daily
+        // expenditure. Adding TEF again would double-count digestion.
+        val tdee = usedBmr * activityMultiplier
 
-        // 4. TEF (Thermic Effect of Food) ~10% of TDEE
-        val tef = tdeeBeforeTef * 0.10
-
-        // 5. Total TDEE
-        val tdee = tdeeBeforeTef + tef
+        // Show an illustrative TEF component without adding it a second time.
+        val tef = tdee * 0.10
 
         // 6. Goal calories
         val rawGoalCalories = tdee + goalAdjustment
@@ -86,7 +92,8 @@ class CalorieCalculatorUseCase {
             bodyFatPercent = bodyFatPercent,
             isBelowMinimum = isBelowMinimum,
             minimumCalories = minimumCalories,
-            safeGoalCalories = safeGoalCalories
+            safeGoalCalories = safeGoalCalories,
+            tefIncludedInTdee = true
         )
     }
 }

@@ -258,8 +258,8 @@ private fun RiskGauge(
 
 @Composable
 private fun DiagnosisCard(result: MetabolicSyndromeResult, animationStarted: Boolean, riskColor: Color) {
-    val diagnosisColor = if (result.isSyndromePresent) Color(0xFFB71C1C) else HealthGreen
-    val diagnosisIcon = if (result.isSyndromePresent) Icons.Filled.Warning else Icons.Filled.CheckCircle
+    val diagnosisColor = if (result.isSyndromePresent) Color(0xFFB26A00) else HealthGreen
+    val diagnosisIcon = if (result.isSyndromePresent) Icons.Filled.Info else Icons.Filled.CheckCircle
 
     AnimatedVisibility(
         visible = animationStarted,
@@ -280,13 +280,13 @@ private fun DiagnosisCard(result: MetabolicSyndromeResult, animationStarted: Boo
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = if (result.isSyndromePresent) "Metabolic Syndrome Present" else "Metabolic Syndrome Not Present",
+                        text = "Screening reference: ${result.criteriaMet} of 5 markers",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = diagnosisColor
                     )
                     Text(
-                        text = "Based on ATP III criteria (${result.criteriaMet} of 5 met)",
+                        text = "Selected ${result.selectedEthnicity.displayName} waist reference; not a diagnosis",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -339,7 +339,7 @@ private fun CriterionCard(criterion: MetabolicCriterion) {
             }
             Surface(color = statusColor.copy(alpha = 0.15f), shape = RoundedCornerShape(8.dp)) {
                 Text(
-                    text = if (criterion.isMet) "Abnormal" else "Normal",
+                    text = if (criterion.isMet) "Marker met" else "Marker not met",
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = statusColor,
@@ -353,11 +353,11 @@ private fun CriterionCard(criterion: MetabolicCriterion) {
 @Composable
 private fun RiskMessageCard(riskLevel: MetabolicRiskLevel, criteriaMet: Int) {
     val (icon, message) = when (riskLevel) {
-        MetabolicRiskLevel.NONE -> Pair("🎉", "Excellent! No metabolic syndrome indicators detected. Continue maintaining your healthy lifestyle.")
-        MetabolicRiskLevel.LOW -> Pair("👀", "You have 1 risk factor. While metabolic syndrome is not present, monitor this factor and maintain healthy habits.")
-        MetabolicRiskLevel.MODERATE -> Pair("⚠️", "You have 2 risk factors. You're at borderline risk. Focus on lifestyle improvements and schedule a check-up.")
-        MetabolicRiskLevel.HIGH -> Pair("🔴", "Metabolic syndrome is present with $criteriaMet criteria met. Please consult your healthcare provider for evaluation.")
-        MetabolicRiskLevel.VERY_HIGH -> Pair("🚨", "Metabolic syndrome is present with $criteriaMet of 5 criteria met. Seek medical attention promptly.")
+        MetabolicRiskLevel.NONE -> Pair("✅", "No screening markers met in the values entered. Keep tracking consistently.")
+        MetabolicRiskLevel.LOW -> Pair("👀", "One screening marker met. Review the value and its context rather than drawing a diagnosis from one screen.")
+        MetabolicRiskLevel.MODERATE -> Pair("⚠️", "Two screening markers met. Consider discussing the pattern at a routine visit.")
+        MetabolicRiskLevel.HIGH -> Pair("🟠", "Three screening markers met. This is not a diagnosis; ask a healthcare professional for context.")
+        MetabolicRiskLevel.VERY_HIGH -> Pair("🟠", "$criteriaMet of 5 screening markers met. This is not a diagnosis; arrange professional review.")
     }
 
     Card(

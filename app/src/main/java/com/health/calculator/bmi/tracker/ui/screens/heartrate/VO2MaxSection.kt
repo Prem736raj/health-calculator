@@ -262,8 +262,8 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
             ) {
                 StatBubble(
                     emoji = "📊",
-                    value = "Top ${100 - result.percentile}%",
-                    label = "Percentile"
+                    value = if (result.percentile > 0) "Band ${result.percentile}%" else "—",
+                    label = "Reference band"
                 )
                 StatBubble(
                     emoji = "📏",
@@ -338,7 +338,7 @@ private fun FitnessAgeCard(result: VO2MaxResult) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.txt_fitness_age),
+                text = "Reference-age comparison",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -376,8 +376,7 @@ private fun FitnessAgeCard(result: VO2MaxResult) {
                     )
                     if (ageDiff != 0) {
                         Text(
-                            text = if (isYounger) "${-ageDiff} yrs younger"
-                            else "+$ageDiff yrs",
+                            text = "Reference difference: ${kotlin.math.abs(ageDiff)} yrs",
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = accentColor,
@@ -388,9 +387,9 @@ private fun FitnessAgeCard(result: VO2MaxResult) {
 
                 // Fitness age
                 AgeColumn(
-                    label = "Fitness Age",
+                    label = "Reference age",
                     age = animatedFitnessAge,
-                    emoji = if (isYounger) "💪" else if (isOlder) "📈" else "👍",
+                    emoji = "📊",
                     color = accentColor,
                     isHighlighted = true
                 )
@@ -593,7 +592,7 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                     Text(stringResource(R.string.txt_text_placeholder_4), fontSize = 20.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = stringResource(R.string.txt_improvement_potential),
+                        text = "Using this estimate responsibly",
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -608,7 +607,9 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Projected improvement
+            // A single heart-rate estimate cannot support a reliable future
+            // projection, so show the current estimate and make that limit
+            // explicit rather than promising a percentage change.
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -625,9 +626,9 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(top = 12.dp)
                 ) {
-                    Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 20.sp, color = Color(0xFF4CAF50))
+                    Text("↔", fontSize = 20.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(
-                        text = stringResource(R.string.txt_6_months),
+                        text = "No projection",
                         style = MaterialTheme.typography.labelSmall,
                         fontSize = 9.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
@@ -635,18 +636,18 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                 }
 
                 ProjectionCard(
-                    label = "Projected",
-                    value = "%.1f".format(result.projectedVO2After6Months),
-                    unit = "ml/kg/min",
-                    emoji = "🎯",
-                    color = Color(0xFF4CAF50)
+                    label = "Repeat to track",
+                    value = "—",
+                    unit = "same conditions",
+                    emoji = "📝",
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 
             Text(
-                text = "Up to ${"%.0f".format(result.improvementPotential)}% improvement possible with consistent training",
+                text = "Repeat the measurement under similar conditions to observe a trend; this estimate is not a clinical test.",
                 style = MaterialTheme.typography.labelSmall,
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),
@@ -678,18 +679,18 @@ private fun VO2ImprovementSection(result: VO2MaxResult) {
                     )
 
                     val tips = listOf(
-                        Triple("🏃", "Zone 2-3 Base Training",
-                            "Build aerobic base with 3-4 sessions/week of 30-60 min in Zone 2-3. This is the foundation for VO₂ Max improvement."),
-                        Triple("⚡", "HIIT for Maximum Gains",
-                            "High-intensity intervals (Zone 4-5) are the single most effective way to boost VO₂ Max. Try 4×4 min intervals at Zone 4 with 3 min Zone 2 recovery."),
-                        Triple("📅", "Consistency is Key",
-                            "Expect 15-20% improvement in 3-6 months with 3-5 sessions/week. Most gains come in the first 3 months."),
-                        Triple("😴", "Recovery Matters",
-                            "VO₂ Max improves during recovery, not during exercise. Get 7-9 hours of sleep and take rest days."),
-                        Triple("📊", "Track Progress",
-                            "Retest every 4-6 weeks. A dropping resting heart rate is the best indicator of improving fitness."),
-                        Triple("⏱️", "Progressive Overload",
-                            "Gradually increase duration before intensity. Add 10% more training volume per week maximum.")
+                        Triple("🏃", "Build an aerobic base",
+                            "Comfortable aerobic sessions can support fitness. Choose duration and frequency that fit your current abilities."),
+                        Triple("⚡", "Use intervals carefully",
+                            "Intervals are optional and demanding. Build gradually, use the talk test, and seek advice before changing intensity if you have concerns."),
+                        Triple("📅", "Consistency is key",
+                            "Regular movement is more useful than a promised percentage change. Allow recovery and adjust to how you feel."),
+                        Triple("😴", "Recovery matters",
+                            "Rest and sleep support wellbeing; individual needs vary. Take breaks when tired or unwell."),
+                        Triple("📊", "Track progress",
+                            "If you repeat the estimate, use similar conditions and look at a longer trend rather than one result."),
+                        Triple("⏱️", "Progress gradually",
+                            "Increase duration or intensity gradually and leave room for recovery; there is no universal weekly percentage.")
                     )
 
                     tips.forEach { (emoji, title, description) ->

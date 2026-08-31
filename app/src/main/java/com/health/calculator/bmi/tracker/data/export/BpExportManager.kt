@@ -106,7 +106,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
         sb.appendLine("🩺 Blood Pressure Reading")
         sb.appendLine("━━━━━━━━━━━━━━━━━━━━━━")
         sb.appendLine("📊 ${entity.systolic}/${entity.diastolic} mmHg")
-        sb.appendLine("📋 Category: $categoryDisplay (WHO)")
+        sb.appendLine("📋 Category: $categoryDisplay (reference context)")
 
         entity.pulse?.let {
             sb.appendLine("❤️ Pulse: $it BPM")

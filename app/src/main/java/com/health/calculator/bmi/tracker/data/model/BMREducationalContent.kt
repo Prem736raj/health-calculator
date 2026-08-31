@@ -29,7 +29,7 @@ object BMREducationalContent {
                     text = "Think of it as the energy cost of simply being alive, even if you stayed in bed all day and didn't move at all."
                 ),
                 EducationalParagraph(
-                    text = "BMR typically accounts for 60-75% of your total daily calorie burn, making it the single largest component of your energy expenditure.",
+                    text = "BMR is often the largest part of daily energy use, but the share varies with body size, activity, food intake and measurement conditions.",
                     isHighlight = true
                 ),
                 EducationalParagraph(
@@ -45,15 +45,15 @@ object BMREducationalContent {
                     text = "BMR and TDEE are related but different:"
                 ),
                 EducationalParagraph(
-                    text = "BMR (Basal Metabolic Rate) — Calories burned at complete rest. This is your body's minimum energy requirement.",
+                    text = "BMR (Basal Metabolic Rate) — An estimate of energy used at rest under controlled conditions; it is not a safe personal calorie floor.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "TDEE (Total Daily Energy Expenditure) — Your total calories burned in a day, including all activity. TDEE = BMR + Physical Activity + Thermic Effect of Food.",
+                    text = "TDEE (Total Daily Energy Expenditure) — An estimate that combines resting energy with activity and digestion. Activity multipliers already approximate the total, so components should not be added twice.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "For weight management, TDEE is more practical because it reflects your actual daily calorie needs. Eat below your TDEE to lose weight, at TDEE to maintain, and above TDEE to gain.",
+                    text = "For planning, TDEE can provide a starting estimate. Real-world weight trends, appetite, health context and professional guidance matter more than a single calculated number.",
                     isHighlight = true
                 ),
                 EducationalParagraph(
@@ -110,31 +110,31 @@ object BMREducationalContent {
                     text = "While you can't dramatically change your BMR, these evidence-based strategies can help:"
                 ),
                 EducationalParagraph(
-                    text = "Build Muscle — Strength training is the most effective way to boost BMR. Each kg of muscle burns about 13 kcal/day at rest, vs. 4.5 kcal/day for fat.",
+                    text = "Build strength — Resistance training can support muscle and overall function; the effect on resting energy varies between people.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Stay Active Throughout the Day — NEAT (Non-Exercise Activity Thermogenesis) like walking, standing, and fidgeting can burn 200-350 extra calories daily.",
+                    text = "Stay active throughout the day — Walking, standing and other movement add to daily energy use, but the amount varies widely.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Eat Enough Protein — Protein has the highest thermic effect (20-35%), meaning your body burns more calories digesting it. Aim for 1.6-2.2g per kg of bodyweight.",
+                    text = "Include adequate protein from varied foods. A gram-per-kilogram range is only a planning reference; needs differ with health, age and activity.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Get Quality Sleep — Poor sleep can reduce BMR by 5-20%. Aim for 7-9 hours of quality sleep each night.",
+                    text = "Prioritize sleep — Consistent, restorative sleep supports wellbeing and activity; individual sleep needs vary.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Stay Hydrated — Drinking cold water can temporarily boost metabolism by 24-30% for about an hour. Aim for 2-3 liters daily.",
+                    text = "Stay hydrated — Drink regularly and use thirst, food and climate as context rather than chasing a universal litre target.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Don't Skip Meals — Regular eating patterns help maintain stable metabolic function. Extreme fasting can lower BMR.",
+                    text = "Choose an eating pattern you can sustain. Meal timing is personal; extreme restriction can make adequate nutrition harder.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "Manage Stress — Chronic stress increases cortisol, which can promote fat storage and negatively impact metabolism.",
+                    text = "Manage stress — Rest, support and enjoyable movement can help wellbeing; avoid claims that one hormone explains an individual's weight.",
                     isTip = true
                 )
             )
@@ -144,31 +144,31 @@ object BMREducationalContent {
             emoji = "⚠️",
             content = listOf(
                 EducationalParagraph(
-                    text = "Extreme calorie restriction (crash diets) can significantly damage your metabolism. Here's why:",
+                    text = "Very restrictive diets can make adequate nutrition, energy and long-term adherence difficult:",
                     isWarning = true
                 ),
                 EducationalParagraph(
-                    text = "Adaptive Thermogenesis — When you drastically cut calories, your body adapts by slowing down metabolism to conserve energy. This can reduce BMR by 15-25%.",
+                    text = "Energy adaptation — Energy use can change during weight loss, and estimates are uncertain; avoid treating a percentage as a personal prediction.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "Muscle Loss — Crash diets cause your body to break down muscle for energy. Less muscle means a permanently lower BMR.",
+                    text = "Loss of lean tissue — Rapid loss can affect body composition, which is one reason a gradual, adequately nourished approach may be easier to sustain.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "Yo-Yo Effect — After the diet ends, your lowered BMR means you burn fewer calories. Eating normally again leads to rapid weight regain, often more than was lost.",
+                    text = "Regain is common when a plan is too restrictive to maintain. A flexible routine and support can be more sustainable.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "Hormonal Disruption — Extreme restriction affects thyroid hormones, leptin, and ghrelin, making it harder to maintain weight loss.",
+                    text = "Individual responses differ, and restrictive eating can affect energy, mood and nutrition. Discuss persistent concerns with a professional.",
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "Instead of crash dieting, aim for a moderate deficit of 300-500 calories below your TDEE. This preserves muscle mass and keeps your metabolism healthy.",
+                    text = "If weight change is your goal, use small, sustainable adjustments and review trends over time; a professional can help choose an appropriate target.",
                     isHighlight = true
                 ),
                 EducationalParagraph(
-                    text = "Never eat below your BMR for extended periods without medical supervision.",
+                    text = "Do not use BMR as a minimum intake rule. Very low targets should be discussed with a qualified professional.",
                     isWarning = true
                 )
             )
@@ -181,11 +181,11 @@ object BMREducationalContent {
                     text = "Understanding your BMR is the foundation of smart weight management:"
                 ),
                 EducationalParagraph(
-                    text = "For Weight Loss — Create a moderate calorie deficit (250-500 kcal below TDEE). This results in 0.25-0.5 kg loss per week, which is sustainable and healthy.",
+                    text = "For weight change — Consider gradual adjustments and watch multi-week trends rather than relying on an exact weekly prediction.",
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "For Weight Gain — Eat 250-500 kcal above TDEE with adequate protein (1.6-2.2g/kg) and strength training to build lean muscle rather than just fat.",
+                    text = "For weight gain — Add nourishing foods gradually and consider strength training if appropriate for you; individual guidance is useful.",
                     isTip = true
                 ),
                 EducationalParagraph(
@@ -193,7 +193,7 @@ object BMREducationalContent {
                     isTip = true
                 ),
                 EducationalParagraph(
-                    text = "The Golden Rule: Never eat below your BMR regularly. Your body needs at least this many calories to function properly.",
+                    text = "There is no universal calorie floor from BMR. Energy needs are individual, and very low targets deserve professional review.",
                     isHighlight = true
                 ),
                 EducationalParagraph(

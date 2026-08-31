@@ -30,14 +30,23 @@ data class TEFData(
     val totalTEFLow: Float get() = proteinTEFLow + carbsTEFLow + fatTEFLow
     val totalTEFHigh: Float get() = proteinTEFHigh + carbsTEFHigh + fatTEFHigh
 
-    // Generic TEF estimate (10% of calorie intake)
+    // Generic TEF estimate (10% of the activity-adjusted estimate).
     val genericTEF: Float get() = tdee * 0.10f
 
-    // Complete energy breakdown with TEF-adjusted TDEE
-    val adjustedTDEE: Float get() = bmr + activityCalories + totalTEF
-    val bmrPercentOfTotal: Float get() = if (adjustedTDEE > 0) (bmr / adjustedTDEE) * 100f else 0f
-    val activityPercentOfTotal: Float get() = if (adjustedTDEE > 0) (activityCalories / adjustedTDEE) * 100f else 0f
-    val tefPercentOfTotal: Float get() = if (adjustedTDEE > 0) (totalTEF / adjustedTDEE) * 100f else 0f
+    /**
+     * Activity multipliers already estimate total daily expenditure. TEF is
+     * shown as an illustrative component and must not be added a second time.
+     * This legacy property therefore remains an alias for the original TDEE.
+     */
+    val adjustedTDEE: Float get() = tdee
+
+    /** A non-overlapping activity slice for the explanatory chart only. */
+    val activityCaloriesForBreakdown: Float
+        get() = (tdee - bmr - totalTEF).coerceAtLeast(0f)
+
+    val bmrPercentOfTotal: Float get() = if (tdee > 0) (bmr / tdee) * 100f else 0f
+    val activityPercentOfTotal: Float get() = if (tdee > 0) (activityCaloriesForBreakdown / tdee) * 100f else 0f
+    val tefPercentOfTotal: Float get() = if (tdee > 0) (totalTEF / tdee) * 100f else 0f
 
     // TEF as percentage of food intake
     val tefPercentOfIntake: Float get() = if (tdee > 0) (totalTEF / tdee) * 100f else 0f

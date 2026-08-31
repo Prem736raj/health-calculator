@@ -70,7 +70,7 @@ private fun SectionHeaderPreview() {
     HealthCalculatorTheme {
         SectionHeader(
             title = "Health Calculators",
-            subtitle = "10 WHO-standard tools",
+            subtitle = "10 evidence-informed tools",
             actionText = "See All",
             onActionClick = {}
         )

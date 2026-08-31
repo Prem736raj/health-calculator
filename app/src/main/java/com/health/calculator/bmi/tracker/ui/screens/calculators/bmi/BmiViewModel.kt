@@ -46,16 +46,19 @@ private const val MIN_WEIGHT_KG = 2.0
 private const val MAX_WEIGHT_KG = 500.0
 private const val MIN_HEIGHT_CM = 30.0
 private const val MAX_HEIGHT_CM = 300.0
-private const val MIN_AGE = 2
+// Adult BMI reference categories are not appropriate for children or teens.
+// Pediatric BMI-for-age requires a validated age/sex growth-chart dataset.
+private const val MIN_AGE = 18
 private const val MAX_AGE = 120
 private const val MAX_FEET = 9
 private const val MAX_INCHES = 11.9
 
-// ─── BMI WHO Categories ───────────────────────────────────────────────────────
+// ─── Adult BMI reference categories ───────────────────────────────────────────
 
 /**
- * WHO BMI classification categories with their value ranges,
- * display colors, and health risk descriptions.
+ * Adult BMI reference categories aligned with the commonly used WHO cut-points.
+ * These categories are screening context, not a diagnosis or a personal risk
+ * prediction.
  */
 enum class BmiCategory(
     val label: String,
@@ -73,8 +76,8 @@ enum class BmiCategory(
         minBmi = 0.0,
         maxBmi = 16.0,
         colorHex = 0xFFB71C1C,
-        riskLevel = "Very High",
-        riskDescription = "Very high risk of malnutrition and related health complications",
+        riskLevel = "Well outside reference",
+        riskDescription = "A value this low warrants context; BMI alone cannot identify a cause.",
         emoji = "🔴"
     ),
     MODERATE_THINNESS(
@@ -83,8 +86,8 @@ enum class BmiCategory(
         minBmi = 16.0,
         maxBmi = 17.0,
         colorHex = 0xFFE53935,
-        riskLevel = "High",
-        riskDescription = "Increased risk of nutritional deficiency and weakened immunity",
+        riskLevel = "Farther from reference",
+        riskDescription = "Consider the trend, nutrition, symptoms, and personal context.",
         emoji = "🟠"
     ),
     MILD_THINNESS(
@@ -93,8 +96,8 @@ enum class BmiCategory(
         minBmi = 17.0,
         maxBmi = 18.5,
         colorHex = 0xFFFF9800,
-        riskLevel = "Moderate",
-        riskDescription = "Slightly increased risk; may need nutritional attention",
+        riskLevel = "Slightly outside reference",
+        riskDescription = "A clinician or dietitian can interpret this with your history.",
         emoji = "🟡"
     ),
     NORMAL(
@@ -103,8 +106,8 @@ enum class BmiCategory(
         minBmi = 18.5,
         maxBmi = 25.0,
         colorHex = 0xFF43A047,
-        riskLevel = "Low",
-        riskDescription = "Healthy BMI range associated with lowest health risk",
+        riskLevel = "Reference range",
+        riskDescription = "Within the adult reference range; BMI does not measure body composition.",
         emoji = "🟢"
     ),
     OVERWEIGHT(
@@ -113,8 +116,8 @@ enum class BmiCategory(
         minBmi = 25.0,
         maxBmi = 30.0,
         colorHex = 0xFFFFC107,
-        riskLevel = "Increased",
-        riskDescription = "Increased risk of cardiovascular disease and type 2 diabetes",
+        riskLevel = "Slightly outside reference",
+        riskDescription = "BMI can be influenced by muscle, age, ethnicity, and other factors.",
         emoji = "🟡"
     ),
     OBESE_CLASS_I(
@@ -123,8 +126,8 @@ enum class BmiCategory(
         minBmi = 30.0,
         maxBmi = 35.0,
         colorHex = 0xFFFF9800,
-        riskLevel = "High",
-        riskDescription = "High risk of metabolic syndrome, heart disease, and diabetes",
+        riskLevel = "Farther from reference",
+        riskDescription = "Consider discussing this result and sustainable goals with a professional.",
         emoji = "🟠"
     ),
     OBESE_CLASS_II(
@@ -133,8 +136,8 @@ enum class BmiCategory(
         minBmi = 35.0,
         maxBmi = 40.0,
         colorHex = 0xFFE53935,
-        riskLevel = "Very High",
-        riskDescription = "Very high risk of serious health conditions",
+        riskLevel = "Well outside reference",
+        riskDescription = "BMI alone cannot identify a cause or determine treatment.",
         emoji = "🔴"
     ),
     OBESE_CLASS_III(
@@ -143,8 +146,8 @@ enum class BmiCategory(
         minBmi = 40.0,
         maxBmi = 100.0,
         colorHex = 0xFFB71C1C,
-        riskLevel = "Extremely High",
-        riskDescription = "Extremely high risk of life-threatening health conditions",
+        riskLevel = "Well outside reference",
+        riskDescription = "Seek individualized, non-judgmental guidance; this is not a diagnosis.",
         emoji = "🔴"
     );
 
@@ -288,15 +291,13 @@ enum class PonderalStatus(
     )
 }
 
-// ─── Asian BMI Categories ─────────────────────────────────────────────────────
+// ─── Optional BMI action points ───────────────────────────────────────────────
 
 /**
- * WHO adjusted BMI categories for Asian populations.
- * Research has shown that Asian populations have higher health risks
- * at lower BMI values compared to European populations.
- *
- * These adjusted cutoffs are recommended by WHO for populations
- * of Asian descent.
+ * Optional action points sometimes used in Asian-population guidance.
+ * They are not a replacement for the adult BMI reference categories and are
+ * not presented as a WHO reclassification. Ethnicity-specific interpretation
+ * should be discussed with a qualified professional.
  */
 enum class AsianBmiCategory(
     val label: String,
@@ -306,39 +307,39 @@ enum class AsianBmiCategory(
     val riskLevel: String
 ) {
     UNDERWEIGHT(
-        label = "Underweight",
+        label = "Below adult reference",
         minBmi = 0.0,
         maxBmi = 18.5,
         colorHex = 0xFFFF9800,
-        riskLevel = "Moderate"
+        riskLevel = "Context needed"
     ),
     NORMAL(
-        label = "Normal",
+        label = "Below 23 action point",
         minBmi = 18.5,
         maxBmi = 23.0,
         colorHex = 0xFF43A047,
-        riskLevel = "Low"
+        riskLevel = "Reference action point"
     ),
     OVERWEIGHT(
-        label = "Overweight",
+        label = "23–24.9 action-point band",
         minBmi = 23.0,
         maxBmi = 25.0,
         colorHex = 0xFFFFC107,
-        riskLevel = "Increased"
+        riskLevel = "Context needed"
     ),
     OBESE_CLASS_I(
-        label = "Obese Class I",
+        label = "25–29.9 action-point band",
         minBmi = 25.0,
         maxBmi = 30.0,
         colorHex = 0xFFFF9800,
-        riskLevel = "High"
+        riskLevel = "Context needed"
     ),
     OBESE_CLASS_II(
-        label = "Obese Class II",
+        label = "30 or higher action-point band",
         minBmi = 30.0,
         maxBmi = 100.0,
         colorHex = 0xFFE53935,
-        riskLevel = "Very High"
+        riskLevel = "Context needed"
     );
 
     companion object {
@@ -460,7 +461,7 @@ data class PopulationAverage(
  * Complete comparison data for the BMI comparison section.
  */
 data class BmiComparisonData(
-    /** Whether the user is in the pediatric age range (2-19) */
+    /** Always false for this adult-only calculator; pediatric charts are not bundled. */
     val isPediatric: Boolean = false,
 
     /** Age group classification */
@@ -469,25 +470,25 @@ data class BmiComparisonData(
     /** Age group display label */
     val ageGroupLabel: String = "",
 
-    /** Estimated percentile for pediatric users */
+    /** Kept for compatibility; no percentile is estimated by this app. */
     val estimatedPercentile: Double = 50.0,
 
-    /** Pediatric BMI category */
+    /** Kept for compatibility; not used for adult results. */
     val pediatricCategory: PediatricBmiCategory = PediatricBmiCategory.NORMAL,
 
-    /** Population average BMI for the user's age/gender group */
+    /** Kept for compatibility; no population average is displayed. */
     val populationAvgBmi: Double = 0.0,
 
-    /** How the user's BMI compares to population average */
+    /** Kept for compatibility; no population comparison is displayed. */
     val differenceFromAvg: Double = 0.0,
 
-    /** Normal BMI range for this age/gender group */
+    /** Adult reference range used for the result explanation. */
     val recommendedRange: Pair<Double, Double> = Pair(18.5, 24.9),
 
     /** Whether user's BMI is within the recommended range */
     val isWithinRange: Boolean = false,
 
-    /** Age-specific interpretation note */
+    /** Age/context limitation note. */
     val ageContextNote: String = "",
 
     /** Gender used for comparison */
@@ -495,145 +496,30 @@ data class BmiComparisonData(
 )
 
 /**
- * Lookup table for population average BMI by age group.
- * Sources: WHO Global Health Observatory, CDC NHANES data
- */
-private val populationAverages = listOf(
-    PopulationAverage("2-5 years", 15.8, 15.6, Pair(13.5, 17.0), Pair(13.4, 17.0)),
-    PopulationAverage("6-9 years", 16.5, 16.3, Pair(13.8, 18.5), Pair(13.6, 18.5)),
-    PopulationAverage("10-13 years", 18.8, 19.0, Pair(15.5, 21.5), Pair(15.8, 22.0)),
-    PopulationAverage("14-17 years", 21.2, 21.5, Pair(17.5, 24.0), Pair(17.8, 24.5)),
-    PopulationAverage("18-19 years", 22.8, 22.2, Pair(18.5, 25.0), Pair(18.5, 25.0)),
-    PopulationAverage("20-29 years", 24.2, 23.8, Pair(18.5, 25.0), Pair(18.5, 25.0)),
-    PopulationAverage("30-39 years", 25.5, 25.1, Pair(18.5, 25.0), Pair(18.5, 25.0)),
-    PopulationAverage("40-49 years", 26.3, 26.0, Pair(18.5, 25.0), Pair(18.5, 25.0)),
-    PopulationAverage("50-59 years", 26.8, 27.0, Pair(18.5, 25.0), Pair(18.5, 25.0)),
-    PopulationAverage("60-69 years", 26.5, 27.2, Pair(18.5, 27.0), Pair(18.5, 27.0)),
-    PopulationAverage("70-79 years", 25.8, 26.5, Pair(20.0, 27.0), Pair(20.0, 27.0)),
-    PopulationAverage("80+ years", 24.8, 25.5, Pair(20.0, 27.0), Pair(20.0, 27.0))
-)
-
-/**
- * Approximate BMI-for-age percentile lookup for pediatric BMI (ages 2-19).
- * Simplified from WHO growth reference data.
- * Returns estimated percentile based on age, gender, and BMI.
- */
-private fun estimatePediatricPercentile(age: Int, gender: Gender, bmi: Double): Double {
-    // Approximate median (50th percentile) BMI by age/gender
-    data class RefPoint(val age: Int, val male50th: Double, val female50th: Double, val sd: Double)
-    
-    val refs = listOf(
-        RefPoint(2, 16.4, 16.0, 1.4),
-        RefPoint(3, 15.8, 15.5, 1.3),
-        RefPoint(4, 15.5, 15.3, 1.3),
-        RefPoint(5, 15.3, 15.2, 1.4),
-        RefPoint(6, 15.4, 15.3, 1.6),
-        RefPoint(7, 15.6, 15.5, 1.8),
-        RefPoint(8, 15.9, 16.0, 2.0),
-        RefPoint(9, 16.3, 16.4, 2.2),
-        RefPoint(10, 16.8, 17.0, 2.4),
-        RefPoint(11, 17.4, 17.7, 2.6),
-        RefPoint(12, 18.0, 18.4, 2.8),
-        RefPoint(13, 18.7, 19.1, 2.9),
-        RefPoint(14, 19.4, 19.7, 3.0),
-        RefPoint(15, 20.0, 20.2, 3.1),
-        RefPoint(16, 20.6, 20.6, 3.1),
-        RefPoint(17, 21.2, 21.0, 3.1),
-        RefPoint(18, 21.8, 21.3, 3.1),
-        RefPoint(19, 22.3, 21.6, 3.1)
-    )
-
-    val ref = refs.find { it.age == age } ?: refs.last()
-    val median = if (gender == Gender.FEMALE) ref.female50th else ref.male50th
-    
-    // Z-score approximation
-    val zScore = (bmi - median) / ref.sd
-    
-    // Convert z-score to approximate percentile using sigmoid
-    val percentile = (100.0 / (1.0 + Math.exp(-1.7 * zScore)))
-    return percentile.coerceIn(0.1, 99.9)
-}
-
-/**
- * Determines pediatric BMI category from percentile.
- */
-private fun percentileToPediatricCategory(percentile: Double): PediatricBmiCategory {
-    return when {
-        percentile < 5.0 -> PediatricBmiCategory.UNDERWEIGHT
-        percentile < 85.0 -> PediatricBmiCategory.NORMAL
-        percentile < 95.0 -> PediatricBmiCategory.OVERWEIGHT
-        else -> PediatricBmiCategory.OBESE
-    }
-}
-
-/**
- * Calculates comparison data for the given BMI result.
+ * Returns context only. Population averages and pediatric percentiles are not
+ * calculated here because they require a defined population and a validated
+ * growth-chart dataset; the former can mislead and the latter is not present
+ * in this app. Adult BMI categories are intentionally the only classification
+ * shown by the calculator.
  */
 fun calculateBmiComparison(bmi: Double, age: Int, gender: Gender): BmiComparisonData {
-    val isPediatric = age in 2..19
-    
     val ageGroup = when (age) {
-        in 2..9 -> AgeGroupType.CHILD
-        in 10..19 -> AgeGroupType.TEEN
         in 20..39 -> AgeGroupType.YOUNG_ADULT
         in 40..59 -> AgeGroupType.MIDDLE_ADULT
         else -> AgeGroupType.SENIOR
     }
-
-    // Find population average for this age group
-    val popAvg = when (age) {
-        in 2..5 -> populationAverages[0]
-        in 6..9 -> populationAverages[1]
-        in 10..13 -> populationAverages[2]
-        in 14..17 -> populationAverages[3]
-        in 18..19 -> populationAverages[4]
-        in 20..29 -> populationAverages[5]
-        in 30..39 -> populationAverages[6]
-        in 40..49 -> populationAverages[7]
-        in 50..59 -> populationAverages[8]
-        in 60..69 -> populationAverages[9]
-        in 70..79 -> populationAverages[10]
-        else -> populationAverages[11]
-    }
-
-    val avgBmi = if (gender == Gender.FEMALE) popAvg.femaleAvgBmi else popAvg.maleAvgBmi
-    val normalRange = if (gender == Gender.FEMALE) popAvg.femaleNormalRange else popAvg.maleNormalRange
-    val differenceFromAvg = ((bmi - avgBmi) * 10).roundToInt() / 10.0
-
-    // Pediatric-specific calculations
-    val percentile = if (isPediatric) estimatePediatricPercentile(age, gender, bmi) else 50.0
-    val pediatricCategory = if (isPediatric) percentileToPediatricCategory(percentile) else PediatricBmiCategory.NORMAL
-
-    val isWithinRange = bmi >= normalRange.first && bmi <= normalRange.second
-
-    val ageContextNote = when {
-        isPediatric && age < 10 -> "For children aged \${age}, BMI is evaluated using age-and-sex-specific growth charts rather than fixed adult cutoffs. A child's BMI naturally changes as they grow."
-        isPediatric -> "For teens aged \${age}, BMI is compared to others of the same age and sex using percentile charts. Normal BMI values change significantly during adolescence."
-        age in 20..39 -> "Standard WHO adult BMI categories apply. This age group typically has the most stable body composition for BMI assessment."
-        age in 40..59 -> "BMI may slightly underestimate body fat in this age group as muscle mass tends to decrease while fat mass increases. Consider waist circumference as an additional measure."
-        age in 60..69 -> "For older adults, a slightly higher BMI (up to 27) may actually be associated with better health outcomes. Being underweight carries higher risks in this age group."
-        else -> "For adults over 70, maintaining adequate weight is especially important. A BMI below 20 may indicate nutritional concerns. Consult your doctor about your ideal weight range."
-    }
-
-    val ageGroupLabel = when (ageGroup) {
-        AgeGroupType.CHILD -> "Child (\${age} years)"
-        AgeGroupType.TEEN -> "Teenager (\${age} years)"
-        AgeGroupType.YOUNG_ADULT -> "Young Adult (\${age} years)"
-        AgeGroupType.MIDDLE_ADULT -> "Middle-aged Adult (\${age} years)"
-        AgeGroupType.SENIOR -> "Senior Adult (\${age} years)"
-    }
-
+    val inReferenceRange = bmi in 18.5..24.9
     return BmiComparisonData(
-        isPediatric = isPediatric,
+        isPediatric = false,
         ageGroup = ageGroup,
-        ageGroupLabel = ageGroupLabel,
-        estimatedPercentile = (percentile * 10).roundToInt() / 10.0,
-        pediatricCategory = pediatricCategory,
-        populationAvgBmi = avgBmi,
-        differenceFromAvg = differenceFromAvg,
-        recommendedRange = normalRange,
-        isWithinRange = isWithinRange,
-        ageContextNote = ageContextNote,
+        ageGroupLabel = "Adult ($age years)",
+        estimatedPercentile = 0.0,
+        pediatricCategory = PediatricBmiCategory.NORMAL,
+        populationAvgBmi = 0.0,
+        differenceFromAvg = 0.0,
+        recommendedRange = Pair(18.5, 24.9),
+        isWithinRange = inReferenceRange,
+        ageContextNote = "Adult BMI reference categories are informational. BMI does not measure body fat or account for muscle, pregnancy, ethnicity, or where fat is stored.",
         gender = gender
     )
 }
@@ -1029,11 +915,8 @@ class BmiViewModel @Inject constructor(
     // ─── BMI Calculation ──────────────────────────────────────────────────
 
     /**
-     * Performs the BMI calculation using WHO standard formula:
-     * BMI = weight(kg) / height(m)²
-     *
-     * Then determines the WHO category and calculates derived values
-     * like healthy weight range and weight difference to normal.
+     * Calculates adult BMI as weight(kg) / height(m)² and shows the adult
+     * reference categories. The result is informational, not diagnostic.
      */
     fun calculateBmi() {
         val state = _uiState.value
@@ -1049,7 +932,7 @@ class BmiViewModel @Inject constructor(
             val bmi = weightKg / heightM.pow(2)
             val roundedBmi = (bmi * 10).roundToInt() / 10.0
 
-            // ── WHO Category ──────────────────────────────────────────────
+            // ── Adult reference category ──────────────────────────────────
             val category = BmiCategory.fromBmi(roundedBmi)
 
             // ── Healthy Weight Range (BMI 18.5–24.9) ─────────────────────
@@ -1279,8 +1162,8 @@ class BmiViewModel @Inject constructor(
             appendLine()
             appendLine("━━━━━━━━━━━━━━━━━━")
             appendLine("Calculated using Health Calculator app")
-            appendLine("WHO Standard Classification")
-            appendLine("⚕️ For educational purposes only")
+            appendLine("Adult BMI reference categories")
+            appendLine("⚕️ Informational wellness data — not a diagnosis")
         }
     }
     
@@ -1294,8 +1177,8 @@ class BmiViewModel @Inject constructor(
                 info.recommendations.take(3).joinToString("\n") { "• ${it.title}" }
     
         return """
-Health Risk Assessment (${info.category})
-Risk Level: ${info.riskLevel.emoji} ${info.riskLevel.label}
+BMI context (${info.category})
+Reference context: ${info.riskLevel.emoji} ${info.riskLevel.label}
 $risksText
 $recsText
         """.trimIndent()
@@ -1554,8 +1437,8 @@ $recsText
     private fun validateAge(age: Int?): Pair<Boolean, String> {
         if (age == null) return Pair(false, "")
         return when {
-            age < MIN_AGE -> Pair(true, "Age must be at least $MIN_AGE years")
-            age > MAX_AGE -> Pair(true, "Age must be under $MAX_AGE years")
+            age < MIN_AGE -> Pair(true, "This calculator is for adults aged $MIN_AGE and over")
+            age > MAX_AGE -> Pair(true, "Age must be $MAX_AGE or below")
             else -> Pair(false, "")
         }
     }

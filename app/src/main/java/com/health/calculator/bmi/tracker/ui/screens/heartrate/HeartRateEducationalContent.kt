@@ -503,7 +503,7 @@ private fun MonitoringMethodsSection() {
                     accuracyStars = 5,
                     cost = "$$",
                     pros = listOf(
-                        "Most accurate consumer option",
+                        "Often a practical consumer option; accuracy varies",
                         "Real-time continuous monitoring",
                         "Works during all activities",
                         "Reliable in all conditions",

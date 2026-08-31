@@ -10,7 +10,9 @@ data class VO2MaxResult(
     val fitnessAgeMessage: String,
     val percentile: Int,
     val improvementPotential: Float,
-    val projectedVO2After6Months: Float
+    val projectedVO2After6Months: Float,
+    val isClinicalMeasurement: Boolean = false,
+    val methodology: String = "Heart-rate ratio estimate; not a laboratory VO₂ max test or diagnosis."
 )
 
 data class VO2Classification(
@@ -36,8 +38,8 @@ object VO2MaxCalculator {
      * VO2max ≈ 15.3 × (MHR / RHR)
      */
     fun estimateVO2Max(maxHR: Int, restingHR: Int): Float {
-        if (restingHR <= 0) return 0f
-        return 15.3f * (maxHR.toFloat() / restingHR.toFloat())
+        if (maxHR <= 0 || restingHR <= 0 || restingHR >= maxHR) return 0f
+        return (15.3f * (maxHR.toFloat() / restingHR.toFloat())).takeIf { it.isFinite() && it > 0f } ?: 0f
     }
 
     /**
@@ -45,43 +47,45 @@ object VO2MaxCalculator {
      * Returns classification and percentile
      */
     fun classifyVO2Max(vo2Max: Float, age: Int, gender: String?): VO2Classification {
+        require(vo2Max.isFinite() && vo2Max > 0f) { "VO₂ max estimate must be positive" }
+        require(age in 18..120) { "VO₂ max reference bands support adult ages 18–120" }
         val isMale = gender?.lowercase() != "female"
         val ranges = if (isMale) getMaleVO2Ranges(age) else getFemaleVO2Ranges(age)
 
         return when {
             vo2Max >= ranges[6] -> VO2Classification(
                 "Superior", Color(0xFF1565C0), "🏆",
-                "Exceptional cardiovascular fitness. Elite athlete level.",
+                "An estimate in the highest reference band for this age group; not a clinical assessment.",
                 "≥${ranges[6].toInt()}"
             )
             vo2Max >= ranges[5] -> VO2Classification(
                 "Excellent", Color(0xFF2196F3), "🌟",
-                "Outstanding fitness. Well above average for your age.",
+                "An estimate above the usual reference bands for this age group.",
                 "${ranges[5].toInt()}-${ranges[6].toInt() - 1}"
             )
             vo2Max >= ranges[4] -> VO2Classification(
                 "Good", Color(0xFF4CAF50), "💪",
-                "Above average fitness. Keep up the good work!",
+                "An estimate in an above-reference band; repeat under similar conditions to track change.",
                 "${ranges[4].toInt()}-${ranges[5].toInt() - 1}"
             )
             vo2Max >= ranges[3] -> VO2Classification(
                 "Above Average", Color(0xFF8BC34A), "👍",
-                "Slightly above the norm. Room to grow with consistent training.",
+                "An estimate slightly above the reference midpoint.",
                 "${ranges[3].toInt()}-${ranges[4].toInt() - 1}"
             )
             vo2Max >= ranges[2] -> VO2Classification(
                 "Average", Color(0xFFFFC107), "📊",
-                "Typical fitness for your age and gender. Regular exercise can improve this.",
+                "An estimate around the reference midpoint for this age group.",
                 "${ranges[2].toInt()}-${ranges[3].toInt() - 1}"
             )
             vo2Max >= ranges[1] -> VO2Classification(
                 "Below Average", Color(0xFFFF9800), "📈",
-                "Below the norm. Starting a regular exercise program will help significantly.",
+                "An estimate below the reference midpoint; use gentle, progressive activity if appropriate.",
                 "${ranges[1].toInt()}-${ranges[2].toInt() - 1}"
             )
             else -> VO2Classification(
                 "Poor", Color(0xFFF44336), "⚠️",
-                "Needs improvement. Even light daily activity can make a big difference. Consult your doctor before starting intense exercise.",
+                "An estimate below the reference bands. Consider your current fitness and seek professional advice before changing intensity.",
                 "<${ranges[1].toInt()}"
             )
         }
@@ -92,6 +96,7 @@ object VO2MaxCalculator {
      * Compares VO2 Max to average values at different ages
      */
     fun estimateFitnessAge(vo2Max: Float, gender: String?): Int {
+        if (!vo2Max.isFinite() || vo2Max <= 0f) return 0
         val isMale = gender?.lowercase() != "female"
         val averages = if (isMale) maleAverageVO2ByAge else femaleAverageVO2ByAge
 
@@ -114,6 +119,7 @@ object VO2MaxCalculator {
      * Calculate estimated percentile
      */
     fun estimatePercentile(vo2Max: Float, age: Int, gender: String?): Int {
+        if (!vo2Max.isFinite() || vo2Max <= 0f || age !in 18..120) return 0
         val isMale = gender?.lowercase() != "female"
         val ranges = if (isMale) getMaleVO2Ranges(age) else getFemaleVO2Ranges(age)
 
@@ -137,31 +143,23 @@ object VO2MaxCalculator {
         age: Int,
         gender: String?
     ): VO2MaxResult {
+        require(age in 18..120) { "VO₂ max reference bands support adult ages 18–120" }
+        require(maxHR in 80..240) { "Maximum heart rate must be between 80 and 240 BPM" }
+        require(restingHR in 30..200 && restingHR < maxHR) {
+            "Resting heart rate must be between 30 and 200 BPM and below maximum heart rate"
+        }
         val vo2Max = estimateVO2Max(maxHR, restingHR)
         val classification = classifyVO2Max(vo2Max, age, gender)
         val fitnessAge = estimateFitnessAge(vo2Max, gender)
         val percentile = estimatePercentile(vo2Max, age, gender)
 
-        // Projected improvement: 15-20% with 6 months training
-        val improvementPercent = when (classification.category) {
-            "Poor" -> 0.20f
-            "Below Average" -> 0.18f
-            "Average" -> 0.15f
-            "Above Average" -> 0.12f
-            "Good" -> 0.10f
-            "Excellent" -> 0.07f
-            "Superior" -> 0.05f
-            else -> 0.15f
-        }
-        val projected = vo2Max * (1 + improvementPercent)
-
-        val fitnessAgeMessage = when {
-            fitnessAge < age - 5 -> "🎉 Amazing! Your fitness age is ${age - fitnessAge} years younger than your actual age!"
-            fitnessAge < age - 1 -> "👍 Great! You're fitter than average for your age."
-            fitnessAge in (age - 1)..(age + 1) -> "📊 Your fitness matches your age. Regular training can make you younger!"
-            fitnessAge > age + 5 -> "📈 Your fitness age is ${fitnessAge - age} years above your actual age. " +
-                    "Regular cardio exercise can significantly improve this."
-            else -> "📈 Room for improvement. Consistent exercise will lower your fitness age."
+        // A six-month projection is not supportable from a single heart-rate
+        // ratio. Keep the legacy field equal to the estimate and explain the
+        // uncertainty instead of promising an improvement percentage.
+        val fitnessAgeMessage = if (fitnessAge > 0) {
+            "Reference-age comparison only (${fitnessAge} years); it is not an age prediction or health diagnosis."
+        } else {
+            "Reference-age comparison is unavailable for this estimate."
         }
 
         return VO2MaxResult(
@@ -171,8 +169,8 @@ object VO2MaxCalculator {
             actualAge = age,
             fitnessAgeMessage = fitnessAgeMessage,
             percentile = percentile,
-            improvementPotential = improvementPercent * 100,
-            projectedVO2After6Months = projected
+            improvementPotential = 0f,
+            projectedVO2After6Months = vo2Max
         )
     }
 

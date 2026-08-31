@@ -37,62 +37,41 @@ object BMIEdgeCaseHandler {
     fun getEdgeCaseMessage(bmi: Float): EdgeCaseMessage? {
         return when {
             bmi < 10f -> EdgeCaseMessage(
-                title = "Critically Low BMI",
-                emoji = "🚨",
-                message = "A BMI below 10 indicates a potentially life-threatening " +
-                        "situation. This level of underweight requires immediate medical " +
-                        "attention. Please reach out to a healthcare professional or " +
-                        "emergency services right away. You are not alone — help is available.",
-                severity = EdgeCaseSeverity.CRITICAL,
-                showSeekHelp = true
+                title = "Very low BMI value",
+                emoji = "⚠️",
+                message = "This value is well outside adult reference categories. BMI cannot identify the cause; consider professional guidance, especially after unintentional change.",
+                severity = EdgeCaseSeverity.CONCERN
             )
             bmi in 10f..12f -> EdgeCaseMessage(
-                title = "Dangerously Low BMI",
+                title = "Very low BMI value",
                 emoji = "⚠️",
-                message = "A BMI this low is a serious health concern that requires " +
-                        "urgent medical care. Your body needs proper nutrition and " +
-                        "medical support to function safely. Please consult a doctor " +
-                        "as soon as possible.",
-                severity = EdgeCaseSeverity.CRITICAL,
-                showSeekHelp = true
+                message = "This value is below adult reference categories. BMI cannot identify a cause; discuss persistent concerns or unintentional change with a healthcare professional.",
+                severity = EdgeCaseSeverity.CONCERN
             )
             bmi in 12f..14f -> EdgeCaseMessage(
                 title = "Severely Low BMI",
                 emoji = "⚠️",
-                message = "This BMI level indicates severe underweight that poses " +
-                        "significant health risks. Medical guidance is strongly " +
-                        "recommended to safely address nutritional needs.",
+                message = "This value is below adult reference categories. Consider the trend, nutrition, symptoms, and personal context.",
                 severity = EdgeCaseSeverity.CONCERN,
-                showSeekHelp = true
+                showSeekHelp = false
             )
             bmi in 50f..60f -> EdgeCaseMessage(
                 title = "Extremely High BMI",
                 emoji = "🩺",
-                message = "A BMI at this level indicates extreme obesity with very " +
-                        "serious health implications. Please seek comprehensive medical " +
-                        "care. A team of healthcare specialists can help create a safe, " +
-                        "effective plan. Remember — seeking help is a sign of strength.",
-                severity = EdgeCaseSeverity.CRITICAL,
-                showSeekHelp = true
+                message = "This value is well above adult reference categories. BMI is not a diagnosis; consider individualized, non-judgmental guidance.",
+                severity = EdgeCaseSeverity.CONCERN
             )
             bmi in 60f..80f -> EdgeCaseMessage(
-                title = "Critically High BMI",
+                title = "Very high BMI value",
                 emoji = "🚨",
-                message = "This BMI level represents a critical health situation that " +
-                        "requires immediate medical intervention. Please contact your " +
-                        "healthcare provider urgently. Specialized medical support is " +
-                        "available and can help.",
-                severity = EdgeCaseSeverity.CRITICAL,
-                showSeekHelp = true
+                message = "This value is well above adult reference categories. BMI cannot identify a cause or determine treatment; consider a routine professional conversation.",
+                severity = EdgeCaseSeverity.CONCERN
             )
             bmi > 80f -> EdgeCaseMessage(
                 title = "Extreme BMI Value",
                 emoji = "⚠️",
-                message = "This BMI value is unusually extreme. Please verify your " +
-                        "weight and height inputs are correct. If accurate, immediate " +
-                        "medical attention is essential.",
-                severity = EdgeCaseSeverity.CRITICAL,
-                showSeekHelp = true
+                message = "This BMI value is unusually extreme. Please verify the units and inputs. If accurate, seek individualized guidance rather than relying on BMI alone.",
+                severity = EdgeCaseSeverity.CONCERN
             )
             else -> null
         }
@@ -123,8 +102,8 @@ object BMIEdgeCaseHandler {
     fun validateAge(age: Int): String? {
         return when {
             age <= 0 -> "Please enter a valid age"
-            age < 2 -> "BMI calculation requires age 2 or above"
-            age > 120 -> "Please enter a valid age (2-120)"
+            age < 18 -> "This adult BMI calculator is for ages 18 and above"
+            age > 120 -> "Please enter a valid age (18-120)"
             else -> null
         }
     }

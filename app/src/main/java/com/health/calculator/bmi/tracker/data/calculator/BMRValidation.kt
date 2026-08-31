@@ -24,7 +24,7 @@ object BMRValidation {
         val warnings = mutableListOf<String>()
 
         val weightError = when {
-            weightKg <= 0f -> "Please enter a valid weight"
+            !weightKg.isFinite() || weightKg <= 0f -> "Please enter a valid weight"
             weightKg < 10f -> "Weight is too low for accurate BMR calculation"
             weightKg > 500f -> "Weight exceeds maximum range (500 kg)"
             weightKg < 25f -> {
@@ -40,15 +40,11 @@ object BMRValidation {
 
         val heightError = when {
             formula == BMRFormula.WHO_FAO_UNU -> null // WHO doesn't need height
-            heightCm <= 0f -> "Please enter a valid height"
-            heightCm < 50f -> "Height is too low for accurate calculation"
-            heightCm > 280f -> "Height exceeds maximum range (280 cm)"
-            heightCm < 80f -> {
-                warnings.add("Very low height — results may be less accurate")
-                null
-            }
-            heightCm > 230f -> {
-                warnings.add("Very tall height — results may be less accurate")
+            !heightCm.isFinite() || heightCm <= 0f -> "Please enter a valid height"
+            heightCm < 100f -> "Adult estimates require a height of at least 100 cm"
+            heightCm > 250f -> "Please enter a height no greater than 250 cm"
+            heightCm > 220f -> {
+                warnings.add("Very tall height — results may be less comparable across equations")
                 null
             }
             else -> null
@@ -56,12 +52,8 @@ object BMRValidation {
 
         val ageError = when {
             age <= 0 -> "Please enter a valid age"
-            age < 2 -> "Age must be 2 or above"
-            age > 120 -> "Please enter a valid age (2-120)"
-            age < 15 -> {
-                warnings.add("BMR formulas are designed for adults. Results for ages under 15 may be less accurate")
-                null
-            }
+            age < MedicalCalculationPolicy.ADULT_MIN_AGE -> "Adult estimates are for ages ${MedicalCalculationPolicy.ADULT_MIN_AGE} and over"
+            age > MedicalCalculationPolicy.MAX_AGE -> "Please enter a valid age (${MedicalCalculationPolicy.ADULT_MIN_AGE}-${MedicalCalculationPolicy.MAX_AGE})"
             age > 80 -> {
                 warnings.add("BMR estimates become less accurate at advanced ages")
                 null

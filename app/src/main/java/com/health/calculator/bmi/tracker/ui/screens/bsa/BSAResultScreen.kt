@@ -725,7 +725,7 @@ private fun FormulaRecommendationCard() {
             Spacer(modifier = Modifier.height(10.dp))
             FormulaRecItem("🏥", "Du Bois & Du Bois", "Most widely used in clinical practice worldwide. Default choice for most applications.")
             FormulaRecItem("⚡", "Mosteller", "Simplest formula with minimal math. Results very close to Du Bois for most adults.")
-            FormulaRecItem("👶", "Haycock", "Preferred for pediatric patients (infants and children). Most accurate for small body sizes.")
+            FormulaRecItem("👶", "Haycock", "Developed from pediatric measurements; interpret with a clinician when used for children.")
             FormulaRecItem("🌏", "Fujimoto / Takahira", "May be more accurate for East Asian populations.")
             FormulaRecItem("🔬", "Shuter & Aslani", "Modern formula using CT-based measurements. Considered most anatomically accurate.")
             Spacer(modifier = Modifier.height(8.dp))

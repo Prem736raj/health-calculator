@@ -19,7 +19,7 @@ data class SmartRecommendation(
 )
 
 enum class RecommendationPriority(val weight: Int) {
-    CRITICAL(100),    // Health concerns, emergency
+    CRITICAL(100),    // Time-sensitive follow-up prompts
     HIGH(80),         // Important actions needed
     MEDIUM(50),       // Helpful reminders
     LOW(20),          // Nice to have
@@ -132,7 +132,7 @@ object SmartRecommendationEngine {
                     id = "bmi_never",
                     emoji = "📊",
                     title = "Calculate Your BMI",
-                    message = "Know your Body Mass Index — it's a key health indicator. Takes just 30 seconds!",
+                    message = "Add an optional BMI reference point to your personal wellness record.",
                     actionLabel = "Check BMI",
                     actionRoute = "bmi_calculator",
                     priority = RecommendationPriority.HIGH,
@@ -169,7 +169,7 @@ object SmartRecommendationEngine {
                     id = "bp_never",
                     emoji = "💓",
                     title = "Start Tracking Blood Pressure",
-                    message = "Regular BP monitoring is crucial for heart health. Log your first reading!",
+                    message = "Create a simple blood-pressure log so you can review patterns with a professional if needed.",
                     actionLabel = "Log BP",
                     actionRoute = "blood_pressure_checker",
                     priority = RecommendationPriority.HIGH,
@@ -267,7 +267,7 @@ object SmartRecommendationEngine {
                         id = "weight_trending_up",
                         emoji = "📈",
                         title = "Weight Trending Up",
-                        message = "Your weight has increased recently. Would you like to review your calorie plan?",
+                    message = "Your recent weight entries are trending upward. Would you like to review your goals and context?",
                         actionLabel = "Review Plan",
                         actionRoute = "calorie_calculator",
                         priority = RecommendationPriority.HIGH,
@@ -325,7 +325,7 @@ object SmartRecommendationEngine {
                     id = "whr_never",
                     emoji = "📏",
                     title = "Try Waist-Hip Ratio",
-                    message = "WHR is a better predictor of health risks than BMI alone. Give it a try!",
+                    message = "Add a waist and hip measurement for another body-proportion trend; it is not a diagnosis.",
                     actionLabel = "Calculate WHR",
                     actionRoute = "whr_calculator",
                     priority = RecommendationPriority.LOW,
@@ -369,21 +369,20 @@ object SmartRecommendationEngine {
             )
         }
 
-        // 15. All metrics good
-        val allGood = context.lastBMIValue != null && 
-                      context.lastBMIValue in 18.5f..24.9f &&
-                      context.lastBPSystolic != null && context.lastBPSystolic < 130 &&
-                      context.lastBPDiastolic != null && context.lastBPDiastolic < 85 &&
+        // 15. Check-in complete: celebrate data consistency, never health values.
+        val allGood = context.lastBMIValue != null &&
+                      context.lastBPSystolic != null &&
+                      context.lastBPDiastolic != null &&
                       context.waterProgress >= 0.8f &&
-                      context.calorieProgress in 0.85f..1.15f
+                      context.caloriesLoggedToday
 
         if (allGood && isNotDismissed("all_good")) {
             recommendations.add(
                 SmartRecommendation(
                     id = "all_good",
                     emoji = "⭐",
-                    title = "Great Job!",
-                    message = "All your health metrics are looking excellent! Keep up the fantastic work!",
+                    title = "Check-in complete",
+                    message = "You recorded several wellness activities today. Use the trends to learn about your routine, not to grade your health.",
                     actionLabel = "View Summary",
                     actionRoute = "home",
                     priority = RecommendationPriority.CELEBRATION,

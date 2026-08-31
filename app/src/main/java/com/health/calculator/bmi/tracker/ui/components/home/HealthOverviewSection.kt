@@ -97,7 +97,7 @@ fun HealthOverviewSection(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Health Score Circle
+            // Wellness Score circle
             HealthScoreCircle(
                 score = healthScore.totalScore,
                 category = healthScore.category,
