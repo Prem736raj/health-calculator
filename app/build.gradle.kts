@@ -14,7 +14,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.health.calculator.bmi.tracker"
+        applicationId = "com.healthmetrics.tracker"
 
         minSdk = 26
         targetSdk = 36

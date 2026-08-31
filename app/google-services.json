@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "123456789012",
-    "project_id": "health-calculator-dummy",
-    "storage_bucket": "health-calculator-dummy.appspot.com"
+    "project_number": "406674340578",
+    "project_id": "health-metrics-tracker-app",
+    "storage_bucket": "health-metrics-tracker-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789012:android:abcdef0123456789",
+        "mobilesdk_app_id": "1:406674340578:android:c52f397bc60faaa35e3cbb",
         "android_client_info": {
-          "package_name": "com.health.calculator.bmi.tracker"
+          "package_name": "com.healthmetrics.tracker"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDummyKeyForDevelopmentPurposesOnly"
+          "current_key": "AIzaSyBMXKdkCzN8jYuvkjveARhTpnSJjuezBaA"
         }
       ],
       "services": {

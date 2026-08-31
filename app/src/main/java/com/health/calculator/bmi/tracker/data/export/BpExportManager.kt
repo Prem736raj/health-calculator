@@ -22,8 +22,9 @@ import java.time.format.DateTimeFormatter
 
 class BpExportManager(@ApplicationContext private val context: Context) {
 
+    private val authority = "${context.packageName}.fileprovider"
+
     companion object {
-        private const val AUTHORITY = "com.health.calculator.bmi.tracker.fileprovider"
         private const val PDF_PAGE_WIDTH = 595 // A4
         private const val PDF_PAGE_HEIGHT = 842
         private const val MARGIN = 40f
@@ -82,7 +83,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
                 }
             }
 
-            return FileProvider.getUriForFile(context, AUTHORITY, file)
+            return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
@@ -295,7 +296,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
             }
             bitmap.recycle()
 
-            return FileProvider.getUriForFile(context, AUTHORITY, file)
+            return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
@@ -649,7 +650,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
             }
             document.close()
 
-            return FileProvider.getUriForFile(context, AUTHORITY, file)
+            return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
