@@ -31,10 +31,7 @@ object WhrShareUtils {
         return "WHR: ${String.format("%.2f", result.whr)} - ${result.whrCategory.label} (reference context) | Waist: ${String.format("%.0f", result.waistCm)}cm | Hip: ${String.format("%.0f", result.hipCm)}cm"
     }
 
-    fun buildDetailedShareText(
-        result: WhrResult,
-        visceralFat: VisceralFatAssessment? = null
-    ): String {
+    fun buildDetailedShareText(result: WhrResult): String {
         return buildString {
             appendLine("📐 WHR Health Assessment Report")
             appendLine("══════════════════════════════")
@@ -61,12 +58,6 @@ object WhrShareUtils {
             }
             appendLine("🧍 Body Shape: ${result.bodyShape.emoji} ${result.bodyShape.label}")
             appendLine()
-            visceralFat?.let {
-                appendLine("🔥 Visceral Fat Estimation")
-                appendLine("   Level: ${it.estimatedLevel}/20")
-                appendLine("   Risk: ${it.riskLevel.label}")
-                appendLine()
-            }
             appendLine("══════════════════════════════")
             appendLine("Calculated on ${SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault()).format(Date())}")
             appendLine("Health Metrics Tracker")

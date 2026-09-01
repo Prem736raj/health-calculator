@@ -106,6 +106,34 @@ class MedicalCalculatorAccuracyTest {
     }
 
     @Test
+    fun calorieEstimateUsesAdultAndBodyFatBoundaries() {
+        val calculator = CalorieCalculatorUseCase()
+        calculator.calculate(
+            weightKg = 70.0,
+            heightCm = 175.0,
+            age = 18,
+            gender = "Female",
+            bodyFatPercent = 75.0,
+            activityMultiplier = 1.2,
+            activityLevelName = "Light",
+            goalAdjustment = 0,
+            goalName = "Maintain",
+            weeklyChangeKg = 0.0
+        )
+        listOf(
+            { calculator.calculate(70.0, 175.0, 17, "Female", null, 1.2, "Light", 0, "Maintain", 0.0) },
+            { calculator.calculate(70.0, 175.0, 30, "Female", 76.0, 1.2, "Light", 0, "Maintain", 0.0) }
+        ).forEach { invalidCalculation ->
+            try {
+                invalidCalculation()
+                throw AssertionError("unsupported calorie inputs should be rejected")
+            } catch (_: IllegalArgumentException) {
+                // expected
+            }
+        }
+    }
+
+    @Test
     fun wellnessScoreExplainsItsNonClinicalNature() {
         val result = HealthScoreCalculator.calculateHealthScore(HealthMetricsSnapshot(bmi = 23f, restingHR = 70))
         assertFalse(result.isClinicallyValidated)

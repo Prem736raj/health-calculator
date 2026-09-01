@@ -49,7 +49,6 @@ fun WhrResultScreen(
     onRecalculate: () -> Unit,
     onSaveToHistory: () -> Unit,
     onViewProgress: () -> Unit = {},
-    onViewAdvancedMetrics: () -> Unit = {},
     onNavigateToEducation: () -> Unit = {},
     showHeightInput: Boolean = false,
     onHeightSubmitted: ((Float) -> Unit)? = null
@@ -265,26 +264,6 @@ fun WhrResultScreen(
                 )
             }
 
-            // --- ADD: Advanced Metrics Button ---
-            OutlinedButton(
-                onClick = onViewAdvancedMetrics,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(14.dp)
-            ) {
-                Icon(
-                    Icons.Outlined.Science,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    stringResource(R.string.txt_visceral_fat_advanced_metrics),
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            
             // --- ADD: Educational Content Link Button ---
             OutlinedButton(
                 onClick = onNavigateToEducation,

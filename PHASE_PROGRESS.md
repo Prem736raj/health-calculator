@@ -42,13 +42,20 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Older calculator screens still contain some local legacy color literals; new and refreshed surfaces use the shared theme. A follow-up calculator UI pass will migrate remaining high-traffic screens to semantic tokens.
 - **Next phase:** Upgrade every calculator with consistent input validation, explanations, sources, persistence and reusable result structure.
 
+## Phase 6 — Upgrade Every Calculator
+
+- **Status:** Complete
+- **Major changes:** Added a catalog-driven quality contract for all ten calculator entry points with plain-language purpose, required inputs, method, interpretation, limitations, sources and related tools. The Calculators hub now exposes this context before launch through a consistent information dialog. Removed the obsolete WHR visceral-fat/advanced-metrics flow, model and share output because waist measurements cannot estimate visceral fat. Aligned calorie input validation with the adult 18–120 policy, accepted the domain-supported 2–75% body-fat range, and rejected malformed optional body-fat input.
+- **Tests:** Added `CalculatorQualityCatalogTest` to guarantee one complete, linked definition per calculator and extended `MedicalCalculatorAccuracyTest` for adult and body-fat boundaries. Focused debug tests, `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` all pass.
+- **Known limitations:** Existing calculator result screens still have some legacy local styling and several calculators use their own history UI; the hub contract provides consistent discovery while a later UI consolidation can migrate remaining screens to shared components.
+- **Next phase:** Improve daily tracking, trends, goals and healthy retention loops.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
 | --- | --- | --- |
-| 5 — Brand and visual identity | Not started | Coherent Material 3 design system |
-| 6 — Calculator quality | Not started | Reusable calculator structure, validation, history |
-| 7 — Tracking and retention engine | Not started | Fast logging, trends, goals and reminders |
+| 6 — Calculator quality | Complete | Reusable calculator structure, validation, history |
+ | 7 — Tracking and retention engine | Not started | Fast logging, trends, goals and reminders |
 | 8 — Health Connect 2.0 | Not started | Permission-led visible integrations |
 | 9 — Smart insights | Not started | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Not started | Consent-based context, safe UX and limits |

@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Assessment
 import androidx.compose.material.icons.outlined.AutoAwesome
@@ -22,6 +25,7 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.LocalDining
 import androidx.compose.material.icons.outlined.MonitorHeart
 import androidx.compose.material.icons.outlined.MonitorWeight
@@ -33,12 +37,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -100,18 +111,18 @@ enum class CalculatorDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorsHubScreen(onOpen: (CalculatorDestination) -> Unit) {
-    val calculators = listOf(
-        CalculatorEntry(CalculatorDestination.BMI, "BMI", "A height-and-weight reference calculation", Icons.Outlined.Calculate),
-        CalculatorEntry(CalculatorDestination.CALORIES, "Daily calories", "Estimate energy needs for planning", Icons.Outlined.LocalDining),
-        CalculatorEntry(CalculatorDestination.WATER, "Water starting point", "A transparent adult beverage estimate", Icons.Outlined.WaterDrop),
-        CalculatorEntry(CalculatorDestination.BLOOD_PRESSURE, "Blood pressure", "Record and understand a single reading", Icons.Outlined.MonitorHeart),
-        CalculatorEntry(CalculatorDestination.WAIST_HIP, "Waist and hip", "Body-proportion reference measures", Icons.Outlined.Assessment),
-        CalculatorEntry(CalculatorDestination.HEART_RATE, "Heart-rate zones", "Training ranges with a talk-test reminder", Icons.Outlined.FavoriteBorder),
-        CalculatorEntry(CalculatorDestination.BMR, "Resting energy", "Compare adult BMR equations", Icons.Outlined.ShowChart),
-        CalculatorEntry(CalculatorDestination.IDEAL_WEIGHT, "Height-based weight range", "An adult BMI reference range, not a target", Icons.Outlined.MonitorWeight),
-        CalculatorEntry(CalculatorDestination.BSA, "Body surface area", "Compare historical BSA equations", Icons.Outlined.Timeline),
-        CalculatorEntry(CalculatorDestination.METABOLIC, "Metabolic markers", "Count selected screening markers", Icons.Outlined.Flag)
-    )
+    val calculators = remember {
+        CalculatorQualityCatalog.all.map { info ->
+            CalculatorEntry(
+                destination = info.id,
+                title = info.title,
+                description = info.description,
+                icon = calculatorIcon(info.id),
+                qualityInfo = info
+            )
+        }
+    }
+    var selectedInfo by remember { mutableStateOf<CalculatorQualityInfo?>(null) }
     HubScaffold(
         title = "Calculators",
         subtitle = "Estimates with context, limits and sources",
@@ -136,9 +147,17 @@ fun CalculatorsHubScreen(onOpen: (CalculatorDestination) -> Unit) {
                 )
             }
             items(calculators) { entry ->
-                HubActionCard(entry.title, entry.description, entry.icon) { onOpen(entry.destination) }
+                CalculatorHubCard(
+                    entry = entry,
+                    onOpen = { onOpen(entry.destination) },
+                    onShowQuality = { selectedInfo = entry.qualityInfo }
+                )
             }
         }
+    }
+
+    selectedInfo?.let { info ->
+        CalculatorQualityDialog(info = info, onDismiss = { selectedInfo = null })
     }
 }
 
@@ -189,8 +208,102 @@ private data class CalculatorEntry(
     val destination: CalculatorDestination,
     val title: String,
     val description: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val qualityInfo: CalculatorQualityInfo
 )
+
+private fun calculatorIcon(destination: CalculatorDestination): ImageVector = when (destination) {
+    CalculatorDestination.BMI -> Icons.Outlined.Calculate
+    CalculatorDestination.BMR -> Icons.Outlined.ShowChart
+    CalculatorDestination.BLOOD_PRESSURE -> Icons.Outlined.MonitorHeart
+    CalculatorDestination.WATER -> Icons.Outlined.WaterDrop
+    CalculatorDestination.CALORIES -> Icons.Outlined.LocalDining
+    CalculatorDestination.WAIST_HIP -> Icons.Outlined.Assessment
+    CalculatorDestination.HEART_RATE -> Icons.Outlined.FavoriteBorder
+    CalculatorDestination.IDEAL_WEIGHT -> Icons.Outlined.MonitorWeight
+    CalculatorDestination.BSA -> Icons.Outlined.Timeline
+    CalculatorDestination.METABOLIC -> Icons.Outlined.Flag
+}
+
+@Composable
+private fun CalculatorHubCard(
+    entry: CalculatorEntry,
+    onOpen: () -> Unit,
+    onShowQuality: () -> Unit
+) {
+    Card(
+        onClick = onOpen,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.58f))
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            Icon(entry.icon, contentDescription = null, modifier = Modifier.size(28.dp), tint = MaterialTheme.colorScheme.primary)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(entry.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.height(2.dp))
+                Text(entry.description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            IconButton(onClick = onShowQuality) {
+                Icon(Icons.Outlined.Info, contentDescription = "Method and limits for ${entry.title}", tint = MaterialTheme.colorScheme.primary)
+            }
+        }
+    }
+}
+
+@Composable
+private fun CalculatorQualityDialog(
+    info: CalculatorQualityInfo,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("${info.title}: method and limits") },
+        text = {
+            Column(
+                modifier = Modifier
+                    .heightIn(max = 520.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                QualityDialogSection("What it does", info.description)
+                QualityDialogSection("Inputs", info.inputs)
+                QualityDialogSection("Method", info.method)
+                QualityDialogSection("How to read it", info.interpretation)
+                QualityDialogSection("Limitations", info.limitations)
+                Text("Sources", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                info.sources.forEach { source ->
+                    Text("• $source", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                if (info.related.isNotEmpty()) {
+                    Text("Related tools", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(
+                        info.related.map { CalculatorQualityCatalog.get(it).title }.joinToString(" · "),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Text(
+                    "Informational wellness estimate only—not a diagnosis or treatment plan.",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } }
+    )
+}
+
+@Composable
+private fun QualityDialogSection(title: String, body: String) {
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+        Text(body, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

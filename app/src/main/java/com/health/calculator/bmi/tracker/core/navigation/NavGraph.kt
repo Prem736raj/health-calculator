@@ -707,11 +707,6 @@ fun NavGraph(
                             )
                         },
                         onViewProgress = { navController.navigate("whr_progress") },
-                        onViewAdvancedMetrics = {
-                            navController.navigate(
-                                "whr_advanced/\${result!!.waistCm}/\${result!!.hipCm}/\${result!!.gender.name}/\${result!!.age}/\${result!!.heightCm ?: -1f}"
-                            )
-                        },
                         showHeightInput = result!!.heightCm == null || result!!.heightCm == 0f,
                         onHeightSubmitted = { height -> viewModel.recalculateWithHeight(height) }
                     )
@@ -734,67 +729,6 @@ fun NavGraph(
 
             com.health.calculator.bmi.tracker.ui.screens.whr.WhrProgressScreen(
                 viewModel = viewModel,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-        composable(
-            route = "whr_advanced/{waistCm}/{hipCm}/{gender}/{age}/{heightCm}",
-            arguments = listOf(
-                navArgument("waistCm") { type = NavType.FloatType },
-                navArgument("hipCm") { type = NavType.FloatType },
-                navArgument("gender") { type = NavType.StringType },
-                navArgument("age") { type = NavType.IntType },
-                navArgument("heightCm") { type = NavType.FloatType }
-            ),
-            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(350)) + fadeIn(tween(350)) },
-            exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(350)) + fadeOut(tween(350)) },
-            popEnterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(350)) + fadeIn(tween(350)) },
-            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(350)) + fadeOut(tween(350)) }
-        ) { backStackEntry ->
-            val waistCm = backStackEntry.arguments?.getFloat("waistCm") ?: 0f
-            val hipCm = backStackEntry.arguments?.getFloat("hipCm") ?: 0f
-            val genderStr = backStackEntry.arguments?.getString("gender") ?: "MALE"
-            val gender = try { Gender.valueOf(genderStr) } catch (e: Exception) { Gender.MALE }
-            val age = backStackEntry.arguments?.getInt("age") ?: 25
-            val heightCmArg = backStackEntry.arguments?.getFloat("heightCm") ?: -1f
-            val heightCm = if (heightCmArg < 0) null else heightCmArg
-
-            val whrResult = remember(waistCm, hipCm, gender, age, heightCm) {
-                com.health.calculator.bmi.tracker.data.model.WhrCalculator.calculate(waistCm, hipCm, gender, age, heightCm)
-            }
-
-            val visceralFat = remember(waistCm, age, gender) {
-                com.health.calculator.bmi.tracker.data.model.VisceralFatCalculator.estimateVisceralFat(waistCm, age, gender)
-            }
-
-            val abdominalObesity = remember(waistCm, gender) {
-                com.health.calculator.bmi.tracker.data.model.VisceralFatCalculator.classifyAbdominalObesity(waistCm, gender)
-            }
-
-            val combinedRisk = remember(whrResult, visceralFat) {
-                com.health.calculator.bmi.tracker.data.model.VisceralFatCalculator.buildCombinedRiskSummary(
-                    whrCategory = whrResult.whrCategory,
-                    waistRiskLevel = whrResult.waistRiskLevel,
-                    whtrAtRisk = whrResult.whtrAtRisk,
-                    visceralFat = visceralFat
-                )
-            }
-
-            val tips = remember(combinedRisk, waistCm, gender, whrResult) {
-                com.health.calculator.bmi.tracker.data.model.VisceralFatCalculator.generateImprovementTips(
-                    overallRisk = combinedRisk.overallRisk,
-                    waistCm = waistCm,
-                    gender = gender,
-                    whrCategory = whrResult.whrCategory
-                )
-            }
-
-            com.health.calculator.bmi.tracker.ui.screens.whr.WhrAdvancedMetricsScreen(
-                whrResult = whrResult,
-                visceralFat = visceralFat,
-                abdominalObesity = abdominalObesity,
-                combinedRisk = combinedRisk,
-                improvementTips = tips,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

@@ -226,10 +226,11 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
         val hCm = getHeightInCm()
         if (hCm == null || hCm < 50 || hCm > 300) { _uiState.value = s.copy(errorMessage = "Please enter a valid height (50-300 cm)"); return false }
         val age = s.age.toIntOrNull()
-        if (age == null || age < 2 || age > 120) { _uiState.value = s.copy(errorMessage = "Please enter a valid age (2-120 years)"); return false }
+        if (age == null || age !in 18..120) { _uiState.value = s.copy(errorMessage = "This adult estimate supports ages 18-120 years"); return false }
         if (s.selectedActivityLevel.isBlank()) { _uiState.value = s.copy(errorMessage = "Please select your activity level"); return false }
         val bf = s.bodyFatPercent.toDoubleOrNull()
-        if (bf != null && (bf < 2 || bf > 60)) { _uiState.value = s.copy(errorMessage = "Body fat should be between 2-60%"); return false }
+        if (s.bodyFatPercent.isNotBlank() && bf == null) { _uiState.value = s.copy(errorMessage = "Enter body fat as a number or leave it blank"); return false }
+        if (bf != null && (bf < 2 || bf > 75)) { _uiState.value = s.copy(errorMessage = "Body fat should be between 2-75%"); return false }
         return true
     }
 
