@@ -74,6 +74,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Steps currently arrive as the latest Health Connect value rather than a persisted multi-day history, so step comparisons become richer after a history-backed reader is added. Insights remain informational pattern descriptions and do not infer causes, risk or diagnoses.
 - **Next phase:** Strengthen the consent-based, context-aware AI Wellness Assistant.
 
+## Phase 10 — Context-Aware AI Wellness Assistant
+
+- **Status:** Complete
+- **Major changes:** Added a second, independent consent switch for optional app context. When enabled, only a bounded summary of recent locally logged weight and water patterns is sent; notes, names, raw entries and calculator payloads are excluded, and the summary is not stored in chat history. Added untrusted-prompt delimiters, input-length and rapid-request limits, connectivity-aware offline messaging, failure classification, retry and clear-conversation actions, automatic scroll-to-latest behavior, and deterministic output screening for medication instructions and diagnostic certainty. Potentially urgent symptom prompts receive a clear local-care escalation while preserving the wellness-only role.
+- **Tests:** Added prompt-policy, response-safety, context-minimization and failure-classification tests, including control-character cleanup, prompt injection delimiters, rate limits, medication/diagnosis blocking, emergency escalation, recent-window filtering and omission of notes/raw water amounts. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Firebase AI Logic availability, quotas, App Check and model behavior still depend on Firebase Console configuration and network service. Deterministic screening is deliberately conservative and is not a substitute for professional review; no health measurements are sent to analytics.
+- **Next phase:** Build healthy retention loops around summaries, milestones, reminders and widgets.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -82,7 +90,7 @@ This file is the source of truth for the sequential product-development phases. 
 | 7 — Tracking and retention engine | Complete | Fast logging, trends, goals and reminders |
 | 8 — Health Connect 2.0 | Complete | Permission-led visible integrations |
 | 9 — Smart insights | Complete | Deterministic explainable insight engine |
-| 10 — Context-aware AI assistant | Not started | Consent-based context, safe UX and limits |
+| 10 — Context-aware AI assistant | Complete | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Not started | Healthy summaries, milestones and widgets |
 | 12 — Reports, export and sharing | Not started | User-controlled wellness reports |
 | 13 — Monetization | Not started | Trust-preserving free/premium boundaries |

@@ -1,18 +1,35 @@
 package com.health.calculator.bmi.tracker.data.ai
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.google.firebase.Firebase
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.GenerativeBackend
 import com.google.firebase.ai.type.content
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GeminiHelper @Inject constructor() {
+class GeminiHelper @Inject constructor(
+    @ApplicationContext context: Context
+) {
+
+    private val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+
+    fun isNetworkAvailable(): Boolean {
+        val network = connectivityManager?.activeNetwork ?: return false
+        val capabilities = connectivityManager?.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
 
     /*
      * IMPORTANT:
@@ -121,15 +138,37 @@ class GeminiHelper @Inject constructor() {
 
         } catch (e: Exception) {
 
+            if (e is CancellationException) throw e
             throw AiCoachException(
                 message = "AI service is temporarily unavailable.",
-                cause = e
+                cause = e,
+                reason = AiCoachFailureReason.from(e)
             )
+        }
+    }
+}
+
+enum class AiCoachFailureReason {
+    NETWORK,
+    RATE_LIMITED,
+    SERVICE_UNAVAILABLE,
+    UNKNOWN;
+
+    companion object {
+        fun from(error: Throwable): AiCoachFailureReason {
+            val message = error.message.orEmpty().lowercase()
+            return when {
+                listOf("429", "quota", "rate limit", "resource exhausted").any(message::contains) -> RATE_LIMITED
+                listOf("network", "timeout", "unable to resolve", "offline", "connect").any(message::contains) -> NETWORK
+                listOf("unavailable", "server", "internal", "503", "500").any(message::contains) -> SERVICE_UNAVAILABLE
+                else -> UNKNOWN
+            }
         }
     }
 }
 
 class AiCoachException(
     message: String,
-    cause: Throwable? = null
+    cause: Throwable? = null,
+    val reason: AiCoachFailureReason = AiCoachFailureReason.UNKNOWN
 ) : Exception(message, cause)

@@ -41,6 +41,7 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
         val KEY_LAST_UPDATED = longPreferencesKey("settings_last_updated")
         val KEY_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
         val KEY_AI_DISCLOSURE_ACCEPTED = booleanPreferencesKey("ai_disclosure_accepted")
+        val KEY_AI_CONTEXT_SHARING_ENABLED = booleanPreferencesKey("ai_context_sharing_enabled")
     }
 
     // ─── Read Settings ────────────────────────────────────────────────────
@@ -119,6 +120,20 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
     suspend fun setAiDisclosureAccepted(accepted: Boolean = true) {
         context.settingsDataStore.edit { prefs ->
             prefs[KEY_AI_DISCLOSURE_ACCEPTED] = accepted
+        }
+    }
+
+    /**
+     * Optional second consent: when enabled, the assistant may receive a minimal summary of
+     * recent locally logged wellness data. It is independent from accepting the service disclosure.
+     */
+    val aiContextSharingEnabledFlow: Flow<Boolean> = context.settingsDataStore.data.map { prefs ->
+        prefs[KEY_AI_CONTEXT_SHARING_ENABLED] ?: false
+    }
+
+    suspend fun setAiContextSharingEnabled(enabled: Boolean) {
+        context.settingsDataStore.edit { prefs ->
+            prefs[KEY_AI_CONTEXT_SHARING_ENABLED] = enabled
         }
     }
 

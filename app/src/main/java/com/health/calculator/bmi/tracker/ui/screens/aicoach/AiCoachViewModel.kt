@@ -4,10 +4,17 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.data.ai.AiCoachException
+import com.health.calculator.bmi.tracker.data.ai.AiCoachFailureReason
+import com.health.calculator.bmi.tracker.data.ai.AiPromptPolicy
+import com.health.calculator.bmi.tracker.data.ai.AiResponseSafety
+import com.health.calculator.bmi.tracker.data.ai.AiWellnessContextBuilder
 import com.health.calculator.bmi.tracker.data.ai.GeminiHelper
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.local.dao.ChatDao
 import com.health.calculator.bmi.tracker.data.local.entity.ChatMessageEntity
+import com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository
+import com.health.calculator.bmi.tracker.data.repository.WeightRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,14 +22,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
 import javax.inject.Inject
 
 data class ChatMessage(
     val text: String,
     val isUser: Boolean,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isError: Boolean = false
 )
 
 @HiltViewModel
@@ -30,10 +41,19 @@ class AiCoachViewModel @Inject constructor(
     private val geminiHelper: GeminiHelper,
     private val chatDao: ChatDao,
     private val settingsDataStore: SettingsDataStore,
+    private val weightRepository: WeightRepository,
+    private val waterIntakeRepository: WaterIntakeRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     val isDisclosureAccepted: StateFlow<Boolean> = settingsDataStore.aiDisclosureAcceptedFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
+
+    val isContextSharingEnabled: StateFlow<Boolean> = settingsDataStore.aiContextSharingEnabledFlow
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -45,6 +65,15 @@ class AiCoachViewModel @Inject constructor(
 
     private val _isTyping = MutableStateFlow(false)
     val isTyping: StateFlow<Boolean> = _isTyping.asStateFlow()
+
+    private val _notice = MutableStateFlow<String?>(null)
+    val notice: StateFlow<String?> = _notice.asStateFlow()
+
+    private val _canRetry = MutableStateFlow(false)
+    val canRetry: StateFlow<Boolean> = _canRetry.asStateFlow()
+
+    private var lastRequestMillis: Long? = null
+    private var lastFailedPrompt: String? = null
 
     init {
         viewModelScope.launch {
@@ -66,44 +95,135 @@ class AiCoachViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(text: String) {
-        if (text.isBlank()) return
+    fun setContextSharingEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.setAiContextSharingEnabled(enabled)
+        }
+    }
+
+    fun dismissNotice() {
+        _notice.value = null
+    }
+
+    fun clearConversation() {
+        viewModelScope.launch {
+            chatDao.clearHistory()
+            _notice.value = null
+            _canRetry.value = false
+        }
+    }
+
+    /** Returns false when the message was rejected before any network call. */
+    fun sendMessage(text: String): Boolean {
+        val validation = AiPromptPolicy.validate(
+            rawText = text,
+            nowMillis = System.currentTimeMillis(),
+            lastRequestMillis = lastRequestMillis,
+            isBusy = _isTyping.value
+        )
+        if (!validation.accepted) {
+            _notice.value = validation.message
+            _canRetry.value = false
+            return false
+        }
+
+        lastRequestMillis = System.currentTimeMillis()
+        _notice.value = null
+        _canRetry.value = false
+        lastFailedPrompt = null
 
         viewModelScope.launch {
-            chatDao.insertMessage(ChatMessageEntity(text = text, isUser = true))
+            chatDao.insertMessage(ChatMessageEntity(text = validation.normalizedText, isUser = true))
             
             // The UI will update automatically because of collectLatest above, but we also want to show a loading bubble
             _messages.value = _messages.value + ChatMessage("", isUser = false, isLoading = true)
             _isTyping.value = true
 
             try {
+                if (!geminiHelper.isNetworkAvailable()) {
+                    throw AiCoachException(
+                        message = "No network connection.",
+                        reason = AiCoachFailureReason.NETWORK
+                    )
+                }
+                val prompt = if (isContextSharingEnabled.value) {
+                    val optionalContext = buildOptionalContext()
+                    AiPromptPolicy.buildModelPrompt(validation.normalizedText, optionalContext)
+                } else {
+                    AiPromptPolicy.buildModelPrompt(validation.normalizedText)
+                }
                 var responseText = ""
-                geminiHelper.generateContentStream(text).collect { chunk ->
+                geminiHelper.generateContentStream(prompt).collect { chunk ->
                     responseText += chunk
-                    
-                    // Update the last message (AI response) with new text chunk and remove loading state
-                    val currentList = _messages.value.toMutableList()
-                    val lastIndex = currentList.lastIndex
-                    currentList[lastIndex] = currentList[lastIndex].copy(
-                        text = responseText, 
+
+                    updateAssistantBubble(
+                        text = AiResponseSafety.sanitizeStreaming(responseText),
                         isLoading = false
                     )
-                    _messages.value = currentList
                 }
-                
+
+                val safeResponse = AiResponseSafety.sanitize(responseText, validation.potentiallyUrgent)
+                updateAssistantBubble(text = safeResponse, isLoading = false)
                 // Once stream finishes, save the final response to database
-                chatDao.insertMessage(ChatMessageEntity(text = responseText, isUser = false))
-            } catch (e: Exception) {
-                val currentList = _messages.value.toMutableList()
-                val lastIndex = currentList.lastIndex
-                currentList[lastIndex] = currentList[lastIndex].copy(
-                    text = context.getString(R.string.ai_coach_error), 
-                    isLoading = false
+                chatDao.insertMessage(ChatMessageEntity(text = safeResponse, isUser = false))
+                _canRetry.value = false
+            } catch (e: AiCoachException) {
+                lastFailedPrompt = validation.normalizedText
+                _notice.value = failureMessage(e.reason)
+                _canRetry.value = true
+                updateAssistantBubble(
+                    text = context.getString(R.string.ai_coach_error),
+                    isLoading = false,
+                    isError = true
                 )
-                _messages.value = currentList
+            } catch (_: Exception) {
+                lastFailedPrompt = validation.normalizedText
+                _notice.value = failureMessage(AiCoachFailureReason.UNKNOWN)
+                _canRetry.value = true
+                updateAssistantBubble(
+                    text = context.getString(R.string.ai_coach_error),
+                    isLoading = false,
+                    isError = true
+                )
             } finally {
                 _isTyping.value = false
             }
         }
+        return true
+    }
+
+    fun retryLastMessage(): Boolean = lastFailedPrompt?.let { sendMessage(it) } ?: false
+
+    private suspend fun buildOptionalContext(): String {
+        val zone = ZoneId.systemDefault()
+        val today = LocalDate.now(zone)
+        val weights = weightRepository.getAllWeights().first()
+        val waterLogs = waterIntakeRepository.getAllWaterLogs().first()
+        val goal = waterIntakeRepository.getLatestCalculation()?.recommendedIntakeMl
+        return AiWellnessContextBuilder
+            .build(today, zone, weights, waterLogs, goal)
+            .toPromptSection()
+    }
+
+    private fun updateAssistantBubble(text: String, isLoading: Boolean, isError: Boolean = false) {
+        val currentList = _messages.value.toMutableList()
+        val index = currentList.indexOfLast { !it.isUser && it.isLoading }
+        if (index >= 0) {
+            currentList[index] = currentList[index].copy(
+                text = text,
+                isLoading = isLoading,
+                isError = isError
+            )
+        } else if (currentList.lastOrNull()?.isUser == true) {
+            currentList += ChatMessage(text = text, isUser = false, isLoading = isLoading, isError = isError)
+        }
+        _messages.value = currentList
+    }
+
+    private fun failureMessage(reason: AiCoachFailureReason): String = when (reason) {
+        AiCoachFailureReason.NETWORK -> "You appear to be offline. Check your connection and try again."
+        AiCoachFailureReason.RATE_LIMITED -> "The assistant is busy right now. Please try again in a little while."
+        AiCoachFailureReason.SERVICE_UNAVAILABLE -> "The assistant is temporarily unavailable. Please try again later."
+        AiCoachFailureReason.UNKNOWN -> "We couldn't get a safe reply. Please try again later."
     }
 }
