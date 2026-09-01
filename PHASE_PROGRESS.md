@@ -34,7 +34,15 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Weight currently falls back to the saved profile baseline until Phase 7 unifies the latest tracking data source. Home step data remains optional and read-only through the existing minimal Health Connect permission.
 - **Next phase:** Establish a cohesive, accessible Material 3 brand and visual system.
 
-## Phases 5–15
+## Phase 5 — Brand & Visual Identity
+
+- **Status:** Complete
+- **Major changes:** Established a calm blue-green wellness palette with explicit light/dark foreground and container pairs, semantic interpretation colors, a restrained chart palette, shared spacing tokens, and a tighter Material 3 shape scale. Replaced runtime Google Font fetching with the platform sans-serif stack for reliable offline startup and accessibility settings. Updated widgets and onboarding accents, standardized exported/report branding to Health Metrics Tracker, and removed obsolete font certificate/dependency resources. Corrected onboarding copy that implied medical-grade or blanket WHO validation.
+- **Tests:** Added `ThemeTokensTest` for primary/container contrast targets, spacing-token invariants and semantic color aliases. Debug unit tests pass after the theme refactor.
+- **Known limitations:** Older calculator screens still contain some local legacy color literals; new and refreshed surfaces use the shared theme. A follow-up calculator UI pass will migrate remaining high-traffic screens to semantic tokens.
+- **Next phase:** Upgrade every calculator with consistent input validation, explanations, sources, persistence and reusable result structure.
+
+## Phases 6–15
 
 | Phase | Status | Next focus |
 | --- | --- | --- |

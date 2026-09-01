@@ -296,6 +296,6 @@ class BSAViewModel @Inject constructor(application: Application) : AndroidViewMo
 
     fun getShareText(): String {
         val result = _uiState.value.result ?: return ""
-        return "My BSA: ${"%.2f".format(result.primaryBSA)} m² (${result.selectedFormula.name} formula) - Health Calculator"
+        return "My BSA: ${"%.2f".format(result.primaryBSA)} m² (${result.selectedFormula.name} formula) - Health Metrics Tracker"
     }
 }

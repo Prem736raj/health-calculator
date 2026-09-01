@@ -41,7 +41,7 @@ class ShareImageHelper(@ApplicationContext private val context: Context) {
             textAlign = Paint.Align.CENTER
             isAntiAlias = true
         }
-        canvas.drawText("Health Calculator", width / 2f, 90f, titlePaint)
+        canvas.drawText("Health Metrics Tracker", width / 2f, 90f, titlePaint)
 
         // Subtitle
         val subPaint = Paint().apply {
@@ -191,7 +191,7 @@ class ShareImageHelper(@ApplicationContext private val context: Context) {
             textAlign = Paint.Align.CENTER
             isAntiAlias = true
         }
-        canvas.drawText("Health Calculator: BMI Tracker", width / 2f, yPos + 35f, footerPaint)
+        canvas.drawText("Health Metrics Tracker", width / 2f, yPos + 35f, footerPaint)
 
         // Save
         val exportDir = File(context.cacheDir, "exports").apply { mkdirs() }

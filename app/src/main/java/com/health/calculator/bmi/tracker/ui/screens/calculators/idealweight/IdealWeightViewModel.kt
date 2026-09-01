@@ -339,7 +339,7 @@ class IdealWeightViewModel @Inject constructor(application: Application) : Andro
             append("📍 Hamwi: ${String.format(Locale.US, "%.1f", res.hamwi)} kg\n")
             append("━━━━━━━━━━━━━━━━\n\n")
             append("💪 Adult BMI reference range: ${String.format(Locale.US, "%.1f", res.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", res.healthyRangeMax)} kg\n\n")
-            append("Calculated via Health Calculator App")
+            append("Calculated via Health Metrics Tracker")
         }
     }
 

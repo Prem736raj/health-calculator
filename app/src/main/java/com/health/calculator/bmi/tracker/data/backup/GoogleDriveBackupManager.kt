@@ -60,7 +60,7 @@ class GoogleDriveBackupManager(
             GsonFactory.getDefaultInstance(),
             credential
         )
-            .setApplicationName("Health Calculator BMI Tracker")
+            .setApplicationName("Health Metrics Tracker")
             .build()
 
         return true
@@ -91,7 +91,7 @@ class GoogleDriveBackupManager(
             val fileMetadata = DriveFile().apply {
                 name = fileName
                 parents = listOf(folderId)
-                description = "Health Calculator backup - $entryCount entries"
+                description = "Health Metrics Tracker backup - $entryCount entries"
                 properties = mapOf(
                     "entry_count" to entryCount.toString(),
                     "backup_version" to BackupMetadata.BACKUP_VERSION.toString(),

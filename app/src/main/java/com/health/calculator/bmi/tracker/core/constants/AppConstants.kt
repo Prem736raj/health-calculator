@@ -3,8 +3,8 @@
 package com.health.calculator.bmi.tracker.core.constants
 
 object AppConstants {
-    const val APP_NAME = "Health Calculator"
-    const val APP_SUBTITLE = "BMI Tracker & More"
+    const val APP_NAME = "Health Metrics Tracker"
+    const val APP_SUBTITLE = "Your personal wellness companion"
     const val APP_VERSION = "1.0.0"
 
     // DataStore

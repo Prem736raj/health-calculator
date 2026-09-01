@@ -3,6 +3,7 @@ package com.health.calculator.bmi.tracker.presentation.settings
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.core.constants.AppLinks
+import com.health.calculator.bmi.tracker.core.constants.AppConstants
 
 
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -121,9 +122,9 @@ import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 
 // ─── Accent Colors ────────────────────────────────────────────────────────────
 
-private val SettingsAccent = Color(0xFF00ACC1)
-private val DangerRed = Color(0xFFE53935)
-private val WarningOrange = Color(0xFFFF9800)
+private val SettingsAccent = com.health.calculator.bmi.tracker.ui.theme.HealthColors.BelowNormal
+private val DangerRed = com.health.calculator.bmi.tracker.ui.theme.HealthColors.Danger
+private val WarningOrange = com.health.calculator.bmi.tracker.ui.theme.HealthColors.Caution
 
 // ─── Main Settings Screen ─────────────────────────────────────────────────────
 
@@ -536,7 +537,7 @@ fun SettingsScreen(
                     // ── Footer ────────────────────────────────────────────
                     item {
                         Text(
-                            text = "Made with ❤️ for your health\nHealth Calculator © ${java.time.Year.now().value}",
+                            text = "Made with ❤️ for your wellness\n${AppConstants.APP_NAME} © ${java.time.Year.now().value}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center,
@@ -684,7 +685,7 @@ private fun shareApp(context: android.content.Context, packageName: String) {
         type = "text/plain"
         putExtra(Intent.EXTRA_TEXT, shareText)
     }
-    context.startActivity(Intent.createChooser(intent, "Share Health Calculator"))
+    context.startActivity(Intent.createChooser(intent, "Share ${AppConstants.APP_NAME}"))
 }
 
 // ─── Clickable Settings Item ──────────────────────────────────────────────────

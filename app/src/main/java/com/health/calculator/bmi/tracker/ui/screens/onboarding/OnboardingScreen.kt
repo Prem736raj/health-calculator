@@ -73,9 +73,9 @@ import kotlinx.coroutines.launch
 
 // ─── Accent Colors ────────────────────────────────────────────────────────────
 
-private val OnboardingTeal = Color(0xFF00ACC1)
-private val OnboardingTealDark = Color(0xFF00838F)
-private val OnboardingTealLight = Color(0xFF4DD0E1)
+private val OnboardingTeal = com.health.calculator.bmi.tracker.ui.theme.HealthColors.BelowNormal
+private val OnboardingTealDark = com.health.calculator.bmi.tracker.ui.theme.HealthColors.Info
+private val OnboardingTealLight = com.health.calculator.bmi.tracker.ui.theme.HealthColors.BelowNormalDark
 
 // ─── Onboarding Page Data ─────────────────────────────────────────────────────
 
@@ -92,7 +92,7 @@ private val onboardingPages = listOf(
     OnboardingPage(
         emoji = "💚",
         decorativeEmojis = listOf("🫀", "🩺", "💪", "🧘"),
-        title = "Welcome to\nHealth Calculator",
+        title = "Welcome to\nHealth Metrics Tracker",
         subtitle = "Your Personal Health Companion",
         description = "Track and understand your health metrics with easy-to-use calculators. All your data stays private on your device.",
         accentColor = Color(0xFF43A047)
@@ -101,8 +101,8 @@ private val onboardingPages = listOf(
         emoji = "🏥",
         decorativeEmojis = listOf("⚖️", "🔥", "❤️", "💧", "📊", "🎯", "💓", "🩺", "📐", "🍎"),
         title = "10 practical\nhealth calculators",
-        subtitle = "Medical-Grade Accuracy",
-        description = "From BMI and BMR to Blood Pressure and Heart Rate Zones — all calculations follow World Health Organization standards.",
+        subtitle = "Evidence-informed estimates",
+        description = "From BMI and BMR to blood pressure and heart-rate zones — each tool explains its method, sources, and limits.",
         accentColor = Color(0xFF1E88E5)
     ),
     OnboardingPage(

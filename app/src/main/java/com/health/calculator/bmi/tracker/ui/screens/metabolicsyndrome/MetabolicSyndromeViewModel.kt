@@ -571,7 +571,7 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             |${if (result.diagnosisDiffers) "\nℹ️ The reference definitions differ because they use different waist rules.\n" else ""}
             |⚕️ Informational wellness data — not a diagnosis or medical advice.
             |
-            |Assessed using Health Calculator: BMI Tracker
+            |Assessed using Health Metrics Tracker
         """.trimMargin()
     }
 }

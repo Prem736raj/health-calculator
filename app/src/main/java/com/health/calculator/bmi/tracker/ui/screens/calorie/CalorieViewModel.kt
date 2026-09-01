@@ -617,7 +617,7 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
             lines.add("Projected: ${"%.2f".format(r.weeklyChangeDisplay)} kg/week")
         }
         lines.add("")
-        lines.add("- Health Calculator: BMI Tracker")
+        lines.add("- Health Metrics Tracker")
         return lines.joinToString("\n")
     }
 

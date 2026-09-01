@@ -1161,7 +1161,7 @@ class BmiViewModel @Inject constructor(
             appendLine(healthRiskSummary)
             appendLine()
             appendLine("━━━━━━━━━━━━━━━━━━")
-            appendLine("Calculated using Health Calculator app")
+            appendLine("Calculated using Health Metrics Tracker")
             appendLine("Adult BMI reference categories")
             appendLine("⚕️ Informational wellness data — not a diagnosis")
         }

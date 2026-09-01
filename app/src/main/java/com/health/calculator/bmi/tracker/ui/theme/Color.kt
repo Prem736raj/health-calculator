@@ -2,180 +2,155 @@ package com.health.calculator.bmi.tracker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// ============================================================================
-// PREMIUM PRIMARY PALETTE - Glassmorphism & Neon Focus
-// ============================================================================
+/*
+ * Health Metrics Tracker brand palette.
+ *
+ * The blue-green primary is calm and action-oriented without looking clinical.
+ * Foreground/container pairs are intentionally kept together so screens do not
+ * have to invent one-off colors for normal, dark, or empty states.
+ */
 
-// Light Theme Primary
-val PrimaryLight = Color(0xFF1E1E24)          // Deep slate/almost black
+// Light color scheme
+val PrimaryLight = Color(0xFF2F6B68)
 val OnPrimaryLight = Color(0xFFFFFFFF)
-val PrimaryContainerLight = Color(0xFFE2E2F0)
-val OnPrimaryContainerLight = Color(0xFF111116)
+val PrimaryContainerLight = Color(0xFFD1EEEA)
+val OnPrimaryContainerLight = Color(0xFF0B302E)
 
-// Dark Theme Primary
-val PrimaryDark = Color(0xFFFFFFFF)
-val OnPrimaryDark = Color(0xFF1E1E24)
-val PrimaryContainerDark = Color(0xFF2B2D42)
-val OnPrimaryContainerDark = Color(0xFFFFFFFF)
-
-// ============================================================================
-// SECONDARY PALETTE - Sleek Accents
-// ============================================================================
-
-// Light Theme Secondary
-val SecondaryLight = Color(0xFF4A4E69)
+val SecondaryLight = Color(0xFF4F6470)
 val OnSecondaryLight = Color(0xFFFFFFFF)
-val SecondaryContainerLight = Color(0xFFF2E9E4)
-val OnSecondaryContainerLight = Color(0xFF22223B)
+val SecondaryContainerLight = Color(0xFFD7E7EC)
+val OnSecondaryContainerLight = Color(0xFF0C2027)
 
-// Dark Theme Secondary
-val SecondaryDark = Color(0xFF9A8C98)
-val OnSecondaryDark = Color(0xFF22223B)
-val SecondaryContainerDark = Color(0xFF4A4E69)
-val OnSecondaryContainerDark = Color(0xFFF2E9E4)
+val TertiaryLight = Color(0xFF6D5A8D)
+val OnTertiaryLight = Color(0xFFFFFFFF)
+val TertiaryContainerLight = Color(0xFFEADDFF)
+val OnTertiaryContainerLight = Color(0xFF28143F)
 
-// ============================================================================
-// TERTIARY PALETTE
-// ============================================================================
-
-val TertiaryLight = Color(0xFFC9ADA7)
-val OnTertiaryLight = Color(0xFF22223B)
-val TertiaryContainerLight = Color(0xFFF2E9E4)
-val OnTertiaryContainerLight = Color(0xFF4A4E69)
-
-val TertiaryDark = Color(0xFFC9ADA7)
-val OnTertiaryDark = Color(0xFF22223B)
-val TertiaryContainerDark = Color(0xFF4A4E69)
-val OnTertiaryContainerDark = Color(0xFFF2E9E4)
-
-// ============================================================================
-// ERROR PALETTE
-// ============================================================================
-
-val ErrorLight = Color(0xFFD90429)
+val ErrorLight = Color(0xFFBA1A1A)
 val OnErrorLight = Color(0xFFFFFFFF)
-val ErrorContainerLight = Color(0xFFFFB3B3)
+val ErrorContainerLight = Color(0xFFFFDAD6)
 val OnErrorContainerLight = Color(0xFF410002)
 
-val ErrorDark = Color(0xFFEF233C)
+val BackgroundLight = Color(0xFFF7FAF9)
+val OnBackgroundLight = Color(0xFF17211F)
+val SurfaceLight = Color(0xFFFFFFFF)
+val OnSurfaceLight = Color(0xFF17211F)
+val SurfaceVariantLight = Color(0xFFE1EBE8)
+val OnSurfaceVariantLight = Color(0xFF41514E)
+val SurfaceTintLight = PrimaryLight
+val InverseSurfaceLight = Color(0xFF2B3130)
+val InverseOnSurfaceLight = Color(0xFFECF2F0)
+val InversePrimaryLight = Color(0xFF9DD9D2)
+
+// Dark color scheme
+val PrimaryDark = Color(0xFF9DD9D2)
+val OnPrimaryDark = Color(0xFF073331)
+val PrimaryContainerDark = Color(0xFF174A47)
+val OnPrimaryContainerDark = Color(0xFFB9F1EA)
+
+val SecondaryDark = Color(0xFFB7CBD2)
+val OnSecondaryDark = Color(0xFF21343B)
+val SecondaryContainerDark = Color(0xFF364A51)
+val OnSecondaryContainerDark = Color(0xFFD3E8EF)
+
+val TertiaryDark = Color(0xFFD9BDF6)
+val OnTertiaryDark = Color(0xFF3A2550)
+val TertiaryContainerDark = Color(0xFF533D6B)
+val OnTertiaryContainerDark = Color(0xFFF0DBFF)
+
+val ErrorDark = Color(0xFFFFB4AB)
 val OnErrorDark = Color(0xFF690005)
 val ErrorContainerDark = Color(0xFF93000A)
 val OnErrorContainerDark = Color(0xFFFFDAD6)
 
-// ============================================================================
-// BACKGROUND & SURFACE - Light Theme (Ultra Clean)
-// ============================================================================
-
-val BackgroundLight = Color(0xFFF8F9FA)
-val OnBackgroundLight = Color(0xFF1E1E24)
-val SurfaceLight = Color(0xFFFFFFFF)
-val OnSurfaceLight = Color(0xFF1E1E24)
-val SurfaceVariantLight = Color(0xFFE9ECEF)
-val OnSurfaceVariantLight = Color(0xFF495057)
-val SurfaceTintLight = PrimaryLight
-val InverseSurfaceLight = Color(0xFF212529)
-val InverseOnSurfaceLight = Color(0xFFF8F9FA)
-val InversePrimaryLight = PrimaryDark
-
-// ============================================================================
-// BACKGROUND & SURFACE - Dark Theme (Deep Modern)
-// ============================================================================
-
-val BackgroundDark = Color(0xFF0F1014) // Very deep dark, not pure black
-val OnBackgroundDark = Color(0xFFE9ECEF)
-val SurfaceDark = Color(0xFF181A20)
-val OnSurfaceDark = Color(0xFFE9ECEF)
-val SurfaceVariantDark = Color(0xFF242731)
-val OnSurfaceVariantDark = Color(0xFFAEB1B9)
+val BackgroundDark = Color(0xFF101615)
+val OnBackgroundDark = Color(0xFFE0E9E6)
+val SurfaceDark = Color(0xFF18201F)
+val OnSurfaceDark = Color(0xFFE0E9E6)
+val SurfaceVariantDark = Color(0xFF293331)
+val OnSurfaceVariantDark = Color(0xFFBFCBC7)
 val SurfaceTintDark = PrimaryDark
-val InverseSurfaceDark = Color(0xFFE9ECEF)
-val InverseOnSurfaceDark = Color(0xFF0F1014)
+val InverseSurfaceDark = Color(0xFFE0E9E6)
+val InverseOnSurfaceDark = Color(0xFF2B3130)
 val InversePrimaryDark = PrimaryLight
 
-// ============================================================================
-// OUTLINE & SCRIM
-// ============================================================================
-
-val OutlineLight = Color(0xFFCED4DA)
-val OutlineVariantLight = Color(0xFFDEE2E6)
-
-val OutlineDark = Color(0xFF343A40)
-val OutlineVariantDark = Color(0xFF212529)
-
+val OutlineLight = Color(0xFF71817E)
+val OutlineVariantLight = Color(0xFFC1CECA)
+val OutlineDark = Color(0xFF899793)
+val OutlineVariantDark = Color(0xFF3F4A47)
 val ScrimLight = Color(0xFF000000)
 val ScrimDark = Color(0xFF000000)
 
-// ============================================================================
-// HEALTH CATEGORY COLORS
-// ============================================================================
-
+/** Semantic colors for interpretation, never as the only signal of meaning. */
 object HealthColors {
-    val Healthy = Color(0xFF06D6A0)              
-    val HealthyLight = Color(0xFFE6F9F5)         
-    val HealthyDark = Color(0xFF06D6A0)           
+    val Healthy = Color(0xFF2E7D6F)
+    val HealthyLight = Color(0xFFD8F1EB)
+    val HealthyDark = Color(0xFF8DD3C7)
 
-    val Good = Color(0xFF118AB2)                  
-    val GoodLight = Color(0xFFE7F3F8)
-    val GoodDark = Color(0xFF118AB2)
+    val Good = Color(0xFF2F6B8A)
+    val GoodLight = Color(0xFFDCEEF5)
+    val GoodDark = Color(0xFF9ACDE2)
 
-    val Warning = Color(0xFFFFD166)               
-    val WarningLight = Color(0xFFFFFBE6)
-    val WarningDark = Color(0xFFFFD166)
+    val Warning = Color(0xFFA66300)
+    val WarningLight = Color(0xFFFFE9C7)
+    val WarningDark = Color(0xFFFFC978)
 
-    val Caution = Color(0xFFF77F00)               
-    val CautionLight = Color(0xFFFEF2E5)
-    val CautionDark = Color(0xFFF77F00)
+    val Caution = Color(0xFFB45309)
+    val CautionLight = Color(0xFFFFE6D2)
+    val CautionDark = Color(0xFFFFB77D)
 
-    val Danger = Color(0xFFEF476F)                
-    val DangerLight = Color(0xFFFDECEF)
-    val DangerDark = Color(0xFFEF476F)
+    val Danger = Color(0xFFBA1A1A)
+    val DangerLight = Color(0xFFFFDAD6)
+    val DangerDark = Color(0xFFFFB4AB)
 
-    val Severe = Color(0xFF7209B7)                
-    val SevereLight = Color(0xFFF1E6F8)
-    val SevereDark = Color(0xFF7209B7)
+    val Severe = Color(0xFF6B3C88)
+    val SevereLight = Color(0xFFF0DDF7)
+    val SevereDark = Color(0xFFDDB4ED)
 
-    val BelowNormal = Color(0xFF4CC9F0)           
-    val BelowNormalLight = Color(0xFFEDFAFD)
-    val BelowNormalDark = Color(0xFF4CC9F0)
+    val BelowNormal = Color(0xFF267C8A)
+    val BelowNormalLight = Color(0xFFD6F0F3)
+    val BelowNormalDark = Color(0xFF93D5DE)
 
-    val Info = Color(0xFF3A86FF)                  
-    val InfoLight = Color(0xFFEBF3FF)
-    val InfoDark = Color(0xFF3A86FF)
+    val Info = Color(0xFF2F6B8A)
+    val InfoLight = Color(0xFFDCEEF5)
+    val InfoDark = Color(0xFF9ACDE2)
 }
 
+/** A restrained chart palette that remains legible in both themes. */
 object ChartColors {
-    val Primary = Color(0xFF3A86FF)
-    val Secondary = Color(0xFF8338EC)
-    val Tertiary = Color(0xFFFF006E)
-    val Accent1 = Color(0xFFFB5607)
-    val Accent2 = Color(0xFFFFBE0B)
-    val Accent3 = Color(0xFF06D6A0)
+    val Primary = Color(0xFF2F6B68)
+    val Secondary = Color(0xFF6D5A8D)
+    val Tertiary = Color(0xFFA94D6A)
+    val Accent1 = Color(0xFFB45309)
+    val Accent2 = Color(0xFFA66300)
+    val Accent3 = Color(0xFF2E7D6F)
 
-    val GridLine = Color(0xFFE9ECEF)
-    val GridLineDark = Color(0xFF212529)
-
-    val GradientStart = Color(0xFF3A86FF)
-    val GradientEnd = Color(0x333A86FF)
-    val GradientStartDark = Color(0xFF3A86FF)
-    val GradientEndDark = Color(0x333A86FF)
+    val GridLine = Color(0xFFD8E2DF)
+    val GridLineDark = Color(0xFF34413E)
+    val GradientStart = Primary
+    val GradientEnd = Color(0x332F6B68)
+    val GradientStartDark = Color(0xFF9DD9D2)
+    val GradientEndDark = Color(0x339DD9D2)
 }
 
+/** Stable accents for calculator discovery cards; interpretation stays semantic. */
 object CalculatorColors {
-    val BMI = Color(0xFF06D6A0)                   
-    val BMR = Color(0xFFFFBE0B)                    
-    val BloodPressure = Color(0xFFFF006E)          
-    val WaistToHip = Color(0xFF8338EC)             
-    val WaterIntake = Color(0xFF3A86FF)             
-    val MetabolicSyndrome = Color(0xFFFB5607)      
-    val BSA = Color(0xFF4CC9F0)                     
-    val IdealWeight = Color(0xFF06D6A0)             
-    val DailyCalorie = Color(0xFFFFBE0B)            
-    val HeartRateZone = Color(0xFFFF006E)           
+    val BMI = Color(0xFF2E7D6F)
+    val BMR = Color(0xFFB46A14)
+    val BloodPressure = Color(0xFFB94A5A)
+    val WaistToHip = Color(0xFF6D5A8D)
+    val WaterIntake = Color(0xFF267C8A)
+    val MetabolicSyndrome = Color(0xFFB45309)
+    val BSA = Color(0xFF39718A)
+    val IdealWeight = Color(0xFF2E7D6F)
+    val DailyCalorie = Color(0xFFB46A14)
+    val HeartRateZone = Color(0xFFB94A5A)
 }
 
-val HealthGreen = Color(0xFF06D6A0)
-val HealthYellow = Color(0xFFFFBE0B)
-val HealthOrange = Color(0xFFFB5607)
-val HealthRed = Color(0xFFFF006E)
-val HealthBlue = Color(0xFF3A86FF)
-val HealthTeal = Color(0xFF4CC9F0)
+// Compatibility aliases used by older feature screens.
+val HealthGreen = HealthColors.Healthy
+val HealthYellow = HealthColors.Warning
+val HealthOrange = HealthColors.Caution
+val HealthRed = HealthColors.Danger
+val HealthBlue = HealthColors.Info
+val HealthTeal = HealthColors.BelowNormal

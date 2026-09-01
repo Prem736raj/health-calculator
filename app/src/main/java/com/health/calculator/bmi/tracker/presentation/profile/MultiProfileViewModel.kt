@@ -232,7 +232,7 @@ class MultiProfileViewModel @Inject constructor(
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, text)
-            putExtra(Intent.EXTRA_SUBJECT, "My Health Summary - Health Calculator")
+            putExtra(Intent.EXTRA_SUBJECT, "My Health Summary - Health Metrics Tracker")
         }
         context.startActivity(Intent.createChooser(intent, "Share Health Summary"))
 

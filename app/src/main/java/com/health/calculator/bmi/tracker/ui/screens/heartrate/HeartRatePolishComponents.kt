@@ -803,7 +803,7 @@ fun shareHeartRateZonesText(@ApplicationContext context: Context, result: HeartR
             appendLine("${zone.icon} Zone ${zone.zoneNumber} — ${zone.zoneName}: ${zone.bpmLow}-${zone.bpmHigh} BPM (${zone.percentLow}-${zone.percentHigh}%)")
         }
         appendLine("━━━━━━━━━━━━━━━━━━━━━━━━")
-        appendLine("📱 Calculated with Health Calculator: BMI Tracker")
+        appendLine("📱 Calculated with Health Metrics Tracker")
     }
 
     val intent = Intent(Intent.ACTION_SEND).apply {

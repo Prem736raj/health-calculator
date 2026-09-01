@@ -41,12 +41,12 @@ enum class HealthScoreCategory(
     val color: Color,
     val description: String
 ) {
-    EXCELLENT("Great momentum", "🌟", Color(0xFF4CAF50), "Most of your selected metrics are being recorded."),
-    GOOD("On track", "👍", Color(0xFF2196F3), "You have a useful base of recent wellness data."),
-    FAIR("Building consistency", "📊", Color(0xFFFFC107), "A few more check-ins can make your trends easier to understand."),
-    NEEDS_ATTENTION("Getting started", "🌱", Color(0xFFFF9800), "Choose one small metric to record today."),
-    CONCERNING("Limited data", "📝", Color(0xFFF44336), "This reflects missing or lightly logged data, not your health."),
-    INSUFFICIENT_DATA("Add a check-in", "📝", Color(0xFF9E9E9E), "Record at least two metrics to see a useful consistency summary.")
+    EXCELLENT("Great momentum", "🌟", Color(0xFF2E7D6F), "Most of your selected metrics are being recorded."),
+    GOOD("On track", "👍", Color(0xFF2F6B8A), "You have a useful base of recent wellness data."),
+    FAIR("Building consistency", "📊", Color(0xFFA66300), "A few more check-ins can make your trends easier to understand."),
+    NEEDS_ATTENTION("Getting started", "🌱", Color(0xFFB45309), "Choose one small metric to record today."),
+    CONCERNING("Limited data", "📝", Color(0xFFBA1A1A), "This reflects missing or lightly logged data, not your health."),
+    INSUFFICIENT_DATA("Add a check-in", "📝", Color(0xFF63736F), "Record at least two metrics to see a useful consistency summary.")
 }
 
 data class HealthMetricsSnapshot(

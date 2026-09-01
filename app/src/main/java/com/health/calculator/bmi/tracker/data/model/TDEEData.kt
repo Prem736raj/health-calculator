@@ -84,7 +84,7 @@ data class TDEEData(
                 append("  ${goal.emoji} ${goal.name}: ${goal.dailyCalories.toInt()} kcal/day\n")
             }
             append("\n⚠️ For informational purposes only.\n")
-            append("Calculated using Health Calculator app.")
+            append("Calculated using Health Metrics Tracker.")
         }
     }
 }

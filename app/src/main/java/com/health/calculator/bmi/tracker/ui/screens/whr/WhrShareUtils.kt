@@ -23,7 +23,7 @@ object WhrShareUtils {
                 appendLine("WHtR: ${String.format("%.2f", it)} — ${if (result.whtrAtRisk == true) "At Risk" else "Normal"}")
             }
             appendLine("━━━━━━━━━━━━━━━━━━━━━━")
-            appendLine("Calculated using Health Calculator: BMI Tracker")
+            appendLine("Calculated using Health Metrics Tracker")
         }
     }
 
@@ -69,7 +69,7 @@ object WhrShareUtils {
             }
             appendLine("══════════════════════════════")
             appendLine("Calculated on ${SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault()).format(Date())}")
-            appendLine("Health Calculator: BMI Tracker")
+            appendLine("Health Metrics Tracker")
         }
     }
 
@@ -77,7 +77,7 @@ object WhrShareUtils {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, text)
-            putExtra(Intent.EXTRA_SUBJECT, "My WHR Result — Health Calculator")
+            putExtra(Intent.EXTRA_SUBJECT, "My WHR Result — Health Metrics Tracker")
         }
         context.startActivity(Intent.createChooser(intent, "Share WHR Result"))
     }

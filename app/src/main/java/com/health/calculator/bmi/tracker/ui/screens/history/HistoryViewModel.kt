@@ -304,7 +304,7 @@ class HistoryViewModel @Inject constructor(application: Application) : AndroidVi
         if (selectedEntries.isEmpty()) return
 
         val exportText = buildString {
-            append("Health Calculator History Export\n")
+            append("Health Metrics Tracker History Export\n")
             append("Date: ${SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date())}\n\n")
             selectedEntries.forEach { entry ->
                 append("${entry.formattedDate} ${entry.formattedTime}: ${entry.calculatorType.displayName}\n")
@@ -317,7 +317,7 @@ class HistoryViewModel @Inject constructor(application: Application) : AndroidVi
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "Health Calculator History Export")
+            putExtra(Intent.EXTRA_SUBJECT, "Health Metrics Tracker History Export")
             putExtra(Intent.EXTRA_TEXT, exportText)
         }
         

@@ -334,7 +334,7 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
         parts.add("")
         parts.add("Healthy BMI range: ${"%.1f".format(result.bmiLowerKg * factor)}-${"%.1f".format(result.bmiUpperKg * factor)} $unit")
         parts.add("")
-        parts.add("- Health Calculator: BMI Tracker")
+        parts.add("- Health Metrics Tracker")
 
         return parts.joinToString("\n")
     }

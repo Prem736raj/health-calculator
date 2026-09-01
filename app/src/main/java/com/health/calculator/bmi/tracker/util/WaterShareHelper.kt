@@ -57,7 +57,7 @@ object WaterShareHelper {
             appendLine(message)
 
             appendLine()
-            appendLine("📱 Tracked with Health Calculator: BMI Tracker")
+            appendLine("📱 Tracked with Health Metrics Tracker")
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
@@ -80,9 +80,9 @@ object WaterShareHelper {
         streakDays: Int
     ) {
         val message = if (streakDays > 0) {
-            "I drank ${String.format("%.1f", currentL)} liters of water today! Day $streakDays streak! 💧🔥 - Health Calculator"
+            "I drank ${String.format("%.1f", currentL)} liters of water today! Day $streakDays streak! 💧🔥 - Health Metrics Tracker"
         } else {
-            "I drank ${String.format("%.1f", currentL)} liters of water today! 💧 - Health Calculator"
+            "I drank ${String.format("%.1f", currentL)} liters of water today! 💧 - Health Metrics Tracker"
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {

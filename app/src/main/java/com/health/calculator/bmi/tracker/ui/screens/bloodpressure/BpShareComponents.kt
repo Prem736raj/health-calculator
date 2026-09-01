@@ -156,7 +156,7 @@ private fun shareReadingAsText(@ApplicationContext context: Context, reading: Bl
 
     sb.appendLine("📅 ${reading.formattedDateTime}")
     sb.appendLine("━━━━━━━━━━━━━━━━━━━━━━")
-    sb.appendLine("Tracked with Health Calculator: BMI Tracker")
+    sb.appendLine("Tracked with Health Metrics Tracker")
 
     exportManager.shareText(sb.toString())
 }

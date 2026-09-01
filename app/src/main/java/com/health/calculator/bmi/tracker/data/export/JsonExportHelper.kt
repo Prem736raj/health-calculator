@@ -24,7 +24,7 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
 
         val rootObject = JSONObject().apply {
             put("export_version", 1)
-            put("app_name", "Health Calculator: BMI Tracker")
+            put("app_name", "Health Metrics Tracker")
             put("app_package", "com.health.calculator.bmi.tracker")
             put("exported_at", dateFormatter.format(Date()))
             put("total_entries", entries.size)
@@ -98,7 +98,7 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
 
         val rootObject = JSONObject().apply {
             put("export_version", 1)
-            put("app_name", "Health Calculator: BMI Tracker")
+            put("app_name", "Health Metrics Tracker")
             put("exported_at", dateFormatter.format(Date()))
             put("filter_applied", filterDescription)
             put("total_entries", entries.size)

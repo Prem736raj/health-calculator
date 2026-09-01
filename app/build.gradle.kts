@@ -126,7 +126,6 @@ dependencies {
 
     implementation(libs.androidx.material3)
 
-    implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.compose.animation)
 

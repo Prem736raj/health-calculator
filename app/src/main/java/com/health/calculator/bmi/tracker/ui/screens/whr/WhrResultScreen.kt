@@ -1386,6 +1386,6 @@ private fun buildShareText(result: WhrResult): String {
         }
         appendLine("Waist Risk: ${result.waistRiskLevel.label}")
         appendLine("━━━━━━━━━━━━━━━━━━━━")
-        appendLine("Calculated using Health Calculator: BMI Tracker")
+        appendLine("Calculated using Health Metrics Tracker")
     }
 }

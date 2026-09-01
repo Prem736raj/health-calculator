@@ -86,7 +86,7 @@ object BMRShareFormatter {
             }
 
             append("\n⚠️ For informational purposes only. Consult a healthcare professional.\n")
-            append("📱 Calculated using Health Calculator: BMI Tracker")
+            append("📱 Calculated using Health Metrics Tracker")
         }
     }
 
@@ -101,7 +101,7 @@ object BMRShareFormatter {
             append("⚡ My TDEE: ${tdee.toInt()} kcal/day\n")
             append("📐 Formula: $formulaName\n")
             append("🏃 Activity: $activityLevel\n")
-            append("\n📱 Health Calculator: BMI Tracker")
+            append("\n📱 Health Metrics Tracker")
         }
     }
 }

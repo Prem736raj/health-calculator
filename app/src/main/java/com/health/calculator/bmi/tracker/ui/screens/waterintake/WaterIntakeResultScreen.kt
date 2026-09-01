@@ -1243,7 +1243,7 @@ private fun shareWaterResult(context: android.content.Context, result: WaterInta
         appendLine("Glasses: ${result.recommendedGlasses} × 250ml")
         appendLine("Hourly: ~${result.recommendedIntakeMl / 16} ml")
         appendLine()
-        appendLine("Calculated using Health Calculator: BMI Tracker")
+        appendLine("Calculated using Health Metrics Tracker")
     }
 
     val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {

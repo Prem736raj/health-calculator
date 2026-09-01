@@ -66,7 +66,7 @@ data class BMRResultData(
                 append("  • ${formula.displayName}: ${value.toInt()} kcal$marker\n")
             }
             append("\n⚠️ For informational purposes only.\n")
-            append("Calculated using Health Calculator app.")
+            append("Calculated using Health Metrics Tracker.")
         }
     }
 

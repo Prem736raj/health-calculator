@@ -10,19 +10,19 @@ import androidx.compose.ui.unit.dp
 
 val HealthShapes = Shapes(
     // Small components: Chips, small buttons, toggles
-    extraSmall = RoundedCornerShape(8.dp),
+    extraSmall = RoundedCornerShape(6.dp),
 
     // Small components: Text fields, small cards
-    small = RoundedCornerShape(14.dp),
+    small = RoundedCornerShape(12.dp),
 
     // Medium components: Cards, dialogs, calculator input cards
-    medium = RoundedCornerShape(20.dp),
+    medium = RoundedCornerShape(16.dp),
 
     // Large components: Bottom sheets, large cards, result panels
-    large = RoundedCornerShape(28.dp),
+    large = RoundedCornerShape(24.dp),
 
     // Extra large: Full-screen dialogs, modal bottoms, feature cards
-    extraLarge = RoundedCornerShape(36.dp),
+    extraLarge = RoundedCornerShape(28.dp),
 )
 
 // ============================================================================
@@ -30,7 +30,7 @@ val HealthShapes = Shapes(
 // ============================================================================
 
 // Calculator result card - more rounded for a "badge" feel
-val ResultCardShape = RoundedCornerShape(28.dp)
+val ResultCardShape = RoundedCornerShape(24.dp)
 
 // Gauge/meter background shapes
 val GaugeShape = RoundedCornerShape(50)            // Fully rounded (pill)
@@ -52,10 +52,10 @@ val TopBarShape = RoundedCornerShape(
 )
 
 // Input field shape
-val InputFieldShape = RoundedCornerShape(20.dp)
+val InputFieldShape = RoundedCornerShape(16.dp)
 
 // Button shapes
-val ButtonShape = RoundedCornerShape(18.dp)
+val ButtonShape = RoundedCornerShape(16.dp)
 val SmallButtonShape = RoundedCornerShape(12.dp)
 val PillButtonShape = RoundedCornerShape(50)
 
