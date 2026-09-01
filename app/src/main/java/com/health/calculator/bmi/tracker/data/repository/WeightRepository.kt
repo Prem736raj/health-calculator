@@ -4,6 +4,7 @@ import javax.inject.Inject
 
 import com.health.calculator.bmi.tracker.data.local.dao.WeightDao
 import com.health.calculator.bmi.tracker.data.model.*
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
 import kotlinx.coroutines.flow.*
 import java.util.Calendar
 
@@ -27,6 +28,15 @@ class WeightRepository @Inject constructor(private val weightDao: WeightDao) {
         note: String? = null,
         source: WeightSource = WeightSource.MANUAL
     ): Long {
+        require(TrackingQualityPolicy.validateWeightKg(weightKg) == null) {
+            TrackingQualityPolicy.validateWeightKg(weightKg) ?: "Invalid weight"
+        }
+        require(note == null || TrackingQualityPolicy.validateNote(note) == null) {
+            "Notes can be up to ${TrackingQualityPolicy.MAX_NOTE_LENGTH} characters"
+        }
+        require(TrackingQualityPolicy.validateTimestamp(dateMillis) == null) {
+            "A log date cannot be in the future"
+        }
         val entry = WeightEntry(
             weightKg = weightKg,
             dateMillis = dateMillis,
@@ -34,6 +44,19 @@ class WeightRepository @Inject constructor(private val weightDao: WeightDao) {
             source = source
         )
         return weightDao.insertWeight(entry)
+    }
+
+    suspend fun updateWeight(entry: WeightEntry) {
+        require(TrackingQualityPolicy.validateWeightKg(entry.weightKg) == null) {
+            TrackingQualityPolicy.validateWeightKg(entry.weightKg) ?: "Invalid weight"
+        }
+        require(entry.note == null || TrackingQualityPolicy.validateNote(entry.note) == null) {
+            "Notes can be up to ${TrackingQualityPolicy.MAX_NOTE_LENGTH} characters"
+        }
+        require(TrackingQualityPolicy.validateTimestamp(entry.dateMillis) == null) {
+            "A log date cannot be in the future"
+        }
+        weightDao.updateWeight(entry)
     }
 
     suspend fun deleteEntry(entry: WeightEntry) = weightDao.deleteWeight(entry)
@@ -93,24 +116,25 @@ class WeightRepository @Inject constructor(private val weightDao: WeightDao) {
 
             val totalToChange = kotlin.math.abs(goalWeightKg - first.weightKg)
             val remaining = kotlin.math.abs(goalWeightKg - latest.weightKg)
-            val progress = if (totalToChange > 0) {
+            val weeklyChange = calculateAverageWeeklyChange(sorted)
+            val isReached = if (isGaining) {
+                latest.weightKg >= goalWeightKg
+            } else {
+                latest.weightKg <= goalWeightKg
+            }
+            val progress = if (totalToChange > 0 && !isReached) {
                 ((totalToChange - remaining) / totalToChange).coerceIn(0.0, 1.0)
             } else 1.0
 
-            val weeklyChange = calculateAverageWeeklyChange(sorted)
-            val estimatedDays = if (weeklyChange != null && weeklyChange != 0.0) {
+            val trendSupportsGoal = weeklyChange != null &&
+                ((isGaining && weeklyChange > 0.0) || (!isGaining && weeklyChange < 0.0))
+            val estimatedDays = if (!isReached && trendSupportsGoal && weeklyChange != 0.0) {
                 val weeksRemaining = remaining / kotlin.math.abs(weeklyChange)
                 (weeksRemaining * 7).toInt()
             } else null
 
             val estimatedDate = estimatedDays?.let {
                 System.currentTimeMillis() + (it.toLong() * 24 * 60 * 60 * 1000)
-            }
-
-            val isReached = if (isGaining) {
-                latest.weightKg >= goalWeightKg
-            } else {
-                latest.weightKg <= goalWeightKg
             }
 
             WeightGoalProgress(

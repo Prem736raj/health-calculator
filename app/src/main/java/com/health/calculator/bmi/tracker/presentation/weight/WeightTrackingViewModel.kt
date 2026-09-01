@@ -10,16 +10,22 @@ import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightTimeFilter
 import com.health.calculator.bmi.tracker.notifications.WeightReminderManager
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison
+import com.health.calculator.bmi.tracker.domain.tracking.buildTrackingComparison
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 data class WeightTrackingUiState(
     val weights: List<WeightEntry> = emptyList(),
     val statistics: WeightStatistics = WeightStatistics(),
+    val weeklyComparison: TrackingComparison? = null,
+    val monthlyComparison: TrackingComparison? = null,
     val goalProgress: WeightGoalProgress? = null,
     val useMetric: Boolean = true,
     val timeFilter: WeightTimeFilter = WeightTimeFilter.THIRTY_DAYS,
     val isLogDialogOpen: Boolean = false,
+    val editingEntry: WeightEntry? = null,
     val weightInput: String = "",
     val noteInput: String = "",
     val dateMillis: Long = System.currentTimeMillis(),
@@ -67,6 +73,24 @@ class WeightTrackingViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
+        // Keep period comparisons based on the same local entries used by the graph.
+        weightRepository.getAllWeights()
+            .onEach { entries ->
+                val now = System.currentTimeMillis()
+                val week = 7L * 24 * 60 * 60 * 1000
+                val month = 30L * 24 * 60 * 60 * 1000
+                val weekly = buildTrackingComparison(
+                    currentValues = entries.filter { it.dateMillis >= now - week }.map { it.weightKg },
+                    previousValues = entries.filter { it.dateMillis in (now - 2 * week) until (now - week) }.map { it.weightKg }
+                )
+                val monthly = buildTrackingComparison(
+                    currentValues = entries.filter { it.dateMillis >= now - month }.map { it.weightKg },
+                    previousValues = entries.filter { it.dateMillis in (now - 2 * month) until (now - month) }.map { it.weightKg }
+                )
+                _uiState.update { it.copy(weeklyComparison = weekly, monthlyComparison = monthly) }
+            }
+            .launchIn(viewModelScope)
+
         // Observe goal progress
         profileRepository.getProfile()
             .map { it.goalWeightKg }
@@ -89,13 +113,29 @@ class WeightTrackingViewModel @Inject constructor(
     }
 
     fun onLogWeightClick() {
-        val currentWeight = _uiState.value.statistics.currentWeight
         _uiState.update {
             it.copy(
                 isLogDialogOpen = true,
-                weightInput = currentWeight?.let { w -> String.format("%.1f", if (it.useMetric) w else w * 2.20462) } ?: "",
+                editingEntry = null,
+                weightInput = "",
                 noteInput = "",
                 dateMillis = System.currentTimeMillis()
+            )
+        }
+    }
+
+    fun onEditEntry(entry: WeightEntry) {
+        _uiState.update {
+            it.copy(
+                isLogDialogOpen = true,
+                editingEntry = entry,
+                weightInput = String.format(
+                    java.util.Locale.getDefault(),
+                    "%.1f",
+                    if (it.useMetric) entry.weightKg else entry.weightLbs
+                ),
+                noteInput = entry.note.orEmpty(),
+                dateMillis = entry.dateMillis
             )
         }
     }
@@ -113,25 +153,54 @@ class WeightTrackingViewModel @Inject constructor(
     }
 
     fun onDismissLogDialog() {
-        _uiState.update { it.copy(isLogDialogOpen = false) }
+        _uiState.update { it.copy(isLogDialogOpen = false, editingEntry = null) }
     }
 
     fun onSaveWeight() {
-        val weight = _uiState.value.weightInput.toDoubleOrNull() ?: return
-        val weightKg = if (_uiState.value.useMetric) weight else weight / 2.20462
+        val state = _uiState.value
+        val weight = state.weightInput.toDoubleOrNull()
+        val weightKg = weight?.let { if (state.useMetric) it else it / 2.20462 }
+        val validationError = when {
+            weightKg == null -> "Enter a valid weight"
+            else -> TrackingQualityPolicy.validateWeightKg(weightKg)
+                ?: TrackingQualityPolicy.validateNote(state.noteInput)
+                ?: TrackingQualityPolicy.validateTimestamp(state.dateMillis)
+        }
+        if (validationError != null) {
+            _uiState.update { it.copy(snackbarMessage = validationError) }
+            return
+        }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true) }
-            weightRepository.logWeight(
-                weightKg = weightKg,
-                dateMillis = _uiState.value.dateMillis,
-                note = _uiState.value.noteInput.ifBlank { null }
-            )
+            val note = state.noteInput.trim().ifBlank { null }
+            val editingEntry = state.editingEntry
+            try {
+                if (editingEntry == null) {
+                    weightRepository.logWeight(
+                        weightKg = weightKg!!,
+                        dateMillis = state.dateMillis,
+                        note = note
+                    )
+                } else {
+                    weightRepository.updateWeight(
+                        editingEntry.copy(
+                            weightKg = weightKg!!,
+                            dateMillis = state.dateMillis,
+                            note = note
+                        )
+                    )
+                }
+            } catch (_: IllegalArgumentException) {
+                _uiState.update { it.copy(isSaving = false, snackbarMessage = "Weight entry could not be saved") }
+                return@launch
+            }
             _uiState.update {
                 it.copy(
                     isSaving = false,
                     isLogDialogOpen = false,
-                    snackbarMessage = "Weight logged successfully"
+                    editingEntry = null,
+                    snackbarMessage = if (editingEntry == null) "Weight logged successfully" else "Weight entry updated"
                 )
             }
         }

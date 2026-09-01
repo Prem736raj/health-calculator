@@ -6,6 +6,7 @@ import javax.inject.Inject
 import com.health.calculator.bmi.tracker.data.dao.WaterIntakeDao
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculation
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
@@ -30,6 +31,12 @@ class WaterIntakeRepository @Inject constructor(private val waterIntakeDao: Wate
 
     // Water Logs
     suspend fun logWater(amountMl: Int, note: String = ""): Long {
+        require(TrackingQualityPolicy.validateWaterMl(amountMl) == null) {
+            TrackingQualityPolicy.validateWaterMl(amountMl) ?: "Invalid water amount"
+        }
+        require(TrackingQualityPolicy.validateNote(note) == null) {
+            TrackingQualityPolicy.validateNote(note) ?: "Invalid note"
+        }
         return waterIntakeDao.insertWaterLog(
             WaterIntakeLog(amountMl = amountMl, note = note)
         )

@@ -391,7 +391,7 @@ private fun DailyMetricsSection(
                 emoji = "⚖️",
                 label = "Weight",
                 value = weight?.let { String.format(Locale.getDefault(), "%.1f kg", it) } ?: "Log weight",
-                supportingText = if (weight == null) "start a trend" else "profile baseline",
+                supportingText = if (weight == null) "start a trend" else "latest log",
                 progress = null,
                 onClick = onOpenWeight,
                 modifier = Modifier.weight(1f)

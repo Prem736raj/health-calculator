@@ -31,7 +31,7 @@ This file is the source of truth for the sequential product-development phases. 
 - **Status:** Complete
 - **Major changes:** Replaced the calculator-heavy, long Home grid with a compact daily wellness dashboard. Added a five-second greeting and context, a clearly non-clinical Wellness Score card, four priority daily metric cards (steps, water, weight and calories), latest saved metrics, at most two explainable recommendation previews, focused quick actions, concise calculator discovery and first-use/partial-data/Health Connect empty states. Kept deterministic app prompts visibly separate from the AI Wellness Assistant.
 - **Tests:** Added `HomeDashboardPolicyTest` to lock the four daily-value metrics and progressive-disclosure limits for latest metrics and insight previews. Debug unit tests pass.
-- **Known limitations:** Weight currently falls back to the saved profile baseline until Phase 7 unifies the latest tracking data source. Home step data remains optional and read-only through the existing minimal Health Connect permission.
+- **Known limitations:** Home step data remains optional and read-only through the existing minimal Health Connect permission. Weight history and comparisons are expanded in Phase 7.
 - **Next phase:** Establish a cohesive, accessible Material 3 brand and visual system.
 
 ## Phase 5 — Brand & Visual Identity
@@ -50,13 +50,21 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Existing calculator result screens still have some legacy local styling and several calculators use their own history UI; the hub contract provides consistent discovery while a later UI consolidation can migrate remaining screens to shared components.
 - **Next phase:** Improve daily tracking, trends, goals and healthy retention loops.
 
+## Phase 7 — Tracking & Retention Engine
+
+- **Status:** Complete
+- **Major changes:** Added a shared tracking-quality policy for safe weight/water/note/date bounds, optional-clock tolerance and explainable period comparisons. Weight logging now supports edit and delete, metric/imperial validation, seven- and thirty-day average comparisons, goal progress that handles overshoot correctly, and trend-based estimates only when the observed direction supports the goal. Water logging now validates quick-add entries and surfaces save errors through a real snackbar. Home uses the latest logged weight instead of treating the profile baseline as current data, and the wellness summary includes that latest log.
+- **Tests:** Added `TrackingQualityPolicyTest` coverage for inclusive boundaries, invalid values, note limits, future-date tolerance, average/percent comparisons, zero-baseline handling and consecutive-day streaks. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Weight and water remain manual trackers; Health Connect imports are intentionally handled in Phase 8. Streaks remain informational and are not used to shame users or gate safety content.
+- **Next phase:** Add optional, feature-led Health Connect integrations with graceful permission handling.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
 | --- | --- | --- |
 | 6 — Calculator quality | Complete | Reusable calculator structure, validation, history |
- | 7 — Tracking and retention engine | Not started | Fast logging, trends, goals and reminders |
-| 8 — Health Connect 2.0 | Not started | Permission-led visible integrations |
+| 7 — Tracking and retention engine | Complete | Fast logging, trends, goals and reminders |
+| 8 — Health Connect 2.0 | In progress | Permission-led visible integrations |
 | 9 — Smart insights | Not started | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Not started | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Not started | Healthy summaries, milestones and widgets |

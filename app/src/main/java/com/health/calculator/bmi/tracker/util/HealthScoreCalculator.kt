@@ -50,6 +50,8 @@ enum class HealthScoreCategory(
 }
 
 data class HealthMetricsSnapshot(
+    val latestWeightKg: Double? = null,
+    val latestWeightTimestamp: Long? = null,
     val bmi: Float? = null,
     val bmiCategory: String? = null,
     val bmiTimestamp: Long? = null,
@@ -148,6 +150,18 @@ object HealthScoreCalculator {
     /** Build up to four useful home stats without treating them as diagnoses. */
     fun buildQuickStats(metrics: HealthMetricsSnapshot): List<QuickStat> {
         val stats = mutableListOf<QuickStat>()
+        metrics.latestWeightKg?.let {
+            stats += QuickStat(
+                "weight",
+                "⚖️",
+                "Weight",
+                "%.1f kg".format(it),
+                "latest log",
+                Color(0xFF2E7D6F),
+                timestamp = metrics.latestWeightTimestamp,
+                calculatorRoute = "weight_tracking"
+            )
+        }
         metrics.bmi?.let {
             stats += QuickStat("bmi", "📊", "BMI", "%.1f".format(it), metrics.bmiCategory, Color(0xFF4F6BFF), timestamp = metrics.bmiTimestamp, calculatorRoute = "bmi_calculator")
         }

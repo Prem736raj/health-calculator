@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,6 +34,14 @@ fun WeightTrackingScreen(
 
     val datePickerState = rememberDatePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(uiState.snackbarMessage) {
+        uiState.snackbarMessage?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            viewModel.onSnackbarDismissed()
+        }
+    }
 
     if (showDatePicker) {
         DatePickerDialog(
@@ -71,7 +80,8 @@ fun WeightTrackingScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Log Weight")
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -84,6 +94,14 @@ fun WeightTrackingScreen(
             item {
                 WeightStatisticsCard(
                     statistics = uiState.statistics,
+                    useMetric = uiState.useMetric
+                )
+            }
+
+            item {
+                WeightComparisonCard(
+                    weekly = uiState.weeklyComparison,
+                    monthly = uiState.monthlyComparison,
                     useMetric = uiState.useMetric
                 )
             }
@@ -165,6 +183,7 @@ fun WeightTrackingScreen(
                     HistoryItem(
                         entry = entry,
                         useMetric = uiState.useMetric,
+                        onEdit = { viewModel.onEditEntry(entry) },
                         onDelete = { viewModel.onDeleteEntry(entry) }
                     )
                 }
@@ -185,15 +204,63 @@ fun WeightTrackingScreen(
             onNoteChange = { viewModel.onNoteInputChange(it) },
             onDateClick = { showDatePicker = true },
             onSave = { viewModel.onSaveWeight() },
-            onDismiss = { viewModel.onDismissLogDialog() }
+            onDismiss = { viewModel.onDismissLogDialog() },
+            isEditing = uiState.editingEntry != null
         )
     }
 
-    uiState.snackbarMessage?.let { message ->
-        LaunchedEffect(message) {
-            // In a real app, you'd show a Snackbar via SnackbarHost
-            // For now we'll just acknowledge it
-            viewModel.onSnackbarDismissed()
+}
+
+@Composable
+private fun WeightComparisonCard(
+    weekly: com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison?,
+    monthly: com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison?,
+    useMetric: Boolean
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text("Period comparison", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text(
+                "Averages compare logged entries only; they do not predict health outcomes.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            ComparisonRow("7 days", weekly, useMetric)
+            ComparisonRow("30 days", monthly, useMetric)
+        }
+    }
+}
+
+@Composable
+private fun ComparisonRow(
+    label: String,
+    comparison: com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison?,
+    useMetric: Boolean
+) {
+    val unit = if (useMetric) "kg" else "lb"
+    val formatAverage: (Double) -> String = { value ->
+        val display = if (useMetric) value else value * 2.20462
+        String.format(Locale.getDefault(), "%.1f %s", display, unit)
+    }
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text("$label vs previous", style = MaterialTheme.typography.bodyMedium)
+        if (comparison == null) {
+            Text("Need more logs", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        } else {
+            val sign = if (comparison.percentChange > 0) "+" else ""
+            Text(
+                "$sign${String.format(Locale.getDefault(), "%.1f", comparison.percentChange)}% · ${formatAverage(comparison.currentAverage)}",
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -202,6 +269,7 @@ fun WeightTrackingScreen(
 private fun HistoryItem(
     entry: com.health.calculator.bmi.tracker.data.model.WeightEntry,
     useMetric: Boolean,
+    onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
     val dateFmt = SimpleDateFormat("MMM d, yyyy • h:mm a", Locale.getDefault())
@@ -240,13 +308,23 @@ private fun HistoryItem(
                 }
             }
 
-            IconButton(onClick = onDelete) {
-                Icon(
-                    Icons.Default.Delete,
-                    contentDescription = "Delete",
-                    tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
-                    modifier = Modifier.size(20.dp)
-                )
+            Row {
+                IconButton(onClick = onEdit) {
+                    Icon(
+                        Icons.Default.Edit,
+                        contentDescription = "Edit",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "Delete",
+                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     }

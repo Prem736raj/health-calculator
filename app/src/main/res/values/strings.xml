@@ -115,7 +115,7 @@
 <string name="txt_text_placeholder_1">💡</string>
 <string name="txt_e_g_morning_weigh_in">e.g., Morning weigh-in</string>
 <string name="txt_note_optional">Note (optional)</string>
-<string name="txt_enter_a_valid_weight_10_500">Enter a valid weight (10-500)</string>
+<string name="txt_enter_a_valid_weight_20_350">Enter a valid weight (20-350 kg equivalent)</string>
 <string name="txt_log_weight">Log Weight</string>
 <string name="txt_upcoming">Upcoming</string>
 <string name="txt_all">All</string>

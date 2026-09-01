@@ -22,6 +22,7 @@ import com.health.calculator.bmi.tracker.util.SmartRecommendationEngine
 import com.health.calculator.bmi.tracker.util.UserHealthContext
 import kotlinx.coroutines.flow.combine
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
+import com.health.calculator.bmi.tracker.data.repository.WeightRepository
 
 data class HomeUiState(
     val bpInfo: BpHomeCardInfo = BpHomeCardInfo(),
@@ -48,6 +49,7 @@ class HomeViewModel @Inject constructor(
     private val bpProvider = BpHomeCardProvider(application)
     private val whrRepository = WhrRepository(application)
     private val historyRepository = HistoryRepository(database.historyDao())
+    private val weightRepository = WeightRepository(database.weightDao())
     private val bloodPressureRepository = com.health.calculator.bmi.tracker.data.repository.BloodPressureRepository(database.bloodPressureDao())
     private val waterIntakeRepository = com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository(database.waterIntakeDao())
     private val foodLogRepository = com.health.calculator.bmi.tracker.data.repository.FoodLogRepository(application)
@@ -154,7 +156,9 @@ class HomeViewModel @Inject constructor(
                     bmiGoalPrefs.bmiGoalFlow,
                     stepsFlow
                 ) { bmr, bsa, goal, steps -> listOf(bmr, bsa, goal, steps) }
-            ) { firstThree, lastThree, extraList ->
+                ,
+                weightRepository.getLatestWeight()
+            ) { firstThree, lastThree, extraList, latestWeight ->
                 val (bmiEntry, bpReadings, whrEntries) = firstThree
                 val (waterIntake, dailyFoodLog, hrEntry) = lastThree
                 val bmrValue = extraList[0] as com.health.calculator.bmi.tracker.data.preferences.BMRLastValue
@@ -185,6 +189,8 @@ class HomeViewModel @Inject constructor(
                 } catch (_: Exception) { null }
 
                 val metrics = com.health.calculator.bmi.tracker.util.HealthMetricsSnapshot(
+                    latestWeightKg = latestWeight?.weightKg,
+                    latestWeightTimestamp = latestWeight?.dateMillis,
                     bmi = bmiEntry?.resultValue?.toFloatOrNull(),
                     bmiCategory = bmiEntry?.category,
                     bmiTimestamp = bmiEntry?.timestamp,
@@ -209,6 +215,7 @@ class HomeViewModel @Inject constructor(
                 
                 // Find last activity
                 val activities = listOfNotNull(
+                    latestWeight?.let { com.health.calculator.bmi.tracker.util.LastActivity("Weight", "⚖️", it.dateMillis, com.health.calculator.bmi.tracker.core.navigation.Screen.WeightTracking.route) },
                     bmiEntry?.let { com.health.calculator.bmi.tracker.util.LastActivity("BMI", "📊", it.timestamp, com.health.calculator.bmi.tracker.core.navigation.Screen.BmiCalculator.route) },
                     lastBp?.let { com.health.calculator.bmi.tracker.util.LastActivity("Blood Pressure", "💓", it.measurementTimestamp, com.health.calculator.bmi.tracker.core.navigation.Screen.BloodPressureCalculator.route) },
                     lastWhr?.let { com.health.calculator.bmi.tracker.util.LastActivity("Waist-Hip Ratio", "📏", it.timestamp, com.health.calculator.bmi.tracker.core.navigation.Screen.WaistToHipCalculator.route) },
@@ -239,7 +246,8 @@ class HomeViewModel @Inject constructor(
                             restingHeartRate = metrics.restingHR,
                             maxHeartRate = maxHR,
                             idealBodyWeight = if (bmiGoal.isGoalSet) bmiGoal.targetWeight else null,
-                            currentWeight = bmiGoal.startingWeight,
+                            currentWeight = latestWeight?.weightKg?.toFloat()
+                                ?: bmiGoal.startingWeight.takeIf { it > 0f },
                             lastBSA = bsaEntry?.resultValue?.toFloatOrNull(),
                             metabolicCriteriaMet = calculateMetabolicCriteria(metrics)
                         )
@@ -270,7 +278,8 @@ class HomeViewModel @Inject constructor(
                     caloriesLoggedToday = state.healthMetrics.caloriesConsumedToday > 0,
                     calorieProgress = if (state.healthMetrics.calorieTargetToday > 0)
                         state.healthMetrics.caloriesConsumedToday.toFloat() / state.healthMetrics.calorieTargetToday else 0f,
-                    currentWeight = bmiGoal.startingWeight, // Use starting weight as fallback or current if available
+                    currentWeight = state.healthMetrics.latestWeightKg?.toFloat()
+                        ?: bmiGoal.startingWeight.takeIf { it > 0f },
                     goalWeight = if (bmiGoal.isGoalSet) bmiGoal.targetWeight else null,
                     lastWHRValue = state.healthMetrics.whr,
                     lastWHRTimestamp = state.healthMetrics.whrTimestamp,

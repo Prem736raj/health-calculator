@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.ui.components
 
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,7 +31,8 @@ fun LogWeightDialog(
     onNoteChange: (String) -> Unit,
     onDateClick: () -> Unit,
     onSave: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    isEditing: Boolean = false
 ) {
     val unit = if (useMetric) "kg" else "lbs"
     val dateFmt = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault())
@@ -41,13 +43,16 @@ fun LogWeightDialog(
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
     }
 
-    val isValid = weightInput.toDoubleOrNull()?.let { it in 10.0..500.0 } ?: false
+    val isValid = weightInput.toDoubleOrNull()?.let {
+        val weightKg = if (useMetric) it else it / 2.20462
+        TrackingQualityPolicy.validateWeightKg(weightKg) == null
+    } ?: false
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = stringResource(R.string.txt_log_weight),
+                text = if (isEditing) "Edit weight" else stringResource(R.string.txt_log_weight),
                 fontWeight = FontWeight.Bold
             )
         },
@@ -68,7 +73,7 @@ fun LogWeightDialog(
                     isError = weightInput.isNotEmpty() && !isValid,
                     supportingText = {
                         if (weightInput.isNotEmpty() && !isValid) {
-                            Text(stringResource(R.string.txt_enter_a_valid_weight_10_500))
+                            Text(stringResource(R.string.txt_enter_a_valid_weight_20_350))
                         }
                     }
                 )
@@ -154,7 +159,7 @@ fun LogWeightDialog(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text(if (isSaving) "Saving..." else "Save")
+                Text(if (isSaving) "Saving..." else if (isEditing) "Update" else "Save")
             }
         },
         dismissButton = {

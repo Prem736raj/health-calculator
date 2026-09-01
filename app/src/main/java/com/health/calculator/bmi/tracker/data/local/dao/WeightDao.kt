@@ -13,6 +13,9 @@ interface WeightDao {
     @Delete
     suspend fun deleteWeight(entry: WeightEntry)
 
+    @Update
+    suspend fun updateWeight(entry: WeightEntry)
+
     @Query("SELECT * FROM weight_entries ORDER BY dateMillis DESC")
     fun getAllWeights(): Flow<List<WeightEntry>>
 

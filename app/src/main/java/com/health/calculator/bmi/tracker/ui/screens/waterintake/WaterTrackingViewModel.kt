@@ -31,6 +31,7 @@ import java.util.Calendar
 import com.health.calculator.bmi.tracker.widget.WaterWidgetSyncManager
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.first
+import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
 
 @HiltViewModel
 class WaterTrackingViewModel @Inject constructor(
@@ -139,12 +140,24 @@ class WaterTrackingViewModel @Inject constructor(
     private val _justWatered = MutableStateFlow(false)
     val justWatered: StateFlow<Boolean> = _justWatered.asStateFlow()
 
+    private val _message = MutableStateFlow<String?>(null)
+    val message: StateFlow<String?> = _message.asStateFlow()
+
     // Last added entry for undo
     private var lastAddedId: Long? = null
 
     fun addWater(amountMl: Int, note: String = "") {
+        val validationError = TrackingQualityPolicy.validateWaterMl(amountMl)
+            ?: TrackingQualityPolicy.validateNote(note)
+        if (validationError != null) {
+            _message.value = validationError
+            return
+        }
         viewModelScope.launch {
-            val id = repository.logWater(amountMl, note)
+            val id = runCatching { repository.logWater(amountMl, note) }.getOrElse {
+                _message.value = "Water entry could not be saved"
+                return@launch
+            }
             lastAddedId = id
 
             // Update last log time for smart reminder skip
@@ -180,6 +193,10 @@ class WaterTrackingViewModel @Inject constructor(
             delay(1500)
             _justWatered.value = false
         }
+    }
+
+    fun clearMessage() {
+        _message.value = null
     }
 
     private fun syncToWidget() {

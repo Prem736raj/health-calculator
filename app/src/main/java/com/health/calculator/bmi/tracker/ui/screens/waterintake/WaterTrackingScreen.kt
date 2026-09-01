@@ -82,7 +82,16 @@ fun WaterTrackingScreen(
 
     val todayLogs by viewModel.todayLogs.collectAsState(initial = emptyList())
     val todayTotal by viewModel.todayTotal.collectAsState(initial = 0)
+    val message by viewModel.message.collectAsState()
     val goalMl = viewModel.dailyGoalMl
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(message) {
+        message?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearMessage()
+        }
+    }
     
     val streakData by gamificationViewModel.streakData.collectAsState(initial = null)
     val todayScore by gamificationViewModel.todayScore.collectAsState()
@@ -183,7 +192,8 @@ fun WaterTrackingScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
