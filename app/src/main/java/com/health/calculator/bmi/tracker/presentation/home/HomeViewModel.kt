@@ -23,6 +23,9 @@ import com.health.calculator.bmi.tracker.util.UserHealthContext
 import kotlinx.coroutines.flow.combine
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightRepository
+import com.health.calculator.bmi.tracker.domain.insights.DeterministicInsightEngine
+import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
+import java.time.LocalDate
 
 data class HomeUiState(
     val bpInfo: BpHomeCardInfo = BpHomeCardInfo(),
@@ -34,6 +37,7 @@ data class HomeUiState(
     val quickStats: List<com.health.calculator.bmi.tracker.util.QuickStat> = emptyList(),
     val lastActivity: com.health.calculator.bmi.tracker.util.LastActivity? = null,
     val recommendations: List<SmartRecommendation> = emptyList(),
+    val deterministicInsights: List<WellnessInsight> = emptyList(),
     val calculatorCardsState: com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState = com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState(),
     val isLoading: Boolean = false
 )
@@ -158,13 +162,19 @@ class HomeViewModel @Inject constructor(
                 ) { bmr, bsa, goal, steps -> listOf(bmr, bsa, goal, steps) }
                 ,
                 weightRepository.getLatestWeight()
-            ) { firstThree, lastThree, extraList, latestWeight ->
+                ,
+                kotlinx.coroutines.flow.combine(
+                    weightRepository.getAllWeights(),
+                    waterIntakeRepository.getAllWaterLogs()
+                ) { weights, waterLogs -> Pair(weights, waterLogs) }
+            ) { firstThree, lastThree, extraList, latestWeight, trackingData ->
                 val (bmiEntry, bpReadings, whrEntries) = firstThree
                 val (waterIntake, dailyFoodLog, hrEntry) = lastThree
                 val bmrValue = extraList[0] as com.health.calculator.bmi.tracker.data.preferences.BMRLastValue
                 val bsaEntry = extraList[1] as? com.health.calculator.bmi.tracker.data.model.HistoryEntry
                 val bmiGoal = extraList[2] as com.health.calculator.bmi.tracker.data.model.BMIGoalData
                 val steps = extraList[3] as? Int
+                val (weightEntries, waterLogs) = trackingData
                 
                 val lastBp = bpReadings.maxByOrNull { it.measurementTimestamp }
                 val lastWhr = whrEntries.maxByOrNull { it.timestamp }
@@ -212,6 +222,16 @@ class HomeViewModel @Inject constructor(
 
                 val score = com.health.calculator.bmi.tracker.util.HealthScoreCalculator.calculateHealthScore(metrics)
                 val stats = com.health.calculator.bmi.tracker.util.HealthScoreCalculator.buildQuickStats(metrics)
+
+                val deterministicInsights = DeterministicInsightEngine.fromEntries(
+                    today = LocalDate.now(),
+                    weights = weightEntries,
+                    waterLogs = waterLogs,
+                    waterGoalMl = metrics.waterGoalToday,
+                    stepsByDay = steps?.let { mapOf(LocalDate.now() to it) } ?: emptyMap(),
+                    bloodPressureTimestamps = bpReadings.map { it.measurementTimestamp },
+                    goalWeightKg = bmiGoal.targetWeight?.toDouble()
+                )
                 
                 // Find last activity
                 val activities = listOfNotNull(
@@ -228,6 +248,7 @@ class HomeViewModel @Inject constructor(
                         healthMetrics = metrics,
                         healthScore = score,
                         quickStats = stats,
+                        deterministicInsights = deterministicInsights,
                         lastActivity = lastAct,
                         calculatorCardsState = com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState(
                             lastBMI = metrics.bmi,

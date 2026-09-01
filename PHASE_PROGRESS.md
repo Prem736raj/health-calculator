@@ -66,6 +66,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Health Connect availability and records depend on the user’s installed provider and granted access. The app does not write records, import sleep/heart-rate data, or silently request permissions; Play Console health-data declarations remain required before publishing.
 - **Next phase:** Build deterministic, explainable insights from local tracking history before any AI interpretation.
 
+## Phase 9 — Smart Insights
+
+- **Status:** Complete
+- **Major changes:** Added a deterministic, explainable insight engine for weight, hydration, steps, blood-pressure logging frequency and saved weight-goal context. Insights use bounded seven-day comparisons, show their evidence, avoid causal or diagnostic claims, and link directly to the relevant tracker or connection screen. Home and the Insights hub now surface these observations before optional AI interpretation, with a useful empty state for people who have not logged recently.
+- **Tests:** Added `DeterministicInsightEngineTest` coverage for week-over-week weight comparisons, small-change stability wording, hydration goal/tracked-day counts, no-data actions and recorded-day step comparisons. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Steps currently arrive as the latest Health Connect value rather than a persisted multi-day history, so step comparisons become richer after a history-backed reader is added. Insights remain informational pattern descriptions and do not infer causes, risk or diagnoses.
+- **Next phase:** Strengthen the consent-based, context-aware AI Wellness Assistant.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -73,7 +81,7 @@ This file is the source of truth for the sequential product-development phases. 
 | 6 — Calculator quality | Complete | Reusable calculator structure, validation, history |
 | 7 — Tracking and retention engine | Complete | Fast logging, trends, goals and reminders |
 | 8 — Health Connect 2.0 | Complete | Permission-led visible integrations |
-| 9 — Smart insights | Not started | Deterministic explainable insight engine |
+| 9 — Smart insights | Complete | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Not started | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Not started | Healthy summaries, milestones and widgets |
 | 12 — Reports, export and sharing | Not started | User-controlled wellness reports |

@@ -65,6 +65,7 @@ import com.health.calculator.bmi.tracker.util.HealthMetricsSnapshot
 import com.health.calculator.bmi.tracker.util.HealthScoreCategory
 import com.health.calculator.bmi.tracker.util.HealthScoreResult
 import com.health.calculator.bmi.tracker.util.SmartRecommendation
+import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 import java.text.NumberFormat
 import java.util.Calendar
 import java.util.Locale
@@ -92,6 +93,7 @@ fun HomeScreen(
     onNavigateToWeight: () -> Unit,
     onNavigateToHealthConnections: () -> Unit,
     onNavigateToCalculators: () -> Unit,
+    onNavigateToTrack: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     searchViewModel: HomeSearchViewModel = hiltViewModel()
 ) {
@@ -119,6 +121,9 @@ fun HomeScreen(
             "ibw_calculator" -> onNavigateToIbw()
             "history" -> onNavigateToHistory()
             "profile" -> onNavigateToProfile()
+            "weight_tracking" -> onNavigateToWeight()
+            "health_connections" -> onNavigateToHealthConnections()
+            "track" -> onNavigateToTrack()
         }
     }
 
@@ -185,6 +190,7 @@ fun HomeScreen(
 
         item {
             InsightPreviewSection(
+                insights = HomeDashboardPolicy.insightPreview(uiState.deterministicInsights),
                 recommendations = HomeDashboardPolicy.insightPreview(uiState.recommendations),
                 onOpenRecommendation = navigateRoute,
                 onDismissRecommendation = viewModel::dismissRecommendation,
@@ -564,6 +570,7 @@ private fun LatestMetricRow(metric: LatestMetric) {
 
 @Composable
 private fun InsightPreviewSection(
+    insights: List<WellnessInsight>,
     recommendations: List<SmartRecommendation>,
     onOpenRecommendation: (String) -> Unit,
     onDismissRecommendation: (String) -> Unit,
@@ -578,7 +585,42 @@ private fun InsightPreviewSection(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.55f))
         ) {
             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                if (recommendations.isEmpty()) {
+                if (insights.isNotEmpty()) {
+                    insights.forEachIndexed { index, insight ->
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("📈", fontSize = 20.sp)
+                                Spacer(Modifier.width(8.dp))
+                                Text(
+                                    insight.title,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+                            Text(
+                                insight.message,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                insight.evidence,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.75f)
+                            )
+                            TextButton(
+                                onClick = { onOpenRecommendation(insight.actionRoute) },
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text(insight.actionLabel)
+                                Icon(Icons.Default.ChevronRight, contentDescription = null)
+                            }
+                        }
+                        if (index < insights.lastIndex) HorizontalDivider()
+                    }
+                } else if (recommendations.isEmpty()) {
                     Text("Patterns will appear here", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     Text(
                         "Keep logging the metrics that matter to you. Suggestions are informational and never diagnoses.",

@@ -57,6 +57,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 
 /** The six highest-value logging destinations are deliberately kept together. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,7 +170,9 @@ fun InsightsHubScreen(
     onOpenAssistant: () -> Unit,
     onOpenAchievements: () -> Unit,
     onOpenArticles: () -> Unit,
-    onOpenHistory: () -> Unit
+    onOpenHistory: () -> Unit,
+    insights: List<WellnessInsight> = emptyList(),
+    onOpenInsight: (String) -> Unit = { onOpenHistory() }
 ) {
     HubScaffold(
         title = "Insights",
@@ -194,12 +197,37 @@ fun InsightsHubScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            if (insights.isNotEmpty()) {
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("From your recent logs", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        insights.take(5).forEach { insight ->
+                            InsightSummaryCard(insight = insight, onOpen = { onOpenInsight(insight.actionRoute) })
+                        }
+                    }
+                }
+            }
             item { HubActionCard("Weekly wellness summary", "Compare your check-ins with the previous week", Icons.Outlined.Assessment, onOpenWeeklyReport) }
             item { HubActionCard("Trends", "See weight, hydration and blood-pressure history", Icons.Outlined.Timeline, onOpenTrends) }
             item { HubActionCard("AI Wellness Assistant", "Ask general wellness questions with optional context", Icons.Outlined.AutoAwesome, onOpenAssistant) }
             item { HubActionCard("Milestones", "Celebrate consistent, non-competitive progress", Icons.Outlined.Flag, onOpenAchievements) }
             item { HubActionCard("Learn", "Read practical, evidence-informed explainers", Icons.Outlined.ShowChart, onOpenArticles) }
             item { HubActionCard("All history", "Open the detailed history and export tools", Icons.Outlined.History, onOpenHistory) }
+        }
+    }
+}
+
+@Composable
+private fun InsightSummaryCard(insight: WellnessInsight, onOpen: () -> Unit) {
+    Card(
+        onClick = onOpen,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+    ) {
+        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(insight.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Text(insight.message, style = MaterialTheme.typography.bodyMedium)
+            Text(insight.evidence, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

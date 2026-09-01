@@ -39,6 +39,7 @@ import androidx.navigation.navArgument
 import com.health.calculator.bmi.tracker.HealthCalculatorApp
 import com.health.calculator.bmi.tracker.core.constants.AppConstants
 import com.health.calculator.bmi.tracker.presentation.home.HomeScreen
+import com.health.calculator.bmi.tracker.presentation.home.HomeViewModel
 import com.health.calculator.bmi.tracker.presentation.profile.ProfileScreen
 import com.health.calculator.bmi.tracker.presentation.settings.SettingsScreen
 import com.health.calculator.bmi.tracker.ui.screens.history.HistoryScreen
@@ -254,7 +255,8 @@ fun NavGraph(
                 onNavigateToAiCoach = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } },
                 onNavigateToWeight = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
                 onNavigateToHealthConnections = { navController.navigate(Screen.HealthConnections.route) { launchSingleTop = true } },
-                onNavigateToCalculators = { navController.navigate(Screen.Calculators.route) { launchSingleTop = true } }
+                onNavigateToCalculators = { navController.navigate(Screen.Calculators.route) { launchSingleTop = true } },
+                onNavigateToTrack = { navController.navigate(Screen.Track.route) { launchSingleTop = true } }
             )
         }
 
@@ -291,13 +293,26 @@ fun NavGraph(
         }
 
         composable(route = Screen.Insights.route) {
+            val insightsHomeViewModel: HomeViewModel = hiltViewModel()
+            val insightsHomeState by insightsHomeViewModel.uiState.collectAsState()
             InsightsHubScreen(
                 onOpenWeeklyReport = { navController.navigate(Screen.WeeklyReport.route) { launchSingleTop = true } },
                 onOpenTrends = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
                 onOpenAssistant = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } },
                 onOpenAchievements = { navController.navigate(Screen.Achievements.route) { launchSingleTop = true } },
                 onOpenArticles = { navController.navigate(Screen.HealthArticles.route) { launchSingleTop = true } },
-                onOpenHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } }
+                onOpenHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } },
+                insights = insightsHomeState.deterministicInsights,
+                onOpenInsight = { route ->
+                    when (route) {
+                        "weight_tracking" -> navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true }
+                        "water_tracker" -> navController.navigate(Screen.WaterTracker.route) { launchSingleTop = true }
+                        "blood_pressure_checker" -> navController.navigate(Screen.BloodPressureLog.route) { launchSingleTop = true }
+                        "health_connections" -> navController.navigate(Screen.HealthConnections.route) { launchSingleTop = true }
+                        "track" -> navController.navigate(Screen.Track.route) { launchSingleTop = true }
+                        else -> navController.navigate(Screen.History.route) { launchSingleTop = true }
+                    }
+                }
             )
         }
 
