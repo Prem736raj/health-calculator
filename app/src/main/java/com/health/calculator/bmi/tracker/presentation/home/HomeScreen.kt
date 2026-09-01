@@ -11,6 +11,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -67,8 +68,18 @@ fun HomeScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
+            Column(
+                modifier = Modifier.background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
+                            MaterialTheme.colorScheme.background
+                        )
+                    )
+                )
+            ) {
                 PersonalizedGreeting(
                     userName = null, // Integration point for profile name in future prompts
                     modifier = Modifier.statusBarsPadding()
@@ -116,6 +127,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -183,7 +195,20 @@ fun HomeScreen(
                         RecommendationsSection(
                             recommendations = uiState.recommendations,
                             onActionClick = { route ->
-                                // Map route to navigation
+                                when (route) {
+                                    "bmi_calculator" -> onNavigateToBmi()
+                                    "bmr_calculator" -> onNavigateToBmr()
+                                    "blood_pressure_calculator", "blood_pressure_checker", "bp_calculator" -> onNavigateToBp()
+                                    "whr_calculator" -> onNavigateToWhr()
+                                    "water_calculator", "water_intake_calculator" -> onNavigateToWater()
+                                    "calorie_calculator" -> onNavigateToCalorie()
+                                    "heart_rate_calculator", "heart_rate_zone_calculator" -> onNavigateToHeartRate()
+                                    "metabolic_syndrome", "metabolic_syndrome_checker" -> onNavigateToMetabolic()
+                                    "bsa_calculator" -> onNavigateToBsa()
+                                    "ibw_calculator" -> onNavigateToIbw()
+                                    "history" -> onNavigateToHistory()
+                                    "profile" -> onNavigateToProfile()
+                                }
                             },
                             onDismiss = { id -> viewModel.dismissRecommendation(id) },
                             modifier = Modifier.padding(horizontal = 16.dp)
