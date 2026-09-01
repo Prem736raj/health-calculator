@@ -251,7 +251,10 @@ fun NavGraph(
                 onNavigateToHistory = { navController.navigate(Screen.History.route) { launchSingleTop = true } },
                 onNavigateToProfile = { navController.navigate(Screen.Profile.route) { launchSingleTop = true } },
                 onNavigateToSettings = { navController.navigate(Screen.Settings.route) { launchSingleTop = true } },
-                onNavigateToAiCoach = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } }
+                onNavigateToAiCoach = { navController.navigate(Screen.AiCoach.route) { launchSingleTop = true } },
+                onNavigateToWeight = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
+                onNavigateToHealthConnections = { navController.navigate(Screen.HealthConnections.route) { launchSingleTop = true } },
+                onNavigateToCalculators = { navController.navigate(Screen.Calculators.route) { launchSingleTop = true } }
             )
         }
 

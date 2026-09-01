@@ -26,11 +26,18 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Existing feature screens remain available as secondary destinations; the next phase will reduce the Home surface itself and unify its daily-value hierarchy.
 - **Next phase:** Redesign Home around a concise daily check-in and progressive disclosure.
 
-## Phases 4–15
+## Phase 4 — Redesign Home Experience
+
+- **Status:** Complete
+- **Major changes:** Replaced the calculator-heavy, long Home grid with a compact daily wellness dashboard. Added a five-second greeting and context, a clearly non-clinical Wellness Score card, four priority daily metric cards (steps, water, weight and calories), latest saved metrics, at most two explainable recommendation previews, focused quick actions, concise calculator discovery and first-use/partial-data/Health Connect empty states. Kept deterministic app prompts visibly separate from the AI Wellness Assistant.
+- **Tests:** Added `HomeDashboardPolicyTest` to lock the four daily-value metrics and progressive-disclosure limits for latest metrics and insight previews. Debug unit tests pass.
+- **Known limitations:** Weight currently falls back to the saved profile baseline until Phase 7 unifies the latest tracking data source. Home step data remains optional and read-only through the existing minimal Health Connect permission.
+- **Next phase:** Establish a cohesive, accessible Material 3 brand and visual system.
+
+## Phases 5–15
 
 | Phase | Status | Next focus |
 | --- | --- | --- |
-| 4 — Home experience | Not started | Daily-value home surface and empty states |
 | 5 — Brand and visual identity | Not started | Coherent Material 3 design system |
 | 6 — Calculator quality | Not started | Reusable calculator structure, validation, history |
 | 7 — Tracking and retention engine | Not started | Fast logging, trends, goals and reminders |

@@ -130,7 +130,7 @@ private fun BottomNavigationBarPreview() {
 private fun BottomNavigationBarDarkPreview() {
     HealthCalculatorTheme(themeMode = com.health.calculator.bmi.tracker.data.model.ThemeMode.DARK) {
         BottomNavigationBar(
-            currentRoute = BottomNavItem.HISTORY.route,
+            currentRoute = BottomNavItem.TRACK.route,
             onItemClick = {}
         )
     }
