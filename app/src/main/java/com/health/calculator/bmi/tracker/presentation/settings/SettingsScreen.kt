@@ -51,7 +51,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Notifications
@@ -64,6 +63,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Straighten
 import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -80,7 +80,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.health.connect.client.PermissionController
-import androidx.health.connect.client.HealthConnectClient
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -114,6 +113,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.model.UnitSystem
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectPermissionPolicy
 import com.health.calculator.bmi.tracker.data.preferences.PlantPreferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -132,7 +132,6 @@ private val WarningOrange = com.health.calculator.bmi.tracker.ui.theme.HealthCol
 @Composable
 fun SettingsScreen(
     onBackClick: () -> Unit,
-    onNavigateToBackup: () -> Unit,
     onNavigateToDataManagement: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
@@ -421,31 +420,74 @@ fun SettingsScreen(
                                 onClick = onNavigateToDataManagement
                             )
 
-                            SettingsDivider()
-
-                            SettingsClickItem(
-                                icon = Icons.Default.Backup,
-                                iconTint = Color(0xFF4CAF50),
-                                title = "Backup & Restore",
-                                subtitle = "Cloud and local data sync",
-                                onClick = onNavigateToBackup
-                            )
-
                             if (uiState.isHealthConnectSupported) {
                                 SettingsDivider()
 
+                                Text(
+                                    text = "Health Connect (optional)",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.SemiBold,
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                                )
+                                Text(
+                                    text = "Read-only access powers the steps and weight cards. You can allow either feature and revoke access in Health Connect at any time.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                                )
+
                                 SettingsClickItem(
                                     icon = Icons.Outlined.Shield, // You could use a health icon
-                                    iconTint = Color(0xFFE91E63),
-                                    title = "Google Health Connect",
-                                    subtitle = if (uiState.isHealthConnectConnected) "Connected - Sync Data" else "Not Connected - Grant Permissions",
+                                    iconTint = SettingsAccent,
+                                    title = "Steps",
+                                    subtitle = if (uiState.isHealthConnectConnected) {
+                                        uiState.healthConnectSteps?.let { "Connected · $it steps today" } ?: "Connected · tap to refresh"
+                                    } else "Not connected · allow steps access",
                                     onClick = {
                                         if (uiState.isHealthConnectConnected) {
                                             viewModel.syncHealthConnectData()
                                         } else {
                                             healthConnectPermissionLauncher.launch(
-                                                viewModel.healthConnectManager.permissions
+                                                HealthConnectPermissionPolicy.stepsRead
                                             )
+                                        }
+                                    }
+                                )
+
+                                SettingsDivider()
+
+                                SettingsClickItem(
+                                    icon = Icons.Outlined.MonitorWeight,
+                                    iconTint = MaterialTheme.colorScheme.tertiary,
+                                    title = "Weight",
+                                    subtitle = if (uiState.isHealthConnectWeightConnected) {
+                                        uiState.healthConnectWeightKg?.let { "Connected · latest ${"%.1f".format(it)} kg" } ?: "Connected · tap to refresh"
+                                    } else "Not connected · optional read-only access",
+                                    onClick = {
+                                        if (uiState.isHealthConnectWeightConnected) {
+                                            viewModel.syncHealthConnectData()
+                                        } else {
+                                            healthConnectPermissionLauncher.launch(
+                                                HealthConnectPermissionPolicy.weightRead
+                                            )
+                                        }
+                                    }
+                                )
+
+                                SettingsDivider()
+
+                                SettingsClickItem(
+                                    icon = Icons.Outlined.Shield,
+                                    iconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    title = "Manage Health Connect access",
+                                    subtitle = "Review or revoke permissions in Android settings",
+                                    onClick = {
+                                        runCatching {
+                                            context.startActivity(Intent("androidx.health.ACTION_HEALTH_CONNECT_SETTINGS"))
+                                        }.onFailure {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar("Open Health Connect to manage access")
+                                            }
                                         }
                                     }
                                 )

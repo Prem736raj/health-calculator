@@ -503,9 +503,6 @@ fun NavGraph(
                 onBackClick = {
                     navController.popBackStack()
                 },
-                onNavigateToBackup = {
-                    navController.navigate(Screen.Backup.route)
-                },
                 onNavigateToDataManagement = {
                     navController.navigate(Screen.DataManagement.route)
                 }

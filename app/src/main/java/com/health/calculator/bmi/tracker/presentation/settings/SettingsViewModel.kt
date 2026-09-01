@@ -6,6 +6,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectManager
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectPermissionPolicy
 import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
 import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.export.DataExportManager
@@ -54,6 +55,9 @@ data class SettingsUiState(
     // ── Health Connect State ──────────────────────────────────────────
     val isHealthConnectSupported: Boolean = false,
     val isHealthConnectConnected: Boolean = false,
+    val isHealthConnectWeightConnected: Boolean = false,
+    val healthConnectSteps: Long? = null,
+    val healthConnectWeightKg: Double? = null,
     val healthConnectSyncStatus: String? = null
 )
 
@@ -91,10 +95,14 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val supported = healthConnectManager.isSupported.value
             val connected = if (supported) healthConnectManager.hasAllPermissions() else false
+            val weightConnected = if (supported) {
+                healthConnectManager.hasAllPermissions(HealthConnectPermissionPolicy.weightRead)
+            } else false
             _uiState.update {
                 it.copy(
                     isHealthConnectSupported = supported,
-                    isHealthConnectConnected = connected
+                    isHealthConnectConnected = connected,
+                    isHealthConnectWeightConnected = weightConnected
                 )
             }
         }
@@ -104,15 +112,29 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(healthConnectSyncStatus = "Syncing...") }
             try {
-                if (healthConnectManager.hasAllPermissions()) {
-                    val steps = healthConnectManager.readDailySteps()
-                    _uiState.update { it.copy(healthConnectSyncStatus = "Synced! Today's steps: $steps") }
-                    // Further data updates would go here
-                } else {
-                    _uiState.update { it.copy(healthConnectSyncStatus = "Permissions not granted") }
+                val steps = if (healthConnectManager.hasAllPermissions()) {
+                    healthConnectManager.readDailySteps()
+                } else null
+                val weight = if (healthConnectManager.hasAllPermissions(HealthConnectPermissionPolicy.weightRead)) {
+                    healthConnectManager.readLatestWeight()
+                } else null
+                val parts = buildList {
+                    steps?.let { add("$it steps today") }
+                    weight?.let { add("latest weight ${"%.1f".format(it.kilograms)} kg") }
+                }
+                _uiState.update {
+                    it.copy(
+                        healthConnectSteps = steps,
+                        healthConnectWeightKg = weight?.kilograms,
+                        healthConnectSyncStatus = if (parts.isEmpty()) {
+                            "No Health Connect permissions granted"
+                        } else {
+                            "Synced: ${parts.joinToString(" · ")}"
+                        }
+                    )
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(healthConnectSyncStatus = "Sync failed: ${e.message}") }
+                _uiState.update { it.copy(healthConnectSyncStatus = "Health Connect is unavailable right now") }
             }
         }
     }

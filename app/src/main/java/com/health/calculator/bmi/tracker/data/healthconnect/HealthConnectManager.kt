@@ -3,8 +3,8 @@ package com.health.calculator.bmi.tracker.data.healthconnect
 import android.content.Context
 
 import androidx.health.connect.client.HealthConnectClient
-import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 
@@ -30,17 +30,11 @@ class HealthConnectManager @Inject constructor(
         HealthConnectClient.getOrCreate(context)
     }
 
-    /*
-     * PHASE 1:
-     *
-     * Request ONLY data that is actually consumed by
-     * a current user-facing app feature.
-     */
-    val permissions: Set<String> = setOf(
-        HealthPermission.getReadPermission(
-            StepsRecord::class
-        )
-    )
+    /** Backwards-compatible alias for the steps feature used by Home and Settings. */
+    val permissions: Set<String> = HealthConnectPermissionPolicy.stepsRead
+
+    /** Weight is an optional, separately requested read-only feature. */
+    val weightPermissions: Set<String> = HealthConnectPermissionPolicy.weightRead
 
     private val _isSupported = MutableStateFlow(
         HealthConnectClient.getSdkStatus(context) ==
@@ -50,7 +44,7 @@ class HealthConnectManager @Inject constructor(
     val isSupported: StateFlow<Boolean> =
         _isSupported
 
-    suspend fun hasAllPermissions(): Boolean {
+    suspend fun hasAllPermissions(requiredPermissions: Set<String> = permissions): Boolean {
 
         if (!isSupported.value) {
             return false
@@ -63,7 +57,7 @@ class HealthConnectManager @Inject constructor(
                     .permissionController
                     .getGrantedPermissions()
 
-            granted.containsAll(permissions)
+            granted.containsAll(requiredPermissions)
 
         } catch (_: Exception) {
 
@@ -112,4 +106,41 @@ class HealthConnectManager @Inject constructor(
             0L
         }
     }
+
+    /**
+     * Reads the most recent weight record without writing it back to Health Connect.
+     * The result is intentionally a transient display value; users remain in control of
+     * whether to save a copy in the local weight tracker.
+     */
+    suspend fun readLatestWeight(): HealthConnectWeight? {
+        if (!isSupported.value || !hasAllPermissions(weightPermissions)) return null
+
+        val end = Instant.now()
+        val start = end.minus(365, ChronoUnit.DAYS)
+        return try {
+            val result = healthConnectClient.readRecords(
+                ReadRecordsRequest(
+                    recordType = WeightRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(start, end)
+                )
+            )
+            result.records
+                .maxByOrNull { it.time }
+                ?.let { record ->
+                    val kilograms = record.weight.inKilograms
+                    if (kilograms.isFinite() && kilograms > 0.0) {
+                        HealthConnectWeight(kilograms, record.time.toEpochMilli())
+                    } else {
+                        null
+                    }
+                }
+        } catch (_: Exception) {
+            null
+        }
+    }
 }
+
+data class HealthConnectWeight(
+    val kilograms: Double,
+    val timestampMillis: Long
+)

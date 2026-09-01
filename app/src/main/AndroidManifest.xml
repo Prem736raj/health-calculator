@@ -29,6 +29,7 @@
     <!-- Only request currently implemented functionality. -->
     <!-- ===================================================== -->
     <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_WEIGHT" />
 
     <application
         android:name=".HealthCalculatorApp"

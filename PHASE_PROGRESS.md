@@ -58,13 +58,21 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Weight and water remain manual trackers; Health Connect imports are intentionally handled in Phase 8. Streaks remain informational and are not used to shame users or gate safety content.
 - **Next phase:** Add optional, feature-led Health Connect integrations with graceful permission handling.
 
+## Phase 8 — Health Connect 2.0
+
+- **Status:** Complete
+- **Major changes:** Replaced the single global permission assumption with feature-scoped read-only permissions. Steps continues to request only `READ_STEPS`; weight is now a separate, explicitly requested `READ_WEIGHT` feature with a bounded latest-record reader. Settings and the Connections screen explain why each feature is optional, show refreshable values, handle denied/unavailable access without crashing, and point users to Android Health Connect settings for revocation. Removed the misleading Backup & Restore entry from Settings because no secure portable backup architecture is ready.
+- **Tests:** Extended `HealthConnectScopeTest` to verify one-permission steps scope, separate weight scope and absence of write permissions. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Health Connect availability and records depend on the user’s installed provider and granted access. The app does not write records, import sleep/heart-rate data, or silently request permissions; Play Console health-data declarations remain required before publishing.
+- **Next phase:** Build deterministic, explainable insights from local tracking history before any AI interpretation.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
 | --- | --- | --- |
 | 6 — Calculator quality | Complete | Reusable calculator structure, validation, history |
 | 7 — Tracking and retention engine | Complete | Fast logging, trends, goals and reminders |
-| 8 — Health Connect 2.0 | In progress | Permission-led visible integrations |
+| 8 — Health Connect 2.0 | Complete | Permission-led visible integrations |
 | 9 — Smart insights | Not started | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Not started | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Not started | Healthy summaries, milestones and widgets |

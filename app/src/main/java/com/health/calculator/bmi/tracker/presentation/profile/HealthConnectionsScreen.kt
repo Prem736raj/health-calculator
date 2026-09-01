@@ -16,8 +16,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.health.connect.client.PermissionController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.HealthConnection
 import com.health.calculator.bmi.tracker.data.model.HealthConnectionMap
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectFeature
+import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectPermissionPolicy
+import com.health.calculator.bmi.tracker.presentation.settings.SettingsUiState
+import com.health.calculator.bmi.tracker.presentation.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +45,25 @@ fun HealthConnectionsScreen(
     onBackClick: () -> Unit,
     onNavigateToCalculator: (String) -> Unit
 ) {
+    val healthConnectViewModel: SettingsViewModel = hiltViewModel()
+    val healthConnectState by healthConnectViewModel.uiState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) {
+        healthConnectViewModel.checkHealthConnectStatus()
+        healthConnectViewModel.syncHealthConnectData()
+    }
+
+    LaunchedEffect(healthConnectState.healthConnectSyncStatus) {
+        healthConnectState.healthConnectSyncStatus?.let { message ->
+            snackbarHostState.showSnackbar(message)
+            healthConnectViewModel.dismissHealthConnectSyncStatus()
+        }
+    }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.txt_health_connections), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) },
@@ -54,6 +82,14 @@ fun HealthConnectionsScreen(
                 .background(MaterialTheme.colorScheme.surface)
         ) {
             ConnectionHeader(state.healthConnectionMap)
+
+            HealthConnectAccessCard(
+                state = healthConnectState,
+                onConnect = { feature ->
+                    permissionLauncher.launch(HealthConnectPermissionPolicy.permissionsFor(feature))
+                },
+                onSync = healthConnectViewModel::syncHealthConnectData
+            )
             
             LazyColumn(
                 modifier = Modifier.weight(1f),
@@ -84,6 +120,97 @@ fun HealthConnectionsScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun HealthConnectAccessCard(
+    state: SettingsUiState,
+    onConnect: (HealthConnectFeature) -> Unit,
+    onSync: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.55f)
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Outlined.Shield, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                Spacer(Modifier.width(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Health Connect", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(
+                        if (state.isHealthConnectSupported) "Optional read-only data for your daily cards" else "Health Connect is not available on this device",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (state.isHealthConnectSupported) {
+                    TextButton(onClick = onSync) { Text("Refresh") }
+                }
+            }
+
+            if (state.isHealthConnectSupported) {
+                HealthConnectFeatureRow(
+                    icon = Icons.Outlined.DirectionsWalk,
+                    title = "Steps",
+                    value = state.healthConnectSteps?.let { "$it today" },
+                    connected = state.isHealthConnectConnected,
+                    onClick = { if (state.isHealthConnectConnected) onSync() else onConnect(HealthConnectFeature.STEPS) }
+                )
+                HealthConnectFeatureRow(
+                    icon = Icons.Outlined.MonitorWeight,
+                    title = "Weight",
+                    value = state.healthConnectWeightKg?.let { "%.1f kg".format(it) },
+                    connected = state.isHealthConnectWeightConnected,
+                    onClick = { if (state.isHealthConnectWeightConnected) onSync() else onConnect(HealthConnectFeature.WEIGHT) }
+                )
+                Text(
+                    "Allow either feature, change access, or revoke it in Health Connect settings. Health Metrics Tracker does not write data back.",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HealthConnectFeatureRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    value: String?,
+    connected: Boolean,
+    onClick: () -> Unit
+) {
+    OutlinedCard(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Spacer(Modifier.width(10.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                Text(
+                    when {
+                        connected && value != null -> value
+                        connected -> "Connected · tap to refresh"
+                        else -> "Not connected · optional"
+                    },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            TextButton(onClick = onClick) { Text(if (connected) "Refresh" else "Connect") }
         }
     }
 }
