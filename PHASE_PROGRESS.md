@@ -98,6 +98,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Legacy encrypted backup classes remain only to avoid breaking old local files; they are not exposed as a new backup/restore product. Play Console data-safety declarations and any future portable encrypted transfer design still require product-owner review.
 - **Next phase:** Define a trust-preserving free tier and optional premium value without gating core wellness safety information.
 
+## Phase 13 — Monetization
+
+- **Status:** Complete (store-independent foundation)
+- **Major changes:** Added a pure `PremiumFeaturePolicy` with stable future product IDs, an explicit Free/Plus boundary, and a safe entitlement seam for a later Play Billing adapter. Core calculators, basic tracking, local history, deterministic insights, weekly summaries, basic exports, privacy controls and optional Health Connect access remain free. Added `docs/MONETIZATION_PLAN.md` covering calm pricing, non-sensitive measurement, purchase/restore/refund requirements, and a no-ads-until-configured rule; no fake paywall, AdMob placement or local-only entitlement was introduced.
+- **Tests:** Added `PremiumFeaturePolicyTest` for free-core coverage, unique product IDs, tier behavior and non-pressure copy. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Play Billing products, regional pricing, entitlement verification, support/refund configuration and any AdMob account are console-owner tasks. The proposed Plus features are not active until those pieces are implemented and tested.
+- **Next phase:** Research current competitors and prepare research-backed Play Store listing assets without publishing.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -109,6 +117,6 @@ This file is the source of truth for the sequential product-development phases. 
 | 10 — Context-aware AI assistant | Complete | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Complete | Opt-in summaries, gentle reminders and truthful widgets |
 | 12 — Reports, export and sharing | Complete | User-controlled wellness reports |
-| 13 — Monetization | Not started | Trust-preserving free/premium boundaries |
+| 13 — Monetization | Complete | Trust-preserving free/premium boundaries |
 | 14 — ASO and launch preparation | Not started | Research-backed store assets and copy |
 | 15 — Analytics-driven growth | Not started | Privacy-safe funnel and product analytics |
