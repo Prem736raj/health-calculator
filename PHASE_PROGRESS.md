@@ -106,6 +106,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Play Billing products, regional pricing, entitlement verification, support/refund configuration and any AdMob account are console-owner tasks. The proposed Plus features are not active until those pieces are implemented and tested.
 - **Next phase:** Research current competitors and prepare research-backed Play Store listing assets without publishing.
 
+## Phase 14 — ASO & Launch Preparation
+
+- **Status:** Complete (not published)
+- **Major changes:** Added `docs/ASO_LAUNCH_PLAN.md` with a current competitor scan, policy-backed listing copy, keyword intent matrix, screenshot and feature-graphic brief, onboarding/promotional copy, release notes and a pre-publish checklist. Added `StoreListingPolicy` and tests for title/short-description limits, promotional/medical-certainty wording and safe screenshot overlays. Corrected public privacy, terms and support pages to use Health Metrics Tracker and removed inaccurate encrypted-Room/encrypted-backup claims; storage and export behavior now matches the implementation.
+- **Tests:** Added `StoreListingPolicyTest`. Full `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` gates pass.
+- **Known limitations:** Play Console listing upload, screenshots/feature graphic, Health apps/Data Safety/content-rating/Health Connect declarations, public URL validation, developer account, signing and release review remain console-owner tasks. Public competitor pages do not expose reliable keyword volume or conversion data; acquisition/search data and listing experiments should validate the matrix after launch.
+- **Next phase:** Add privacy-safe product analytics architecture and a measurable retention funnel.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -118,5 +126,5 @@ This file is the source of truth for the sequential product-development phases. 
 | 11 — Retention and engagement | Complete | Opt-in summaries, gentle reminders and truthful widgets |
 | 12 — Reports, export and sharing | Complete | User-controlled wellness reports |
 | 13 — Monetization | Complete | Trust-preserving free/premium boundaries |
-| 14 — ASO and launch preparation | Not started | Research-backed store assets and copy |
+| 14 — ASO and launch preparation | Complete | Research-backed store assets and copy |
 | 15 — Analytics-driven growth | Not started | Privacy-safe funnel and product analytics |
