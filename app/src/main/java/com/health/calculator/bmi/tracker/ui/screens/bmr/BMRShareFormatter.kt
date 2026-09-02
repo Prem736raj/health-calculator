@@ -2,6 +2,7 @@
 package com.health.calculator.bmi.tracker.ui.screens.bmr
 
 import com.health.calculator.bmi.tracker.data.model.*
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 
 object BMRShareFormatter {
 
@@ -85,8 +86,8 @@ object BMRShareFormatter {
                 append("   Body Fat: ${String.format("%.1f", resultData.bodyFatPercentage)}%\n")
             }
 
-            append("\n⚠️ For informational purposes only. Consult a healthcare professional.\n")
-            append("📱 Calculated using Health Metrics Tracker")
+            append("\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 
@@ -101,7 +102,8 @@ object BMRShareFormatter {
             append("⚡ My TDEE: ${tdee.toInt()} kcal/day\n")
             append("📐 Formula: $formulaName\n")
             append("🏃 Activity: $activityLevel\n")
-            append("\n📱 Health Metrics Tracker")
+            append("\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 }

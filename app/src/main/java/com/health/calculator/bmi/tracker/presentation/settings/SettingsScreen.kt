@@ -446,7 +446,7 @@ fun SettingsScreen(
                                 icon = Icons.Filled.FileDownload,
                                 iconTint = Color(0xFF1E88E5),
                                 title = "Export All Data",
-                                subtitle = "Download as PDF or CSV",
+                                subtitle = "Share a JSON wellness-data copy",
                                 onClick = { viewModel.exportData() }
                             )
 

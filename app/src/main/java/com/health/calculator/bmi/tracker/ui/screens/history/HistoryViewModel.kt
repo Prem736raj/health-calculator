@@ -35,6 +35,7 @@ data class HistoryUiState(
     val dialogState: HistoryDialogState = HistoryDialogState.None,
     val exportProgress: ExportProgress = ExportProgress(),
     val currentSchedule: ExportSchedule = ExportSchedule(),
+    val lastExportFormat: ExportFormat? = null,
     val showExportSheet: Boolean = false,
     val showScheduleDialog: Boolean = false,
     val undoableDelete: UndoableDelete? = null,
@@ -313,6 +314,8 @@ class HistoryViewModel @Inject constructor(application: Application) : AndroidVi
                 entry.note?.let { append("Note: $it\n") }
                 append("-------------------\n")
             }
+            append("\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
@@ -368,17 +371,22 @@ class HistoryViewModel @Inject constructor(application: Application) : AndroidVi
             if (finalEntries.isEmpty()) return@launch
 
             exportManager.exportData(finalEntries, config)
-            _uiState.update { it.copy(showExportSheet = false) }
+            _uiState.update {
+                it.copy(
+                    showExportSheet = false,
+                    lastExportFormat = config.format
+                )
+            }
         }
     }
 
     fun shareExportedFile() {
         val progress = _uiState.value.exportProgress
         if (progress.isComplete && progress.resultUri != null) {
-            // We need to know which format was used. 
-            // For now, assume PDF or get from last config if we stored it.
-            // Simplified: Use a generic share if possible or just PDF.
-            exportManager.shareFile(progress.resultUri, ExportFormat.PDF)
+            exportManager.shareFile(
+                progress.resultUri,
+                _uiState.value.lastExportFormat ?: ExportFormat.PDF
+            )
         }
     }
 

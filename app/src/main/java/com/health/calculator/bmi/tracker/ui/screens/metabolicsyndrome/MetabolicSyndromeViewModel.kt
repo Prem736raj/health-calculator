@@ -12,6 +12,7 @@ import com.health.calculator.bmi.tracker.data.MetabolicSyndromeTrackingRepositor
 import com.health.calculator.bmi.tracker.data.model.AssessmentComparison
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import com.health.calculator.bmi.tracker.data.model.MetabolicSyndromeRecord
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -569,9 +570,7 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             |$criteriaDetails
             |$standardsText
             |${if (result.diagnosisDiffers) "\nℹ️ The reference definitions differ because they use different waist rules.\n" else ""}
-            |⚕️ Informational wellness data — not a diagnosis or medical advice.
-            |
-            |Assessed using Health Metrics Tracker
+            |${ExportDisclosurePolicy.shareFooter()}
         """.trimMargin()
     }
 }

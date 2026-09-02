@@ -1,6 +1,8 @@
 // File: com/health/calculator/bmi/tracker/data/model/TDEEData.kt
 package com.health.calculator.bmi.tracker.data.model
 
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
+
 data class TDEEData(
     val bmr: Float = 0f,
     val activityLevel: ActivityLevel = ActivityLevel.SEDENTARY,
@@ -83,8 +85,8 @@ data class TDEEData(
             getCalorieGoals().forEach { goal ->
                 append("  ${goal.emoji} ${goal.name}: ${goal.dailyCalories.toInt()} kcal/day\n")
             }
-            append("\n⚠️ For informational purposes only.\n")
-            append("Calculated using Health Metrics Tracker.")
+            append("\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 }

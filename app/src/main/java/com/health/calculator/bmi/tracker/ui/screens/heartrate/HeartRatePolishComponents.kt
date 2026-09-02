@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.ui.screens.heartrate
 
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 
 
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -803,7 +804,8 @@ fun shareHeartRateZonesText(@ApplicationContext context: Context, result: HeartR
             appendLine("${zone.icon} Zone ${zone.zoneNumber} — ${zone.zoneName}: ${zone.bpmLow}-${zone.bpmHigh} BPM (${zone.percentLow}-${zone.percentHigh}%)")
         }
         appendLine("━━━━━━━━━━━━━━━━━━━━━━━━")
-        appendLine("📱 Calculated with Health Metrics Tracker")
+        appendLine()
+        append(ExportDisclosurePolicy.shareFooter())
     }
 
     val intent = Intent(Intent.ACTION_SEND).apply {

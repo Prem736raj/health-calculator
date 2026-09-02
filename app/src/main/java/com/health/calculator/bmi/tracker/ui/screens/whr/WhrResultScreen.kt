@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.*
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import android.content.Intent
 import kotlin.math.cos
 import kotlin.math.sin
@@ -1365,6 +1366,6 @@ private fun buildShareText(result: WhrResult): String {
         }
         appendLine("Waist Risk: ${result.waistRiskLevel.label}")
         appendLine("━━━━━━━━━━━━━━━━━━━━")
-        appendLine("Calculated using Health Metrics Tracker")
+        append(ExportDisclosurePolicy.shareFooter())
     }
 }

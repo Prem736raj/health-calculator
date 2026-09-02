@@ -23,6 +23,7 @@ fun ReportShareDialog(
     includeCalories: Boolean,
     includeExercise: Boolean,
     includeScore: Boolean,
+    canShare: Boolean,
     onToggleSection: (String, Boolean) -> Unit,
     onShare: () -> Unit,
     onDismiss: () -> Unit
@@ -34,6 +35,12 @@ fun ReportShareDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(stringResource(R.string.txt_choose_what_to_include), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+                Text(
+                    "Only selected sections are included. Sharing is optional.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
                 ShareToggle("\uD83C\uDFC6 Wellness Score", includeScore) { onToggleSection("score", it) }
                 ShareToggle("⚖️ Weight", includeWeight) { onToggleSection("weight", it) }
                 ShareToggle("\uD83D\uDCCA BMI", includeBmi) { onToggleSection("bmi", it) }
@@ -44,7 +51,7 @@ fun ReportShareDialog(
             }
         },
         confirmButton = {
-            Button(onClick = onShare) {
+            Button(onClick = onShare, enabled = canShare) {
                 Icon(Icons.Default.Share, null, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(stringResource(R.string.txt_share))

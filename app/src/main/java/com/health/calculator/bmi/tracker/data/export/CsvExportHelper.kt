@@ -26,6 +26,7 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
         onProgress(0.1f)
 
         BufferedWriter(FileWriter(file)).use { writer ->
+            writeMetadata(writer)
             // Universal header
             writer.write("Calculator Type,Date,Time,Primary Value,Unit,Category,")
             writer.write("Detail 1 Key,Detail 1 Value,Detail 2 Key,Detail 2 Value,")
@@ -36,7 +37,9 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
             entries.forEachIndexed { index, entry ->
                 writer.write(buildCsvRow(entry))
                 writer.newLine()
-                onProgress(0.1f + 0.85f * (index + 1) / total)
+                if (total > 0) {
+                    onProgress(0.1f + 0.85f * (index + 1) / total)
+                }
             }
         }
 
@@ -57,6 +60,7 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
         onProgress(0.1f)
 
         BufferedWriter(FileWriter(file)).use { writer ->
+            writeMetadata(writer)
             // Type-specific headers
             val headers = getHeadersForType(calculatorType)
             writer.write(headers)
@@ -66,7 +70,9 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
             filtered.forEachIndexed { index, entry ->
                 writer.write(buildTypedCsvRow(entry, calculatorType))
                 writer.newLine()
-                onProgress(0.1f + 0.85f * (index + 1) / total)
+                if (total > 0) {
+                    onProgress(0.1f + 0.85f * (index + 1) / total)
+                }
             }
         }
 
@@ -138,5 +144,12 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
         return if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
             "\"${value.replace("\"", "\"\"")}\""
         } else value
+    }
+
+    private fun writeMetadata(writer: BufferedWriter) {
+        ExportDisclosurePolicy.csvMetadataRows().forEach { row ->
+            writer.write(row)
+            writer.newLine()
+        }
     }
 }

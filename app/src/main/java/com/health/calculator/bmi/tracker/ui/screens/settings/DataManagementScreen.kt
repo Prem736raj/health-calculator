@@ -289,7 +289,7 @@ private fun StorageCard(storageInfo: StorageInfo, isLoading: Boolean) {
                     Triple("Cache", storageInfo.cacheBytes, Color(0xFFFF9800)),
                     Triple("Settings", storageInfo.settingsBytes, Color(0xFF4CAF50)),
                     Triple("Exports", storageInfo.exportsBytes, Color(0xFF9C27B0)),
-                    Triple("Backups", storageInfo.backupsBytes, Color(0xFFF44336))
+                    Triple("Legacy files", storageInfo.backupsBytes, Color(0xFFF44336))
                 ).filter { it.second > 0 }
 
                 Box(
@@ -776,7 +776,7 @@ private fun DeleteEverythingDialog(
                             "👤 Your profile data",
                             "⚙️ All settings and preferences",
                             "🏆 All achievements and streaks",
-                            "💾 All local backups",
+                            "💾 Legacy local backup files (if present)",
                             "📁 All exported files"
                         ).forEach { item ->
                             Text(

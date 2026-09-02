@@ -23,6 +23,7 @@ import com.health.calculator.bmi.tracker.data.repository.HistoryRepository as Ma
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import org.json.JSONObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -618,7 +619,7 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
             lines.add("Projected: ${"%.2f".format(r.weeklyChangeDisplay)} kg/week")
         }
         lines.add("")
-        lines.add("- Health Metrics Tracker")
+        lines.add(ExportDisclosurePolicy.shareFooter())
         return lines.joinToString("\n")
     }
 

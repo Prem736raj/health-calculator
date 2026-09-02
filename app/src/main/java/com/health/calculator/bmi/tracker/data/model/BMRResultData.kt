@@ -1,6 +1,8 @@
 // File: com/health/calculator/bmi/tracker/data/model/BMRResultData.kt
 package com.health.calculator.bmi.tracker.data.model
 
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
+
 data class BMRResultData(
     val primaryBMR: Float = 0f,
     val selectedFormula: BMRFormula = BMRFormula.MIFFLIN_ST_JEOR,
@@ -65,8 +67,8 @@ data class BMRResultData(
                 val marker = if (formula == selectedFormula) " ⬅️" else ""
                 append("  • ${formula.displayName}: ${value.toInt()} kcal$marker\n")
             }
-            append("\n⚠️ For informational purposes only.\n")
-            append("Calculated using Health Metrics Tracker.")
+            append("\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 

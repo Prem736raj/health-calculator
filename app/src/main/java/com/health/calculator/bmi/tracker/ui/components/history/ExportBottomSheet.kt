@@ -122,6 +122,14 @@ fun ExportBottomSheet(
                 )
             }
 
+            Text(
+                text = "Only the selected records and options are included. " +
+                    "Exports are informational wellness data, not a medical diagnosis.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
             // Actions
             Button(
                 onClick = { onExport(config) },
@@ -191,7 +199,7 @@ private fun FormatCard(
                 contentDescription = null
             )
             Spacer(Modifier.height(4.dp))
-            Text(format.name, style = MaterialTheme.typography.labelMedium)
+            Text(format.label, style = MaterialTheme.typography.labelMedium)
         }
     }
 }

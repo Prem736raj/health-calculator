@@ -36,7 +36,7 @@ class AutoExportWorker(
                 val config = ExportConfig(
                     format = format,
                     scope = ExportScope.ALL,
-                    dateRangeLabel = "Automatic Backup"
+                    dateRangeLabel = "Scheduled local export"
                 )
 
                 // We don't have easy access to profile data here without more plumbing, 

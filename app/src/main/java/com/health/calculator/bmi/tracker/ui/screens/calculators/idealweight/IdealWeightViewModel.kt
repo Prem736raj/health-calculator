@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.calculator.IdealWeightCalculator
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.*
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -339,7 +340,7 @@ class IdealWeightViewModel @Inject constructor(application: Application) : Andro
             append("📍 Hamwi: ${String.format(Locale.US, "%.1f", res.hamwi)} kg\n")
             append("━━━━━━━━━━━━━━━━\n\n")
             append("💪 Adult BMI reference range: ${String.format(Locale.US, "%.1f", res.healthyRangeMin)} - ${String.format(Locale.US, "%.1f", res.healthyRangeMax)} kg\n\n")
-            append("Calculated via Health Metrics Tracker")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 

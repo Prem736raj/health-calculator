@@ -13,7 +13,9 @@ import java.util.*
 
 class JsonExportHelper(@ApplicationContext private val context: Context) {
 
-    private val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
 
     fun exportAll(
         entries: List<HistoryDisplayEntry>,
@@ -24,10 +26,17 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
 
         val rootObject = JSONObject().apply {
             put("export_version", 1)
-            put("app_name", "Health Metrics Tracker")
-            put("app_package", "com.health.calculator.bmi.tracker")
+            put("app_name", ExportDisclosurePolicy.APP_NAME)
+            put("app_package", context.packageName)
             put("exported_at", dateFormatter.format(Date()))
             put("total_entries", entries.size)
+            put("metadata", JSONObject().apply {
+                put("generated_by", ExportDisclosurePolicy.APP_NAME)
+                put("data_type", ExportDisclosurePolicy.INFORMATIONAL_LABEL)
+                put("diagnosis_notice", ExportDisclosurePolicy.DIAGNOSIS_NOTICE)
+                put("medical_disclaimer", ExportDisclosurePolicy.MEDICAL_DISCLAIMER)
+                put("includes_profile", profileData != null)
+            })
 
             // Profile data
             profileData?.let { profile ->
@@ -53,7 +62,9 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
                     typeEntries.forEach { entry ->
                         entriesArray.put(entryToJson(entry))
                         processedCount++
-                        onProgress(0.1f + 0.8f * processedCount / totalCount)
+                        if (totalCount > 0) {
+                            onProgress(0.1f + 0.8f * processedCount / totalCount)
+                        }
                     }
                     put("entries", entriesArray)
 
@@ -65,7 +76,7 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
                             put("average", "%.2f".format(values.average()))
                             put("min", "%.2f".format(values.min()))
                             put("max", "%.2f".format(values.max()))
-                            put("latest", typeEntries.first().primaryValue)
+                            put("latest", typeEntries.maxByOrNull { it.timestamp }?.primaryValue)
                         })
                     }
                 }
@@ -79,7 +90,7 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
 
         val exportDir = File(context.cacheDir, "exports").apply { mkdirs() }
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val file = File(exportDir, "HealthData_Backup_$timestamp.json")
+        val file = File(exportDir, "HealthData_Export_$timestamp.json")
 
         FileWriter(file).use { writer ->
             writer.write(rootObject.toString(2))
@@ -98,15 +109,25 @@ class JsonExportHelper(@ApplicationContext private val context: Context) {
 
         val rootObject = JSONObject().apply {
             put("export_version", 1)
-            put("app_name", "Health Metrics Tracker")
+            put("app_name", ExportDisclosurePolicy.APP_NAME)
+            put("app_package", context.packageName)
             put("exported_at", dateFormatter.format(Date()))
             put("filter_applied", filterDescription)
             put("total_entries", entries.size)
+            put("metadata", JSONObject().apply {
+                put("generated_by", ExportDisclosurePolicy.APP_NAME)
+                put("data_type", ExportDisclosurePolicy.INFORMATIONAL_LABEL)
+                put("diagnosis_notice", ExportDisclosurePolicy.DIAGNOSIS_NOTICE)
+                put("medical_disclaimer", ExportDisclosurePolicy.MEDICAL_DISCLAIMER)
+                put("includes_profile", false)
+            })
 
             val entriesArray = JSONArray()
             entries.forEachIndexed { index, entry ->
                 entriesArray.put(entryToJson(entry))
-                onProgress(0.1f + 0.8f * (index + 1) / entries.size)
+                if (entries.isNotEmpty()) {
+                    onProgress(0.1f + 0.8f * (index + 1) / entries.size)
+                }
             }
             put("entries", entriesArray)
         }

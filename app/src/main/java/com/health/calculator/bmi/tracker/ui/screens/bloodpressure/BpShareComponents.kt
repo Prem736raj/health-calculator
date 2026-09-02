@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.data.export.BpExportManager
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
 import com.health.calculator.bmi.tracker.data.model.BloodPressureReading
 import kotlinx.coroutines.Dispatchers
@@ -156,7 +157,7 @@ private fun shareReadingAsText(@ApplicationContext context: Context, reading: Bl
 
     sb.appendLine("📅 ${reading.formattedDateTime}")
     sb.appendLine("━━━━━━━━━━━━━━━━━━━━━━")
-    sb.appendLine("Tracked with Health Metrics Tracker")
+    sb.append(ExportDisclosurePolicy.shareFooter())
 
     exportManager.shareText(sb.toString())
 }

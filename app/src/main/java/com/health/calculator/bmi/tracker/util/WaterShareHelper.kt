@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 import android.content.Context
 import android.content.Intent
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,7 +58,8 @@ object WaterShareHelper {
             appendLine(message)
 
             appendLine()
-            appendLine("📱 Tracked with Health Metrics Tracker")
+            appendLine()
+            append(ExportDisclosurePolicy.shareFooter())
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
@@ -79,10 +81,14 @@ object WaterShareHelper {
         currentL: Float,
         streakDays: Int
     ) {
-        val message = if (streakDays > 0) {
-            "I drank ${String.format("%.1f", currentL)} liters of water today! Day $streakDays streak! 💧🔥 - Health Metrics Tracker"
-        } else {
-            "I drank ${String.format("%.1f", currentL)} liters of water today! 💧 - Health Metrics Tracker"
+        val message = buildString {
+            append(if (streakDays > 0) {
+                "I drank ${String.format("%.1f", currentL)} liters of water today! Day $streakDays streak! 💧🔥"
+            } else {
+                "I drank ${String.format("%.1f", currentL)} liters of water today! 💧"
+            })
+            append("\n\n")
+            append(ExportDisclosurePolicy.shareFooter())
         }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
@@ -100,7 +106,7 @@ object WaterShareHelper {
      */
     fun getQuickShareText(currentMl: Int, goalMl: Int, streakDays: Int): String {
         val currentL = currentMl / 1000f
-        return if (currentMl >= goalMl) {
+        val summary = if (currentMl >= goalMl) {
             if (streakDays > 0) {
                 "🎉 I hit my water goal today! ${String.format("%.1f", currentL)}L ✓ | Day $streakDays streak 🔥 #Hydration #HealthCalculator"
             } else {
@@ -110,5 +116,6 @@ object WaterShareHelper {
             val percentage = if (goalMl > 0) (currentMl.toFloat() / goalMl * 100).toInt() else 0
             "💧 Hydration progress: ${String.format("%.1f", currentL)}L ($percentage%) - staying healthy! #HealthCalculator"
         }
+        return ExportDisclosurePolicy.appendToShareText(summary)
     }
 }

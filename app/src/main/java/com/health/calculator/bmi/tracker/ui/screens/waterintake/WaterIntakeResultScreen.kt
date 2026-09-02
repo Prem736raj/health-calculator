@@ -3,6 +3,7 @@ package com.health.calculator.bmi.tracker.ui.screens.waterintake
 
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -1243,7 +1244,7 @@ private fun shareWaterResult(context: android.content.Context, result: WaterInta
         appendLine("Glasses: ${result.recommendedGlasses} × 250ml")
         appendLine("Hourly: ~${result.recommendedIntakeMl / 16} ml")
         appendLine()
-        appendLine("Calculated using Health Metrics Tracker")
+        append(ExportDisclosurePolicy.shareFooter())
     }
 
     val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {

@@ -33,6 +33,7 @@ import com.health.calculator.bmi.tracker.data.preferences.BMIGoalPreferences
 import com.health.calculator.bmi.tracker.data.preferences.BMIInputMemoryPreferences
 import com.health.calculator.bmi.tracker.data.preferences.BMILastUsedInput
 import com.health.calculator.bmi.tracker.data.model.BMIValidationState
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.BMIEdgeCaseHandler
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.EdgeCaseMessage
 import kotlinx.coroutines.flow.SharingStarted
@@ -1161,9 +1162,8 @@ class BmiViewModel @Inject constructor(
             appendLine(healthRiskSummary)
             appendLine()
             appendLine("━━━━━━━━━━━━━━━━━━")
-            appendLine("Calculated using Health Metrics Tracker")
             appendLine("Adult BMI reference categories")
-            appendLine("⚕️ Informational wellness data — not a diagnosis")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
     

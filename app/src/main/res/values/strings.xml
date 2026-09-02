@@ -48,8 +48,8 @@
 <string name="hydration_education_button">Hydration Education</string>
 <string name="go_back_button">← Go Back</string>
     
-<string name="export_backup_title">Export &amp; Backup</string>
-<string name="export_backup_subtitle">Choose where to export or back up your health data</string>
+<string name="export_backup_title">Export your data</string>
+<string name="export_backup_subtitle">Choose a format and share only the wellness data you intend to include</string>
 <string name="history_export_button">History Export</string>
 <string name="backup_restore_button">Backup &amp; Restore</string>
 <string name="data_management_button">Data Management</string>
@@ -184,7 +184,7 @@
 <string name="txt_apply">Apply</string>
 <string name="txt_preferred_format">Preferred Format</string>
 <string name="txt_frequency">Frequency</string>
-<string name="txt_automatically_export_data_and_">Automatically export data and save locally</string>
+<string name="txt_automatically_export_data_and_">Save a periodic copy locally on this device</string>
 <string name="txt_enable_scheduling">Enable Scheduling</string>
 <string name="txt_automatic_health_export">Automatic Health Export</string>
 <string name="txt_go_to_calculators">Go to Calculators</string>

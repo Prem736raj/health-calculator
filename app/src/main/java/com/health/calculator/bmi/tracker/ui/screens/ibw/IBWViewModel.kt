@@ -10,6 +10,7 @@ import com.health.calculator.bmi.tracker.data.repository.IBWHistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.IBWStatistics
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository as MainHistoryRepository
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -334,7 +335,7 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
         parts.add("")
         parts.add("Healthy BMI range: ${"%.1f".format(result.bmiLowerKg * factor)}-${"%.1f".format(result.bmiUpperKg * factor)} $unit")
         parts.add("")
-        parts.add("- Health Metrics Tracker")
+        parts.add(ExportDisclosurePolicy.shareFooter())
 
         return parts.joinToString("\n")
     }

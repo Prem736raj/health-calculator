@@ -5,7 +5,7 @@ import com.health.calculator.bmi.tracker.data.model.CalculatorType
 enum class ExportFormat(val label: String, val extension: String, val mimeType: String) {
     PDF("PDF Report", "pdf", "application/pdf"),
     CSV("CSV Spreadsheet", "csv", "text/csv"),
-    JSON("JSON Backup", "json", "application/json")
+    JSON("JSON Data Export", "json", "application/json")
 }
 
 enum class ExportScope(val label: String) {

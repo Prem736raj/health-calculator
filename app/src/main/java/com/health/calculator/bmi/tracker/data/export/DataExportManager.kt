@@ -53,7 +53,11 @@ class DataExportManager(@ApplicationContext private val context: Context) {
                 when (config.format) {
                     ExportFormat.PDF -> {
                         _exportProgress.update { it.copy(statusMessage = "Generating PDF report...") }
-                        pdfHelper.generateReport(entries, config, profileName) { progress ->
+                        pdfHelper.generateReport(
+                            entries = entries,
+                            config = config,
+                            profileName = profileName.takeIf { config.includeProfile }
+                        ) { progress ->
                             _exportProgress.update { it.copy(progress = progress) }
                         }
                     }
@@ -72,8 +76,11 @@ class DataExportManager(@ApplicationContext private val context: Context) {
                     }
 
                     ExportFormat.JSON -> {
-                        _exportProgress.update { it.copy(statusMessage = "Generating JSON backup...") }
-                        jsonHelper.exportAll(entries, profileData) { progress ->
+                        _exportProgress.update { it.copy(statusMessage = "Generating JSON data export...") }
+                        jsonHelper.exportAll(
+                            entries = entries,
+                            profileData = profileData.takeIf { config.includeProfile }
+                        ) { progress ->
                             _exportProgress.update { it.copy(progress = progress) }
                         }
                     }
@@ -116,6 +123,7 @@ class DataExportManager(@ApplicationContext private val context: Context) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_SUBJECT, "${ExportDisclosurePolicy.APP_NAME} ${format.label}")
             type = format.mimeType
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -129,6 +137,7 @@ class DataExportManager(@ApplicationContext private val context: Context) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_SUBJECT, "${ExportDisclosurePolicy.APP_NAME} wellness summary")
             type = "image/png"
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

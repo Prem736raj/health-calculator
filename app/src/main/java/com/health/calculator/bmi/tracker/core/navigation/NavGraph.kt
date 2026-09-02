@@ -84,8 +84,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import com.health.calculator.bmi.tracker.ui.screens.bloodpressure.BloodPressureViewModel
-import com.health.calculator.bmi.tracker.ui.screens.backup.BackupScreen
-import com.health.calculator.bmi.tracker.ui.screens.backup.BackupViewModel
 import com.health.calculator.bmi.tracker.ui.screens.settings.DataManagementScreen
 import com.health.calculator.bmi.tracker.ui.screens.profile.milestones.MilestonesScreen
 import com.health.calculator.bmi.tracker.ui.screens.profile.milestones.MilestonesViewModel
@@ -534,14 +532,6 @@ fun NavGraph(
                         popUpTo(0) { inclusive = true }
                     }
                 }
-            )
-        }
-
-        composable(route = Screen.Backup.route) {
-            val backupViewModel: BackupViewModel = hiltViewModel()
-            BackupScreen(
-                viewModel = backupViewModel,
-                onNavigateBack = { navController.popBackStack() }
             )
         }
 
@@ -1274,7 +1264,6 @@ fun NavGraph(
             ExportDataScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onOpenHistoryExport = { navController.navigate(Screen.History.route) },
-                onOpenBackup = { navController.navigate(Screen.Backup.route) },
                 onOpenDataManagement = { navController.navigate(Screen.DataManagement.route) }
             )
         }

@@ -90,6 +90,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Widgets can still show intentionally selected tracker values because Android does not provide a universal widget lock-screen redaction API; users can remove widgets or adjust device privacy. Exercise minutes are omitted from weekly reports until a real exercise data source is persisted. Existing Android notification-channel importance choices remain under system/user control.
 - **Next phase:** Make every report/export path user-controlled, privacy-explicit and safe to share.
 
+## Phase 12 — Reports, Export & Sharing
+
+- **Status:** Complete
+- **Major changes:** Added a shared `ExportDisclosurePolicy` so text, CSV, JSON, PDF, image, blood-pressure and weekly/profile shares carry consistent provenance, informational-wellness labeling and a non-diagnostic disclaimer. JSON exports now identify the real package and export metadata, CSV output escapes user content safely, empty exports avoid divide-by-zero progress, and history preserves the selected export format when sharing. Weekly reports now require at least one selected section, generic export screens explain what is shared, and the obsolete user-facing Backup route was removed while legacy local backup code remains unrouteable for compatibility.
+- **Tests:** Added `ExportDisclosurePolicyTest` for provenance, disclaimer, CSV metadata and idempotent share footers. Full unit tests, lint, debug APK, release APK and release AAB gates pass.
+- **Known limitations:** Legacy encrypted backup classes remain only to avoid breaking old local files; they are not exposed as a new backup/restore product. Play Console data-safety declarations and any future portable encrypted transfer design still require product-owner review.
+- **Next phase:** Define a trust-preserving free tier and optional premium value without gating core wellness safety information.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -100,7 +108,7 @@ This file is the source of truth for the sequential product-development phases. 
 | 9 — Smart insights | Complete | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Complete | Consent-based context, safe UX and limits |
 | 11 — Retention and engagement | Complete | Opt-in summaries, gentle reminders and truthful widgets |
-| 12 — Reports, export and sharing | Not started | User-controlled wellness reports |
+| 12 — Reports, export and sharing | Complete | User-controlled wellness reports |
 | 13 — Monetization | Not started | Trust-preserving free/premium boundaries |
 | 14 — ASO and launch preparation | Not started | Research-backed store assets and copy |
 | 15 — Analytics-driven growth | Not started | Privacy-safe funnel and product analytics |

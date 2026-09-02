@@ -188,6 +188,13 @@ fun WeeklyReportScreen(
             includeCalories = uiState.shareIncludeCalories,
             includeExercise = uiState.shareIncludeExercise,
             includeScore = uiState.shareIncludeScore,
+            canShare = uiState.shareIncludeScore ||
+                uiState.shareIncludeWeight ||
+                uiState.shareIncludeBmi ||
+                uiState.shareIncludeBp ||
+                uiState.shareIncludeWater ||
+                uiState.shareIncludeCalories ||
+                uiState.shareIncludeExercise,
             onToggleSection = viewModel::toggleShareSection,
             onShare = { viewModel.shareReport(context) },
             onDismiss = viewModel::dismissShareDialog

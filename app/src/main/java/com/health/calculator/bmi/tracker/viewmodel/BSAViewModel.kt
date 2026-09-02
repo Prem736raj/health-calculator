@@ -10,6 +10,7 @@ import com.health.calculator.bmi.tracker.calculator.BSAFormulaInfo
 import com.health.calculator.bmi.tracker.calculator.BSAResult
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -296,6 +297,11 @@ class BSAViewModel @Inject constructor(application: Application) : AndroidViewMo
 
     fun getShareText(): String {
         val result = _uiState.value.result ?: return ""
-        return "My BSA: ${"%.2f".format(result.primaryBSA)} m² (${result.selectedFormula.name} formula) - Health Metrics Tracker"
+        return buildString {
+            appendLine("My Body Surface Area (BSA)")
+            appendLine("${"%.2f".format(result.primaryBSA)} m² (${result.selectedFormula.name} formula)")
+            appendLine()
+            append(ExportDisclosurePolicy.shareFooter())
+        }
     }
 }

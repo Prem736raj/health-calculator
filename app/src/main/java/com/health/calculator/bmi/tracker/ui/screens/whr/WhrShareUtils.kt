@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
 import android.content.Intent
 import com.health.calculator.bmi.tracker.data.model.*
+import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,12 +24,13 @@ object WhrShareUtils {
                 appendLine("WHtR: ${String.format("%.2f", it)} — ${if (result.whtrAtRisk == true) "At Risk" else "Normal"}")
             }
             appendLine("━━━━━━━━━━━━━━━━━━━━━━")
-            appendLine("Calculated using Health Metrics Tracker")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 
     fun buildCompactShareText(result: WhrResult): String {
-        return "WHR: ${String.format("%.2f", result.whr)} - ${result.whrCategory.label} (reference context) | Waist: ${String.format("%.0f", result.waistCm)}cm | Hip: ${String.format("%.0f", result.hipCm)}cm"
+        val summary = "WHR: ${String.format("%.2f", result.whr)} - ${result.whrCategory.label} (reference context) | Waist: ${String.format("%.0f", result.waistCm)}cm | Hip: ${String.format("%.0f", result.hipCm)}cm"
+        return ExportDisclosurePolicy.appendToShareText(summary)
     }
 
     fun buildDetailedShareText(result: WhrResult): String {
@@ -60,7 +62,7 @@ object WhrShareUtils {
             appendLine()
             appendLine("══════════════════════════════")
             appendLine("Calculated on ${SimpleDateFormat("MMM d, yyyy 'at' h:mm a", Locale.getDefault()).format(Date())}")
-            appendLine("Health Metrics Tracker")
+            append(ExportDisclosurePolicy.shareFooter())
         }
     }
 
