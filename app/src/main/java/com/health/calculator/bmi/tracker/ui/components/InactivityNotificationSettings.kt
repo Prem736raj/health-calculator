@@ -64,7 +64,7 @@ fun InactivityNotificationSettings(
             if (inactivityEnabled) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    "• After 2 days, 5 days, 14 days\n• Maximum 4 reminders, then we stop",
+                    "• Off by default and only enabled here\n• After 2, 5, 14 and 30 days; then reminders stop",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

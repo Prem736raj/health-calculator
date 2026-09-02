@@ -79,6 +79,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.health.connect.client.PermissionController
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -119,6 +120,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.health.calculator.bmi.tracker.ui.components.InactivityNotificationSettings
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
+import com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler
+import com.health.calculator.bmi.tracker.notifications.NotificationPermissionHelper
+import com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler
 
 // ─── Accent Colors ────────────────────────────────────────────────────────────
 
@@ -154,6 +158,18 @@ fun SettingsScreen(
         contract = PermissionController.createRequestPermissionResultContract()
     ) { granted ->
         viewModel.checkHealthConnectStatus()
+    }
+
+    // Ask for notification access only when the user turns on a feature that
+    // needs it, never during onboarding or passive app startup.
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (!granted) {
+            scope.launch {
+                snackbarHostState.showSnackbar("Notifications remain off. You can enable access in Android Settings.")
+            }
+        }
     }
 
     // ── Snackbar Messages ─────────────────────────────────────────────────
@@ -388,10 +404,34 @@ fun SettingsScreen(
                                 streakProtectionEnabled = inactivityState.streakProtectionEnabled,
                                 streakFreezeCount = freezeCount,
                                 onInactivityToggle = {
-                                    scope.launch { inactivityRepo.setInactivityNotificationsEnabled(it) }
+                                    scope.launch {
+                                        inactivityRepo.setInactivityNotificationsEnabled(it)
+                                        if (it) {
+                                            InactivityCheckScheduler(context).scheduleDaily()
+                                        } else {
+                                            InactivityCheckScheduler(context).cancel()
+                                        }
+                                    }
+                                    if (it && NotificationPermissionHelper.needsPermissionRequest() &&
+                                        !NotificationPermissionHelper.isNotificationPermissionGranted(context)
+                                    ) {
+                                        notificationPermissionLauncher.launch(NotificationPermissionHelper.getPermission())
+                                    }
                                 },
                                 onStreakProtectionToggle = {
-                                    scope.launch { inactivityRepo.setStreakProtectionEnabled(it) }
+                                    scope.launch {
+                                        inactivityRepo.setStreakProtectionEnabled(it)
+                                        if (it) {
+                                            StreakProtectionScheduler(context).scheduleEvening()
+                                        } else {
+                                            StreakProtectionScheduler(context).cancel()
+                                        }
+                                    }
+                                    if (it && NotificationPermissionHelper.needsPermissionRequest() &&
+                                        !NotificationPermissionHelper.isNotificationPermissionGranted(context)
+                                    ) {
+                                        notificationPermissionLauncher.launch(NotificationPermissionHelper.getPermission())
+                                    }
                                 }
                             )
                         }

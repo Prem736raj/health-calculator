@@ -6,7 +6,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
 import com.health.calculator.bmi.tracker.data.models.ReminderCategory
 import java.util.Calendar
-import kotlin.random.Random
 
 data class SmartNotificationContent(
     val title: String,
@@ -41,44 +40,20 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
         customMessage: String?,
         data: NotificationContextData
     ): SmartNotificationContent {
-        val progressPercent = if (data.waterGoalMl > 0) {
-            (data.waterIntakeMl.toFloat() / data.waterGoalMl * 100).toInt()
-        } else 0
-
-        val isBehind = isAfternoon() && progressPercent < 50
-        val isEvening = isEvening()
-
-        val title = customTitle ?: when {
-            progressPercent >= 100 -> "🎉 Goal reached! Keep it up!"
-            isBehind -> "💧 You're behind on hydration"
-            isEvening -> "💧 Evening hydration check"
-            else -> "💧 Time to hydrate!"
+        val title = customTitle ?: if (isEvening()) {
+            "💧 Evening hydration check-in"
+        } else {
+            "💧 Time for a water break"
         }
-
-        val progressText = "${data.waterIntakeMl}ml / ${data.waterGoalMl}ml (${progressPercent}%)"
-
-        val message = when {
-            progressPercent >= 100 -> "You've already met your goal! Great job staying hydrated."
-            isBehind -> "You're at $progressPercent% of today's goal. Catch up with a big glass!"
-            progressPercent >= 75 -> "Almost there! Just ${data.waterGoalMl - data.waterIntakeMl}ml more to reach your goal."
-            progressPercent >= 50 -> "Halfway there! Keep drinking to hit your target."
-            else -> customMessage ?: "Don't forget to drink water. You're at $progressPercent% of today's goal."
-        }
-
-        val bigText = buildString {
-            append(message)
-            if (data.waterStreak > 0) {
-                append("\n\n🔥 Current streak: ${data.waterStreak} day${if (data.waterStreak > 1) "s" else ""}")
-            }
-            append("\n💧 Today: $progressText")
-        }
+        val message = customMessage
+            ?: "If a drink fits your day, you can log it whenever it is convenient."
 
         return SmartNotificationContent(
             title = title,
             message = message,
-            bigText = bigText,
-            subText = progressText,
-            priority = if (isBehind) 1 else 0,
+            bigText = message,
+            subText = null,
+            priority = 0,
             category = "water"
         )
     }
@@ -96,22 +71,13 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
 
         val baseMessage = customMessage ?: "Take a moment to measure your blood pressure."
 
-        val bigText = buildString {
-            append(baseMessage)
-            if (data.bpTrackingStreak > 0) {
-                append("\n\n📅 Tracking streak: ${data.bpTrackingStreak} day${if (data.bpTrackingStreak > 1) "s" else ""}!")
-            }
-            data.lastBpReading?.let {
-                append("\n❤️ Last reading: $it")
-            }
-            append("\n\n💡 Tip: Sit quietly for 5 minutes before measuring.")
-        }
+        val bigText = "$baseMessage\n\nIf you choose to measure, follow your device instructions and rest quietly first."
 
         return SmartNotificationContent(
             title = title,
             message = baseMessage,
             bigText = bigText,
-            subText = if (data.bpTrackingStreak > 0) "Streak: ${data.bpTrackingStreak} days" else null,
+            subText = null,
             priority = 0,
             category = "bp"
         )
@@ -124,23 +90,9 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
     ): SmartNotificationContent {
         val title = customTitle ?: "⚖️ Weekly Weigh-in"
 
-        val baseMessage = customMessage ?: "Time for your weekly weigh-in!"
-
-        val bigText = buildString {
-            append(baseMessage)
-            if (data.weightGoalKg != null && data.currentWeightKg != null) {
-                val weightGoalKg = data.weightGoalKg!!
-                val currentWeightKg = data.currentWeightKg!!
-                val diff = kotlin.math.abs(weightGoalKg - currentWeightKg)
-                val formatted = String.format("%.1f", diff)
-                val direction = if (weightGoalKg < currentWeightKg) "lose" else "gain"
-                append("\n\n🎯 ${formatted}kg to $direction to reach your goal!")
-            }
-            if (data.weightTrackingWeeks > 0) {
-                append("\n📊 You've been tracking for ${data.weightTrackingWeeks} weeks")
-            }
-            append("\n\n💡 Tip: Weigh yourself in the morning, after bathroom, before eating.")
-        }
+        val baseMessage = customMessage
+            ?: "If a weekly weigh-in is part of your routine, you can record it when convenient."
+        val bigText = baseMessage
 
         return SmartNotificationContent(
             title = title,
@@ -157,12 +109,10 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
         data: NotificationContextData
     ): SmartNotificationContent {
         val title = customTitle ?: "💊 Medication Reminder"
-        val message = customMessage ?: "Time to take your medication."
+        val message = customMessage
+            ?: "Medication reminder. Follow the instructions you were given."
 
-        val bigText = buildString {
-            append(message)
-            append("\n\n⚠️ Don't skip doses. Consistency is key for effectiveness.")
-        }
+        val bigText = "$message\n\nIf you are unsure about your plan, contact a pharmacist or clinician."
 
         return SmartNotificationContent(
             title = title,
@@ -184,27 +134,9 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
             else -> "🏃 Ready to exercise?"
         }
 
-        val motivationalMessages = listOf(
-            "Movement is medicine!",
-            "Every step counts.",
-            "Your future self will thank you.",
-            "Let's get those endorphins flowing!",
-            "Just 30 minutes can make a huge difference."
-        )
-
-        val baseMessage = customMessage ?: motivationalMessages.random()
-
-        val bigText = buildString {
-            append(baseMessage)
-            if (data.maxHeartRate > 0) {
-                val zone2Low = (data.maxHeartRate * 0.6).toInt()
-                val zone2High = (data.maxHeartRate * 0.7).toInt()
-                append("\n\n💓 Your fat-burn zone: $zone2Low - $zone2High BPM")
-            }
-            if (data.exerciseMinutesThisWeek > 0) {
-                append("\n🏅 This week: ${data.exerciseMinutesThisWeek} min (WHO recommends 150 min/week)")
-            }
-        }
+        val baseMessage = customMessage
+            ?: "If movement is part of your plan, consider a short activity that feels comfortable."
+        val bigText = baseMessage
 
         return SmartNotificationContent(
             title = title,
@@ -224,29 +156,15 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
 
         val title = customTitle ?: "🍽️ Log your $mealType"
 
-        val baseMessage = customMessage ?: "Don't forget to log what you ate!"
-
-        val bigText = buildString {
-            append(baseMessage)
-            if (data.calorieGoal > 0) {
-                val remaining = data.calorieGoal - data.caloriesConsumed
-                if (remaining > 0) {
-                    append("\n\n📊 Today: ${data.caloriesConsumed} / ${data.calorieGoal} cal")
-                    append("\n🎯 ${remaining} calories remaining")
-                } else {
-                    append("\n\n⚠️ You've exceeded your calorie goal by ${-remaining} cal")
-                }
-            }
-            if (data.calorieLoggingStreak > 0) {
-                append("\n🔥 Logging streak: ${data.calorieLoggingStreak} days")
-            }
-        }
+        val baseMessage = customMessage
+            ?: "If you track meals, you can log what you ate when convenient."
+        val bigText = baseMessage
 
         return SmartNotificationContent(
             title = title,
             message = baseMessage,
             bigText = bigText,
-            subText = if (data.calorieGoal > 0) "${data.caloriesConsumed}/${data.calorieGoal} cal" else null,
+            subText = null,
             priority = 0,
             category = "calories"
         )
@@ -257,18 +175,9 @@ class SmartNotificationContentBuilder(@ApplicationContext private val context: C
         customMessage: String?,
         data: NotificationContextData
     ): SmartNotificationContent {
-        val title = customTitle ?: "🔔 Health Reminder"
-        val message = customMessage ?: "Time for your health check-in!"
-
-        val bigText = buildString {
-            append(message)
-            if (data.daysSinceLastAppUse > 2) {
-                append("\n\n👋 We've missed you! It's been ${data.daysSinceLastAppUse} days since your last check-in.")
-            }
-            if (data.healthScore > 0) {
-                append("\n🏆 Your Wellness Score: ${data.healthScore}/100")
-            }
-        }
+        val title = customTitle ?: "🔔 Wellness reminder"
+        val message = customMessage ?: "An optional wellness check-in is available."
+        val bigText = message
 
         return SmartNotificationContent(
             title = title,

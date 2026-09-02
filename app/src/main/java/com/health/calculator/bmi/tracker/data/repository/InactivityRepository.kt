@@ -9,6 +9,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.health.calculator.bmi.tracker.data.models.InactivityState
+import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -42,8 +43,10 @@ class InactivityRepository @Inject constructor(@ApplicationContext private val c
                 lastActivityTime = prefs[Keys.LAST_ACTIVITY] ?: lastOpen,
                 daysInactive = daysInactive,
                 lastInactivityNotificationLevel = prefs[Keys.LAST_NOTIFICATION_LEVEL] ?: 0,
-                inactivityNotificationsEnabled = prefs[Keys.INACTIVITY_NOTIFS_ENABLED] ?: true,
-                streakProtectionEnabled = prefs[Keys.STREAK_PROTECTION_ENABLED] ?: true,
+                inactivityNotificationsEnabled = prefs[Keys.INACTIVITY_NOTIFS_ENABLED]
+                    ?: WellnessEngagementPolicy.DEFAULT_INACTIVITY_NOTIFICATIONS_ENABLED,
+                streakProtectionEnabled = prefs[Keys.STREAK_PROTECTION_ENABLED]
+                    ?: WellnessEngagementPolicy.DEFAULT_STREAK_PROTECTION_ENABLED,
                 hasSeenWelcomeBack = prefs[Keys.HAS_SEEN_WELCOME_BACK] ?: true
             )
         }

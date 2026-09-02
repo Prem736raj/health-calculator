@@ -82,6 +82,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Firebase AI Logic availability, quotas, App Check and model behavior still depend on Firebase Console configuration and network service. Deterministic screening is deliberately conservative and is not a substitute for professional review; no health measurements are sent to analytics.
 - **Next phase:** Build healthy retention loops around summaries, milestones, reminders and widgets.
 
+## Phase 11 — Retention & Engagement
+
+- **Status:** Complete
+- **Major changes:** Made inactivity and evening check-ins explicitly opt-in and synchronized their Settings toggles with schedulers/receivers, including boot restoration and notification-permission prompting only when a feature is enabled. Reframed weekly reports from A–F health grades to a non-judgmental logging-rhythm snapshot while retaining legacy database fields for compatibility. Removed fabricated exercise shortfalls and hard-coded widget streaks, softened milestone/streak language, capped all notification categories with the rate limiter, switched repeating schedules to inexact alarms, and added private lock-screen redaction for health reminders and weekly summaries. Notification copy no longer exposes raw BP, weight, calorie or hydration values by default and avoids medication, “fat-burn” and shame-oriented claims.
+- **Tests:** Added `WellnessEngagementPolicyTest` for opt-in defaults, rhythm copy and non-punitive streak language. Full unit tests, lint, debug APK, release APK and release AAB gates pass after the memory-safe Gradle configuration update.
+- **Known limitations:** Widgets can still show intentionally selected tracker values because Android does not provide a universal widget lock-screen redaction API; users can remove widgets or adjust device privacy. Exercise minutes are omitted from weekly reports until a real exercise data source is persisted. Existing Android notification-channel importance choices remain under system/user control.
+- **Next phase:** Make every report/export path user-controlled, privacy-explicit and safe to share.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -91,7 +99,7 @@ This file is the source of truth for the sequential product-development phases. 
 | 8 — Health Connect 2.0 | Complete | Permission-led visible integrations |
 | 9 — Smart insights | Complete | Deterministic explainable insight engine |
 | 10 — Context-aware AI assistant | Complete | Consent-based context, safe UX and limits |
-| 11 — Retention and engagement | Not started | Healthy summaries, milestones and widgets |
+| 11 — Retention and engagement | Complete | Opt-in summaries, gentle reminders and truthful widgets |
 | 12 — Reports, export and sharing | Not started | User-controlled wellness reports |
 | 13 — Monetization | Not started | Trust-preserving free/premium boundaries |
 | 14 — ASO and launch preparation | Not started | Research-backed store assets and copy |

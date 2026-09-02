@@ -41,7 +41,7 @@ class WeeklyReportScheduler @javax.inject.Inject constructor(@ApplicationContext
             }
         }
 
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY * 7,
@@ -102,6 +102,9 @@ class WeeklyReportScheduler @javax.inject.Inject constructor(@ApplicationContext
 class WeeklyReportReceiver : BroadcastReceiver() {
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
+            val prefs = context.getSharedPreferences("weekly_report_prefs", Context.MODE_PRIVATE)
+            if (!prefs.getBoolean("report_enabled", false)) return@launch
+
             NotificationChannelsManager.createAllChannels(context)
 
             val openIntent = Intent(context, MainActivity::class.java).apply {
@@ -115,20 +118,32 @@ class WeeklyReportReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
+            val publicVersion = NotificationCompat.Builder(
+                context,
+                NotificationChannelsManager.CHANNEL_WEEKLY_REPORTS
+            )
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Weekly wellness check-in")
+                .setContentText("Open Health Metrics Tracker to review your summary.")
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .build()
+
             val notification = NotificationCompat.Builder(
                 context,
                 NotificationChannelsManager.CHANNEL_WEEKLY_REPORTS
             )
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("\uD83D\uDCCA Your Weekly Health Report is Ready!")
-                .setContentText("See how you did this week and plan for next week.")
+                .setContentTitle("\uD83D\uDCCA Your weekly wellness check-in")
+                .setContentText("Review the check-ins and trends you recorded this week.")
                 .setStyle(
                     NotificationCompat.BigTextStyle()
-                        .bigText("Your weekly health summary has been generated. See your progress, trends, and personalized suggestions for next week!")
+                        .bigText("Your weekly wellness summary is available. Review your recorded trends and choose an optional focus for next week.")
                 )
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setPublicVersion(publicVersion)
                 .addAction(0, "\uD83D\uDCCA View Report", pendingIntent)
                 .build()
 

@@ -12,8 +12,11 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
+import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -37,7 +40,7 @@ class StreakProtectionScheduler(@ApplicationContext private val context: Context
             }
         }
 
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -63,9 +66,15 @@ class StreakProtectionReceiver : BroadcastReceiver() {
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
+            val engagementState = runCatching {
+                InactivityRepository(context).getInactivityState().first()
+            }.getOrNull() ?: return@launch
+
+            // The Settings toggle is the source of truth. A streak reminder is
+            // never allowed to become a background high-priority notification.
+            if (!engagementState.streakProtectionEnabled) return@launch
+
             val prefs = context.getSharedPreferences("streak_protection_prefs", Context.MODE_PRIVATE)
-            val enabled = prefs.getBoolean("enabled", true)
-            if (!enabled) return@launch
 
             // Check if user has active streaks at risk
             val waterLoggedToday = prefs.getBoolean("water_logged_today_${getTodayKey()}", false)
@@ -80,7 +89,7 @@ class StreakProtectionReceiver : BroadcastReceiver() {
 
             // Rate limit
             val rateLimiter = NotificationRateLimiter(context)
-            if (!rateLimiter.shouldSendNotification(true, "STREAK_PROTECTION").allowed) return@launch
+            if (!rateLimiter.shouldSendNotification(false, "STREAK_PROTECTION").allowed) return@launch
 
             sendStreakProtectionNotification(
                 context,
@@ -117,14 +126,11 @@ class StreakProtectionReceiver : BroadcastReceiver() {
             else -> "water"
         }
 
-        val title = "🔥 Your ${streakAtRisk}-day streak is at risk!"
-
-        val message = when (streakType) {
-            "water" -> "You haven't logged water today. A quick glass can save your streak!"
-            else -> "Log something quick to keep your streak alive!"
-        }
-
-        val freezeText = if (freezeAvailable) "\n\n🛡️ Streak freeze is available to protect your streak!" else ""
+        val title = WellnessEngagementPolicy.streakReminderTitle(streakAtRisk)
+        val message = WellnessEngagementPolicy.streakReminderMessage(streakType)
+        val freezeText = if (freezeAvailable) {
+            "\n\nAn optional day buffer is available. You can also skip today—your history remains saved."
+        } else ""
 
         val openIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -151,9 +157,10 @@ class StreakProtectionReceiver : BroadcastReceiver() {
             .setContentTitle(title)
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message + freezeText))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(openPending)
             .setAutoCancel(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .addAction(0, "💧 Log Water Now", waterLogPending)
 
         if (freezeAvailable) {
@@ -164,7 +171,7 @@ class StreakProtectionReceiver : BroadcastReceiver() {
                 context, 9103, freezeIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
-            builder.addAction(0, "🛡️ Use Streak Freeze", freezePending)
+            builder.addAction(0, "Use optional day buffer", freezePending)
         }
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

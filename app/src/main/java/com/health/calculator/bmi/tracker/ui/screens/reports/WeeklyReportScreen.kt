@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.data.models.*
+import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -80,9 +81,10 @@ fun WeeklyReportScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 if (summary != null) {
-                    // Grade & Overall Card
+                    // Non-judgmental logging rhythm summary. The legacy grade
+                    // remains in storage for schema compatibility only.
                     item(key = "grade") {
-                        GradeCard(
+                        WeeklyRhythmCard(
                             grade = summary.report.overallGrade,
                             message = summary.report.overallMessage,
                             weekStart = summary.report.weekStartDate,
@@ -194,17 +196,12 @@ fun WeeklyReportScreen(
 }
 
 @Composable
-private fun GradeCard(grade: String, message: String, weekStart: Long, weekEnd: Long) {
+private fun WeeklyRhythmCard(grade: String, message: String, weekStart: Long, weekEnd: Long) {
     val dateFmt = SimpleDateFormat("MMM d", Locale.getDefault())
     val dateRange = "${dateFmt.format(Date(weekStart))} – ${dateFmt.format(Date(weekEnd))}"
 
-    val gradeColor = when (grade) {
-        "A" -> Color(0xFF4CAF50)
-        "B" -> Color(0xFF2196F3)
-        "C" -> Color(0xFFFFC107)
-        "D" -> Color(0xFFFF9800)
-        else -> Color(0xFFF44336)
-    }
+    val accentColor = MaterialTheme.colorScheme.primary
+    val rhythmLabel = WellnessEngagementPolicy.weeklyRhythmLabel(grade)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -217,7 +214,7 @@ private fun GradeCard(grade: String, message: String, weekStart: Long, weekEnd: 
                 .fillMaxWidth()
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(gradeColor.copy(alpha = 0.15f), gradeColor.copy(alpha = 0.05f))
+                        colors = listOf(accentColor.copy(alpha = 0.15f), accentColor.copy(alpha = 0.05f))
                     ),
                     shape = RoundedCornerShape(20.dp)
                 )
@@ -230,23 +227,33 @@ private fun GradeCard(grade: String, message: String, weekStart: Long, weekEnd: 
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Grade circle
+                // A neutral rhythm icon avoids turning wellness logging into
+                // an academic grade or a judgment of health.
                 Box(
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape)
-                        .background(gradeColor.copy(alpha = 0.15f)),
+                        .background(accentColor.copy(alpha = 0.15f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = grade,
-                        style = MaterialTheme.typography.displayMedium,
+                        text = "↻",
+                        style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Bold,
-                        color = gradeColor
+                        color = accentColor
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = rhythmLabel,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = message,
@@ -312,14 +319,20 @@ private fun HealthScoreChangeCard(scoreStart: Int, scoreEnd: Int, change: Int) {
                 }
             }
         }
+        Text(
+            text = "Informational logging metric · not clinically validated or diagnostic",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)
+        )
     }
 }
 
 @Composable
 private fun MetricSummaryCard(metric: MetricWeeklySummary) {
     val trendColor = when (metric.trend) {
-        MetricTrend.IMPROVING -> Color(0xFF4CAF50)
-        MetricTrend.DECLINING -> Color(0xFFF44336)
+        MetricTrend.IMPROVING -> MaterialTheme.colorScheme.primary
+        MetricTrend.DECLINING -> MaterialTheme.colorScheme.tertiary
         MetricTrend.STABLE -> MaterialTheme.colorScheme.onSurfaceVariant
         MetricTrend.NEW -> MaterialTheme.colorScheme.primary
         MetricTrend.NO_DATA -> MaterialTheme.colorScheme.onSurfaceVariant
@@ -412,10 +425,8 @@ private fun NextWeekGoalCard(goal: NextWeekGoal) {
 private fun PreviousReportCard(report: WeeklyReport, onClick: () -> Unit) {
     val dateFmt = SimpleDateFormat("MMM d", Locale.getDefault())
     val dateRange = "${dateFmt.format(Date(report.weekStartDate))} – ${dateFmt.format(Date(report.weekEndDate))}"
-    val gradeColor = when (report.overallGrade) {
-        "A" -> Color(0xFF4CAF50); "B" -> Color(0xFF2196F3); "C" -> Color(0xFFFFC107)
-        "D" -> Color(0xFFFF9800); else -> Color(0xFFF44336)
-    }
+    val accentColor = MaterialTheme.colorScheme.primary
+    val rhythmLabel = WellnessEngagementPolicy.weeklyRhythmLabel(report.overallGrade)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -428,15 +439,15 @@ private fun PreviousReportCard(report: WeeklyReport, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
-                modifier = Modifier.size(36.dp).clip(CircleShape).background(gradeColor.copy(alpha = 0.15f)),
+                modifier = Modifier.size(36.dp).clip(CircleShape).background(accentColor.copy(alpha = 0.15f)),
                 contentAlignment = Alignment.Center
             ) {
-                Text(report.overallGrade, fontWeight = FontWeight.Bold, color = gradeColor)
+                Text("↻", fontWeight = FontWeight.Bold, color = accentColor)
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(dateRange, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
-                Text(report.overallMessage.take(50) + "...", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(rhythmLabel, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             if (!report.isRead) {
                 Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary))

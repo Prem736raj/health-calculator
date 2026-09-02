@@ -6,6 +6,7 @@ import com.health.calculator.bmi.tracker.data.models.*
 import com.health.calculator.bmi.tracker.data.models.MilestoneType
 import com.health.calculator.bmi.tracker.data.model.ParsedHistoryEntry
 import com.health.calculator.bmi.tracker.data.repository.*
+import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
 import kotlinx.coroutines.flow.first
 import java.util.Calendar
 
@@ -50,7 +51,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
             calorieDaysOnTarget = calorieData.daysOnTarget,
             calorieDaysLogged = calorieData.daysLogged,
             bpReadings = bpData.readingCount,
-            exerciseMinutes = exerciseData.first
+            exerciseMinutes = exerciseData.first,
+            exerciseSessions = exerciseData.second
         )
 
         val overallMessage = generateOverallMessage(overallGrade)
@@ -138,7 +140,7 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
                 trend = when {
                     report.weightChange == null -> MetricTrend.NO_DATA
                     kotlin.math.abs(report.weightChange) < 0.1 -> MetricTrend.STABLE
-                    report.weightChange < 0 -> MetricTrend.IMPROVING
+                    report.weightChange > 0 -> MetricTrend.IMPROVING
                     else -> MetricTrend.DECLINING
                 },
                 detail = "$changeStr this week • ${report.weightEntryCount} entries",
@@ -157,7 +159,7 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
                     previous?.avgBmi == null -> MetricTrend.NEW
                     report.avgBmi == null -> MetricTrend.NO_DATA
                     kotlin.math.abs(report.avgBmi - previous.avgBmi) < 0.3 -> MetricTrend.STABLE
-                    report.avgBmi < previous.avgBmi -> MetricTrend.IMPROVING
+                    report.avgBmi > previous.avgBmi -> MetricTrend.IMPROVING
                     else -> MetricTrend.DECLINING
                 },
                 detail = "${report.bmiReadingCount} readings • ${report.bestBmiCategory ?: "—"}",
@@ -179,8 +181,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
                 trend = when {
                     previous?.avgSystolic == null -> MetricTrend.NEW
                     report.avgSystolic == null -> MetricTrend.NO_DATA
-                    report.avgSystolic < previous.avgSystolic -> MetricTrend.IMPROVING
-                    report.avgSystolic > previous.avgSystolic -> MetricTrend.DECLINING
+                    report.avgSystolic > previous.avgSystolic -> MetricTrend.IMPROVING
+                    report.avgSystolic < previous.avgSystolic -> MetricTrend.DECLINING
                     else -> MetricTrend.STABLE
                 },
                 detail = "${report.bpReadingCount} readings this week",
@@ -218,7 +220,7 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
                 trend = when {
                     previous == null || previous.calorieDaysLogged == 0 -> MetricTrend.NEW
                     kotlin.math.abs(report.avgCaloriesConsumed - previous.avgCaloriesConsumed) < 100 -> MetricTrend.STABLE
-                    report.avgCaloriesConsumed < report.calorieTarget && report.avgCaloriesConsumed > report.calorieTarget - 500 -> MetricTrend.IMPROVING
+                    report.avgCaloriesConsumed > previous.avgCaloriesConsumed -> MetricTrend.IMPROVING
                     else -> MetricTrend.DECLINING
                 },
                 detail = "${report.calorieDaysOnTarget}/${report.calorieDaysLogged} days on target",
@@ -274,8 +276,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
 
         if (report.waterDaysGoalMet == 7) {
             highlights.add(WeeklyHighlight(
-                icon = "💧", title = "Perfect Hydration Week",
-                description = "You met your water goal every single day!",
+                icon = "💧", title = "Hydration consistency",
+                description = "You logged your saved water goal on all seven days.",
                 type = HighlightType.STREAK
             ))
         }
@@ -318,8 +320,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
         if (waterData.daysGoalMet < 5) {
             suggestions.add(NextWeekGoal(
                 icon = "💧",
-                suggestion = "Aim to meet your water goal at least 5 days",
-                reason = "You met it ${waterData.daysGoalMet}/7 days this week",
+                suggestion = "If hydration is a focus, try logging on another day",
+                reason = "You logged your saved goal on ${waterData.daysGoalMet}/7 days this week",
                 priority = 1
             ))
         }
@@ -327,8 +329,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
         if (bpData.readingCount < 3) {
             suggestions.add(NextWeekGoal(
                 icon = "❤️",
-                suggestion = "Try to measure your BP at least 3 times",
-                reason = "Regular monitoring helps track heart health",
+                suggestion = "If BP tracking is useful, add a reading when you choose",
+                reason = "You recorded ${bpData.readingCount} reading${if (bpData.readingCount == 1) "" else "s"} this week",
                 priority = 2
             ))
         }
@@ -336,18 +338,20 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
         if (calorieData.daysLogged < 5) {
             suggestions.add(NextWeekGoal(
                 icon = "🍽️",
-                suggestion = "Log your meals more consistently",
+                suggestion = "If meal logging helps, add an entry when convenient",
                 reason = "You logged ${calorieData.daysLogged}/7 days this week",
                 priority = 3
             ))
         }
 
-        if (exerciseData.first < 150) {
+        // Exercise history is not currently persisted by this report. Do not
+        // manufacture a shortfall or recommend a target from missing data.
+        if (exerciseData.second > 0 && exerciseData.first < 150) {
             val remaining = 150 - exerciseData.first
             suggestions.add(NextWeekGoal(
                 icon = "🏃",
-                suggestion = "Add ${remaining} more minutes of exercise",
-                reason = "WHO recommends 150 min/week of moderate activity",
+                suggestion = "Consider movement that feels comfortable for you",
+                reason = "$remaining minutes would reach a common public-health reference; individual needs vary",
                 priority = 4
             ))
         }
@@ -355,8 +359,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
         if (weightData.count == 0) {
             suggestions.add(NextWeekGoal(
                 icon = "⚖️",
-                suggestion = "Log your weight at least once",
-                reason = "Tracking helps you stay aware of progress",
+                suggestion = "If weight tracking supports your goals, add one check-in",
+                reason = "No weight entries were recorded this week",
                 priority = 5
             ))
         }
@@ -370,7 +374,8 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
         calorieDaysOnTarget: Int,
         calorieDaysLogged: Int,
         bpReadings: Int,
-        exerciseMinutes: Int
+        exerciseMinutes: Int,
+        exerciseSessions: Int
     ): String {
         var score = 0
         var maxScore = 0
@@ -396,13 +401,17 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
             else -> 0
         }
 
-        // Exercise (0-25)
-        maxScore += 25
-        score += when {
-            exerciseMinutes >= 150 -> 25
-            exerciseMinutes >= 75 -> 15
-            exerciseMinutes >= 30 -> 8
-            else -> 0
+        // Exercise is optional and currently not represented in this report
+        // unless a future source supplies sessions. Missing data must not
+        // lower the user's logging snapshot.
+        if (exerciseSessions > 0 || exerciseMinutes > 0) {
+            maxScore += 25
+            score += when {
+                exerciseMinutes >= 150 -> 25
+                exerciseMinutes >= 75 -> 15
+                exerciseMinutes >= 30 -> 8
+                else -> 0
+            }
         }
 
         val percentage = if (maxScore > 0) (score.toFloat() / maxScore * 100).toInt() else 50
@@ -417,13 +426,7 @@ class WeeklyReportGenerator @javax.inject.Inject constructor(
     }
 
     private fun generateOverallMessage(grade: String): String {
-        return when (grade) {
-            "A" -> "Incredible week! \uD83C\uDF1F You crushed your health goals. Keep up this amazing momentum!"
-            "B" -> "Great week! \uD83D\uDCAA You met most of your health goals. Solid progress!"
-            "C" -> "Good effort! \uD83D\uDC4D You made progress in several areas. A few small improvements could make a big difference."
-            "D" -> "Challenging week. \uD83E\uDD17 Don't worry — every week is a fresh start. Focus on one goal at a time."
-            else -> "Tough week. \uD83D\uDC99 It's okay — health is a journey, not a sprint. Start fresh and focus on what matters most."
-        }
+        return WellnessEngagementPolicy.weeklyRhythmMessage(grade)
     }
 
     // Data fetchers

@@ -13,8 +13,10 @@ import androidx.core.app.NotificationCompat
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.data.models.InactivityLevel
+import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -40,7 +42,7 @@ class InactivityCheckScheduler(@ApplicationContext private val context: Context)
             }
         }
 
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -66,16 +68,24 @@ class InactivityCheckReceiver : BroadcastReceiver() {
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
-            val prefs = context.getSharedPreferences("inactivity_quick", Context.MODE_PRIVATE)
-            val lastOpen = prefs.getLong("last_open", System.currentTimeMillis())
-            val notifEnabled = context.getSharedPreferences("inactivity_notif_prefs", Context.MODE_PRIVATE)
-                .getBoolean("enabled", true)
+            val state = runCatching {
+                InactivityRepository(context).getInactivityState().first()
+            }.getOrNull() ?: return@launch
 
-            if (!notifEnabled) return@launch
+            // Re-engagement is explicitly opt-in. This also keeps the receiver
+            // in sync with the Settings toggle instead of relying on a stale
+            // SharedPreferences flag.
+            if (!state.inactivityNotificationsEnabled) return@launch
+
+            val prefs = context.getSharedPreferences("inactivity_quick", Context.MODE_PRIVATE)
+            val lastOpen = prefs.getLong("last_open", state.lastAppOpenTime)
 
             val now = System.currentTimeMillis()
             val daysInactive = ((now - lastOpen) / (24 * 60 * 60 * 1000)).toInt()
-            val lastLevel = prefs.getInt("last_notif_level", 0)
+            val lastLevel = maxOf(
+                state.lastInactivityNotificationLevel,
+                prefs.getInt("last_notif_level", 0)
+            )
 
             val level = InactivityLevel.forDays(daysInactive) ?: return@launch
             val levelNumber = InactivityLevel.getLevelNumber(level)
@@ -93,6 +103,7 @@ class InactivityCheckReceiver : BroadcastReceiver() {
             sendInactivityNotification(context, level)
 
             prefs.edit().putInt("last_notif_level", levelNumber).apply()
+            runCatching { InactivityRepository(context).updateNotificationLevel(levelNumber) }
             rateLimiter.recordNotificationSent("INACTIVITY")
         }
     }
@@ -129,6 +140,7 @@ class InactivityCheckReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .addAction(0, "💧 Quick Water Log", waterPending)
             .addAction(0, "${level.emoji} Open App", pendingIntent)
 

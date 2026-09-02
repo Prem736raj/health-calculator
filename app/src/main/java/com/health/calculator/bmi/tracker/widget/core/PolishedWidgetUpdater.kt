@@ -155,10 +155,10 @@ object PolishedWidgetUpdater {
                 
                 // 2. Status message
                 val status = when {
-                    score >= 90 -> "Excellent! Keep it up."
-                    score >= 70 -> "Looking good. Some improvements possible."
-                    score >= 50 -> "Fair. Stay consistent."
-                    else -> "Needs attention. Open app to check."
+                    score >= 90 -> "Frequent check-ins this week."
+                    score >= 70 -> "A steady check-in rhythm."
+                    score >= 50 -> "A few check-ins are recorded."
+                    else -> "Open the app when a check-in helps."
                 }
                 views.setTextViewText(R.id.txt_score_status, 
                     if (state == WidgetStateManager.WidgetState.STALE) "⚠ Outdated" else status)
@@ -176,7 +176,9 @@ object PolishedWidgetUpdater {
                 if (isLarge) {
                     views.setTextViewText(R.id.calories_value, "${prefs.getHealthCalPct()}%")
                     views.setTextViewText(R.id.hr_value,       "--")
-                    views.setTextViewText(R.id.streak_value,   "7 days")
+                    // No persisted cross-metric streak exists here. Never
+                    // display a fabricated value in a glanceable widget.
+                    views.setTextViewText(R.id.streak_value,   "—")
                     
                     views.setOnClickPendingIntent(R.id.card_calories, buildNavIntent(context, "calorie_calculator", widgetId, 4))
                     views.setOnClickPendingIntent(R.id.card_hr,       buildNavIntent(context, "heart_rate_calculator", widgetId, 5))
@@ -184,7 +186,7 @@ object PolishedWidgetUpdater {
                     views.setOnClickPendingIntent(R.id.card_streak,   buildNavIntent(context, "dashboard", widgetId, 6))
 
                     // Update sync time
-                    views.setTextViewText(R.id.txt_last_sync, "Last sync: Just now")
+                    views.setTextViewText(R.id.txt_last_sync, "Open app to refresh")
                 }
             }
             else -> {
@@ -205,7 +207,7 @@ object PolishedWidgetUpdater {
         }
 
         // Accessibility
-        views.setContentDescription(R.id.img_health_arc, "Wellness Score consistency is $score percent")
+        views.setContentDescription(R.id.img_health_arc, "Wellness Score logging consistency is $score percent")
         
         manager.updateAppWidget(widgetId, views)
     }

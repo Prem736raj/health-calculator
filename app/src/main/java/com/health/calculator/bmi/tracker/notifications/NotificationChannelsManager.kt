@@ -33,9 +33,9 @@ object NotificationChannelsManager {
     val channels = listOf(
         ChannelConfig(
             id = CHANNEL_HEALTH_REMINDERS,
-            name = "Health Reminders",
-            description = "Important health measurement reminders like BP checks and medication",
-            importance = NotificationManager.IMPORTANCE_HIGH,
+            name = "Wellness Reminders",
+            description = "Optional check-ins for the trackers you choose to use",
+            importance = NotificationManager.IMPORTANCE_DEFAULT,
             showBadge = true,
             enableVibration = true
         ),
@@ -108,7 +108,7 @@ object NotificationChannelsManager {
 
     fun getPriorityForChannel(channelId: String): Int {
         return when (channelId) {
-            CHANNEL_HEALTH_REMINDERS -> NotificationCompat.PRIORITY_HIGH
+            CHANNEL_HEALTH_REMINDERS -> NotificationCompat.PRIORITY_DEFAULT
             CHANNEL_WATER_REMINDERS -> NotificationCompat.PRIORITY_DEFAULT
             CHANNEL_WEEKLY_REPORTS -> NotificationCompat.PRIORITY_LOW
             CHANNEL_ACHIEVEMENTS -> NotificationCompat.PRIORITY_DEFAULT

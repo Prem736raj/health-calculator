@@ -6,8 +6,10 @@ data class InactivityState(
     val lastActivityTime: Long = System.currentTimeMillis(),
     val daysInactive: Int = 0,
     val lastInactivityNotificationLevel: Int = 0, // 0=none, 1=2day, 2=5day, 3=14day, 4=30day
-    val inactivityNotificationsEnabled: Boolean = true,
-    val streakProtectionEnabled: Boolean = true,
+    // Re-engagement is opt-in. Existing explicit preferences are preserved
+    // by DataStore; these defaults apply only when a key is absent.
+    val inactivityNotificationsEnabled: Boolean = false,
+    val streakProtectionEnabled: Boolean = false,
     val hasSeenWelcomeBack: Boolean = true
 )
 
@@ -62,26 +64,26 @@ enum class InactivityLevel(
 ) {
     TWO_DAYS(
         days = 2,
-        title = "We miss you! 👋",
-        message = "Your health tracking streak is at risk. A quick check-in keeps your progress going!",
+        title = "A gentle check-in is here 👋",
+        message = "If it fits your day, you can open the app and pick up where you left off. No pressure.",
         emoji = "👋"
     ),
     FIVE_DAYS(
         days = 5,
         title = "It's been a few days 🌱",
-        message = "Your plant is getting thirsty! A quick water log or health check would brighten its day.",
+        message = "Your previous entries are still here. Add a check-in whenever it is useful for you.",
         emoji = "🌱"
     ),
     FOURTEEN_DAYS(
         days = 14,
         title = "Welcome back anytime! 💙",
-        message = "Your health data is safely stored and waiting for you. No pressure — come back when you're ready.",
+        message = "Your data is safely stored and waiting for you. Come back whenever it works for you.",
         emoji = "💙"
     ),
     THIRTY_DAYS(
         days = 30,
         title = "Still here for you 🤗",
-        message = "Your health journey is always here. One small step is all it takes to restart.",
+        message = "Your wellness history is still here. One optional check-in can help you reconnect.",
         emoji = "🤗"
     );
 

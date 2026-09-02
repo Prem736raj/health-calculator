@@ -83,8 +83,10 @@ data class MetricWeeklySummary(
 )
 
 enum class MetricTrend(val arrow: String, val label: String) {
-    IMPROVING("📈", "Improving"),
-    DECLINING("📉", "Declining"),
+    // Legacy enum names are retained for source compatibility. User-facing
+    // labels describe direction only and do not judge health or infer cause.
+    IMPROVING("↑", "Higher"),
+    DECLINING("↓", "Lower"),
     STABLE("➡️", "Stable"),
     NEW("🆕", "New this week"),
     NO_DATA("—", "No data")

@@ -38,9 +38,10 @@ class NotificationRateLimiter(@ApplicationContext context: Context) {
         // Reset daily count if new day
         resetDailyCountIfNeeded()
 
-        // Check 1: Daily limit
+        // Check 1: Daily limit. Priority controls presentation only; it never
+        // bypasses the user's notification budget.
         val todayCount = getTodayNotificationCount()
-        if (todayCount >= MAX_NOTIFICATIONS_PER_DAY && !isHighPriority) {
+        if (todayCount >= MAX_NOTIFICATIONS_PER_DAY) {
             return RateLimitResult(
                 allowed = false,
                 reason = "Daily limit reached ($MAX_NOTIFICATIONS_PER_DAY notifications)"
@@ -50,7 +51,7 @@ class NotificationRateLimiter(@ApplicationContext context: Context) {
         // Check 2: Time since last notification
         val lastNotificationTime = prefs.getLong(KEY_LAST_NOTIFICATION_TIME, 0)
         val minutesSinceLastNotification = (now - lastNotificationTime) / (1000 * 60)
-        if (minutesSinceLastNotification < MIN_MINUTES_BETWEEN_NOTIFICATIONS && !isHighPriority) {
+        if (minutesSinceLastNotification < MIN_MINUTES_BETWEEN_NOTIFICATIONS) {
             return RateLimitResult(
                 allowed = false,
                 reason = "Too soon after last notification (${MIN_MINUTES_BETWEEN_NOTIFICATIONS}min minimum)"

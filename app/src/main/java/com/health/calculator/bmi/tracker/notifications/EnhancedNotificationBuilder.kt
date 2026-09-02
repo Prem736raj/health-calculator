@@ -34,6 +34,13 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val publicVersion = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle("Health Metrics Tracker reminder")
+            .setContentText("Open the app for details.")
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .build()
+
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(content.title)
@@ -44,7 +51,8 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
             .setContentIntent(mainPendingIntent)
             .setAutoCancel(true)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+            .setPublicVersion(publicVersion)
 
         // Add Vibration
         if (reminder.vibrationEnabled) {

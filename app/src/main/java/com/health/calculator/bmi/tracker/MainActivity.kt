@@ -19,6 +19,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -45,21 +49,32 @@ class MainActivity : ComponentActivity() {
                 e.printStackTrace()
             }
 
-            // Initialize Re-engagement Schedulers
+            // Record App Open for Inactivity tracking
+            var inactivityRepo: InactivityRepository? = null
             try {
-                com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler(this).scheduleDaily()
-                com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler(this).scheduleEvening()
+                inactivityRepo = InactivityRepository(this)
+                inactivityRepo.saveLastAppOpenTimeQuick()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-            // Record App Open for Inactivity tracking
-            var inactivityRepo: com.health.calculator.bmi.tracker.data.repository.InactivityRepository? = null
-            try {
-                inactivityRepo = com.health.calculator.bmi.tracker.data.repository.InactivityRepository(this)
-                inactivityRepo.saveLastAppOpenTimeQuick()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            // Restore only explicitly enabled re-engagement schedules. New
+            // installs remain quiet until a user enables a setting.
+            lifecycleScope.launch {
+                runCatching { inactivityRepo?.getInactivityState()?.first() }
+                    .getOrNull()
+                    ?.let { state ->
+                        if (state.inactivityNotificationsEnabled) {
+                            com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler(this@MainActivity).scheduleDaily()
+                        } else {
+                            com.health.calculator.bmi.tracker.notifications.InactivityCheckScheduler(this@MainActivity).cancel()
+                        }
+                        if (state.streakProtectionEnabled) {
+                            com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler(this@MainActivity).scheduleEvening()
+                        } else {
+                            com.health.calculator.bmi.tracker.notifications.StreakProtectionScheduler(this@MainActivity).cancel()
+                        }
+                    }
             }
 
             setContent {
@@ -78,6 +93,9 @@ class MainActivity : ComponentActivity() {
                             try {
                                 // Mark for Welcome Back check
                                 if (inactivityRepo != null) {
+                                    // Keep the durable DataStore timestamp and
+                                    // quick receiver timestamp in sync.
+                                    inactivityRepo.recordAppOpened()
                                     val fromInactivity = intent.getBooleanExtra("from_inactivity", false)
                                     val lastOpen = inactivityRepo.getLastAppOpenTime()
                                     val daysInactive = ((System.currentTimeMillis() - lastOpen) / (24 * 60 * 60 * 1000)).toInt()
