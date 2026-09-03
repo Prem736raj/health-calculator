@@ -9,6 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # This app has a large Compose/Kotlin surface. Keep the repository's
+    # conservative local heap defaults, but give the hosted compiler enough
+    # memory to finish instead of timing out after a Kotlin OOM.
+    env:
+      GRADLE_OPTS: >-
+        -Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=768m
+        -XX:+UseParallelGC -Dfile.encoding=UTF-8
 
     steps:
     - name: Checkout Repository
