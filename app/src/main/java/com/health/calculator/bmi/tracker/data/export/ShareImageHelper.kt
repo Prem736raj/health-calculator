@@ -67,7 +67,7 @@ class ShareImageHelper(@ApplicationContext private val context: Context) {
         val cardMargin = 50f
         val cardWidth = width - 2 * cardMargin
 
-        // Health score circle
+        // Wellness Score consistency circle
         card.healthScore?.let { score ->
             val centerX = width / 2f
             val radius = 80f

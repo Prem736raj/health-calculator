@@ -120,7 +120,7 @@ fun HealthJourneySummaryCard(
                     )
                 }
 
-                // Health score improvement
+                // Wellness Score consistency change
                 if (summary.healthScoreChange != 0 && summary.currentHealthScore >= 0) {
                     Spacer(modifier = Modifier.height(16.dp))
                     HorizontalDivider(
@@ -143,8 +143,8 @@ fun HealthJourneySummaryCard(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = if (summary.healthScoreChange > 0)
-                                "Health score improved by ${summary.healthScoreChange} points!"
-                            else "Health score changed by ${summary.healthScoreChange} points",
+                                "Wellness Score consistency improved by ${summary.healthScoreChange} points!"
+                            else "Wellness Score consistency changed by ${summary.healthScoreChange} points",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
                             color = if (summary.healthScoreChange > 0) Color(0xFF4CAF50)

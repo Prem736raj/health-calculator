@@ -25,7 +25,7 @@ class WidgetPreferencesManager(@ApplicationContext private val context: Context)
         // Usage tracking (for auto-detect most-used)
         private fun usageKey(calcType: String) = "usage_count_${calcType}"
 
-        // Health Score metrics
+    // Wellness Score consistency metrics
         private const val KEY_HEALTH_SCORE = "health_score_value"
         private const val KEY_HEALTH_BMI = "health_bmi_value"
         private const val KEY_HEALTH_BP_SYS = "health_bp_sys"
@@ -158,7 +158,7 @@ class WidgetPreferencesManager(@ApplicationContext private val context: Context)
         }
     }
 
-    // ── Health Score Storage ──────────────────────────────────────────
+    // ── Wellness Score consistency storage ─────────────────────────────
 
     fun saveHealthStats(
         score: Int,

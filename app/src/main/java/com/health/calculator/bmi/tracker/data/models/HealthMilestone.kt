@@ -79,21 +79,21 @@ enum class MilestoneType(
         category = MilestoneCategory.ACHIEVEMENTS
     ),
     HEALTH_SCORE_60(
-        displayName = "Good Health",
+        displayName = "Wellness Score 60",
         icon = "💚",
-        description = "Health score reached 60+",
+        description = "Wellness Score consistency reached 60+",
         category = MilestoneCategory.ACHIEVEMENTS
     ),
     HEALTH_SCORE_80(
-        displayName = "Excellent Health",
+        displayName = "Wellness Score 80",
         icon = "🌟",
-        description = "Health score reached 80+",
+        description = "Wellness Score consistency reached 80+",
         category = MilestoneCategory.ACHIEVEMENTS
     ),
     HEALTH_SCORE_95(
-        displayName = "Peak Health",
+        displayName = "Wellness Score 95",
         icon = "💎",
-        description = "Health score reached 95+",
+        description = "Wellness Score consistency reached 95+",
         category = MilestoneCategory.ACHIEVEMENTS
     ),
     ALL_CALCULATORS_USED(

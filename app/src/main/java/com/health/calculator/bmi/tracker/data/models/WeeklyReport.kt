@@ -47,7 +47,7 @@ data class WeeklyReport(
     val exerciseMinutes: Int = 0,
     val exerciseSessions: Int = 0,
 
-    // Health Score
+// Wellness Score consistency (legacy field names retained for storage compatibility)
     val healthScoreStart: Int = -1,
     val healthScoreEnd: Int = -1,
     val healthScoreChange: Int = 0,

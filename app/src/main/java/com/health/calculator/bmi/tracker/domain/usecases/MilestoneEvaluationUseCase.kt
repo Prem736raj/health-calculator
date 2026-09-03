@@ -88,7 +88,7 @@ class MilestoneEvaluationUseCase(
     }
 
     /**
-     * When health score updates
+     * When the Wellness Score consistency metric updates
      */
     suspend fun onHealthScoreUpdated(score: Int): Boolean {
         return milestonesRepository.checkAndUpdateRecord(

@@ -58,7 +58,7 @@ class NotificationContextDataProvider(
         // Exercise data (simulated or from history if tracked)
         val exerciseMinutesThisWeek = calculateWeeklyExerciseMinutes()
 
-        // Health score (placeholder calculation)
+        // Wellness Score consistency (placeholder calculation)
         val healthScore = calculateHealthScore(waterIntake, foodLog.entries.isNotEmpty(), profile != null)
 
         val lastAppUse = context.getSharedPreferences("notification_rate_limiter", Context.MODE_PRIVATE)

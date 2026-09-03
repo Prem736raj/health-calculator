@@ -83,7 +83,7 @@ object WidgetAccessibilityHelper {
         val desc = if (score > 0)
             "Wellness Score consistency indicator: $score out of 100. Status: $label"
         else
-            "Health score not available. Track more metrics."
+            "Wellness Score not available. Track more metrics."
         views.setContentDescription(scoreId, desc)
     }
 

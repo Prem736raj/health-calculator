@@ -130,7 +130,7 @@ fun HealthOverviewSection(
 }
 
 // ============================================================
-// HEALTH SCORE CIRCLE
+// WELLNESS SCORE CONSISTENCY CIRCLE
 // ============================================================
 
 @Composable
