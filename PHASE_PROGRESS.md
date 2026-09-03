@@ -126,7 +126,7 @@ This file is the source of truth for the sequential product-development phases. 
 
 - **Status:** Complete
 - **Major changes:** Replaced the one-accent/one-card visual pattern with role-based warm canvas, surface, action, on-track and clay accent tokens; added a serif display voice, sans-serif body hierarchy and tabular monospace measurement style; introduced distinct hero, metric-tile, action-row, insight-callout and empty-state components; removed visible Home/profile emoji placeholders in favor of outlined vector badges; made profile completion encouraging rather than error-colored; aligned profile avatar, widget and dark-theme resource colors; and reserved the Wellness Score ring as the single signature load motion.
-- **Tests:** Extended `ThemeTokensTest` for role separation and numeric typography. `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` all pass with a temporary 4 GB Gradle heap for release shrinking.
+- **Tests:** Extended `ThemeTokensTest` for role separation and numeric typography. The exact default `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` gates all pass with the documented 4 GB Gradle heap; CI now uses the same budget to avoid Kotlin compiler OOMs.
 - **Known limitations:** Some deep calculator/education screens still contain legacy local styling and emoji-backed domain copy; the five primary surfaces and their shared entry components now use the new system. A future screenshot/device QA pass should validate light/dark rendering, large font scales and OEM contrast.
 - **Next phase:** Closed-test visual QA, Play Console setup and measurement of first-session activation.
 
