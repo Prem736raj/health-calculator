@@ -21,15 +21,23 @@ import java.io.PrintWriter
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @javax.inject.Inject
+    lateinit var productAnalytics: ProductAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Collection is opt-in; this call is a no-op until the user enables it.
+        productAnalytics.track(ProductAnalyticsEvent.APP_OPENED)
 
         try {
             // Get the Application instance for theme flow access

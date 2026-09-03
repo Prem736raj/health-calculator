@@ -24,8 +24,9 @@
     <h2>1. Information We Collect</h2>
     <ul>
         <li><strong>Health & Wellness Data:</strong> Height, weight, blood pressure measurements, waist/hip circumferences, and daily hydration logs that you choose to input. This data is stored locally in the app-private Room database on your device. The app does not claim database-level encryption.</li>
-        <li><strong>Health Connect Data (Optional):</strong> If you grant permission, the app requests read-only access to step records (<code>android.permission.health.READ_STEPS</code>) to compute your daily activity metrics on your device. We do not transfer your Health Connect data to third-party servers.</li>
+        <li><strong>Health Connect Data (Optional):</strong> If you grant permission, the app requests separate read-only access to step records (<code>android.permission.health.READ_STEPS</code>) and weight records (<code>android.permission.health.READ_WEIGHT</code>) for the corresponding cards. Access is optional, can be revoked in Health Connect, and the app does not transfer those records to third-party servers.</li>
         <li><strong>AI Wellness Assistant Queries:</strong> Text messages you send to the AI Wellness Assistant are processed via Google Firebase AI Logic / Gemini to generate wellness responses. Do not submit passwords or sensitive financial information in chat.</li>
+        <li><strong>Optional Product Analytics:</strong> Product-usage analytics are off by default. If you enable the setting, the app may send allowlisted events such as a feature being opened or a reminder being enabled through Firebase Analytics. Events do not include health measurements, notes, profile details, AI prompts/responses, names, contact details, or direct identifiers. Firebase may still process standard pseudonymous app/device information needed to provide analytics.</li>
     </ul>
 
     <h2>2. How We Use Your Data</h2>
@@ -33,6 +34,7 @@
         <li>To calculate evidence-based body and wellness indices (BMI, Body Surface Area, WHR, etc.).</li>
         <li>To track your hydration, streak milestones, and wellness habits over time.</li>
         <li>To provide general wellness educational information via AI when requested.</li>
+        <li>To understand aggregate feature use and improve navigation only when optional product analytics is enabled.</li>
     </ul>
 
     <h2>3. Data Storage & Security</h2>
@@ -42,6 +44,7 @@
     <ul>
         <li><strong>Google Firebase AI Logic:</strong> Processes AI chat queries to generate educational wellness information under Google Cloud's security standards.</li>
         <li><strong>Firebase App Check / Play Integrity:</strong> Verifies application authenticity to prevent abuse.</li>
+        <li><strong>Firebase Analytics (optional):</strong> Receives only the allowlisted, non-health product events described above when you turn on <em>Settings &gt; Privacy &gt; Share optional product usage</em>. Collection is disabled by default and can be turned off at any time.</li>
     </ul>
 
     <h2>5. Medical Disclaimer</h2>

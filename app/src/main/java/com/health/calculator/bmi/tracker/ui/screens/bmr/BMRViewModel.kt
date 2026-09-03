@@ -24,9 +24,14 @@ import org.json.JSONObject
 import com.health.calculator.bmi.tracker.data.calculator.BMRValidation
 import com.health.calculator.bmi.tracker.data.preferences.BMRLastValuePreferences
 import com.health.calculator.bmi.tracker.ui.screens.bmr.BMRShareFormatter
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 
 @HiltViewModel
-class BMRViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class BMRViewModel @Inject constructor(
+    application: Application,
+    private val productAnalytics: ProductAnalytics
+) : AndroidViewModel(application) {
 
     private val _inputState = MutableStateFlow(BMRInputState())
     val inputState: StateFlow<BMRInputState> = _inputState.asStateFlow()
@@ -92,6 +97,10 @@ class BMRViewModel @Inject constructor(application: Application) : AndroidViewMo
     val currentMealCount: StateFlow<Int> = _currentMealCount.asStateFlow()
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.CALCULATOR_OPENED,
+            mapOf("calculator_id" to "bmr", "entry_point" to "calculators")
+        )
         loadBMRHistory()
     }
 
@@ -533,6 +542,10 @@ class BMRViewModel @Inject constructor(application: Application) : AndroidViewMo
             _isCalculating.value = false
             delay(100)
             _showResults.value = true
+            productAnalytics.track(
+                ProductAnalyticsEvent.CALCULATOR_COMPLETED,
+                mapOf("calculator_id" to "bmr", "entry_point" to "calculators")
+            )
 
             // Calculate TEF
             recalculateTEF()

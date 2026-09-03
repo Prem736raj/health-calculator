@@ -114,6 +114,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Play Console listing upload, screenshots/feature graphic, Health apps/Data Safety/content-rating/Health Connect declarations, public URL validation, developer account, signing and release review remain console-owner tasks. Public competitor pages do not expose reliable keyword volume or conversion data; acquisition/search data and listing experiments should validate the matrix after launch.
 - **Next phase:** Add privacy-safe product analytics architecture and a measurable retention funnel.
 
+## Phase 15 — Analytics-Driven Growth
+
+- **Status:** Complete (privacy-safe, opt-in foundation)
+- **Major changes:** Added a stable `ProductAnalytics` event contract and strict allowlist that drops sensitive, numeric and free-form values; added a Firebase Analytics reflection adapter with manifest default-off collection and an explicit Settings opt-in; instrumented app open/onboarding/navigation, calculators, trackers, Health Connect, reminders, AI and reports; documented the measurable funnel and retention metrics; and updated the privacy policy with the optional analytics disclosure.
+- **Tests:** Added `ProductAnalyticsPolicyTest` for stable event names, allowlisted dimensions, sensitive-value dropping and required growth events. Full `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` gates pass.
+- **Known limitations:** Firebase Console event registration, retention windows, access roles, Data Safety declaration and any BigQuery export remain console-owner tasks. No health measurements are sent in app-defined parameters, and product analytics stays off until the user enables it.
+- **Next phase:** All requested product phases are implemented; complete console-owned launch work and validate the funnel in a closed test.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -127,4 +135,4 @@ This file is the source of truth for the sequential product-development phases. 
 | 12 — Reports, export and sharing | Complete | User-controlled wellness reports |
 | 13 — Monetization | Complete | Trust-preserving free/premium boundaries |
 | 14 — ASO and launch preparation | Complete | Research-backed store assets and copy |
-| 15 — Analytics-driven growth | Not started | Privacy-safe funnel and product analytics |
+| 15 — Analytics-driven growth | Complete | Console setup and closed-test funnel validation |

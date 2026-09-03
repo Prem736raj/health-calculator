@@ -99,6 +99,9 @@ import com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDesti
 import com.health.calculator.bmi.tracker.presentation.navigation.CalculatorsHubScreen
 import com.health.calculator.bmi.tracker.presentation.navigation.InsightsHubScreen
 import com.health.calculator.bmi.tracker.presentation.navigation.TrackHubScreen
+import com.health.calculator.bmi.tracker.di.AnalyticsEntryPoint
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
+import dagger.hilt.android.EntryPointAccessors
 
 private const val NAV_ANIMATION_DURATION = AppConstants.ANIMATION_DURATION_MEDIUM
 const val WATER_REMINDER_SETTINGS_ROUTE = "water_reminder_settings"
@@ -116,6 +119,12 @@ fun NavGraph(
     val context = LocalContext.current
     val app = context.applicationContext as HealthCalculatorApp
     val scope = rememberCoroutineScope()
+    val productAnalytics = remember(context) {
+        EntryPointAccessors.fromApplication(
+            context.applicationContext,
+            AnalyticsEntryPoint::class.java
+        ).productAnalytics()
+    }
 
     // Track whether onboarding has been completed
     val onboardingCompleted by app.onboardingCompletedFlow.collectAsState(initial = null)
@@ -133,6 +142,20 @@ fun NavGraph(
                 BottomNavigationBar(
                     currentRoute = currentRoute,
                     onItemClick = { item ->
+                        val surface = when (item.route) {
+                            Screen.Home.route -> "home"
+                            Screen.Track.route -> "track"
+                            Screen.Calculators.route -> "calculators"
+                            Screen.Insights.route -> "insights"
+                            Screen.Profile.route -> "profile"
+                            else -> null
+                        }
+                        surface?.let {
+                            productAnalytics.track(
+                                ProductAnalyticsEvent.SURFACE_OPENED,
+                                mapOf("surface" to it)
+                            )
+                        }
                         navController.navigate(item.route) {
                             popUpTo(Screen.Home.route) { saveState = true }
                             launchSingleTop = true
@@ -211,6 +234,7 @@ fun NavGraph(
         ) {
             OnboardingScreen(
                 onComplete = {
+                    productAnalytics.track(ProductAnalyticsEvent.ONBOARDING_COMPLETED)
                     scope.launch {
                         app.settingsDataStore.setOnboardingCompleted()
                     }
@@ -220,6 +244,7 @@ fun NavGraph(
                     }
                 },
                 onSetUpProfile = {
+                    productAnalytics.track(ProductAnalyticsEvent.ONBOARDING_COMPLETED)
                     scope.launch {
                         app.settingsDataStore.setOnboardingCompleted()
                     }
@@ -474,7 +499,8 @@ fun NavGraph(
                                 app.profileRepository
                             ),
                             app.weeklyReportDao,
-                            com.health.calculator.bmi.tracker.notifications.WeeklyReportScheduler(context)
+                            com.health.calculator.bmi.tracker.notifications.WeeklyReportScheduler(context),
+                            productAnalytics
                         ) as T
                     }
                 }

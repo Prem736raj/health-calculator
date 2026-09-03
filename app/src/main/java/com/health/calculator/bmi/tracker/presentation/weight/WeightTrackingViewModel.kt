@@ -13,6 +13,9 @@ import com.health.calculator.bmi.tracker.notifications.WeightReminderManager
 import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
 import com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison
 import com.health.calculator.bmi.tracker.domain.tracking.buildTrackingComparison
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
+import com.health.calculator.bmi.tracker.domain.analytics.NoOpProductAnalytics
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -37,13 +40,18 @@ data class WeightTrackingUiState(
 class WeightTrackingViewModel @Inject constructor(
     private val weightRepository: WeightRepository,
     private val profileRepository: ProfileRepository,
-    private val reminderManager: WeightReminderManager
+    private val reminderManager: WeightReminderManager,
+    private val productAnalytics: ProductAnalytics
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WeightTrackingUiState())
     val uiState: StateFlow<WeightTrackingUiState> = _uiState.asStateFlow()
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.TRACKER_OPENED,
+            mapOf("tracker_type" to "weight", "entry_point" to "track")
+        )
         observeData()
     }
 
@@ -203,6 +211,12 @@ class WeightTrackingViewModel @Inject constructor(
                     snackbarMessage = if (editingEntry == null) "Weight logged successfully" else "Weight entry updated"
                 )
             }
+            if (editingEntry == null) {
+                productAnalytics.track(
+                    ProductAnalyticsEvent.WEIGHT_LOGGED,
+                    mapOf("source" to "manual")
+                )
+            }
         }
     }
 
@@ -227,11 +241,12 @@ class WeightTrackingViewModel @Inject constructor(
     class Factory(
         private val weightRepository: WeightRepository,
         private val profileRepository: ProfileRepository,
-        private val reminderManager: WeightReminderManager
+        private val reminderManager: WeightReminderManager,
+        private val productAnalytics: ProductAnalytics = NoOpProductAnalytics
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return WeightTrackingViewModel(weightRepository, profileRepository, reminderManager) as T
+            return WeightTrackingViewModel(weightRepository, profileRepository, reminderManager, productAnalytics) as T
         }
     }
 }

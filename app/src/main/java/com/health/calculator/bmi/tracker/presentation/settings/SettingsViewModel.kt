@@ -21,6 +21,8 @@ import com.health.calculator.bmi.tracker.data.model.toDisplayEntry
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,6 +43,7 @@ data class SettingsUiState(
     val remindersEnabled: Boolean = false,
     val waterReminderEnabled: Boolean = false,
     val weightReminderEnabled: Boolean = false,
+    val productAnalyticsEnabled: Boolean = false,
 
     // ── UI State ──────────────────────────────────────────────────────
     val isLoading: Boolean = true,
@@ -68,13 +71,15 @@ data class SettingsUiState(
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     application: Application,
-    val healthConnectManager: HealthConnectManager
+    val healthConnectManager: HealthConnectManager,
+    private val settingsDataStore: SettingsDataStore,
+    private val productAnalytics: ProductAnalytics
 ) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
     private val appDatabase = AppDatabase.getDatabase(appContext)
 
     private val settingsRepository = SettingsRepository(
-        SettingsDataStore(appContext)
+        settingsDataStore
     )
 
     private val profileRepository = ProfileRepository(
@@ -88,7 +93,16 @@ class SettingsViewModel @Inject constructor(
 
     init {
         loadSettings()
+        loadProductAnalyticsConsent()
         checkHealthConnectStatus()
+    }
+
+    private fun loadProductAnalyticsConsent() {
+        viewModelScope.launch {
+            settingsDataStore.productAnalyticsEnabledFlow.collect { enabled ->
+                _uiState.update { it.copy(productAnalyticsEnabled = enabled) }
+            }
+        }
     }
 
     fun checkHealthConnectStatus() {
@@ -98,11 +112,24 @@ class SettingsViewModel @Inject constructor(
             val weightConnected = if (supported) {
                 healthConnectManager.hasAllPermissions(HealthConnectPermissionPolicy.weightRead)
             } else false
+            val previous = _uiState.value
             _uiState.update {
                 it.copy(
                     isHealthConnectSupported = supported,
                     isHealthConnectConnected = connected,
                     isHealthConnectWeightConnected = weightConnected
+                )
+            }
+            if (!previous.isHealthConnectConnected && connected) {
+                productAnalytics.track(
+                    ProductAnalyticsEvent.HEALTH_CONNECT_CONNECTED,
+                    mapOf("permission_type" to "steps")
+                )
+            }
+            if (!previous.isHealthConnectWeightConnected && weightConnected) {
+                productAnalytics.track(
+                    ProductAnalyticsEvent.HEALTH_CONNECT_CONNECTED,
+                    mapOf("permission_type" to "weight")
                 )
             }
         }
@@ -213,6 +240,10 @@ class SettingsViewModel @Inject constructor(
                 )
             } else {
                 settingsRepository.updateReminderSetting(remindersEnabled = true)
+                productAnalytics.track(
+                    ProductAnalyticsEvent.REMINDER_ENABLED,
+                    mapOf("reminder_type" to "all")
+                )
             }
         }
     }
@@ -220,12 +251,30 @@ class SettingsViewModel @Inject constructor(
     fun toggleWaterReminder(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateReminderSetting(waterReminder = enabled)
+            if (enabled) {
+                productAnalytics.track(
+                    ProductAnalyticsEvent.REMINDER_ENABLED,
+                    mapOf("reminder_type" to "water")
+                )
+            }
         }
     }
 
     fun toggleWeightReminder(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateReminderSetting(weightReminder = enabled)
+            if (enabled) {
+                productAnalytics.track(
+                    ProductAnalyticsEvent.REMINDER_ENABLED,
+                    mapOf("reminder_type" to "weight")
+                )
+            }
+        }
+    }
+
+    fun toggleProductAnalytics(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.setProductAnalyticsEnabled(enabled)
         }
     }
 

@@ -42,6 +42,7 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
         val KEY_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
         val KEY_AI_DISCLOSURE_ACCEPTED = booleanPreferencesKey("ai_disclosure_accepted")
         val KEY_AI_CONTEXT_SHARING_ENABLED = booleanPreferencesKey("ai_context_sharing_enabled")
+        val KEY_PRODUCT_ANALYTICS_ENABLED = booleanPreferencesKey("product_analytics_enabled")
     }
 
     // ─── Read Settings ────────────────────────────────────────────────────
@@ -134,6 +135,20 @@ class SettingsDataStore(@ApplicationContext private val context: Context) {
     suspend fun setAiContextSharingEnabled(enabled: Boolean) {
         context.settingsDataStore.edit { prefs ->
             prefs[KEY_AI_CONTEXT_SHARING_ENABLED] = enabled
+        }
+    }
+
+    /**
+     * Optional consent for anonymous product-usage analytics. It is false by
+     * default and is independent from AI context sharing.
+     */
+    val productAnalyticsEnabledFlow: Flow<Boolean> = context.settingsDataStore.data.map { prefs ->
+        prefs[KEY_PRODUCT_ANALYTICS_ENABLED] ?: false
+    }
+
+    suspend fun setProductAnalyticsEnabled(enabled: Boolean) {
+        context.settingsDataStore.edit { prefs ->
+            prefs[KEY_PRODUCT_ANALYTICS_ENABLED] = enabled
         }
     }
 

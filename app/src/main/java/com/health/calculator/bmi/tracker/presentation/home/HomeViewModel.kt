@@ -25,6 +25,8 @@ import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightRepository
 import com.health.calculator.bmi.tracker.domain.insights.DeterministicInsightEngine
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import java.time.LocalDate
 
 data class HomeUiState(
@@ -45,7 +47,8 @@ data class HomeUiState(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     application: Application,
-    private val healthConnectManager: HealthConnectManager
+    private val healthConnectManager: HealthConnectManager,
+    private val productAnalytics: ProductAnalytics
 ) : AndroidViewModel(application) {
     
     private val database = AppDatabase.getInstance(application)
@@ -66,6 +69,10 @@ class HomeViewModel @Inject constructor(
     private val stepsFlow = MutableStateFlow<Int?>(null)
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.SURFACE_OPENED,
+            mapOf("surface" to "home")
+        )
         observeBmr()
         observeBp()
         observeWhr()

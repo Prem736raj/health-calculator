@@ -52,6 +52,11 @@
 -keep,allowobfuscation,allowshrinking @dagger.hilt.android.AndroidEntryPoint class *
 -keep,allowobfuscation,allowshrinking @dagger.hilt.android.HiltAndroidApp class *
 
+# Firebase Analytics is loaded through a small reflection bridge so the
+# provider remains optional at compile time. Keep the public entry points for
+# opted-in release builds; collection is still disabled by default.
+-keep class com.google.firebase.analytics.FirebaseAnalytics { *; }
+
 # Coil
 -keep class coil.** { *; }
 

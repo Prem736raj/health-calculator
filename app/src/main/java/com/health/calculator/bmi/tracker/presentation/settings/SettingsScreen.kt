@@ -535,6 +535,36 @@ fun SettingsScreen(
                         }
                     }
 
+                    // ── PRIVACY SECTION ───────────────────────────────────
+                    item { SectionHeader(title = "Privacy", emoji = "🔒") }
+
+                    item {
+                        SettingsCard {
+                            SettingsToggleItem(
+                                icon = Icons.Outlined.Shield,
+                                iconTint = if (uiState.productAnalyticsEnabled) {
+                                    SettingsAccent
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                                title = "Share optional product usage",
+                                subtitle = if (uiState.productAnalyticsEnabled) {
+                                    "Optional analytics are on · no health measurements"
+                                } else {
+                                    "Off by default · help improve the app"
+                                },
+                                checked = uiState.productAnalyticsEnabled,
+                                onCheckedChange = viewModel::toggleProductAnalytics
+                            )
+                            Text(
+                                text = "Only feature events such as screens opened are shared. Health values, notes, AI messages, profile details and direct identifiers are never added to events. You can change this any time.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(start = 66.dp, end = 16.dp, bottom = 12.dp)
+                            )
+                        }
+                    }
+
                     // ── ABOUT SECTION ─────────────────────────────────────
                     item { SectionHeader(title = "About", emoji = "ℹ️") }
 

@@ -15,6 +15,8 @@ import com.health.calculator.bmi.tracker.data.local.dao.ChatDao
 import com.health.calculator.bmi.tracker.data.local.entity.ChatMessageEntity
 import com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightRepository
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +45,7 @@ class AiCoachViewModel @Inject constructor(
     private val settingsDataStore: SettingsDataStore,
     private val weightRepository: WeightRepository,
     private val waterIntakeRepository: WaterIntakeRepository,
+    private val productAnalytics: ProductAnalytics,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -76,6 +79,10 @@ class AiCoachViewModel @Inject constructor(
     private var lastFailedPrompt: String? = null
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.AI_ASSISTANT_OPENED,
+            mapOf("entry_point" to "insights")
+        )
         viewModelScope.launch {
             chatDao.getAllMessages().collectLatest { entities ->
                 if (entities.isEmpty()) {

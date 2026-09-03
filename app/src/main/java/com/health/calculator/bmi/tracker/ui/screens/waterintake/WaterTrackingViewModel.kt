@@ -32,12 +32,22 @@ import com.health.calculator.bmi.tracker.widget.WaterWidgetSyncManager
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.first
 import com.health.calculator.bmi.tracker.domain.tracking.TrackingQualityPolicy
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 
 @HiltViewModel
 class WaterTrackingViewModel @Inject constructor(
     application: Application,
-    private val repository: WaterIntakeRepository
+    private val repository: WaterIntakeRepository,
+    private val productAnalytics: ProductAnalytics
 ) : AndroidViewModel(application) {
+
+    init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.TRACKER_OPENED,
+            mapOf("tracker_type" to "water", "entry_point" to "track")
+        )
+    }
 
     private val mainHistoryRepository = MainHistoryRepository(
         AppDatabase.getDatabase(application).historyDao()
@@ -159,6 +169,10 @@ class WaterTrackingViewModel @Inject constructor(
                 return@launch
             }
             lastAddedId = id
+            productAnalytics.track(
+                ProductAnalyticsEvent.WATER_LOGGED,
+                mapOf("source" to "manual")
+            )
 
             // Update last log time for smart reminder skip
             val prefs = getApplication<Application>()

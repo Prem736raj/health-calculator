@@ -13,6 +13,8 @@ import com.health.calculator.bmi.tracker.data.models.*
 import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import com.health.calculator.bmi.tracker.domain.usecases.WeeklyReportGenerator
 import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import com.health.calculator.bmi.tracker.notifications.WeeklyReportScheduler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -44,13 +46,18 @@ data class WeeklyReportUiState(
 class WeeklyReportViewModel @Inject constructor(
     private val reportGenerator: WeeklyReportGenerator,
     private val weeklyReportDao: WeeklyReportDao,
-    private val reportScheduler: WeeklyReportScheduler
+    private val reportScheduler: WeeklyReportScheduler,
+    private val productAnalytics: ProductAnalytics
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WeeklyReportUiState())
     val uiState: StateFlow<WeeklyReportUiState> = _uiState.asStateFlow()
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.WEEKLY_REPORT_OPENED,
+            mapOf("report_type" to "weekly")
+        )
         loadData()
     }
 
@@ -190,6 +197,10 @@ class WeeklyReportViewModel @Inject constructor(
             putExtra(Intent.EXTRA_SUBJECT, "My Weekly Wellness Summary")
         }
         context.startActivity(Intent.createChooser(intent, "Share Weekly Report"))
+        productAnalytics.track(
+            ProductAnalyticsEvent.REPORT_EXPORTED,
+            mapOf("report_type" to "weekly", "format" to "text")
+        )
         _uiState.update { it.copy(showShareDialog = false) }
     }
 

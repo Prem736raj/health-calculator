@@ -41,6 +41,11 @@
         android:theme="@style/Theme.HealthCalculator.Splash"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="36">
+
+        <!-- Product analytics is opt-in from Settings; keep automatic collection off. -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
         
         <receiver
             android:name=".notifications.ReminderBroadcastReceiver"

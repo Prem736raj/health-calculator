@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.Locale
 import kotlin.math.roundToInt
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 
 data class IdealWeightInputState(
     val heightText: String = "",
@@ -56,7 +58,10 @@ data class IdealWeightResultData(
 )
 
 @HiltViewModel
-class IdealWeightViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class IdealWeightViewModel @Inject constructor(
+    application: Application,
+    private val productAnalytics: ProductAnalytics
+) : AndroidViewModel(application) {
 
     private val _inputState = MutableStateFlow(IdealWeightInputState())
     val inputState: StateFlow<IdealWeightInputState> = _inputState.asStateFlow()
@@ -87,6 +92,13 @@ class IdealWeightViewModel @Inject constructor(application: Application) : Andro
     private val historyRepository = HistoryRepository(
         AppDatabase.getDatabase(application).historyDao()
     )
+
+    init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.CALCULATOR_OPENED,
+            mapOf("calculator_id" to "ideal_weight", "entry_point" to "calculators")
+        )
+    }
 
     // ============================================================
     // Input Updates
@@ -277,6 +289,10 @@ class IdealWeightViewModel @Inject constructor(application: Application) : Andro
             )
 
             _isCalculating.value = false
+            productAnalytics.track(
+                ProductAnalyticsEvent.CALCULATOR_COMPLETED,
+                mapOf("calculator_id" to "ideal_weight", "entry_point" to "calculators")
+            )
             delay(100)
             _showResults.value = true
         }

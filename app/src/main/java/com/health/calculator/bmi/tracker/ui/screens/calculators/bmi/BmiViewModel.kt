@@ -31,6 +31,9 @@ import com.health.calculator.bmi.tracker.data.model.BMIGoalData
 import com.health.calculator.bmi.tracker.data.model.BMIHealthRiskProvider
 import com.health.calculator.bmi.tracker.data.preferences.BMIGoalPreferences
 import com.health.calculator.bmi.tracker.data.preferences.BMIInputMemoryPreferences
+import com.health.calculator.bmi.tracker.domain.analytics.NoOpProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
+import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import com.health.calculator.bmi.tracker.data.preferences.BMILastUsedInput
 import com.health.calculator.bmi.tracker.data.model.BMIValidationState
 import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
@@ -590,7 +593,8 @@ data class BmiInputUiState(
 @HiltViewModel
 class BmiViewModel @Inject constructor(
     application: Application,
-    private val milestoneEvaluationUseCase: com.health.calculator.bmi.tracker.domain.usecases.MilestoneEvaluationUseCase
+    private val milestoneEvaluationUseCase: com.health.calculator.bmi.tracker.domain.usecases.MilestoneEvaluationUseCase,
+    private val productAnalytics: ProductAnalytics
 ) : AndroidViewModel(application) {
 
     private val profileDataStore = ProfileDataStore(application.applicationContext)
@@ -601,11 +605,12 @@ class BmiViewModel @Inject constructor(
 
     class Factory(
         private val application: Application,
-        private val milestoneEvaluationUseCase: com.health.calculator.bmi.tracker.domain.usecases.MilestoneEvaluationUseCase
+        private val milestoneEvaluationUseCase: com.health.calculator.bmi.tracker.domain.usecases.MilestoneEvaluationUseCase,
+        private val productAnalytics: ProductAnalytics = NoOpProductAnalytics
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return BmiViewModel(application, milestoneEvaluationUseCase) as T
+            return BmiViewModel(application, milestoneEvaluationUseCase, productAnalytics) as T
         }
     }
 
@@ -639,6 +644,10 @@ class BmiViewModel @Inject constructor(
     val goalSaveSuccess: StateFlow<Boolean> = _goalSaveSuccess.asStateFlow()
 
     init {
+        productAnalytics.track(
+            ProductAnalyticsEvent.CALCULATOR_OPENED,
+            mapOf("calculator_id" to "bmi", "entry_point" to "calculators")
+        )
         loadProfileData()
         loadBmiHistory()
     }
@@ -1045,6 +1054,11 @@ class BmiViewModel @Inject constructor(
                     )
                 )
             }
+
+            productAnalytics.track(
+                ProductAnalyticsEvent.CALCULATOR_COMPLETED,
+                mapOf("calculator_id" to "bmi", "entry_point" to "calculators")
+            )
 
             saveInputMemory(
                 weightKg = weightKg.toFloat(),
