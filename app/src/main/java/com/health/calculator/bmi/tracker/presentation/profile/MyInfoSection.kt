@@ -17,8 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.domain.model.UserProfile
 import com.health.calculator.bmi.tracker.ui.components.ProfilePictureSection
+import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -160,6 +164,12 @@ private fun InfoItem(
     icon: ImageVector,
     onClick: () -> Unit
 ) {
+    val iconTint = when {
+        label in setOf("Height", "Weight", "Goal Weight") -> HealthColors.Healthy
+        label in setOf("Activity Level", "Health Goals", "Ethnicity / Region") -> MaterialTheme.colorScheme.tertiary
+        else -> MaterialTheme.colorScheme.primary
+    }
+
     Surface(
         onClick = onClick,
         color = Color.Transparent,
@@ -170,17 +180,12 @@ private fun InfoItem(
                 .padding(vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier.size(40.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+            WellnessIconBadge(
+                icon = icon,
+                tint = iconTint,
+                container = iconTint.copy(alpha = 0.12f),
+                modifier = Modifier.size(36.dp)
+            )
 
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -192,7 +197,11 @@ private fun InfoItem(
                 )
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = if (label in setOf("Height", "Weight", "Goal Weight")) {
+                        WellnessMetricTextStyle.copy(fontSize = 16.sp, lineHeight = 24.sp)
+                    } else {
+                        MaterialTheme.typography.bodyLarge
+                    },
                     fontWeight = FontWeight.Medium
                 )
             }

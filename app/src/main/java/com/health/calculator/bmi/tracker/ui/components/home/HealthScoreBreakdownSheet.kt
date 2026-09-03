@@ -3,25 +3,32 @@ package com.health.calculator.bmi.tracker.ui.components.home
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Assessment
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.LocalDining
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.ShowChart
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.util.*
+import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,9 +57,10 @@ fun HealthScoreBreakdownSheet(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = healthScore.category.emoji,
-                    fontSize = 28.sp
+                WellnessIconBadge(
+                    icon = categoryIcon(healthScore.category),
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    container = MaterialTheme.colorScheme.tertiaryContainer
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
@@ -74,10 +82,7 @@ fun HealthScoreBreakdownSheet(
 
             // Score components
             healthScore.scoreBreakdown.forEachIndexed { index, component ->
-                ScoreComponentCard(
-                    component = component,
-                    index = index
-                )
+                ScoreComponentCard(component = component)
                 if (index < healthScore.scoreBreakdown.lastIndex) {
                     Spacer(modifier = Modifier.height(10.dp))
                 }
@@ -159,26 +164,17 @@ fun HealthScoreBreakdownSheet(
 
 @Composable
 private fun ScoreComponentCard(
-    component: HealthScoreComponent,
-    index: Int
+    component: HealthScoreComponent
 ) {
     val statusColor = when (component.status) {
-        ComponentStatus.EXCELLENT -> Color(0xFF4CAF50)
-        ComponentStatus.GOOD -> Color(0xFF2196F3)
-        ComponentStatus.FAIR -> Color(0xFFFFC107)
-        ComponentStatus.POOR -> Color(0xFFF44336)
-        ComponentStatus.NO_DATA -> Color(0xFF9E9E9E)
+        ComponentStatus.EXCELLENT -> HealthColors.Healthy
+        ComponentStatus.GOOD -> HealthColors.Good
+        ComponentStatus.FAIR -> HealthColors.Warning
+        ComponentStatus.POOR -> HealthColors.Caution
+        ComponentStatus.NO_DATA -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 
-    val animatedProgress by animateFloatAsState(
-        targetValue = if (component.hasData) component.points.toFloat() / component.maxPoints else 0f,
-        animationSpec = tween(
-            durationMillis = 600,
-            delayMillis = index * 100,
-            easing = FastOutSlowInEasing
-        ),
-        label = "component_progress_${component.name}"
-    )
+    val progress = if (component.hasData) component.points.toFloat() / component.maxPoints else 0f
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -194,9 +190,13 @@ private fun ScoreComponentCard(
                 .padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Emoji and status dot
+            // Consistent vector badge and status dot
             Box(contentAlignment = Alignment.BottomEnd) {
-                Text(text = component.emoji, fontSize = 26.sp)
+                WellnessIconBadge(
+                    icon = componentIcon(component.name),
+                    tint = statusColor,
+                    container = statusColor.copy(alpha = 0.12f)
+                )
                 Box(
                     modifier = Modifier
                         .size(10.dp)
@@ -233,7 +233,7 @@ private fun ScoreComponentCard(
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth(animatedProgress)
+                                .fillMaxWidth(progress.coerceIn(0f, 1f))
                                 .fillMaxHeight()
                                 .clip(RoundedCornerShape(3.dp))
                                 .background(statusColor)
@@ -249,7 +249,7 @@ private fun ScoreComponentCard(
                 if (component.hasData) {
                     Text(
                         text = "+${component.points}",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = WellnessMetricTextStyle,
                         fontWeight = FontWeight.ExtraBold,
                         color = statusColor
                     )
@@ -262,12 +262,12 @@ private fun ScoreComponentCard(
                 } else {
                     Surface(
                         shape = RoundedCornerShape(6.dp),
-                        color = Color(0xFF9E9E9E).copy(alpha = 0.1f)
+                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
                     ) {
                         Text(
                             text = stringResource(R.string.txt_no_data),
                             style = MaterialTheme.typography.labelSmall,
-                            color = Color(0xFF9E9E9E),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
@@ -275,4 +275,21 @@ private fun ScoreComponentCard(
             }
         }
     }
+}
+
+private fun categoryIcon(category: HealthScoreCategory) = when (category) {
+    HealthScoreCategory.EXCELLENT, HealthScoreCategory.GOOD -> Icons.Outlined.ShowChart
+    HealthScoreCategory.FAIR -> Icons.Outlined.Assessment
+    HealthScoreCategory.NEEDS_ATTENTION, HealthScoreCategory.CONCERNING -> Icons.Outlined.Flag
+    HealthScoreCategory.INSUFFICIENT_DATA -> Icons.Outlined.Assessment
+}
+
+private fun componentIcon(name: String) = when {
+    name.contains("BMI", ignoreCase = true) -> Icons.Outlined.Assessment
+    name.contains("Pressure", ignoreCase = true) -> Icons.Outlined.MonitorHeart
+    name.contains("Waist", ignoreCase = true) -> Icons.Outlined.ShowChart
+    name.contains("Hydration", ignoreCase = true) -> Icons.Outlined.WaterDrop
+    name.contains("Calories", ignoreCase = true) -> Icons.Outlined.LocalDining
+    name.contains("Heart", ignoreCase = true) -> Icons.Outlined.FavoriteBorder
+    else -> Icons.Outlined.ShowChart
 }

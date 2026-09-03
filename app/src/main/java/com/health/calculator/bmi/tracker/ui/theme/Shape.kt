@@ -5,23 +5,23 @@ import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
 // ============================================================================
-// SHAPE SYSTEM - Consistent rounded corners throughout the app
+// SHAPE SYSTEM - Shape signals hierarchy, not just decoration.
 // ============================================================================
 
 val HealthShapes = Shapes(
     // Small components: Chips, small buttons, toggles
     extraSmall = RoundedCornerShape(6.dp),
 
-    // Small components: Text fields, small cards
-    small = RoundedCornerShape(12.dp),
+    // Small components: Text fields and compact rows
+    small = RoundedCornerShape(10.dp),
 
-    // Medium components: Cards, dialogs, calculator input cards
+    // Medium components: metric tiles and calculator input cards
     medium = RoundedCornerShape(16.dp),
 
-    // Large components: Bottom sheets, large cards, result panels
-    large = RoundedCornerShape(24.dp),
+    // Large components: result panels and bottom sheets
+    large = RoundedCornerShape(22.dp),
 
-    // Extra large: Full-screen dialogs, modal bottoms, feature cards
+    // Extra large: the single hero surface on a dashboard
     extraLarge = RoundedCornerShape(28.dp),
 )
 
@@ -31,6 +31,28 @@ val HealthShapes = Shapes(
 
 // Calculator result card - more rounded for a "badge" feel
 val ResultCardShape = RoundedCornerShape(24.dp)
+
+/** The asymmetric shape reserves the strongest silhouette for the hero. */
+val HeroCardShape = RoundedCornerShape(
+    topStart = 28.dp,
+    topEnd = 12.dp,
+    bottomEnd = 28.dp,
+    bottomStart = 12.dp
+)
+
+/** Compact, equal-weight tiles for daily metrics. */
+val MetricTileShape = RoundedCornerShape(18.dp)
+
+/** Low-ornament rows used for navigation and settings actions. */
+val ActionRowShape = RoundedCornerShape(12.dp)
+
+/** A callout shape that reads as editorial content rather than a data card. */
+val InsightCalloutShape = RoundedCornerShape(
+    topStart = 8.dp,
+    topEnd = 22.dp,
+    bottomEnd = 22.dp,
+    bottomStart = 8.dp
+)
 
 // Gauge/meter background shapes
 val GaugeShape = RoundedCornerShape(50)            // Fully rounded (pill)

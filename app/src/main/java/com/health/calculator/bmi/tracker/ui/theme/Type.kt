@@ -7,54 +7,66 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /*
- * Use the platform sans-serif stack for predictable startup, offline behavior,
- * accessibility settings, and consistent rendering across Android devices.
- * The exported names are retained for source compatibility with older screens.
+ * The type system uses only platform families so it remains offline-safe and
+ * respects the user's font scale.  A serif display voice gives the product a
+ * point of view; sans-serif keeps instructions easy to scan; monospace gives
+ * measured values a stable, instrument-like rhythm.
  */
 val InterFontFamily: FontFamily = FontFamily.SansSerif
 val PlusJakartaSansFontFamily: FontFamily = FontFamily.SansSerif
+val WellnessDisplayFontFamily: FontFamily = FontFamily.Serif
+val WellnessMetricFontFamily: FontFamily = FontFamily.Monospace
+
+/** Use for results, counts, dates, and other values that users compare. */
+val WellnessMetricTextStyle = TextStyle(
+    fontFamily = WellnessMetricFontFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 20.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.sp
+)
 
 val HealthTypography = Typography(
     displayLarge = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 57.sp,
         lineHeight = 64.sp,
         letterSpacing = (-0.25).sp
     ),
     displayMedium = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 45.sp,
         lineHeight = 52.sp
     ),
     displaySmall = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 36.sp,
         lineHeight = 44.sp
     ),
     headlineLarge = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 32.sp,
         lineHeight = 40.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 28.sp,
         lineHeight = 36.sp
     ),
     headlineSmall = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
+        fontFamily = WellnessDisplayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
         lineHeight = 32.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = PlusJakartaSansFontFamily,
-        fontWeight = FontWeight.Bold,
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
         lineHeight = 28.sp
     ),

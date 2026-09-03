@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -30,6 +31,20 @@ class ThemeTokensTest {
         assertEquals(HealthColors.Warning, HealthYellow)
         assertEquals(HealthColors.Danger, HealthRed)
         assertEquals(HealthColors.Info, HealthBlue)
+    }
+
+    @Test
+    fun `visual roles are intentionally distinct`() {
+        assertNotEquals(WellnessPalette.ActionLight, WellnessPalette.WarmAccentLight)
+        assertNotEquals(WellnessPalette.ActionDark, WellnessPalette.WarmAccentDark)
+        assertNotEquals(WellnessPalette.OnTrackLight, WellnessPalette.ActionLight)
+        assertNotEquals(WellnessPalette.OnTrackDark, WellnessPalette.ActionDark)
+    }
+
+    @Test
+    fun `measured values use the dedicated numeric family`() {
+        assertEquals(WellnessMetricFontFamily, WellnessMetricTextStyle.fontFamily)
+        assertNotEquals(WellnessDisplayFontFamily, InterFontFamily)
     }
 
     private fun contrastRatio(first: Color, second: Color): Double {

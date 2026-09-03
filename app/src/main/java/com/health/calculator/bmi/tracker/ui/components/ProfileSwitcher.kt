@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.FamilyProfile
+import com.health.calculator.bmi.tracker.data.model.ProfileColor
 
 /**
  * A horizontal bar of mini-avatars displayed at the top of the profile screen.
@@ -79,7 +80,7 @@ fun ProfileAvatar(
             modifier = Modifier
                 .size(size)
                 .clip(CircleShape)
-                .background(Color(profile.profileColor))
+                .background(Color(ProfileColor.fromValue(profile.profileColor).colorValue))
                 .then(
                     if (isActive) Modifier.border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
                     else Modifier
@@ -230,7 +231,7 @@ fun ProfileRowItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(Color(profile.profileColor)),
+                    .background(Color(ProfileColor.fromValue(profile.profileColor).colorValue)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

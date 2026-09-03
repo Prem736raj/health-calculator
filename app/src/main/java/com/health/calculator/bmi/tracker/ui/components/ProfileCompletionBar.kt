@@ -6,6 +6,7 @@ import com.health.calculator.bmi.tracker.R
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -15,7 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.domain.usecases.ProfileCompletionResult
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 
 @Composable
 fun ProfileCompletionBar(
@@ -28,18 +33,21 @@ fun ProfileCompletionBar(
         label = "completion_progress"
     )
 
+    // Completion is an invitation, not a health warning.  Keep incomplete
+    // profiles out of the error palette and reserve red for actual errors.
     val progressColor = when {
-        completion.percentage >= 80 -> MaterialTheme.colorScheme.primary
-        completion.percentage >= 50 -> MaterialTheme.colorScheme.tertiary
-        else -> MaterialTheme.colorScheme.error
+        completion.percentage >= 80 -> HealthColors.Healthy
+        completion.percentage >= 50 -> MaterialTheme.colorScheme.primary
+        else -> MaterialTheme.colorScheme.tertiary
     }
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = MetricTileShape,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-        )
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.38f)
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.62f))
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -56,7 +64,7 @@ fun ProfileCompletionBar(
                 )
                 Text(
                     text = "${completion.percentage}%",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = WellnessMetricTextStyle.copy(fontSize = 18.sp),
                     fontWeight = FontWeight.Bold,
                     color = progressColor
                 )

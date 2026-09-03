@@ -7,60 +7,60 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="splash_background">#F7FAF9</color>
+    <color name="splash_background">#F7F5F0</color>
 
     <!-- Widget Colors -->
-    <color name="widget_background">#F7FAF9</color>
-    <color name="widget_background_dark">#18201F</color>
-    <color name="widget_border">#D8E2DF</color>
-    <color name="widget_border_dark">#3F4A47</color>
-    <color name="widget_text_primary">#173532</color>
-    <color name="widget_text_primary_dark">#E0E9E6</color>
-    <color name="widget_text_secondary">#41514E</color>
-    <color name="widget_text_secondary_dark">#BFCBC7</color>
-    <color name="widget_water_blue">#267C8A</color>
-    <color name="widget_water_blue_light">#D6F0F3</color>
-    <color name="widget_circle_bg">#D1EEEA</color>
-    <color name="widget_circle_bg_dark">#174A47</color>
+    <color name="widget_background">#F7F5F0</color>
+    <color name="widget_background_dark">#1B2624</color>
+    <color name="widget_border">#CAD2CA</color>
+    <color name="widget_border_dark">#41534D</color>
+    <color name="widget_text_primary">#183B3A</color>
+    <color name="widget_text_primary_dark">#E5F0EB</color>
+    <color name="widget_text_secondary">#48534E</color>
+    <color name="widget_text_secondary_dark">#C9D8D1</color>
+    <color name="widget_water_blue">#3C7180</color>
+    <color name="widget_water_blue_light">#DCECEF</color>
+    <color name="widget_circle_bg">#D8EDE5</color>
+    <color name="widget_circle_bg_dark">#29403C</color>
     <color name="widget_btn_text">#FFFFFF</color>
-    <color name="widget_progress_track">#C1CECA</color>
-    <color name="widget_progress_fill">#267C8A</color>
-    <color name="widget_progress_complete">#2E7D6F</color>
+    <color name="widget_progress_track">#CAD2CA</color>
+    <color name="widget_progress_fill">#3C7180</color>
+    <color name="widget_progress_complete">#307D68</color>
 
     <!-- Health Palette -->
-    <color name="health_score_good">#2E7D6F</color>
+    <color name="health_score_good">#307D68</color>
     <color name="health_score_fair">#A66300</color>
     <color name="health_score_poor">#BA1A1A</color>
-    <color name="health_bmi_accent">#2E7D6F</color>
+    <color name="health_bmi_accent">#307D68</color>
     <color name="health_bp_accent">#B94A5A</color>
-    <color name="health_water_accent">#267C8A</color>
+    <color name="health_water_accent">#3C7180</color>
     <color name="health_cal_accent">#B46A14</color>
-    <color name="health_weight_accent">#39718A</color>
+    <color name="health_weight_accent">#3C7180</color>
     <color name="health_streak_accent">#A66300</color>
     <color name="health_card_bg">#FFFFFF</color>
-    <color name="health_card_bg_dark">#293331</color>
+    <color name="health_card_bg_dark">#263632</color>
     <!-- Quick Widget Colors -->
-    <color name="qw_background">#F7FAF9</color>
+    <color name="qw_background">#F7F5F0</color>
     <color name="qw_card_bg">#FFFFFF</color>
-    <color name="qw_border">#D8E2DF</color>
-    <color name="qw_text_primary">#173532</color>
-    <color name="qw_text_secondary">#41514E</color>
-    <color name="qw_accent">#267C8A</color>
+    <color name="qw_border">#CAD2CA</color>
+    <color name="qw_text_primary">#183B3A</color>
+    <color name="qw_text_secondary">#48534E</color>
+    <color name="qw_accent">#3C7180</color>
 
     <!-- Streak Colors -->
     <color name="streak_count_color">#B45309</color>
     <color name="streak_milestone_color">#A66300</color>
 
     <!-- Config Colors -->
-    <color name="config_bg">#F7FAF9</color>
+    <color name="config_bg">#F7F5F0</color>
     <color name="config_card_bg">#FFFFFF</color>
-    <color name="config_text_primary">#173532</color>
-    <color name="config_text_secondary">#41514E</color>
-    <color name="config_accent">#2F6B68</color>
-    <color name="config_preview_bg">#E1EBE8</color>
+    <color name="config_text_primary">#183B3A</color>
+    <color name="config_text_secondary">#48534E</color>
+    <color name="config_accent">#2B6F68</color>
+    <color name="config_preview_bg">#E6E2D9</color>
 
     <!-- Preview drawables placeholders -->
-    <color name="ic_quick_calc_preview">#D1EEEA</color>
-    <color name="ic_single_calc_preview">#DCEEF5</color>
+    <color name="ic_quick_calc_preview">#D8EDE5</color>
+    <color name="ic_single_calc_preview">#DCECEF</color>
     <color name="ic_streak_preview">#FFE9C7</color>
 </resources>

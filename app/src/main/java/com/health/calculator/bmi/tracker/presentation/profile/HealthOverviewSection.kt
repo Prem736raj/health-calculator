@@ -4,6 +4,7 @@ import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -12,10 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.HealthOverview
 import com.health.calculator.bmi.tracker.data.model.WeightStatistics
 import com.health.calculator.bmi.tracker.ui.components.HealthOverviewCard
 import com.health.calculator.bmi.tracker.ui.components.ProfileWeightSection
+import com.health.calculator.bmi.tracker.ui.theme.HeroCardShape
+import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 
 @Composable
 fun HealthOverviewSection(
@@ -125,7 +130,9 @@ fun SummarySmallCard(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
-        )
+        ),
+        shape = MetricTileShape,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.56f))
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
@@ -148,7 +155,9 @@ fun HealthScoreDonut(score: Int) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
-        )
+        ),
+        shape = HeroCardShape,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -167,8 +176,8 @@ fun HealthScoreDonut(score: Int) {
             }
             Text(
                 text = "$score",
-                style = MaterialTheme.typography.displaySmall,
-                fontWeight = FontWeight.Black,
+                style = WellnessMetricTextStyle.copy(fontSize = 36.sp, lineHeight = 40.sp),
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
             )
         }

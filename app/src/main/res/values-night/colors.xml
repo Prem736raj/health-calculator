@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="widget_background">#1A2332</color>
-    <color name="widget_border">#263547</color>
-    <color name="widget_text_primary">#E3F2FD</color>
-    <color name="widget_text_secondary">#90A4AE</color>
-    <color name="widget_circle_bg">#263547</color>
-    <color name="health_card_bg">#2C3E50</color>
-    <color name="qw_background">#1A2332</color>
-    <color name="qw_card_bg">#1E2D40</color>
-    <color name="qw_border">#263547</color>
-    <color name="qw_text_primary">#E3F2FD</color>
-    <color name="qw_text_secondary">#90A4AE</color>
-    <color name="qw_accent">#64B5F6</color>
-    <color name="config_bg">#121212</color>
-    <color name="config_card_bg">#1E1E1E</color>
-    <color name="config_text_primary">#E3F2FD</color>
-    <color name="config_text_secondary">#90A4AE</color>
-    <color name="config_preview_bg">#1A2332</color>
+    <color name="widget_background">#121A19</color>
+    <color name="widget_border">#41534D</color>
+    <color name="widget_text_primary">#E5F0EB</color>
+    <color name="widget_text_secondary">#C9D8D1</color>
+    <color name="widget_circle_bg">#29403C</color>
+    <color name="health_card_bg">#263632</color>
+    <color name="qw_background">#121A19</color>
+    <color name="qw_card_bg">#1B2624</color>
+    <color name="qw_border">#41534D</color>
+    <color name="qw_text_primary">#E5F0EB</color>
+    <color name="qw_text_secondary">#C9D8D1</color>
+    <color name="qw_accent">#8FD4C2</color>
+    <color name="config_bg">#121A19</color>
+    <color name="config_card_bg">#1B2624</color>
+    <color name="config_text_primary">#E5F0EB</color>
+    <color name="config_text_secondary">#C9D8D1</color>
+    <color name="config_preview_bg">#263632</color>
 </resources>

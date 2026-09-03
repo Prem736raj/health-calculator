@@ -118,11 +118,11 @@ data class FamilyProfile(
  * Predefined colors for profile avatars to visually distinguish between users.
  */
 enum class ProfileColor(val colorValue: Int, val label: String) {
-    BLUE(0xFF2196F3.toInt(), "Blue"),
-    TEAL(0xFF009688.toInt(), "Teal"),
-    PURPLE(0xFF9C27B0.toInt(), "Purple"),
-    ORANGE(0xFFFF9800.toInt(), "Orange"),
-    GREEN(0xFF4CAF50.toInt(), "Green");
+    BLUE(0xFF3C7180.toInt(), "Blue"),
+    TEAL(0xFF2B6F68.toInt(), "Teal"),
+    PURPLE(0xFF7A4E78.toInt(), "Plum"),
+    ORANGE(0xFFD77A5B.toInt(), "Clay"),
+    GREEN(0xFF307D68.toInt(), "Green");
 
     companion object {
         fun fromValue(value: Int): ProfileColor {

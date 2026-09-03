@@ -9,14 +9,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.outlined.Timeline
+import androidx.compose.material.icons.outlined.TrendingDown
+import androidx.compose.material.icons.outlined.TrendingFlat
+import androidx.compose.material.icons.outlined.TrendingUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.WeightStatistics
 import com.health.calculator.bmi.tracker.data.model.WeightTrendDirection
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 
 @Composable
 fun ProfileWeightSection(
@@ -32,7 +39,7 @@ fun ProfileWeightSection(
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = MetricTileShape,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
         )
@@ -60,16 +67,20 @@ fun ProfileWeightSection(
 
                 if (statistics != null && statistics.totalEntries > 0) {
                     val trendColor = when (statistics.trendDirection) {
-                        WeightTrendDirection.LOSING -> MaterialTheme.colorScheme.primary
-                        WeightTrendDirection.GAINING -> MaterialTheme.colorScheme.error
+                        WeightTrendDirection.LOSING -> HealthColors.Healthy
+                        WeightTrendDirection.GAINING -> HealthColors.Warning
                         WeightTrendDirection.STABLE -> MaterialTheme.colorScheme.onSurfaceVariant
                     }
-                    Text(
-                        text = "${statistics.trendDirection.emoji} ${statistics.trendDirection.label}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = trendColor,
-                        fontWeight = FontWeight.Medium
-                    )
+                    val trendIcon = when (statistics.trendDirection) {
+                        WeightTrendDirection.LOSING -> Icons.Outlined.TrendingDown
+                        WeightTrendDirection.GAINING -> Icons.Outlined.TrendingUp
+                        WeightTrendDirection.STABLE -> Icons.Outlined.TrendingFlat
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(trendIcon, contentDescription = null, tint = trendColor, modifier = Modifier.size(16.dp))
+                        Spacer(Modifier.width(4.dp))
+                        Text(statistics.trendDirection.label, style = MaterialTheme.typography.labelSmall, color = trendColor, fontWeight = FontWeight.Medium)
+                    }
                 }
             }
 
@@ -78,8 +89,8 @@ fun ProfileWeightSection(
             if (latestWeight != null) {
                 Text(
                     text = String.format("%.1f %s", latestWeight * multiplier, unit),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
+                    style = WellnessMetricTextStyle.copy(fontSize = 28.sp, lineHeight = 32.sp),
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 

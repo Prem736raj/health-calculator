@@ -5,15 +5,19 @@ import com.health.calculator.bmi.tracker.R
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.TrendingDown
+import androidx.compose.material.icons.outlined.TrendingFlat
+import androidx.compose.material.icons.outlined.TrendingUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.data.model.WeightTrendDirection
 import com.health.calculator.bmi.tracker.data.model.WeightStatistics
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,16 +54,24 @@ fun WeightStatisticsCard(
 
                 // Trend indicator
                 val trendColor = when (statistics.trendDirection) {
-                    WeightTrendDirection.LOSING -> Color(0xFF4CAF50)
-                    WeightTrendDirection.GAINING -> Color(0xFFFF9800)
+                    WeightTrendDirection.LOSING -> HealthColors.Healthy
+                    WeightTrendDirection.GAINING -> HealthColors.Warning
                     WeightTrendDirection.STABLE -> MaterialTheme.colorScheme.onSurfaceVariant
+                }
+                val trendIcon = when (statistics.trendDirection) {
+                    WeightTrendDirection.LOSING -> Icons.Outlined.TrendingDown
+                    WeightTrendDirection.GAINING -> Icons.Outlined.TrendingUp
+                    WeightTrendDirection.STABLE -> Icons.Outlined.TrendingFlat
                 }
 
                 AssistChip(
                     onClick = {},
+                    leadingIcon = {
+                        Icon(trendIcon, contentDescription = null, modifier = Modifier.size(16.dp))
+                    },
                     label = {
                         Text(
-                            "${statistics.trendDirection.emoji} ${statistics.trendDirection.label}",
+                            statistics.trendDirection.label,
                             fontWeight = FontWeight.Medium
                         )
                     },
@@ -104,7 +116,7 @@ fun WeightStatisticsCard(
                         String.format("%.1f %s", it * multiplier, unit)
                     } ?: "—",
                     modifier = Modifier.weight(1f),
-                    valueColor = Color(0xFF4CAF50)
+                    valueColor = HealthColors.Healthy
                 )
                 StatItem(
                     label = "Highest",
@@ -112,7 +124,7 @@ fun WeightStatisticsCard(
                         String.format("%.1f %s", it * multiplier, unit)
                     } ?: "—",
                     modifier = Modifier.weight(1f),
-                    valueColor = Color(0xFFFF9800)
+                    valueColor = HealthColors.Warning
                 )
             }
 
@@ -130,7 +142,7 @@ fun WeightStatisticsCard(
                     } ?: "—",
                     modifier = Modifier.weight(1f),
                     valueColor = statistics.totalChange?.let {
-                        if (it <= 0) Color(0xFF4CAF50) else Color(0xFFFF9800)
+                        if (it <= 0) HealthColors.Healthy else HealthColors.Warning
                     }
                 )
                 StatItem(

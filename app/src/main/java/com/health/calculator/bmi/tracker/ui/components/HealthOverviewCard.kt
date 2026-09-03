@@ -1,24 +1,26 @@
 package com.health.calculator.bmi.tracker.ui.components
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Assessment
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.data.model.HealthCategoryColor
 import com.health.calculator.bmi.tracker.data.model.HealthMetricSummary
+import com.health.calculator.bmi.tracker.ui.theme.ActionRowShape
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,11 +31,11 @@ fun HealthOverviewCard(
     modifier: Modifier = Modifier
 ) {
     val categoryColor = when (metric.categoryColor) {
-        HealthCategoryColor.EXCELLENT -> Color(0xFF4CAF50)
-        HealthCategoryColor.GOOD -> Color(0xFF2196F3)
-        HealthCategoryColor.MODERATE -> Color(0xFFFFC107)
-        HealthCategoryColor.WARNING -> Color(0xFFFF9800)
-        HealthCategoryColor.DANGER -> Color(0xFFF44336)
+        HealthCategoryColor.EXCELLENT -> HealthColors.Healthy
+        HealthCategoryColor.GOOD -> HealthColors.Good
+        HealthCategoryColor.MODERATE -> HealthColors.Warning
+        HealthCategoryColor.WARNING -> HealthColors.Caution
+        HealthCategoryColor.DANGER -> HealthColors.Danger
         HealthCategoryColor.NEUTRAL -> MaterialTheme.colorScheme.outline
     }
 
@@ -41,11 +43,12 @@ fun HealthOverviewCard(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
+        shape = ActionRowShape,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.62f))
     ) {
         Row(
             modifier = Modifier
@@ -53,12 +56,11 @@ fun HealthOverviewCard(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Color indicator dot
-            Box(
-                modifier = Modifier
-                    .size(12.dp)
-                    .clip(CircleShape)
-                    .background(categoryColor)
+            WellnessIconBadge(
+                icon = metricIcon(metric.label),
+                tint = categoryColor,
+                container = categoryColor.copy(alpha = 0.13f),
+                modifier = Modifier.size(36.dp)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -73,8 +75,8 @@ fun HealthOverviewCard(
                 )
                 Text(
                     text = metric.value,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    style = WellnessMetricTextStyle,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -106,6 +108,13 @@ fun HealthOverviewCard(
             )
         }
     }
+}
+
+private fun metricIcon(label: String) = when {
+    label.contains("blood", ignoreCase = true) -> Icons.Outlined.MonitorHeart
+    label.contains("heart", ignoreCase = true) -> Icons.Outlined.FavoriteBorder
+    label.contains("weight", ignoreCase = true) -> Icons.Outlined.ShowChart
+    else -> Icons.Outlined.Assessment
 }
 
 private fun formatRelativeTime(timestamp: Long): String {

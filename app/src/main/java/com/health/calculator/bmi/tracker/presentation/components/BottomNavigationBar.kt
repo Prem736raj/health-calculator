@@ -99,11 +99,13 @@ fun BottomNavigationBar(
                 },
                 alwaysShowLabel = true,
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    // Navigation selection is a quiet sage signal; primary
+                    // blue-green stays reserved for actions and progress.
+                    selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f)
+                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.92f)
                 )
             )
         }

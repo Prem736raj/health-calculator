@@ -1,6 +1,5 @@
 package com.health.calculator.bmi.tracker.presentation.navigation
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,8 +31,6 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material.icons.outlined.Timeline
 import androidx.compose.material.icons.outlined.WaterDrop
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.AlertDialog
@@ -53,11 +49,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
+import com.health.calculator.bmi.tracker.ui.components.WellnessActionRow
+import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
+import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
+import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
 
 /** The six highest-value logging destinations are deliberately kept together. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,29 +78,22 @@ fun TrackHubScreen(
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(horizontal = HealthSpacing.screenHorizontal, vertical = HealthSpacing.medium),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
-                Text(
-                    "Daily check-ins",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "Log what matters to you. Nothing here is required, and missing a day does not erase your progress.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                WellnessSectionLabel(
+                    title = "Daily check-ins",
+                    subtitle = "Log what matters to you. Nothing here is required, and missing a day does not erase your progress."
                 )
             }
-            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight) }
-            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater) }
-            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure) }
-            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood) }
-            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections) }
-            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory) }
-            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders) }
+            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight, HealthColors.Healthy) }
+            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater, HealthColors.Info) }
+            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure, HealthColors.Good) }
+            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood, HealthColors.Warning) }
+            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections, HealthColors.Info) }
+            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory, MaterialTheme.colorScheme.primary) }
+            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders, MaterialTheme.colorScheme.tertiary) }
         }
     }
 }
@@ -131,20 +124,13 @@ fun CalculatorsHubScreen(onOpen: (CalculatorDestination) -> Unit) {
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(horizontal = HealthSpacing.screenHorizontal, vertical = HealthSpacing.medium),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
-                Text(
-                    "Pick a starting point",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "These tools are informational estimates. Open a result to see the method, reference range and limitations.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                WellnessSectionLabel(
+                    title = "Pick a starting point",
+                    subtitle = "These tools are informational estimates. Open a result to see the method, reference range and limitations."
                 )
             }
             items(calculators) { entry ->
@@ -181,53 +167,52 @@ fun InsightsHubScreen(
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+            contentPadding = PaddingValues(horizontal = HealthSpacing.screenHorizontal, vertical = HealthSpacing.medium),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
-                Text(
-                    "Your next useful view",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "Insights describe logged patterns. They do not explain causes or diagnose conditions.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                WellnessSectionLabel(
+                    title = "Your next useful view",
+                    subtitle = "Insights describe logged patterns. They do not explain causes or diagnose conditions."
                 )
             }
             if (insights.isNotEmpty()) {
                 item {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("From your recent logs", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        WellnessSectionLabel("From your recent logs")
                         insights.take(5).forEach { insight ->
                             InsightSummaryCard(insight = insight, onOpen = { onOpenInsight(insight.actionRoute) })
                         }
                     }
                 }
             }
-            item { HubActionCard("Weekly wellness summary", "Compare your check-ins with the previous week", Icons.Outlined.Assessment, onOpenWeeklyReport) }
-            item { HubActionCard("Trends", "See weight, hydration and blood-pressure history", Icons.Outlined.Timeline, onOpenTrends) }
-            item { HubActionCard("AI Wellness Assistant", "Ask general wellness questions with optional context", Icons.Outlined.AutoAwesome, onOpenAssistant) }
-            item { HubActionCard("Milestones", "Celebrate consistent, non-competitive progress", Icons.Outlined.Flag, onOpenAchievements) }
-            item { HubActionCard("Learn", "Read practical, evidence-informed explainers", Icons.Outlined.ShowChart, onOpenArticles) }
-            item { HubActionCard("All history", "Open the detailed history and export tools", Icons.Outlined.History, onOpenHistory) }
+            item { HubActionCard("Weekly wellness summary", "Compare your check-ins with the previous week", Icons.Outlined.Assessment, onOpenWeeklyReport, MaterialTheme.colorScheme.primary) }
+            item { HubActionCard("Trends", "See weight, hydration and blood-pressure history", Icons.Outlined.Timeline, onOpenTrends, HealthColors.Good) }
+            item { HubActionCard("AI Wellness Assistant", "Ask general wellness questions with optional context", Icons.Outlined.AutoAwesome, onOpenAssistant, MaterialTheme.colorScheme.tertiary) }
+            item { HubActionCard("Milestones", "Celebrate consistent, non-competitive progress", Icons.Outlined.Flag, onOpenAchievements, HealthColors.Healthy) }
+            item { HubActionCard("Learn", "Read practical, evidence-informed explainers", Icons.Outlined.ShowChart, onOpenArticles, HealthColors.Info) }
+            item { HubActionCard("All history", "Open the detailed history and export tools", Icons.Outlined.History, onOpenHistory, MaterialTheme.colorScheme.primary) }
         }
     }
 }
 
 @Composable
 private fun InsightSummaryCard(insight: WellnessInsight, onOpen: () -> Unit) {
-    Card(
-        onClick = onOpen,
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-    ) {
+    WellnessInsightCallout(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(insight.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                WellnessIconBadge(
+                    icon = Icons.Outlined.ShowChart,
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    container = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.14f),
+                    modifier = Modifier.size(30.dp)
+                )
+                Spacer(Modifier.size(8.dp))
+                Text(insight.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            }
             Text(insight.message, style = MaterialTheme.typography.bodyMedium)
             Text(insight.evidence, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            TextButton(onClick = onOpen, contentPadding = PaddingValues(0.dp)) { Text("View detail") }
         }
     }
 }
@@ -259,27 +244,18 @@ private fun CalculatorHubCard(
     onOpen: () -> Unit,
     onShowQuality: () -> Unit
 ) {
-    Card(
+    WellnessActionRow(
+        icon = entry.icon,
+        title = entry.title,
+        description = entry.description,
         onClick = onOpen,
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.58f))
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Icon(entry.icon, contentDescription = null, modifier = Modifier.size(28.dp), tint = MaterialTheme.colorScheme.primary)
-            Column(modifier = Modifier.weight(1f)) {
-                Text(entry.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(2.dp))
-                Text(entry.description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+        accent = MaterialTheme.colorScheme.primary,
+        trailingContent = {
             IconButton(onClick = onShowQuality) {
-                Icon(Icons.Outlined.Info, contentDescription = "Method and limits for ${entry.title}", tint = MaterialTheme.colorScheme.primary)
+                Icon(Icons.Outlined.Info, contentDescription = "Method and limits for ${entry.title}")
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -350,7 +326,14 @@ private fun HubScaffold(
                         Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 },
-                navigationIcon = { Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
+                navigationIcon = {
+                    WellnessIconBadge(
+                        icon = icon,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                        container = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.78f),
+                        modifier = Modifier.padding(start = 12.dp)
+                    )
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         },
@@ -364,27 +347,14 @@ private fun HubActionCard(
     title: String,
     description: String,
     icon: ImageVector,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    accent: androidx.compose.ui.graphics.Color
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .semantics { contentDescription = "$title. $description" },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.58f))
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Icon(icon, contentDescription = null, modifier = Modifier.size(28.dp), tint = MaterialTheme.colorScheme.primary)
-            Column(modifier = Modifier.weight(1f)) {
-                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(2.dp))
-                Text(description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            Icon(Icons.Outlined.Edit, contentDescription = "Open $title", tint = MaterialTheme.colorScheme.primary)
-        }
-    }
+    WellnessActionRow(
+        icon = icon,
+        title = title,
+        description = description,
+        onClick = onClick,
+        accent = accent
+    )
 }

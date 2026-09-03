@@ -4,12 +4,23 @@ import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Assessment
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.ShowChart
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +33,7 @@ import com.health.calculator.bmi.tracker.data.models.HealthMilestone
 import com.health.calculator.bmi.tracker.data.models.MilestoneType
 import com.health.calculator.bmi.tracker.data.models.PersonalRecord
 import com.health.calculator.bmi.tracker.data.models.PersonalRecordType
+import com.health.calculator.bmi.tracker.ui.theme.InsightCalloutShape
 
 @Composable
 fun ProfileMilestonesPreview(
@@ -35,11 +47,12 @@ fun ProfileMilestonesPreview(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onViewAll),
-        shape = RoundedCornerShape(16.dp),
+        shape = InsightCalloutShape,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.34f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary.copy(alpha = 0.32f))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -75,25 +88,21 @@ fun ProfileMilestonesPreview(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                MiniStat(
-                    value = "${journeySummary.daysSinceFirstUse}",
-                    label = "Days",
-                    icon = "📅"
-                )
+                MiniStat(value = "${journeySummary.daysSinceFirstUse}", label = "Days", icon = Icons.Outlined.CalendarMonth)
                 MiniStat(
                     value = "${journeySummary.totalCalculations}",
                     label = "Calcs",
-                    icon = "📊"
+                    icon = Icons.Outlined.Assessment
                 )
                 MiniStat(
                     value = "${journeySummary.milestonesEarned}/${journeySummary.totalMilestonesAvailable}",
                     label = "Milestones",
-                    icon = "🏅"
+                    icon = Icons.Outlined.Flag
                 )
                 MiniStat(
                     value = "${journeySummary.personalRecordsSet}",
                     label = "Records",
-                    icon = "🏆"
+                    icon = Icons.Outlined.EmojiEvents
                 )
             }
 
@@ -126,9 +135,16 @@ fun ProfileMilestonesPreview(
 
                         AssistChip(
                             onClick = onViewAll,
+                            leadingIcon = {
+                                Icon(
+                                    milestoneIcon(type),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            },
                             label = {
                                 Text(
-                                    "${type.icon} ${type.displayName}",
+                                    type.displayName,
                                     style = MaterialTheme.typography.labelSmall
                                 )
                             },
@@ -147,9 +163,16 @@ fun ProfileMilestonesPreview(
 
                         AssistChip(
                             onClick = onViewAll,
+                            leadingIcon = {
+                                Icon(
+                                    personalRecordIcon(type),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            },
                             label = {
                                 Text(
-                                    "${type.icon} ${record.displayValue}",
+                                    record.displayValue,
                                     style = MaterialTheme.typography.labelSmall
                                 )
                             },
@@ -166,9 +189,14 @@ fun ProfileMilestonesPreview(
 }
 
 @Composable
-private fun MiniStat(value: String, label: String, icon: String) {
+private fun MiniStat(value: String, label: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = icon)
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(20.dp)
+        )
         Text(
             text = value,
             style = MaterialTheme.typography.titleSmall,
@@ -182,4 +210,21 @@ private fun MiniStat(value: String, label: String, icon: String) {
             textAlign = TextAlign.Center
         )
     }
+}
+
+private fun milestoneIcon(type: MilestoneType): androidx.compose.ui.graphics.vector.ImageVector = when (type.category) {
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.GETTING_STARTED -> Icons.Outlined.Flag
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.CONSISTENCY -> Icons.Outlined.CalendarMonth
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.ACHIEVEMENTS -> Icons.Outlined.EmojiEvents
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.EXPLORATION -> Icons.Outlined.Explore
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.HEALTH_WINS -> Icons.Outlined.ShowChart
+    com.health.calculator.bmi.tracker.data.models.MilestoneCategory.SOCIAL -> Icons.Outlined.Share
+}
+
+private fun personalRecordIcon(type: PersonalRecordType): androidx.compose.ui.graphics.vector.ImageVector = when {
+    type.name.contains("WEIGHT") -> Icons.Outlined.MonitorWeight
+    type.name.contains("WATER") -> Icons.Outlined.WaterDrop
+    type.name.contains("BP") || type.name.contains("HR") -> Icons.Outlined.FavoriteBorder
+    type.name.contains("BMI") || type.name.contains("WHR") -> Icons.Outlined.Assessment
+    else -> Icons.Outlined.EmojiEvents
 }

@@ -122,6 +122,14 @@ This file is the source of truth for the sequential product-development phases. 
 - **Known limitations:** Firebase Console event registration, retention windows, access roles, Data Safety declaration and any BigQuery export remain console-owner tasks. No health measurements are sent in app-defined parameters, and product analytics stays off until the user enables it.
 - **Next phase:** All requested product phases are implemented; complete console-owned launch work and validate the funnel in a closed test.
 
+## Post-Phase visual refinement — Human-centered wellness design system
+
+- **Status:** Complete
+- **Major changes:** Replaced the one-accent/one-card visual pattern with role-based warm canvas, surface, action, on-track and clay accent tokens; added a serif display voice, sans-serif body hierarchy and tabular monospace measurement style; introduced distinct hero, metric-tile, action-row, insight-callout and empty-state components; removed visible Home/profile emoji placeholders in favor of outlined vector badges; made profile completion encouraging rather than error-colored; aligned profile avatar, widget and dark-theme resource colors; and reserved the Wellness Score ring as the single signature load motion.
+- **Tests:** Extended `ThemeTokensTest` for role separation and numeric typography. `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` all pass with a temporary 4 GB Gradle heap for release shrinking.
+- **Known limitations:** Some deep calculator/education screens still contain legacy local styling and emoji-backed domain copy; the five primary surfaces and their shared entry components now use the new system. A future screenshot/device QA pass should validate light/dark rendering, large font scales and OEM contrast.
+- **Next phase:** Closed-test visual QA, Play Console setup and measurement of first-session activation.
+
 ## Phases 6–15
 
 | Phase | Status | Next focus |
@@ -136,3 +144,4 @@ This file is the source of truth for the sequential product-development phases. 
 | 13 — Monetization | Complete | Trust-preserving free/premium boundaries |
 | 14 — ASO and launch preparation | Complete | Research-backed store assets and copy |
 | 15 — Analytics-driven growth | Complete | Console setup and closed-test funnel validation |
+| Visual refinement | Complete | Closed-test visual QA and screenshot validation |

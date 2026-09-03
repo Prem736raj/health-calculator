@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.presentation.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,14 +13,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Assessment
+import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.LocalDining
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.outlined.ShowChart
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.ChevronRight
@@ -36,7 +42,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -50,21 +55,33 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.health.calculator.bmi.tracker.presentation.components.MedicalDisclaimerShort
+import com.health.calculator.bmi.tracker.ui.components.WellnessEmptyState
+import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
+import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
+import com.health.calculator.bmi.tracker.ui.components.WellnessMetricTile
+import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
 import com.health.calculator.bmi.tracker.ui.components.home.HealthScoreBreakdownSheet
 import com.health.calculator.bmi.tracker.ui.components.home.HomeSearchBar
 import com.health.calculator.bmi.tracker.util.HealthMetricsSnapshot
 import com.health.calculator.bmi.tracker.util.HealthScoreCategory
 import com.health.calculator.bmi.tracker.util.HealthScoreResult
 import com.health.calculator.bmi.tracker.util.SmartRecommendation
+import com.health.calculator.bmi.tracker.util.RecommendationType
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
+import com.health.calculator.bmi.tracker.ui.theme.ActionRowShape
+import com.health.calculator.bmi.tracker.ui.theme.HeroCardShape
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricFontFamily
+import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
+import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 import java.text.NumberFormat
 import java.util.Calendar
@@ -289,12 +306,20 @@ private fun WellnessScoreCard(
 ) {
     val hasEnoughData = result.category != HealthScoreCategory.INSUFFICIENT_DATA
     val displayedProgress = if (hasEnoughData) result.totalScore / 100f else 0f
+    // Signature motion: only the Wellness Score ring animates on entry.
+    val animatedProgress by animateFloatAsState(
+        targetValue = displayedProgress,
+        animationSpec = tween(durationMillis = 900),
+        label = "wellness_score_ring"
+    )
 
     Card(
         onClick = onOpenDetails,
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        shape = HeroCardShape,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.18f))
     ) {
         Row(
             modifier = Modifier.padding(20.dp),
@@ -302,19 +327,20 @@ private fun WellnessScoreCard(
         ) {
             Box(contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
-                    progress = { displayedProgress },
+                    progress = { animatedProgress },
                     modifier = Modifier.size(76.dp),
-                    strokeWidth = 8.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    trackColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.65f)
+                    strokeWidth = 7.dp,
+                    color = MaterialTheme.colorScheme.tertiary,
+                    trackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.16f)
                 )
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = if (hasEnoughData) result.totalScore.toString() else "—",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.headlineSmall.copy(fontFamily = WellnessMetricFontFamily),
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                    Text("/100", style = MaterialTheme.typography.labelSmall)
+                    Text("/100", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.76f))
                 }
             }
             Spacer(Modifier.width(16.dp))
@@ -327,7 +353,7 @@ private fun WellnessScoreCard(
                 Text(
                     text = result.category.label,
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.tertiary
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
@@ -345,7 +371,7 @@ private fun WellnessScoreCard(
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.72f)
                 )
             }
-            Icon(Icons.Default.ChevronRight, contentDescription = "View Wellness Score details")
+            Icon(Icons.Default.ChevronRight, contentDescription = "View Wellness Score details", tint = MaterialTheme.colorScheme.onPrimaryContainer)
         }
     }
 }
@@ -368,16 +394,17 @@ private fun DailyMetricsSection(
         SectionHeading(title = "Today", subtitle = "Small check-ins build useful trends")
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             DailyMetricCard(
-                emoji = "👟",
+                icon = Icons.Outlined.DirectionsWalk,
                 label = "Steps",
                 value = metrics.stepsToday?.let(numberFormat::format) ?: "Connect",
                 supportingText = if (metrics.stepsToday == null) "Health Connect" else "synced today",
                 progress = null,
                 onClick = onOpenSteps,
+                accent = HealthColors.Info,
                 modifier = Modifier.weight(1f)
             )
             DailyMetricCard(
-                emoji = "💧",
+                icon = Icons.Outlined.WaterDrop,
                 label = "Water",
                 value = "${numberFormat.format(metrics.waterIntakeToday)} ml",
                 supportingText = if (metrics.waterGoalToday > 0) {
@@ -389,21 +416,23 @@ private fun DailyMetricsSection(
                     (metrics.waterIntakeToday.toFloat() / it).coerceIn(0f, 1f)
                 },
                 onClick = onOpenWater,
+                accent = HealthColors.Info,
                 modifier = Modifier.weight(1f)
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             DailyMetricCard(
-                emoji = "⚖️",
+                icon = Icons.Outlined.MonitorWeight,
                 label = "Weight",
                 value = weight?.let { String.format(Locale.getDefault(), "%.1f kg", it) } ?: "Log weight",
                 supportingText = if (weight == null) "start a trend" else "latest log",
                 progress = null,
                 onClick = onOpenWeight,
+                accent = HealthColors.Healthy,
                 modifier = Modifier.weight(1f)
             )
             DailyMetricCard(
-                emoji = "🍽️",
+                icon = Icons.Outlined.LocalDining,
                 label = "Calories",
                 value = numberFormat.format(metrics.caloriesConsumedToday),
                 supportingText = if (metrics.calorieTargetToday > 0) {
@@ -415,6 +444,7 @@ private fun DailyMetricsSection(
                     (metrics.caloriesConsumedToday.toFloat() / it).coerceIn(0f, 1f)
                 },
                 onClick = onOpenCalories,
+                accent = HealthColors.Warning,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -423,57 +453,25 @@ private fun DailyMetricsSection(
 
 @Composable
 private fun DailyMetricCard(
-    emoji: String,
+    icon: ImageVector,
     label: String,
     value: String,
     supportingText: String,
     progress: Float?,
     onClick: () -> Unit,
+    accent: androidx.compose.ui.graphics.Color,
     modifier: Modifier = Modifier
 ) {
-    Card(
+    WellnessMetricTile(
+        icon = icon,
+        label = label,
+        value = value,
+        supportingText = supportingText,
+        progress = progress,
         onClick = onClick,
-        modifier = modifier.heightIn(min = 116.dp),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(emoji, fontSize = 20.sp)
-                Spacer(Modifier.width(8.dp))
-                Text(label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
-            }
-            Text(
-                text = value,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = supportingText,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            progress?.let {
-                Spacer(Modifier.height(2.dp))
-                LinearProgressIndicator(
-                    progress = { it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(5.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant
-                )
-            }
-        }
-    }
+        accent = accent,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -487,40 +485,33 @@ private fun LatestMetricsSection(
 ) {
     val availableRows = buildList {
         metrics.bmi?.let {
-            add(LatestMetric("📊", "BMI", String.format(Locale.getDefault(), "%.1f", it), metrics.bmiCategory, onOpenBmi))
+            add(LatestMetric(Icons.Outlined.Assessment, "BMI", String.format(Locale.getDefault(), "%.1f", it), metrics.bmiCategory, onOpenBmi))
         }
         if (metrics.systolicBP != null && metrics.diastolicBP != null) {
-            add(LatestMetric("💓", "Blood pressure", "${metrics.systolicBP}/${metrics.diastolicBP}", metrics.bpCategory, onOpenBloodPressure))
+            add(LatestMetric(Icons.Outlined.MonitorHeart, "Blood pressure", "${metrics.systolicBP}/${metrics.diastolicBP}", metrics.bpCategory, onOpenBloodPressure))
         }
         metrics.restingHR?.let {
-            add(LatestMetric("❤️", "Resting heart rate", "$it bpm", "Latest saved value", onOpenHeartRate))
+            add(LatestMetric(Icons.Outlined.FavoriteBorder, "Resting heart rate", "$it bpm", "Latest saved value", onOpenHeartRate))
         }
     }.take(HomeDashboardPolicy.MAX_LATEST_METRICS)
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         SectionHeading(title = "Latest metrics", subtitle = "Your most recent saved check-ins")
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-        ) {
-            if (availableRows.isEmpty()) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text("No health metrics saved yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text(
-                        "Start with one useful check-in. Your dashboard will grow as you add data.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    TextButton(onClick = onStartCheckIn, contentPadding = PaddingValues(0.dp)) {
-                        Text("Choose a calculator")
-                        Icon(Icons.Default.ChevronRight, contentDescription = null)
-                    }
-                }
-            } else {
+        if (availableRows.isEmpty()) {
+            WellnessEmptyState(
+                icon = Icons.Outlined.Assessment,
+                title = "No health metrics saved yet",
+                message = "Start with one useful check-in. Your dashboard will grow as you add data.",
+                actionLabel = "Choose a calculator",
+                onAction = onStartCheckIn
+            )
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = ActionRowShape,
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.68f))
+            ) {
                 availableRows.forEachIndexed { index, metric ->
                     LatestMetricRow(metric)
                     if (index < availableRows.lastIndex) {
@@ -533,7 +524,7 @@ private fun LatestMetricsSection(
 }
 
 private data class LatestMetric(
-    val emoji: String,
+    val icon: ImageVector,
     val label: String,
     val value: String,
     val interpretation: String?,
@@ -549,7 +540,12 @@ private fun LatestMetricRow(metric: LatestMetric) {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(metric.emoji, fontSize = 22.sp)
+        WellnessIconBadge(
+            icon = metric.icon,
+            tint = MaterialTheme.colorScheme.primary,
+            container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.58f),
+            modifier = Modifier.size(36.dp)
+        )
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(metric.label, style = MaterialTheme.typography.labelLarge)
@@ -563,7 +559,7 @@ private fun LatestMetricRow(metric: LatestMetric) {
                 )
             }
         }
-        Text(metric.value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(metric.value, style = WellnessMetricTextStyle, fontWeight = FontWeight.SemiBold)
         Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
@@ -579,17 +575,18 @@ private fun InsightPreviewSection(
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         SectionHeading(title = "For you", subtitle = "Explainable prompts from your recent activity")
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.55f))
-        ) {
+        WellnessInsightCallout(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 if (insights.isNotEmpty()) {
                     insights.forEachIndexed { index, insight ->
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("📈", fontSize = 20.sp)
+                                WellnessIconBadge(
+                                    icon = Icons.Outlined.ShowChart,
+                                    tint = MaterialTheme.colorScheme.tertiary,
+                                    container = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.14f),
+                                    modifier = Modifier.size(32.dp)
+                                )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
                                     insight.title,
@@ -601,14 +598,14 @@ private fun InsightPreviewSection(
                             Text(
                                 insight.message,
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis
                             )
                             Text(
                                 insight.evidence,
                                 style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.75f)
+                                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.75f)
                             )
                             TextButton(
                                 onClick = { onOpenRecommendation(insight.actionRoute) },
@@ -625,13 +622,18 @@ private fun InsightPreviewSection(
                     Text(
                         "Keep logging the metrics that matter to you. Suggestions are informational and never diagnoses.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onTertiaryContainer
                     )
                 } else {
                     recommendations.forEachIndexed { index, recommendation ->
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(recommendation.emoji, fontSize = 20.sp)
+                                WellnessIconBadge(
+                                    icon = recommendationIcon(recommendation.type),
+                                    tint = recommendation.color,
+                                    container = recommendation.color.copy(alpha = 0.14f),
+                                    modifier = Modifier.size(32.dp)
+                                )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
                                     recommendation.title,
@@ -646,7 +648,7 @@ private fun InsightPreviewSection(
                             Text(
                                 recommendation.message,
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer,
                                 maxLines = 3,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -664,7 +666,7 @@ private fun InsightPreviewSection(
                 Text(
                     "App suggestions use saved activity rules. AI responses are separate.",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.72f)
+                    color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.72f)
                 )
                 OutlinedButton(onClick = onOpenAiAssistant) {
                     Icon(Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(18.dp))
@@ -698,15 +700,21 @@ private fun QuickActionsSection(
                 Surface(
                     onClick = action.onClick,
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh
+                    shape = ActionRowShape,
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.68f))
                 ) {
                     Column(
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        Icon(action.icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        WellnessIconBadge(
+                            icon = action.icon,
+                            tint = MaterialTheme.colorScheme.primary,
+                            container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.58f),
+                            modifier = Modifier.size(32.dp)
+                        )
                         Text(
                             action.label,
                             style = MaterialTheme.typography.labelSmall,
@@ -727,6 +735,21 @@ private data class HomeAction(
     val onClick: () -> Unit
 )
 
+private fun recommendationIcon(type: RecommendationType): ImageVector = when (type) {
+    RecommendationType.BMI_CHECK -> Icons.Outlined.Assessment
+    RecommendationType.BP_CHECK -> Icons.Outlined.MonitorHeart
+    RecommendationType.WATER_REMINDER -> Icons.Outlined.WaterDrop
+    RecommendationType.CALORIE_REMINDER -> Icons.Outlined.LocalDining
+    RecommendationType.WEIGHT_TREND -> Icons.Outlined.MonitorWeight
+    RecommendationType.GOAL_PROGRESS -> Icons.Outlined.ShowChart
+    RecommendationType.WHR_CHECK -> Icons.Outlined.ShowChart
+    RecommendationType.HR_CHECK -> Icons.Outlined.FavoriteBorder
+    RecommendationType.ALL_GOOD -> Icons.Outlined.FavoriteBorder
+    RecommendationType.STREAK -> Icons.Outlined.ShowChart
+    RecommendationType.NEW_CALCULATOR -> Icons.Default.Calculate
+    RecommendationType.PROFILE_INCOMPLETE -> Icons.Default.Person
+}
+
 @Composable
 private fun RelevantCalculatorsCard(
     onOpenBmi: () -> Unit,
@@ -736,8 +759,9 @@ private fun RelevantCalculatorsCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+        shape = MetricTileShape,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.68f))
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             SectionHeading(title = "Useful calculators", subtitle = "Estimates with methods, limits, and sources")
@@ -763,12 +787,5 @@ private fun SectionHeading(
     title: String,
     subtitle: String
 ) {
-    Column {
-        Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        Text(
-            subtitle,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+    WellnessSectionLabel(title = title, subtitle = subtitle)
 }
