@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -111,6 +113,14 @@ const val WATER_TOOLS_ROUTE = "water_hydration_tools"
 const val WATER_EDUCATION_ROUTE = "water_education"
 const val ELECTROLYTE_INFO_ROUTE = "electrolyte_info"
 
+/**
+ * True when the root graph must provide the status-bar inset. Home and Splash
+ * are the only destinations without a child Scaffold that owns that inset.
+ */
+internal fun rootOwnsSystemBarInsets(route: String?): Boolean {
+    return route == null || route == Screen.Home.route || route == Screen.Splash.route
+}
+
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -135,8 +145,20 @@ fun NavGraph(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
+    // Each destination owns its own status-bar treatment. The root graph only
+    // needs the inset for Home (a scrolling dashboard without a child
+    // Scaffold) and Splash. Applying system-bar insets here as well as inside
+    // a destination TopAppBar creates a visible blank strip above most screens
+    // on edge-to-edge devices.
+    val shouldApplyRootSystemBarInsets = rootOwnsSystemBarInsets(currentRoute)
+
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = if (shouldApplyRootSystemBarInsets) {
+            ScaffoldDefaults.contentWindowInsets
+        } else {
+            WindowInsets(0, 0, 0, 0)
+        },
         bottomBar = {
             if (Screen.isBottomNavRoute(currentRoute)) {
                 BottomNavigationBar(
@@ -380,9 +402,6 @@ fun NavGraph(
                 viewModel = profileViewModel,
                 multiProfileViewModel = multiProfileViewModel,
                 milestonesViewModel = milestonesViewModel,
-                onNavigateBack = {
-                    navController.popBackStack()
-                },
                 onNavigateToMetric = { route ->
                     navController.navigate(route) {
                         launchSingleTop = true

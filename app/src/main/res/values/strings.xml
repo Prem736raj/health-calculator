@@ -79,6 +79,7 @@
 <string name="txt_ok">OK</string>
 <string name="txt_save">Save</string>
 <string name="txt_profile">Profile</string>
+<string name="txt_share_profile">Share profile</string>
 <string name="txt_done">Done</string>
 <string name="txt_app_theme">🎨 App Theme</string>
 <string name="txt_unit_system">📏 Unit System</string>

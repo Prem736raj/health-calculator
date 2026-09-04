@@ -1,7 +1,9 @@
 package com.health.calculator.bmi.tracker.navigation
 
 import com.health.calculator.bmi.tracker.core.navigation.Screen
+import com.health.calculator.bmi.tracker.core.navigation.rootOwnsSystemBarInsets
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -21,5 +23,15 @@ class NavigationStructureTest {
         assertTrue(Screen.isBottomNavRoute(Screen.Track.route))
         assertTrue(!Screen.isBottomNavRoute(Screen.History.route))
         assertTrue(!Screen.isBottomNavRoute(Screen.Settings.route))
+    }
+
+    @Test
+    fun `root only applies top inset to destinations without their own scaffold`() {
+        assertTrue(rootOwnsSystemBarInsets(Screen.Home.route))
+        assertTrue(rootOwnsSystemBarInsets(Screen.Splash.route))
+        assertTrue(rootOwnsSystemBarInsets(null))
+        assertFalse(rootOwnsSystemBarInsets(Screen.Track.route))
+        assertFalse(rootOwnsSystemBarInsets(Screen.Profile.route))
+        assertFalse(rootOwnsSystemBarInsets(Screen.BmiCalculator.route))
     }
 }

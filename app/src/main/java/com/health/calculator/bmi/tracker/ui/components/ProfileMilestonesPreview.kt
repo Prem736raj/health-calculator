@@ -33,6 +33,7 @@ import com.health.calculator.bmi.tracker.data.models.HealthMilestone
 import com.health.calculator.bmi.tracker.data.models.MilestoneType
 import com.health.calculator.bmi.tracker.data.models.PersonalRecord
 import com.health.calculator.bmi.tracker.data.models.PersonalRecordType
+import com.health.calculator.bmi.tracker.ui.theme.ActionRowShape
 import com.health.calculator.bmi.tracker.ui.theme.InsightCalloutShape
 
 @Composable
@@ -41,8 +42,66 @@ fun ProfileMilestonesPreview(
     recentRecords: List<PersonalRecord>,
     recentMilestones: List<HealthMilestone>,
     onViewAll: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    compact: Boolean = false
 ) {
+    if (compact) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .clickable(onClick = onViewAll),
+            shape = ActionRowShape,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.24f)
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary.copy(alpha = 0.26f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WellnessIconBadge(
+                    icon = Icons.Outlined.EmojiEvents,
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    container = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.14f),
+                    modifier = Modifier.size(32.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.txt_milestones_records),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "${journeySummary.daysSinceFirstUse} days · " +
+                                "${journeySummary.milestonesEarned} milestones · " +
+                                "${journeySummary.personalRecordsSet} records",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.txt_view_all),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Medium
+                )
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+        return
+    }
+
     Card(
         modifier = modifier
             .fillMaxWidth()

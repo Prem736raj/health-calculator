@@ -37,7 +37,6 @@ private const val PROFILE_SCREEN_TAG = "ProfileScreen"
 fun ProfileScreen(
     viewModel: ProfileViewModel,
     multiProfileViewModel: com.health.calculator.bmi.tracker.presentation.profile.MultiProfileViewModel,
-    onNavigateBack: () -> Unit,
     onNavigateToConnections: () -> Unit,
     onNavigateToMetric: (String) -> Unit,
     onViewWeightTrends: () -> Unit,
@@ -49,6 +48,7 @@ fun ProfileScreen(
     val multiProfileState by multiProfileViewModel.uiState.collectAsState()
     val milestonesState by milestonesViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var showActionsMenu by remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -75,20 +75,43 @@ fun ProfileScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.txt_profile), fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
                 actions = {
-                    IconButton(onClick = onNavigateToConnections) {
-                        Icon(Icons.Default.Share, contentDescription = "Health Connections")
-                    }
-                    IconButton(onClick = onNavigateToReminders) {
-                        Icon(Icons.Default.Notifications, contentDescription = "Reminders")
-                    }
-                    IconButton(onClick = multiProfileViewModel::showShareDialog) {
-                        Icon(Icons.Default.Send, contentDescription = "Share Profile")
+                    // Profile is a primary bottom-navigation destination, so a
+                    // back arrow is not useful here. Keep the app bar calm and
+                    // put secondary profile actions behind one predictable menu.
+                    Box {
+                        IconButton(onClick = { showActionsMenu = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "More profile actions")
+                        }
+                        DropdownMenu(
+                            expanded = showActionsMenu,
+                            onDismissRequest = { showActionsMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.txt_health_connections)) },
+                                leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                                onClick = {
+                                    showActionsMenu = false
+                                    onNavigateToConnections()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.txt_reminders)) },
+                                leadingIcon = { Icon(Icons.Default.Notifications, contentDescription = null) },
+                                onClick = {
+                                    showActionsMenu = false
+                                    onNavigateToReminders()
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.txt_share_profile)) },
+                                leadingIcon = { Icon(Icons.Default.Send, contentDescription = null) },
+                                onClick = {
+                                    showActionsMenu = false
+                                    multiProfileViewModel.showShareDialog()
+                                }
+                            )
+                        }
                     }
                     if (uiState.selectedTab == ProfileTab.MY_INFO) {
                         TextButton(
@@ -136,7 +159,8 @@ fun ProfileScreen(
                 recentRecords = milestonesState.personalRecords,
                 recentMilestones = milestonesState.earnedMilestones,
                 onViewAll = onNavigateToMilestones,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                compact = true
             )
 
             // Tabs
