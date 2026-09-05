@@ -11,19 +11,34 @@ import androidx.compose.ui.unit.sp
  * respects the user's font scale.  A serif display voice gives the product a
  * point of view; sans-serif keeps instructions easy to scan; monospace gives
  * measured values a stable, instrument-like rhythm.
+ *
+ * TODO: Bundle actual Inter/Plus Jakarta Sans font assets for a premium feel.
+ *       When bundled, update these aliases to use the real FontFamily resources.
  */
-val InterFontFamily: FontFamily = FontFamily.SansSerif
-val PlusJakartaSansFontFamily: FontFamily = FontFamily.SansSerif
-val WellnessDisplayFontFamily: FontFamily = FontFamily.Serif
-val WellnessMetricFontFamily: FontFamily = FontFamily.Monospace
+
+/** Primary body/UI typeface — system sans-serif (typically Roboto on Android). */
+val BodyFontFamily: FontFamily = FontFamily.SansSerif
+
+/** Secondary typeface for titles — system sans-serif until real fonts are bundled. */
+val TitleFontFamily: FontFamily = FontFamily.SansSerif
+
+/** Modern, high-energy display voice for headlines — bold and friendly. */
+val WellnessDisplayFontFamily: FontFamily = FontFamily.Default
+
+/** Clean, modern numeric typeface for metrics, counts, and dates. */
+val WellnessMetricFontFamily: FontFamily = FontFamily.Default
+
+// Legacy aliases — keep in sync with the primary names above.
+val InterFontFamily: FontFamily = BodyFontFamily
+val PlusJakartaSansFontFamily: FontFamily = TitleFontFamily
 
 /** Use for results, counts, dates, and other values that users compare. */
 val WellnessMetricTextStyle = TextStyle(
     fontFamily = WellnessMetricFontFamily,
-    fontWeight = FontWeight.SemiBold,
+    fontWeight = FontWeight.Bold,
     fontSize = 20.sp,
     lineHeight = 24.sp,
-    letterSpacing = 0.sp
+    letterSpacing = (-0.3).sp
 )
 
 val HealthTypography = Typography(

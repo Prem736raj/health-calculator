@@ -51,11 +51,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 import com.health.calculator.bmi.tracker.ui.components.WellnessActionRow
 import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
 import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
 import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
+import com.health.calculator.bmi.tracker.ui.theme.CalculatorColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
 
@@ -87,13 +89,13 @@ fun TrackHubScreen(
                     subtitle = "Log what matters to you. Nothing here is required, and missing a day does not erase your progress."
                 )
             }
-            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight, HealthColors.Healthy) }
-            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater, HealthColors.Info) }
-            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure, HealthColors.Good) }
-            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood, HealthColors.Warning) }
-            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections, HealthColors.Info) }
-            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory, MaterialTheme.colorScheme.primary) }
-            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders, MaterialTheme.colorScheme.tertiary) }
+            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight, Color(0xFF7C3AED)) }
+            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater, Color(0xFF0284C7)) }
+            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure, Color(0xFFE11D48)) }
+            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood, Color(0xFFEA580C)) }
+            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections, Color(0xFF0D9488)) }
+            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory, Color(0xFF6366F1)) }
+            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders, Color(0xFFEC4899)) }
         }
     }
 }
@@ -238,21 +240,35 @@ private fun calculatorIcon(destination: CalculatorDestination): ImageVector = wh
     CalculatorDestination.METABOLIC -> Icons.Outlined.Flag
 }
 
+private fun calculatorAccent(destination: CalculatorDestination): Color = when (destination) {
+    CalculatorDestination.BMI -> CalculatorColors.BMI
+    CalculatorDestination.BMR -> CalculatorColors.BMR
+    CalculatorDestination.BLOOD_PRESSURE -> CalculatorColors.BloodPressure
+    CalculatorDestination.WATER -> CalculatorColors.WaterIntake
+    CalculatorDestination.CALORIES -> CalculatorColors.DailyCalorie
+    CalculatorDestination.WAIST_HIP -> CalculatorColors.WaistToHip
+    CalculatorDestination.HEART_RATE -> CalculatorColors.HeartRateZone
+    CalculatorDestination.IDEAL_WEIGHT -> CalculatorColors.IdealWeight
+    CalculatorDestination.BSA -> CalculatorColors.BSA
+    CalculatorDestination.METABOLIC -> CalculatorColors.MetabolicSyndrome
+}
+
 @Composable
 private fun CalculatorHubCard(
     entry: CalculatorEntry,
     onOpen: () -> Unit,
     onShowQuality: () -> Unit
 ) {
+    val accent = calculatorAccent(entry.destination)
     WellnessActionRow(
         icon = entry.icon,
         title = entry.title,
         description = entry.description,
         onClick = onOpen,
-        accent = MaterialTheme.colorScheme.primary,
+        accent = accent,
         trailingContent = {
             IconButton(onClick = onShowQuality) {
-                Icon(Icons.Outlined.Info, contentDescription = "Method and limits for ${entry.title}")
+                Icon(Icons.Outlined.Info, contentDescription = "Method and limits for ${entry.title}", tint = accent)
             }
         }
     )
@@ -329,8 +345,8 @@ private fun HubScaffold(
                 navigationIcon = {
                     WellnessIconBadge(
                         icon = icon,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        container = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.78f),
+                        tint = MaterialTheme.colorScheme.primary,
+                        container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.75f),
                         modifier = Modifier.padding(start = 12.dp)
                     )
                 },

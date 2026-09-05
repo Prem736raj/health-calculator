@@ -2,9 +2,6 @@
 
 package com.health.calculator.bmi.tracker.presentation.components
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
@@ -20,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,18 +48,7 @@ fun BottomNavigationBar(
         BottomNavItem.entries.forEach { item ->
             val isSelected = currentRoute == item.route
 
-            // Subtle scale animation for selected item
-            val scale by animateFloatAsState(
-                targetValue = if (isSelected) 1f else 0.92f,
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessLow
-                ),
-                label = "navItemScale_${item.name}"
-            )
-
             NavigationBarItem(
-                modifier = Modifier.scale(scale),
                 selected = isSelected,
                 onClick = { onItemClick(item) },
                 icon = {
@@ -99,13 +84,11 @@ fun BottomNavigationBar(
                 },
                 alwaysShowLabel = true,
                 colors = NavigationBarItemDefaults.colors(
-                    // Navigation selection is a quiet sage signal; primary
-                    // blue-green stays reserved for actions and progress.
-                    selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.92f)
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.85f)
                 )
             )
         }

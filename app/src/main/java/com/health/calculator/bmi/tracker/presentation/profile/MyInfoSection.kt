@@ -170,14 +170,20 @@ private fun InfoItem(
         else -> MaterialTheme.colorScheme.primary
     }
 
-    Surface(
+    Card(
         onClick = onClick,
-        color = Color.Transparent,
-        modifier = Modifier.fillMaxWidth()
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        ),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp, pressedElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
-                .padding(vertical = 12.dp),
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             WellnessIconBadge(

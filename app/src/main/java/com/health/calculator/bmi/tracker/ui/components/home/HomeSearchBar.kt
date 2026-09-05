@@ -22,6 +22,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -147,7 +148,7 @@ fun SearchTextField(
         value = query,
         onValueChange = onQueryChange,
         placeholder = { Text(stringResource(R.string.txt_search_health_tools_terms)) },
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
         trailingIcon = {
             if (query.isNotEmpty()) {
                 IconButton(onClick = onClear) {
@@ -163,18 +164,19 @@ fun SearchTextField(
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent
         ),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(24.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .shadow(elevation = 3.dp, shape = RoundedCornerShape(24.dp), spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
             .border(
                 width = 1.dp,
                 color = if (query.isEmpty()) {
-                    MaterialTheme.colorScheme.outlineVariant
+                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
                 } else {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)
+                    MaterialTheme.colorScheme.primary
                 },
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(24.dp)
             )
             .focusRequester(focusRequester)
             .onFocusChanged { state -> onFocusChange(state.isFocused) }

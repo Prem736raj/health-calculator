@@ -117,7 +117,7 @@ private fun EducationalHeader() {
                 Text(
                     stringResource(R.string.txt_everything_you_need_to_know_ab_1),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 18.sp
                 )
             }
@@ -618,14 +618,14 @@ private fun DiseaseRiskCard(
                     if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
             Text(
                 riskInfo,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 18.sp
             )
@@ -633,7 +633,7 @@ private fun DiseaseRiskCard(
             Text(
                 "Source: $source",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontStyle = FontStyle.Italic,
                 fontSize = 10.sp
             )
@@ -693,7 +693,7 @@ private fun MiniRiskItem(emoji: String, title: String, detail: String) {
                 detail,
                 style = MaterialTheme.typography.bodySmall,
                 fontSize = 11.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 15.sp
             )
         }
@@ -863,7 +863,7 @@ private fun NumberedStrategy(
                 description,
                 style = MaterialTheme.typography.bodySmall,
                 lineHeight = 18.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Surface(
                 shape = RoundedCornerShape(6.dp),
@@ -916,7 +916,7 @@ private fun TimelineCard() {
             Text(
                 stringResource(R.string.txt_note_results_vary_based_on_sta),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 10.sp,
                 fontStyle = FontStyle.Italic
             )
@@ -950,7 +950,7 @@ private fun TimelineItem(period: String, description: String, emoji: String) {
                 style = MaterialTheme.typography.bodySmall,
                 fontSize = 11.sp,
                 lineHeight = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

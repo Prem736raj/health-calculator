@@ -32,27 +32,17 @@ val HealthShapes = Shapes(
 // Calculator result card - more rounded for a "badge" feel
 val ResultCardShape = RoundedCornerShape(24.dp)
 
-/** The asymmetric shape reserves the strongest silhouette for the hero. */
-val HeroCardShape = RoundedCornerShape(
-    topStart = 28.dp,
-    topEnd = 12.dp,
-    bottomEnd = 28.dp,
-    bottomStart = 12.dp
-)
+/** Hero card shape - beautifully rounded, generous, modern squircle feel. */
+val HeroCardShape = RoundedCornerShape(26.dp)
 
-/** Compact, equal-weight tiles for daily metrics. */
-val MetricTileShape = RoundedCornerShape(18.dp)
+/** Compact, friendly tiles for daily metrics. */
+val MetricTileShape = RoundedCornerShape(20.dp)
 
-/** Low-ornament rows used for navigation and settings actions. */
-val ActionRowShape = RoundedCornerShape(12.dp)
+/** Clean, modern rows used for navigation and settings actions. */
+val ActionRowShape = RoundedCornerShape(16.dp)
 
-/** A callout shape that reads as editorial content rather than a data card. */
-val InsightCalloutShape = RoundedCornerShape(
-    topStart = 8.dp,
-    topEnd = 22.dp,
-    bottomEnd = 22.dp,
-    bottomStart = 8.dp
-)
+/** Inviting callout shape with balanced curves. */
+val InsightCalloutShape = RoundedCornerShape(20.dp)
 
 // Gauge/meter background shapes
 val GaugeShape = RoundedCornerShape(50)            // Fully rounded (pill)

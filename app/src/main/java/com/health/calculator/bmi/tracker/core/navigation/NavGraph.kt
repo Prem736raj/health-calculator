@@ -164,6 +164,8 @@ fun NavGraph(
                 BottomNavigationBar(
                     currentRoute = currentRoute,
                     onItemClick = { item ->
+                        if (currentRoute == item.route) return@BottomNavigationBar
+
                         val surface = when (item.route) {
                             Screen.Home.route -> "home"
                             Screen.Track.route -> "track"
@@ -178,10 +180,23 @@ fun NavGraph(
                                 mapOf("surface" to it)
                             )
                         }
-                        navController.navigate(item.route) {
-                            popUpTo(Screen.Home.route) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                        if (item.route == Screen.Home.route) {
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Home.route) {
+                                    inclusive = false
+                                    saveState = false
+                                }
+                                launchSingleTop = true
+                                restoreState = false
+                            }
+                        } else {
+                            navController.navigate(item.route) {
+                                popUpTo(Screen.Home.route) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )
@@ -738,6 +753,7 @@ fun NavGraph(
                         result = result!!,
                         onNavigateBack = { navController.popBackStack() },
                         onRecalculate = { navController.popBackStack() },
+                        onNavigateToEducation = { navController.navigate(Screen.WhrEducation.route) },
                         onSaveToHistory = {
                             whrRepository.addEntry(
                                 com.health.calculator.bmi.tracker.data.model.WhrHistoryEntry(
@@ -808,6 +824,7 @@ fun NavGraph(
         ) {
             com.health.calculator.bmi.tracker.ui.screens.whr.WhrInputScreen(
                 onNavigateBack = { navController.popBackStack() },
+                onNavigateToEducation = { navController.navigate(Screen.WhrEducation.route) },
                 onCalculate = { waistCm, hipCm, gender, age ->
                     val route = Screen.CalculationDetail.createWhrResultRoute(
                         waistCm = waistCm,
@@ -817,6 +834,37 @@ fun NavGraph(
                     )
                     navController.navigate(route)
                 }
+            )
+        }
+        composable(
+            route = Screen.WhrEducation.route,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(350)
+                ) + fadeIn(animationSpec = tween(350))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(350)
+                ) + fadeOut(animationSpec = tween(350))
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(350)
+                ) + fadeIn(animationSpec = tween(350))
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(350)
+                ) + fadeOut(animationSpec = tween(350))
+            }
+        ) {
+            com.health.calculator.bmi.tracker.ui.screens.whr.WhrEducationalScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         composable(

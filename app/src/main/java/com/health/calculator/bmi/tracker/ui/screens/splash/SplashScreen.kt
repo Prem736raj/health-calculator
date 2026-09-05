@@ -51,9 +51,10 @@ import kotlinx.coroutines.delay
 
 // ─── Splash Colors ────────────────────────────────────────────────────────────
 
-private val SplashTeal = Color(0xFF00ACC1)
-private val SplashTealDark = Color(0xFF00838F)
-private val SplashTealLight = Color(0xFF4DD0E1)
+// Brand-consistent violet — matches the new PrimaryLight (#6C3CE1) palette.
+private val SplashTeal = Color(0xFF6C3CE1)
+private val SplashTealDark = Color(0xFF22005D)
+private val SplashTealLight = Color(0xFFD0BCFF)
 
 /**
  * Animated splash screen displayed on every app launch.

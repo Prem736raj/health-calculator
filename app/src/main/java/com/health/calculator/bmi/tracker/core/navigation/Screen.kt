@@ -53,6 +53,7 @@ sealed class Screen(val route: String) {
     data object BloodPressureReminders : Screen("blood_pressure_reminders")
     data object BloodPressureExport : Screen("blood_pressure_export")
     data object BloodPressureEducation : Screen("blood_pressure_education")
+    data object WhrEducation : Screen("whr_education")
     data object HealthArticles : Screen("health_articles")
     data object Achievements : Screen("achievements")
     data object ExportData : Screen("export_data")

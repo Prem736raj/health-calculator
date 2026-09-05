@@ -77,8 +77,7 @@
             <intent-filter>
                 <action android:name="LOG_WATER" />
                 <action android:name="LOG_MEAL" />
-                <action android:name="MED_TAKEN" />
-                <action android:name="MED_SKIP" />
+                <!-- TODO: Re-add MED_TAKEN / MED_SKIP when medication tracking is implemented -->
             </intent-filter>
         </receiver>
 

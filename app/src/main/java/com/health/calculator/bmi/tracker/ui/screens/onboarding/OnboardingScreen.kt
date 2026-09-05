@@ -24,6 +24,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -90,7 +91,7 @@ private data class OnboardingPage(
 
 private val onboardingPages = listOf(
     OnboardingPage(
-        emoji = "💚",
+        emoji = "❤️",
         decorativeEmojis = listOf("🫀", "🩺", "💪", "🧘"),
         title = "Welcome to\nHealth Metrics Tracker",
         subtitle = "Your Personal Health Companion",
@@ -149,12 +150,24 @@ fun OnboardingScreen(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = Color.Transparent
     ) { innerPadding ->
-        AnimatedVisibility(
-            visible = showContent,
-            enter = fadeIn(tween(500))
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                            MaterialTheme.colorScheme.background
+                        )
+                    )
+                )
         ) {
+            AnimatedVisibility(
+                visible = showContent,
+                enter = fadeIn(tween(500))
+            ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -213,6 +226,7 @@ fun OnboardingScreen(
                     onSetUpProfile = onSetUpProfile
                 )
             }
+        }
         }
     }
 }
@@ -348,10 +362,15 @@ private fun OnboardingPageContent(
         Text(
             text = page.title,
             style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.Bold,
-                lineHeight = 36.sp
+                fontWeight = FontWeight.ExtraBold,
+                lineHeight = 36.sp,
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        page.accentColor,
+                        page.accentColor.copy(alpha = 0.7f)
+                    )
+                )
             ),
-            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
 
@@ -428,25 +447,47 @@ private fun BottomSection(
                         .height(56.dp),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = OnboardingTeal
+                        containerColor = Color.Transparent
                     ),
+                    contentPadding = PaddingValues(0.dp),
                     elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 4.dp,
+                        defaultElevation = 6.dp,
                         pressedElevation = 2.dp
                     )
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = stringResource(R.string.txt_set_up_my_profile),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(
+                                        Color(0xFFE91E63),
+                                        Color(0xFF9C27B0)
+                                    )
+                                )
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = stringResource(R.string.txt_set_up_my_profile),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            )
+                        }
+                    }
                 }
 
                 // Secondary: Skip to Home

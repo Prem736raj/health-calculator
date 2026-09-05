@@ -245,7 +245,7 @@ private fun WhyHydrationMattersSection() {
             Card(
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = WaterBlueSurface
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                 ),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -277,13 +277,13 @@ private fun QuickStatItem(value: String, label: String) {
             value,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 22.sp,
-            color = WaterBlueDark
+            color = WaterBlueMedium
         )
         Text(
             label,
             fontSize = 10.sp,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             lineHeight = 14.sp
         )
     }
@@ -306,7 +306,7 @@ private fun BenefitRow(benefit: BenefitItem) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    if (expanded) WaterBlueSurface.copy(alpha = 0.5f)
+                    if (expanded) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
                     else Color.Transparent,
                     RoundedCornerShape(10.dp)
                 )
@@ -317,7 +317,7 @@ private fun BenefitRow(benefit: BenefitItem) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(WaterBlueSurface, CircleShape),
+                    .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(benefit.icon, fontSize = 20.sp)
@@ -331,7 +331,7 @@ private fun BenefitRow(benefit: BenefitItem) {
             Icon(
                 if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                 null,
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -345,7 +345,7 @@ private fun BenefitRow(benefit: BenefitItem) {
                 text = benefit.description,
                 fontSize = 13.sp,
                 lineHeight = 19.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 52.dp, end = 12.dp, bottom = 8.dp, top = 4.dp)
             )
         }
@@ -416,7 +416,7 @@ private fun HowMuchWaterSection() {
                 ) {
                     Text(icon, fontSize = 16.sp)
                     Text(text, fontSize = 13.sp, lineHeight = 18.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f))
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -436,7 +436,7 @@ private fun MythBustCard(myth: String, reality: String) {
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFFFF3E0)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(
@@ -474,7 +474,7 @@ private fun MythBustCard(myth: String, reality: String) {
                         reality,
                         fontSize = 13.sp,
                         lineHeight = 19.sp,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -493,7 +493,7 @@ private fun GuidelineRow(icon: String, title: String, detail: String) {
         Column {
             Text(title, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
             Text(detail, fontSize = 12.sp, lineHeight = 16.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

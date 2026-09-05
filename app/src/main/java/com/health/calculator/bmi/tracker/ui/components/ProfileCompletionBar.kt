@@ -84,7 +84,14 @@ fun ProfileCompletionBar(
                         .fillMaxHeight()
                         .fillMaxWidth(animatedProgress)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(progressColor)
+                        .background(
+                            androidx.compose.ui.graphics.Brush.horizontalGradient(
+                                colors = listOf(
+                                    androidx.compose.ui.graphics.Color(0xFFE91E63),
+                                    androidx.compose.ui.graphics.Color(0xFF9C27B0)
+                                )
+                            )
+                        )
                 )
             }
 

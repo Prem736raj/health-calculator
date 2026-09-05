@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -82,7 +83,11 @@ fun ProfileAvatar(
                 .clip(CircleShape)
                 .background(Color(ProfileColor.fromValue(profile.profileColor).colorValue))
                 .then(
-                    if (isActive) Modifier.border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                    if (isActive) Modifier.border(
+                        width = 2.dp,
+                        brush = Brush.linearGradient(listOf(Color(0xFFE91E63), Color(0xFF9C27B0))),
+                        shape = CircleShape
+                    )
                     else Modifier
                 ),
             contentAlignment = Alignment.Center
