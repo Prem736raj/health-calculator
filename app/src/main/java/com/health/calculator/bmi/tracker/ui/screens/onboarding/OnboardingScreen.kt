@@ -96,7 +96,7 @@ private val onboardingPages = listOf(
         title = "Welcome to\nHealth Metrics Tracker",
         subtitle = "Your Personal Health Companion",
         description = "Track and understand your health metrics with easy-to-use calculators. All your data stays private on your device.",
-        accentColor = Color(0xFF43A047)
+        accentColor = Color(0xFFFF4B4B)
     ),
     OnboardingPage(
         emoji = "🏥",
@@ -528,25 +528,47 @@ private fun BottomSection(
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = onboardingPages[pagerState.currentPage].accentColor
+                    containerColor = Color.Transparent
                 ),
+                contentPadding = PaddingValues(0.dp),
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 4.dp,
                     pressedElevation = 2.dp
                 )
             ) {
-                Text(
-                    text = stringResource(R.string.txt_next),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(
+                                    onboardingPages[pagerState.currentPage].accentColor,
+                                    onboardingPages[pagerState.currentPage].accentColor.copy(alpha = 0.8f)
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.txt_next),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp),
+                            tint = Color.White
+                        )
+                    }
+                }
             }
         }
 

@@ -777,7 +777,7 @@ private fun BpCalendarTab(
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             onMonthChange(calendarMonth.plusMonths(1))
                         }) {
-                            Icon(Icons.Filled.ArrowForward, contentDescription = "Next month")
+                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next month")
                         }
                     }
 

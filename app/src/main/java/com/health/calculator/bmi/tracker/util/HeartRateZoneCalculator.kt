@@ -99,7 +99,7 @@ object HeartRateZoneCalculator {
             "Resting heart rate must be below estimated maximum heart rate"
         }
         val useKarvonen = formula == HeartRateFormula.KARVONEN && restingHR != null
-        val hrr = if (useKarvonen && restingHR != null) mhr - restingHR else null
+        val hrr = if (useKarvonen) mhr - restingHR!! else null
 
         val zones = buildZones(
             mhr = mhr,

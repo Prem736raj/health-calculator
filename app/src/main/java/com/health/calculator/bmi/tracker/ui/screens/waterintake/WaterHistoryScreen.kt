@@ -837,7 +837,7 @@ private fun WeeklyReportCard(report: WeeklyReport) {
                     val trendIcon = when (report.trend) {
                         TrendDirection.IMPROVING -> Icons.AutoMirrored.Filled.TrendingUp
                         TrendDirection.DECLINING -> Icons.AutoMirrored.Filled.TrendingDown
-                        TrendDirection.STEADY -> Icons.Filled.TrendingFlat
+                        TrendDirection.STEADY -> Icons.AutoMirrored.Filled.TrendingFlat
                     }
                     val trendColor = when (report.trend) {
                         TrendDirection.IMPROVING -> Color(0xFF81C784)

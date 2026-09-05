@@ -657,7 +657,7 @@ private fun FormulaGuideCard(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    Icons.Filled.ArrowForward,
+                    Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
                     tint = color,
                     modifier = Modifier.size(16.dp)

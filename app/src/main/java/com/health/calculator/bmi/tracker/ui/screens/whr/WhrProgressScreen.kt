@@ -74,7 +74,7 @@ fun WhrProgressScreen(
                 title = { Text(stringResource(R.string.txt_whr_progress), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
@@ -277,7 +277,7 @@ private fun ComparisonCard(comparison: WhrComparison) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Icon(
-                    Icons.Outlined.CompareArrows,
+                    Icons.AutoMirrored.Outlined.CompareArrows,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(22.dp)
@@ -340,9 +340,9 @@ private fun ComparisonItem(
     }
 
     val icon = when (direction) {
-        WhrTrendDirection.IMPROVING -> Icons.Filled.TrendingDown
-        WhrTrendDirection.WORSENING -> Icons.Filled.TrendingUp
-        WhrTrendDirection.STEADY -> Icons.Filled.TrendingFlat
+        WhrTrendDirection.IMPROVING -> Icons.AutoMirrored.Filled.TrendingDown
+        WhrTrendDirection.WORSENING -> Icons.AutoMirrored.Filled.TrendingUp
+        WhrTrendDirection.STEADY -> Icons.AutoMirrored.Filled.TrendingFlat
     }
 
     val prefix = when {

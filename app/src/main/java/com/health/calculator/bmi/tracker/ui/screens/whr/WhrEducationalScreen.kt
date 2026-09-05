@@ -44,7 +44,7 @@ fun WhrEducationalScreen(
                 title = { Text(stringResource(R.string.txt_learn_about_whr), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -132,7 +132,7 @@ private fun EducationalHeader() {
 @Composable
 private fun WhatIsWhrSection() {
     ExpandableEducationalSection(
-        icon = Icons.Outlined.HelpOutline,
+        icon = Icons.AutoMirrored.Outlined.HelpOutline,
         emoji = "📐",
         title = "What is Waist-to-Hip Ratio?",
         subtitle = "Understanding the basics of WHR",
@@ -275,7 +275,7 @@ private fun TableRow(
 @Composable
 private fun WhrVsBmiSection() {
     ExpandableEducationalSection(
-        icon = Icons.Outlined.CompareArrows,
+        icon = Icons.AutoMirrored.Outlined.CompareArrows,
         emoji = "⚖️",
         title = "WHR vs BMI",
         subtitle = "Why using both gives the complete picture",

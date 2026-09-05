@@ -1,30 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    
-    <!-- Heart Base -->
-    <path android:pathData="M54,32 C42,20 22,22 22,42 C22,64 54,86 54,86 C54,86 86,64 86,42 C86,22 66,20 54,32 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="22"
-                android:startY="22"
-                android:endX="86"
-                android:endY="86">
-                <item android:color="#FF5252" android:offset="0.0" />
-                <item android:color="#C2185B" android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
-    
-    <!-- Pulse Line -->
     <path
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="5"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M32,50 L42,50 L48,35 L56,65 L62,50 L76,50" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,77.5 C54,77.5 24,53 24,38.5 C24,28 31.5,23.5 37.5,23.5 C44.5,23.5 49.5,28 54,32 C58.5,28 63.5,23.5 70.5,23.5 C76.5,23.5 84,28 84,38.5 C84,53 54,77.5 54,77.5 Z" />
 </vector>

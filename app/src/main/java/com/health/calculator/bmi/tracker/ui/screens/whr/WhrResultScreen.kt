@@ -130,7 +130,7 @@ fun WhrResultScreen(
                 title = { Text(stringResource(R.string.txt_whr_results), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -254,7 +254,7 @@ fun WhrResultScreen(
                 shape = RoundedCornerShape(14.dp)
             ) {
                 Icon(
-                    Icons.Outlined.TrendingUp,
+                    Icons.AutoMirrored.Outlined.TrendingUp,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )
@@ -274,7 +274,7 @@ fun WhrResultScreen(
                 shape = RoundedCornerShape(14.dp)
             ) {
                 Icon(
-                    Icons.Outlined.MenuBook,
+                    Icons.AutoMirrored.Outlined.MenuBook,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )

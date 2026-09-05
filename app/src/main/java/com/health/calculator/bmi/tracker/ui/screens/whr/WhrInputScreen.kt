@@ -67,7 +67,7 @@ fun WhrInputScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
@@ -289,7 +289,7 @@ fun WhrInputScreen(
                 )
             ) {
                 Icon(
-                    Icons.Outlined.MenuBook,
+                    Icons.AutoMirrored.Outlined.MenuBook,
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
@@ -949,7 +949,7 @@ private fun HowToMeasureExpandable(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        Icons.Outlined.HelpOutline,
+                        Icons.AutoMirrored.Outlined.HelpOutline,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(22.dp)
