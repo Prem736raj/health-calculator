@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +123,7 @@ class WaterWidgetDataProvider(@ApplicationContext private val context: Context) 
 
             true
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("WaterWidgetDataProvider", "Unable to refresh cached water data", e)
             false
         }
     }

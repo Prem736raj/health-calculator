@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.*
@@ -79,22 +80,22 @@ fun BMRCalculatorScreen(
     profileActivityLevel: String? = null,
     viewModel: BMRViewModel = hiltViewModel()
 ) {
-    val inputState by viewModel.inputState.collectAsState()
-    val validationState by viewModel.validationState.collectAsState()
-    val isCalculating by viewModel.isCalculating.collectAsState()
-    val triggerShake by viewModel.triggerShake.collectAsState()
-    val resultData by viewModel.resultData.collectAsState()
-    val showResults by viewModel.showResults.collectAsState()
-    val isSaved by viewModel.isSaved.collectAsState()
-    val saveSuccess by viewModel.saveSuccess.collectAsState()
+    val inputState by viewModel.inputState.collectAsStateWithLifecycle()
+    val validationState by viewModel.validationState.collectAsStateWithLifecycle()
+    val isCalculating by viewModel.isCalculating.collectAsStateWithLifecycle()
+    val triggerShake by viewModel.triggerShake.collectAsStateWithLifecycle()
+    val resultData by viewModel.resultData.collectAsStateWithLifecycle()
+    val showResults by viewModel.showResults.collectAsStateWithLifecycle()
+    val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
+    val saveSuccess by viewModel.saveSuccess.collectAsStateWithLifecycle()
 
-    val selectedActivityLevel by viewModel.selectedActivityLevel.collectAsState()
-    val currentMacros by viewModel.currentMacros.collectAsState()
-    val profileActivityLevelState by viewModel.profileActivityLevel.collectAsState()
-    val tefData by viewModel.tefData.collectAsState()
-    val bmrTrendStats by viewModel.bmrTrendStats.collectAsState()
-    val bmrHistoryPoints by viewModel.bmrHistoryPoints.collectAsState()
-    val calculationWarnings by viewModel.calculationWarnings.collectAsState()
+    val selectedActivityLevel by viewModel.selectedActivityLevel.collectAsStateWithLifecycle()
+    val currentMacros by viewModel.currentMacros.collectAsStateWithLifecycle()
+    val profileActivityLevelState by viewModel.profileActivityLevel.collectAsStateWithLifecycle()
+    val tefData by viewModel.tefData.collectAsStateWithLifecycle()
+    val bmrTrendStats by viewModel.bmrTrendStats.collectAsStateWithLifecycle()
+    val bmrHistoryPoints by viewModel.bmrHistoryPoints.collectAsStateWithLifecycle()
+    val calculationWarnings by viewModel.calculationWarnings.collectAsStateWithLifecycle()
 
     var useSliders by remember { mutableStateOf(true) }
     var selectedCalorieTarget by remember { mutableFloatStateOf(0f) }

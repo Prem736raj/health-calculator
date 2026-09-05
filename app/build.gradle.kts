@@ -191,25 +191,10 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     // ---------------------------------------------------------
-    // Google Drive
-    // ---------------------------------------------------------
-
-    implementation(libs.google.play.services.auth)
-    implementation(libs.google.api.client.android)
-    implementation(libs.google.api.services.drive)
-    implementation(libs.google.http.client.gson)
-
-    // ---------------------------------------------------------
     // Images
     // ---------------------------------------------------------
 
     implementation(libs.coil.compose)
-
-    // ---------------------------------------------------------
-    // QR
-    // ---------------------------------------------------------
-
-    implementation(libs.zxing.core)
 
     // ---------------------------------------------------------
     // Health Connect

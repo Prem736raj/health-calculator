@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -54,13 +55,13 @@ fun QuickFoodLogDialog(
     onLogFood: (name: String, calories: Int, protein: Float, carbs: Float, fat: Float) -> Unit,
     customPresets: List<QuickFoodPreset> = emptyList()
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    var customFoodName by remember { mutableStateOf("") }
-    var customCalories by remember { mutableStateOf("") }
-    var customProtein by remember { mutableStateOf("") }
-    var customCarbs by remember { mutableStateOf("") }
-    var customFat by remember { mutableStateOf("") }
-    var showMacroFields by remember { mutableStateOf(false) }
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) }
+    var customFoodName by rememberSaveable { mutableStateOf("") }
+    var customCalories by rememberSaveable { mutableStateOf("") }
+    var customProtein by rememberSaveable { mutableStateOf("") }
+    var customCarbs by rememberSaveable { mutableStateOf("") }
+    var customFat by rememberSaveable { mutableStateOf("") }
+    var showMacroFields by rememberSaveable { mutableStateOf(false) }
 
     val allPresets = defaultQuickPresets + customPresets
 

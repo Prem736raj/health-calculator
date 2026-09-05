@@ -1,11 +1,14 @@
 // ui/screens/bloodpressure/BpReminderScreen.kt
 package com.health.calculator.bmi.tracker.ui.screens.bloodpressure
 
+import android.Manifest
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 
 
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -23,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.health.calculator.bmi.tracker.notifications.NotificationPermissionHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,6 +41,17 @@ fun BpReminderScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { }
+    val requestNotificationPermissionIfNeeded = {
+        if (NotificationPermissionHelper.needsPermissionRequest() &&
+            !NotificationPermissionHelper.isNotificationPermissionGranted(context)
+        ) {
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -84,23 +100,29 @@ fun BpReminderScreen(
 
             // Morning Reminder
             ReminderCard(
-                title = "🌅 Morning Reminder",
+                title = "Morning reminder",
                 description = "Best taken within 1 hour of waking",
                 isEnabled = uiState.morningEnabled,
                 hour = uiState.morningHour,
                 minute = uiState.morningMinute,
-                onToggle = { viewModel.onMorningToggle(it) },
+                onToggle = { enabled ->
+                    viewModel.onMorningToggle(enabled)
+                    if (enabled) requestNotificationPermissionIfNeeded()
+                },
                 onTimeClicked = { viewModel.onShowMorningTimePicker(true) }
             )
 
             // Evening Reminder
             ReminderCard(
-                title = "🌆 Evening Reminder",
+                title = "Evening reminder",
                 description = "Best taken before dinner or bedtime",
                 isEnabled = uiState.eveningEnabled,
                 hour = uiState.eveningHour,
                 minute = uiState.eveningMinute,
-                onToggle = { viewModel.onEveningToggle(it) },
+                onToggle = { enabled ->
+                    viewModel.onEveningToggle(enabled)
+                    if (enabled) requestNotificationPermissionIfNeeded()
+                },
                 onTimeClicked = { viewModel.onShowEveningTimePicker(true) }
             )
 
@@ -155,7 +177,10 @@ fun BpReminderScreen(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                     OutlinedButton(
-                        onClick = { viewModel.onShowDoctorDatePicker(true) },
+                        onClick = {
+                            requestNotificationPermissionIfNeeded()
+                            viewModel.onShowDoctorDatePicker(true)
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     ) {

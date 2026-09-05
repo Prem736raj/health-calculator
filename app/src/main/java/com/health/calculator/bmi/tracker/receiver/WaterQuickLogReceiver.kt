@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.health.calculator.bmi.tracker.core.util.launchAsync
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeLog
@@ -35,7 +36,7 @@ class WaterQuickLogReceiver : BroadcastReceiver() {
 
                 WidgetDataNotifier.notifyWaterChanged(context)
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e("WaterQuickLogReceiver", "Quick water log failed", e)
             } finally {
                 val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 manager.cancel(WaterNotificationHelper.NOTIFICATION_ID)

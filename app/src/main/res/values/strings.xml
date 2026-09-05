@@ -158,8 +158,8 @@
 <string name="txt_add">Add</string>
 <string name="txt_view_trends">View Trends</string>
 <string name="txt_no_weight_logged_yet">No weight logged yet</string>
-<string name="txt_high_priority_reminders_will_s">Important reminders will still alert you</string>
-<string name="txt_allow_emergency_alerts">Allow Important Reminders</string>
+<string name="txt_high_priority_reminders_will_s">Selected high-priority reminders can still alert you during quiet hours</string>
+<string name="txt_allow_emergency_alerts">Allow high-priority reminders</string>
 <string name="txt_end_time">End Time</string>
 <string name="txt_start_time">Start Time</string>
 <string name="txt_enable_quiet_hours">Enable Quiet Hours</string>
@@ -278,7 +278,7 @@
 <string name="txt_if_you_experience_any_of_these">If you experience any of these symptoms:</string>
 <string name="txt_this_reading_indicates_a_hyper">This markedly elevated reading needs a careful repeat and prompt professional advice.</string>
 <string name="txt_your_reading">Your Reading</string>
-<string name="txt_hypertensive_crisis">⚠️ Markedly elevated reading</string>
+<string name="txt_hypertensive_crisis">Markedly elevated reading</string>
 <string name="txt_risk_assessment">Risk Assessment</string>
 <string name="txt_who_classification">Reference classification</string>
 <string name="txt_high">High</string>
@@ -316,7 +316,7 @@
 <string name="txt_sys">SYS</string>
 <string name="txt_understanding_your_reading">Understanding Your Reading</string>
 <string name="txt_if_your_reading_is_above_180_1">If a repeat is still at or above 180/120, or symptoms are present, seek prompt medical care.</string>
-<string name="txt_emergency_reading_detected">⚠️ Markedly elevated reading</string>
+<string name="txt_emergency_reading_detected">Markedly elevated reading</string>
 <string name="txt_enter_your_blood_pressure_read">Enter your blood pressure reading from your monitor</string>
 <string name="txt_results">RESULTS</string>
 <string name="txt_set_blood_pressure_reminders">Set Blood Pressure Reminders</string>
@@ -380,10 +380,10 @@
 <string name="txt_notes_for_visit">Notes for visit</string>
 <string name="txt_set_a_reminder_for_your_next_d">Set a reminder for your next doctor appointment to follow up on blood pressure.</string>
 <string name="txt_doctor_visit_reminder">Doctor Visit Reminder</string>
-<string name="txt_time_to_check_your_blood_press">Time to check your blood pressure! 🩺</string>
+<string name="txt_time_to_check_your_blood_press">Time to check your blood pressure</string>
 <string name="txt_custom_message">Custom message</string>
 <string name="txt_reminder_message">Reminder Message</string>
-<string name="txt_doctors_recommend_measuring_bp">Doctors recommend measuring BP twice daily – morning and evening – for accurate tracking.</string>
+<string name="txt_doctors_recommend_measuring_bp">Some care teams suggest morning and evening readings for a consistent log. Follow the plan that fits your care advice.</string>
 <string name="txt_bp_reminders">BP Reminders</string>
 <string name="txt_export">Export</string>
 <string name="txt_image">Image</string>
@@ -798,7 +798,7 @@
 <string name="txt_age">Age</string>
 <string name="txt_height_cm">Height (cm)</string>
 <string name="txt_using_profile_data_you_can_adj_1">Using profile data • You can adjust values below</string>
-<string name="txt_find_out_exactly_how_many_calo">Find out exactly how many calories you need to reach your goals.</string>
+<string name="txt_find_out_exactly_how_many_calo">Estimate a daily calorie range to support your goals.</string>
 <string name="txt_daily_calorie_calculator">Daily Calorie Calculator</string>
 <string name="txt_view_calorie_history">View Calorie History</string>
 <string name="txt_track_today_s_food">Track Today\'s Food</string>
@@ -1080,7 +1080,7 @@
 <string name="txt_ethnicity_specific_idf_cutoffs">Ethnicity-Specific IDF Cutoffs</string>
 <string name="txt_text_placeholder_67">🌍</string>
 <string name="txt_standards_disagree_see_details">Standards disagree — see details below</string>
-<string name="txt_all_three_standards_agree_on_t">All three standards agree on the diagnosis</string>
+<string name="txt_all_three_standards_agree_on_t">ATP III and IDF show the same screening reference result</string>
 <string name="txt_results_by_standard">Results by Standard</string>
 <string name="txt_atp_iii_vs_idf_vs_who_criteria">ATP III vs IDF vs WHO criteria</string>
 <string name="txt_compare_medical_standards">Compare Medical Standards</string>

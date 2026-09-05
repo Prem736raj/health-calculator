@@ -802,48 +802,23 @@ fun BpEmergencyDialog(
     reading: BloodPressureReading,
     onDismiss: () -> Unit
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "emergency_anim")
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.7f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(500),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "emergency_pulse"
-    )
-    val iconScale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.15f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "emergency_icon_scale"
-    )
-
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = Color(0xFFFFF3F3),
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(24.dp),
         icon = {
             Box(
                 modifier = Modifier
                     .size(72.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFB71C1C).copy(alpha = pulseAlpha * 0.15f)),
+                    .background(MaterialTheme.colorScheme.errorContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.Error,
                     contentDescription = null,
-                    tint = Color(0xFFB71C1C).copy(alpha = pulseAlpha),
-                    modifier = Modifier
-                        .size(48.dp)
-                        .graphicsLayer {
-                            scaleX = iconScale
-                            scaleY = iconScale
-                        }
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(40.dp)
                 )
             }
         },
@@ -851,8 +826,8 @@ fun BpEmergencyDialog(
             Text(
                 stringResource(R.string.txt_hypertensive_crisis),
                 style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFFB71C1C),
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -865,10 +840,10 @@ fun BpEmergencyDialog(
                 // Reading
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFB71C1C).copy(alpha = 0.08f)
+                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.55f)
                     ),
                     shape = RoundedCornerShape(16.dp),
-                    border = BorderStroke(1.dp, Color(0xFFB71C1C).copy(alpha = 0.3f))
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.35f))
                 ) {
                     Column(
                         modifier = Modifier
@@ -879,13 +854,13 @@ fun BpEmergencyDialog(
                         Text(
                             stringResource(R.string.txt_your_reading),
                             style = MaterialTheme.typography.labelMedium,
-                            color = Color(0xFFB71C1C).copy(alpha = 0.7f)
+                            color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
                         )
                         Text(
                             "${reading.systolic}/${reading.diastolic} mmHg",
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFFB71C1C)
+                            color = MaterialTheme.colorScheme.onErrorContainer
                         )
                     }
                 }
@@ -894,13 +869,13 @@ fun BpEmergencyDialog(
                     stringResource(R.string.txt_this_reading_indicates_a_hyper),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
-                    color = Color(0xFF424242)
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 // Symptoms warning
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFFFF9C4)
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f)
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
@@ -912,7 +887,7 @@ fun BpEmergencyDialog(
                             stringResource(R.string.txt_if_you_experience_any_of_these),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFF5D4037)
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         val symptoms = listOf(
                             "Severe headache",
@@ -931,55 +906,18 @@ fun BpEmergencyDialog(
                                     modifier = Modifier
                                         .size(5.dp)
                                         .clip(CircleShape)
-                                        .background(Color(0xFFD32F2F))
+                                        .background(MaterialTheme.colorScheme.error)
                                 )
                                 Text(
                                     symptom,
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = Color(0xFF5D4037)
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
                             }
                         }
                     }
                 }
 
-                // Emergency number
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFB71C1C)
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Filled.Call,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column {
-                            Text(
-                                stringResource(R.string.txt_call_emergency_services),
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                            Text(
-                                stringResource(R.string.txt_emergency_911_112),
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White.copy(alpha = 0.9f)
-                            )
-                        }
-                    }
-                }
             }
         },
         confirmButton = {

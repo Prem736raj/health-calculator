@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.ReminderFrequency
 import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
+import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.preferences.WaterReminderPreferences
 import com.health.calculator.bmi.tracker.notification.WaterReminderScheduler
 
@@ -54,6 +55,7 @@ fun WaterReminderSettingsScreen(
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val prefs = remember { WaterReminderPreferences(context) }
+    val settingsDataStore = remember { SettingsDataStore(context) }
     val scheduler = remember { WaterReminderScheduler(context) }
 
     var settings by remember { mutableStateOf(prefs.load()) }
@@ -77,6 +79,13 @@ fun WaterReminderSettingsScreen(
     // Auto-save and schedule when settings change
     LaunchedEffect(settings) {
         prefs.save(settings)
+        // Keep the Settings surface and this detailed reminder editor in sync.
+        // Enabling a concrete reminder is an explicit opt-in to the master
+        // notification switch; disabling it leaves other categories alone.
+        settingsDataStore.updateReminderSetting(
+            remindersEnabled = if (settings.isEnabled) true else null,
+            waterReminder = settings.isEnabled
+        )
         if (settings.isEnabled) {
             scheduler.schedule(settings)
         } else {

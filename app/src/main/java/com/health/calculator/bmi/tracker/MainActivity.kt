@@ -124,8 +124,9 @@ class MainActivity : ComponentActivity() {
                                         .performIntegrityCheck()
                                 }
                                 runCatching { WaterWidgetDataProvider(context).refreshData() }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
+                            } catch (_: Exception) {
+                                // Optional startup refreshes must never block
+                                // navigation or write health values to logs.
                             }
                         }
 
@@ -175,7 +176,9 @@ class MainActivity : ComponentActivity() {
 
     private fun writeCrashLog(throwable: Throwable) {
         runCatching {
-            val file = File(cacheDir, "crash_log.txt")
+            // Diagnostics stay in an app-private directory and are never
+            // included in FileProvider share paths.
+            val file = File(File(filesDir, "diagnostics").apply { mkdirs() }, "crash_log.txt")
             FileOutputStream(file, true).use { output ->
                 PrintWriter(output).use { writer ->
                     writer.println("Crash at ${java.util.Date()}")

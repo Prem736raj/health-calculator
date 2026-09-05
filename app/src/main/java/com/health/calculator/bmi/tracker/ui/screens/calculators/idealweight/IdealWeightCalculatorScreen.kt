@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,14 +40,14 @@ fun IdealWeightCalculatorScreen(
     profileUnitCm: Boolean = true,
     viewModel: IdealWeightViewModel = hiltViewModel()
 ) {
-    val inputState by viewModel.inputState.collectAsState()
-    val validationState by viewModel.validationState.collectAsState()
-    val isCalculating by viewModel.isCalculating.collectAsState()
-    val triggerShake by viewModel.triggerShake.collectAsState()
-    val resultData by viewModel.resultData.collectAsState()
-    val showResults by viewModel.showResults.collectAsState()
-    val isSaved by viewModel.isSaved.collectAsState()
-    val saveSuccess by viewModel.saveSuccess.collectAsState()
+    val inputState by viewModel.inputState.collectAsStateWithLifecycle()
+    val validationState by viewModel.validationState.collectAsStateWithLifecycle()
+    val isCalculating by viewModel.isCalculating.collectAsStateWithLifecycle()
+    val triggerShake by viewModel.triggerShake.collectAsStateWithLifecycle()
+    val resultData by viewModel.resultData.collectAsStateWithLifecycle()
+    val showResults by viewModel.showResults.collectAsStateWithLifecycle()
+    val isSaved by viewModel.isSaved.collectAsStateWithLifecycle()
+    val saveSuccess by viewModel.saveSuccess.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val haptic = rememberHapticManager()

@@ -19,11 +19,14 @@ import com.health.calculator.bmi.tracker.data.model.SettingsData
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.model.UnitSystem
 import com.health.calculator.bmi.tracker.data.model.toDisplayEntry
+import com.health.calculator.bmi.tracker.data.preferences.WaterReminderPreferences
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
 import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
 import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
+import com.health.calculator.bmi.tracker.notification.WaterReminderScheduler
+import com.health.calculator.bmi.tracker.notifications.WeightReminderManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,9 +77,12 @@ class SettingsViewModel @Inject constructor(
     application: Application,
     val healthConnectManager: HealthConnectManager,
     private val settingsDataStore: SettingsDataStore,
-    private val productAnalytics: ProductAnalytics
+    private val productAnalytics: ProductAnalytics,
+    private val weightReminderManager: WeightReminderManager
 ) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
+    private val waterReminderPreferences = WaterReminderPreferences(appContext)
+    private val waterReminderScheduler = WaterReminderScheduler(appContext)
     private val appDatabase = AppDatabase.getDatabase(appContext)
 
     private val settingsRepository = SettingsRepository(
@@ -232,15 +238,29 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleReminders(enabled: Boolean) {
         viewModelScope.launch {
-            // If master toggle is turned off, disable all sub-toggles
+            // Turning off the master switch stops delivery while preserving
+            // each category's preference for the next explicit re-enable.
             if (!enabled) {
                 settingsRepository.updateReminderSetting(
-                    remindersEnabled = false,
-                    waterReminder = false,
-                    weightReminder = false
+                    remindersEnabled = false
                 )
+                waterReminderPreferences.save(waterReminderPreferences.load().copy(isEnabled = false))
+                waterReminderScheduler.cancel()
+                weightReminderManager.pauseReminder()
             } else {
                 settingsRepository.updateReminderSetting(remindersEnabled = true)
+                // Re-enable only the child reminders the user previously
+                // selected. The master switch never silently opts someone in
+                // to a new notification category.
+                val current = settingsRepository.settingsFlow.first()
+                if (current.waterReminderEnabled) {
+                    val waterSettings = waterReminderPreferences.load().copy(isEnabled = true)
+                    waterReminderPreferences.save(waterSettings)
+                    waterReminderScheduler.schedule(waterSettings)
+                }
+                if (current.weightReminderEnabled) {
+                    weightReminderManager.restoreIfEnabled()
+                }
                 productAnalytics.track(
                     ProductAnalyticsEvent.REMINDER_ENABLED,
                     mapOf("reminder_type" to "all")
@@ -252,6 +272,13 @@ class SettingsViewModel @Inject constructor(
     fun toggleWaterReminder(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateReminderSetting(waterReminder = enabled)
+            val waterSettings = waterReminderPreferences.load().copy(isEnabled = enabled)
+            waterReminderPreferences.save(waterSettings)
+            if (enabled && settingsRepository.settingsFlow.first().remindersEnabled) {
+                waterReminderScheduler.schedule(waterSettings)
+            } else {
+                waterReminderScheduler.cancel()
+            }
             if (enabled) {
                 productAnalytics.track(
                     ProductAnalyticsEvent.REMINDER_ENABLED,
@@ -264,6 +291,22 @@ class SettingsViewModel @Inject constructor(
     fun toggleWeightReminder(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateReminderSetting(weightReminder = enabled)
+            if (enabled && settingsRepository.settingsFlow.first().remindersEnabled) {
+                weightReminderManager.restoreIfEnabled()
+                // A fresh install has no saved weekly time yet. The manager's
+                // default Monday 09:00 schedule is intentionally conservative.
+                if (!com.health.calculator.bmi.tracker.data.preferences.WeightReminderPreferences(appContext)
+                        .load().enabled
+                ) {
+                    weightReminderManager.scheduleWeeklyReminder(
+                        java.util.Calendar.MONDAY,
+                        9,
+                        0
+                    )
+                }
+            } else {
+                weightReminderManager.cancelReminder()
+            }
             if (enabled) {
                 productAnalytics.track(
                     ProductAnalyticsEvent.REMINDER_ENABLED,

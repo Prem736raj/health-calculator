@@ -54,29 +54,28 @@ class WaterNotificationHelper(@ApplicationContext private val context: Context) 
 
         val percentage = if (goalMl > 0) ((currentMl.toFloat() / goalMl) * 100).toInt() else 0
         val remainingMl = (goalMl - currentMl).coerceAtLeast(0)
-        val remainingL = remainingMl / 1000f
 
         // Choose notification text
         val (title, body) = when {
             isBehindSchedule -> Pair(
-                "⚠️ You're behind on hydration!",
-                "You've had ${currentMl}ml ($percentage%). Try to catch up — you need ${String.format("%.1f", remainingL)}L more today."
+                "A hydration check-in",
+                "You have logged $percentage% of today's water goal. If it feels right, consider having a glass of water."
             )
             percentage >= 90 -> Pair(
-                "💧 Almost there!",
-                "You're at $percentage% of today's goal. Just ${remainingMl}ml to go!"
+                "Hydration goal nearly reached",
+                "$remainingMl ml remaining in today's personal goal."
             )
             percentage >= 50 -> Pair(
-                "💧 Time for a glass of water!",
-                "You're at $percentage% of today's goal. Keep it up!"
+                "Water check-in",
+                "You are at $percentage% of today's personal water goal."
             )
             percentage >= 25 -> Pair(
-                "💧 Stay hydrated!",
-                "You've had ${currentMl}ml so far. You need ${String.format("%.1f", remainingL)}L more today."
+                "Hydration check-in",
+                "You are at $percentage% of today's personal water goal."
             )
             else -> Pair(
-                "💧 Don't forget to drink water!",
-                "You're only at $percentage% of today's goal. Time to hydrate!"
+                "Hydration check-in",
+                "Your water log is at $percentage% of today's personal goal."
             )
         }
 
@@ -101,7 +100,7 @@ class WaterNotificationHelper(@ApplicationContext private val context: Context) 
         )
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Replace with actual water icon
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
@@ -109,10 +108,11 @@ class WaterNotificationHelper(@ApplicationContext private val context: Context) 
             .setContentIntent(openPendingIntent)
             .setAutoCancel(true)
             .addAction(
-                R.drawable.ic_launcher_foreground, // Replace with water icon
-                "Log ${QUICK_LOG_AMOUNT}ml 💧",
+                R.drawable.ic_notification,
+                "Log ${QUICK_LOG_AMOUNT} ml",
                 quickLogPendingIntent
             )
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setProgress(goalMl, currentMl.coerceAtMost(goalMl), false)
 
         if (!enableSound) {

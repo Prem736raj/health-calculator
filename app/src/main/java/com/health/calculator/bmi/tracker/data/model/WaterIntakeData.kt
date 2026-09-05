@@ -23,8 +23,11 @@ enum class ClimateType(val displayName: String, val multiplier: Float) {
 
 enum class HealthStatus(val displayName: String, val additionalMl: Int) {
     NORMAL("Normal", 0),
-    PREGNANT("Pregnant", 300),
-    BREASTFEEDING("Breastfeeding", 700),
+    // Pregnancy and lactation needs vary by stage, feeding pattern, climate
+    // and medical context. Keep these as contextual selections rather than
+    // presenting a false-precision fixed prescription.
+    PREGNANT("Pregnant", 0),
+    BREASTFEEDING("Breastfeeding", 0),
     // Illness-related fluid needs vary widely and must not be auto-prescribed.
     ILLNESS("Illness/Fever (ask a clinician)", 0)
 }

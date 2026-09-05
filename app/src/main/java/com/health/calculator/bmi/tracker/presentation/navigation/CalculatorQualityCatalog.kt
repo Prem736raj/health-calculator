@@ -37,7 +37,7 @@ object CalculatorQualityCatalog {
             inputs = "Weight, height, age, sex used by the selected equation, and optional body fat.",
             method = "Mifflin–St Jeor is the default comparison equation; additional validated adult equations are shown when available.",
             interpretation = "This is a starting estimate, not a prescription for eating or weight change.",
-            limitations = "Real needs vary with health, movement, body composition, environment and measurement error.",
+            limitations = "Real needs vary with health, movement, body composition, environment and measurement error. Do not use this estimate for pregnancy or lactation planning.",
             sources = listOf("Mifflin et al., 1990 (PubMed)", "National Academies dietary reference resources"),
             related = listOf(CalculatorDestination.CALORIES, CalculatorDestination.BMI)
         ),
@@ -70,7 +70,7 @@ object CalculatorQualityCatalog {
             inputs = "Weight, height, age, sex used by the equation, activity and goal preference.",
             method = "Resting energy is estimated first, then an activity factor is applied; the result is rounded for readability.",
             interpretation = "Treat the number as a range or starting point and review how you feel and perform over time.",
-            limitations = "It cannot account for every medical, metabolic or lifestyle factor and is not a treatment plan.",
+            limitations = "It cannot account for every medical, metabolic or lifestyle factor and is not a treatment plan. Pregnancy and lactation require individualized guidance.",
             sources = listOf("Mifflin et al., 1990 (PubMed)", "Dietary Guidelines for Americans"),
             related = listOf(CalculatorDestination.BMR, CalculatorDestination.BMI)
         ),

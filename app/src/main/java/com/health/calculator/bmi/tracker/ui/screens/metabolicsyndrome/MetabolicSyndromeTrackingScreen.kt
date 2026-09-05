@@ -835,7 +835,7 @@ private fun AssessmentTimeline(records: List<MetabolicSyndromeRecord>) {
                         shape = RoundedCornerShape(6.dp)
                     ) {
                         Text(
-                            text = if (record.isSyndromePresent) "Present" else "Absent",
+                            text = if (record.isSyndromePresent) "3+ markers" else "Fewer markers",
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = riskColor,

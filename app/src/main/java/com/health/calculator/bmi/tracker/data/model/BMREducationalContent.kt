@@ -97,7 +97,7 @@ object BMREducationalContent {
                     isBullet = true
                 ),
                 EducationalParagraph(
-                    text = "Pregnancy & Lactation — BMR increases during pregnancy and breastfeeding to support the growing baby.",
+                    text = "Pregnancy & lactation — this adult estimate does not adjust for pregnancy or breastfeeding. Energy needs vary by stage and individual context; ask a qualified prenatal or postpartum professional for guidance.",
                     isBullet = true
                 )
             )

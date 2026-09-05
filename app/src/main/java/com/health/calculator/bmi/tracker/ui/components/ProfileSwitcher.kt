@@ -85,7 +85,12 @@ fun ProfileAvatar(
                 .then(
                     if (isActive) Modifier.border(
                         width = 2.dp,
-                        brush = Brush.linearGradient(listOf(Color(0xFFE91E63), Color(0xFF9C27B0))),
+                        brush = Brush.linearGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.tertiary
+                            )
+                        ),
                         shape = CircleShape
                     )
                     else Modifier

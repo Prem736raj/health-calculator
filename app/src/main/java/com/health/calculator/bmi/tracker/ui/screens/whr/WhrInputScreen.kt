@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,7 +53,7 @@ fun WhrInputScreen(
     onNavigateToEducation: () -> Unit = {},
     viewModel: WhrViewModel = hiltViewModel()
 ) {
-    val inputState by viewModel.inputState.collectAsState()
+    val inputState by viewModel.inputState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
     val scrollState = rememberScrollState()
 

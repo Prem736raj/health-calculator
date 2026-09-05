@@ -4,6 +4,7 @@ package com.health.calculator.bmi.tracker.ui.screens.waterintake
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
+import com.health.calculator.bmi.tracker.data.calculator.ReproductiveHealthPolicy
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -17,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
@@ -147,6 +149,14 @@ fun WaterIntakeResultScreen(
                     UnitConversionsCard(result)
                 }
 
+                ReproductiveHealthPolicy.disclaimerFor(
+                    runCatching {
+                        com.health.calculator.bmi.tracker.data.model.HealthStatus.valueOf(result.healthStatus)
+                    }.getOrDefault(com.health.calculator.bmi.tracker.data.model.HealthStatus.NORMAL)
+                )?.let { disclaimer ->
+                    InformationalDisclaimerCard(disclaimer)
+                }
+
                 // Glasses visualization
                 AnimatedVisibility(
                     visible = isVisible,
@@ -240,6 +250,35 @@ fun WaterIntakeResultScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun InformationalDisclaimerCard(text: String) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f)
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                modifier = Modifier.size(20.dp)
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onTertiaryContainer
+            )
         }
     }
 }

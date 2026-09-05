@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,7 +40,7 @@ fun DataManagementScreen(
     onResetToOnboarding: () -> Unit,
     viewModel: DataManagementViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     // Handle snackbar with undo
@@ -129,7 +130,7 @@ fun DataManagementScreen(
         ) {
             // === STORAGE INFO ===
             item(key = "storage_header") {
-                SectionLabel("💾 Storage Usage")
+                SectionLabel("Storage Usage")
             }
 
             item(key = "storage_card") {
@@ -141,7 +142,7 @@ fun DataManagementScreen(
 
             // === CLEANUP OPTIONS ===
             item(key = "cleanup_header") {
-                SectionLabel("🧹 Data Cleanup")
+                SectionLabel("Data Cleanup")
             }
 
             item(key = "cleanup_age") {
@@ -186,7 +187,7 @@ fun DataManagementScreen(
 
             // === DATA INTEGRITY ===
             item(key = "integrity_header") {
-                SectionLabel("🔍 Data Integrity")
+                SectionLabel("Data Integrity")
             }
 
             item(key = "integrity_card") {
@@ -199,7 +200,7 @@ fun DataManagementScreen(
 
             // === DANGER ZONE ===
             item(key = "danger_header") {
-                SectionLabel("⚠️ Danger Zone")
+                SectionLabel("Danger Zone")
             }
 
             item(key = "danger_card") {

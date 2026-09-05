@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <!-- Temporary share/export files only. Some existing exporters write at cache root. -->
+    <!-- Only generated, user-requested exports are shareable. Keep the rest of
+         the cache (including diagnostics and image caches) private. -->
     <cache-path
-        name="shared_cache"
-        path="/" />
+        name="exports"
+        path="exports/" />
 
     <!-- Durable, app-private user images selected/captured for profiles. -->
     <files-path
         name="profile_images"
         path="profile_images/" />
 
-    <!-- Local encrypted recovery snapshots. -->
-    <files-path
-        name="backups"
-        path="backups/" />
 </paths>
 

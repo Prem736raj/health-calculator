@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -50,9 +51,30 @@ fun ProfileScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val multiProfileState by multiProfileViewModel.uiState.collectAsStateWithLifecycle()
     val milestonesState by milestonesViewModel.uiState.collectAsStateWithLifecycle()
+    val weightStatistics by viewModel.weightStatistics.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showActionsMenu by remember { mutableStateOf(false) }
+    var editingField by rememberSaveable { mutableStateOf<String?>(null) }
+    var editingValue by rememberSaveable { mutableStateOf("") }
+    var editingError by rememberSaveable { mutableStateOf<String?>(null) }
     val context = androidx.compose.ui.platform.LocalContext.current
+
+    fun beginEditing(field: String) {
+        editingField = field
+        editingError = null
+        editingValue = when (field) {
+            PROFILE_FIELD_NAME -> uiState.profile.name
+            PROFILE_FIELD_HEIGHT -> uiState.profile.heightCm?.let {
+                if (uiState.profile.useMetricSystem) "%.1f".format(it)
+                else "%.1f".format(it / 2.54f)
+            }.orEmpty()
+            PROFILE_FIELD_WEIGHT, PROFILE_FIELD_GOAL_WEIGHT -> {
+                val value = if (field == PROFILE_FIELD_WEIGHT) uiState.profile.weightKg else uiState.profile.goalWeightKg
+                value?.let { if (uiState.profile.useMetricSystem) "%.1f".format(it) else "%.1f".format(it * 2.20462f) }.orEmpty()
+            }
+            else -> ""
+        }
+    }
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { selectedUri ->
@@ -218,12 +240,13 @@ fun ProfileScreen(
                             MyInfoSection(
                                 profile = uiState.profile,
                                 onNameChange = viewModel::updateName,
+                                onNameClick = { beginEditing(PROFILE_FIELD_NAME) },
                                 onProfilePictureClick = viewModel::showImagePickerDialog,
                                 onDateOfBirthClick = viewModel::showDatePicker,
                                 onGenderClick = viewModel::showGenderPicker,
-                                onHeightClick = { /* Scroll to height or show dialog if we had one */ },
-                                onWeightClick = { /* Scroll to weight */ },
-                                onGoalWeightClick = { /* Scroll to goal weight */ },
+                                onHeightClick = { beginEditing(PROFILE_FIELD_HEIGHT) },
+                                onWeightClick = { beginEditing(PROFILE_FIELD_WEIGHT) },
+                                onGoalWeightClick = { beginEditing(PROFILE_FIELD_GOAL_WEIGHT) },
                                 onActivityLevelClick = viewModel::showActivityLevelPicker,
                                 onHealthGoalsClick = viewModel::showHealthGoalsPicker,
                                 onFrameSizeClick = viewModel::showFrameSizePicker,
@@ -233,7 +256,7 @@ fun ProfileScreen(
                         ProfileTab.HEALTH_OVERVIEW -> {
                             HealthOverviewSection(
                                 overview = uiState.healthOverview,
-                                weightStatistics = viewModel.weightStatistics.collectAsState().value,
+                                weightStatistics = weightStatistics,
                                 latestWeight = uiState.profile.weightKg?.toDouble() ?: 0.0,
                                 useMetric = uiState.profile.useMetricSystem,
                                 onLogWeight = { viewModel.showWeightLogDialog() },
@@ -359,6 +382,85 @@ fun ProfileScreen(
         )
     }
 
+    editingField?.let { field ->
+        val isName = field == PROFILE_FIELD_NAME
+        val unitLabel = when (field) {
+            PROFILE_FIELD_HEIGHT -> if (uiState.profile.useMetricSystem) "cm" else "in"
+            PROFILE_FIELD_WEIGHT, PROFILE_FIELD_GOAL_WEIGHT -> if (uiState.profile.useMetricSystem) "kg" else "lb"
+            else -> null
+        }
+        AlertDialog(
+            onDismissRequest = { editingField = null; editingError = null },
+            title = {
+                Text(
+                    when (field) {
+                        PROFILE_FIELD_NAME -> "Edit name"
+                        PROFILE_FIELD_HEIGHT -> "Edit height"
+                        PROFILE_FIELD_WEIGHT -> "Edit current weight"
+                        PROFILE_FIELD_GOAL_WEIGHT -> "Edit goal weight"
+                        else -> "Edit profile"
+                    }
+                )
+            },
+            text = {
+                OutlinedTextField(
+                    value = editingValue,
+                    onValueChange = {
+                        editingValue = if (isName) it.take(80) else it.take(12)
+                        editingError = null
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    label = { Text(if (isName) "Name" else "Value") },
+                    suffix = unitLabel?.let { { Text(it) } },
+                    isError = editingError != null,
+                    supportingText = editingError?.let { error -> { Text(error) } }
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val value = editingValue.trim()
+                        when (field) {
+                            PROFILE_FIELD_NAME -> if (value.isBlank()) {
+                                editingError = "Enter a name"
+                            } else {
+                                viewModel.updateName(value)
+                                editingField = null
+                            }
+                            PROFILE_FIELD_HEIGHT -> {
+                                val numeric = value.toDoubleOrNull()
+                                val cm = numeric?.let { if (uiState.profile.useMetricSystem) it else it * 2.54 }
+                                if (cm == null || cm !in 80.0..250.0) {
+                                    editingError = "Enter a height from 80–250 cm"
+                                } else {
+                                    viewModel.updateHeightCm(cm)
+                                    editingField = null
+                                }
+                            }
+                            PROFILE_FIELD_WEIGHT, PROFILE_FIELD_GOAL_WEIGHT -> {
+                                val numeric = value.toDoubleOrNull()
+                                val kg = numeric?.let { if (uiState.profile.useMetricSystem) it else it / 2.20462 }
+                                if (kg == null || kg !in 20.0..300.0) {
+                                    editingError = "Enter a weight from 20–300 kg"
+                                } else {
+                                    if (field == PROFILE_FIELD_WEIGHT) viewModel.updateWeightKg(kg)
+                                    else viewModel.updateGoalWeightKg(kg)
+                                    editingField = null
+                                }
+                            }
+                        }
+                    }
+                ) { Text(stringResource(R.string.txt_save)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { editingField = null; editingError = null }) {
+                    Text(stringResource(R.string.txt_cancel))
+                }
+            }
+        )
+    }
+
     if (uiState.showSaveSuccess) {
         LaunchedEffect(Unit) {
             // Should show snackbar instead
@@ -457,4 +559,9 @@ private fun saveBitmapToPrivateStorage(@ApplicationContext context: Context, bit
         null
     }
 }
+
+private const val PROFILE_FIELD_NAME = "name"
+private const val PROFILE_FIELD_HEIGHT = "height"
+private const val PROFILE_FIELD_WEIGHT = "weight"
+private const val PROFILE_FIELD_GOAL_WEIGHT = "goal_weight"
 

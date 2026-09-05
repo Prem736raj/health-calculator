@@ -32,6 +32,7 @@ import java.util.*
 fun MyInfoSection(
     profile: UserProfile,
     onNameChange: (String) -> Unit,
+    onNameClick: () -> Unit = {},
     onProfilePictureClick: () -> Unit,
     onDateOfBirthClick: () -> Unit,
     onGenderClick: () -> Unit,
@@ -69,7 +70,7 @@ fun MyInfoSection(
             label = "Name",
             value = profile.name.ifBlank { "Not set" },
             icon = Icons.Default.Person,
-            onClick = { /* Handle name edit inline or dialog */ } 
+            onClick = onNameClick
         )
 
         InfoItem(

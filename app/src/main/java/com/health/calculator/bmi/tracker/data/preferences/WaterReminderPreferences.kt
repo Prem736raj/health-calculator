@@ -13,18 +13,25 @@ class WaterReminderPreferences(@ApplicationContext context: Context) {
         context.getSharedPreferences("water_reminder_prefs", Context.MODE_PRIVATE)
 
     fun save(settings: WaterReminderSettings) {
+        val safe = settings.copy(
+            startHour = settings.startHour.coerceIn(0, 23),
+            startMinute = settings.startMinute.coerceIn(0, 59),
+            endHour = settings.endHour.coerceIn(0, 23),
+            endMinute = settings.endMinute.coerceIn(0, 59),
+            frequencyMinutes = settings.frequencyMinutes.coerceIn(15, 240)
+        )
         prefs.edit().apply {
-            putBoolean(KEY_ENABLED, settings.isEnabled)
-            putInt(KEY_START_HOUR, settings.startHour)
-            putInt(KEY_START_MINUTE, settings.startMinute)
-            putInt(KEY_END_HOUR, settings.endHour)
-            putInt(KEY_END_MINUTE, settings.endMinute)
-            putInt(KEY_FREQUENCY, settings.frequencyMinutes)
-            putBoolean(KEY_VIBRATION, settings.enableVibration)
-            putBoolean(KEY_SOUND, settings.enableSound)
-            putString(KEY_SOUND_URI, settings.soundUri)
-            putBoolean(KEY_SMART_SKIP, settings.smartSkipEnabled)
-            putBoolean(KEY_BEHIND_NUDGE, settings.behindScheduleNudge)
+            putBoolean(KEY_ENABLED, safe.isEnabled)
+            putInt(KEY_START_HOUR, safe.startHour)
+            putInt(KEY_START_MINUTE, safe.startMinute)
+            putInt(KEY_END_HOUR, safe.endHour)
+            putInt(KEY_END_MINUTE, safe.endMinute)
+            putInt(KEY_FREQUENCY, safe.frequencyMinutes)
+            putBoolean(KEY_VIBRATION, safe.enableVibration)
+            putBoolean(KEY_SOUND, safe.enableSound)
+            putString(KEY_SOUND_URI, safe.soundUri)
+            putBoolean(KEY_SMART_SKIP, safe.smartSkipEnabled)
+            putBoolean(KEY_BEHIND_NUDGE, safe.behindScheduleNudge)
             apply()
         }
     }
@@ -32,11 +39,11 @@ class WaterReminderPreferences(@ApplicationContext context: Context) {
     fun load(): WaterReminderSettings {
         return WaterReminderSettings(
             isEnabled = prefs.getBoolean(KEY_ENABLED, false),
-            startHour = prefs.getInt(KEY_START_HOUR, 8),
-            startMinute = prefs.getInt(KEY_START_MINUTE, 0),
-            endHour = prefs.getInt(KEY_END_HOUR, 22),
-            endMinute = prefs.getInt(KEY_END_MINUTE, 0),
-            frequencyMinutes = prefs.getInt(KEY_FREQUENCY, 60),
+            startHour = prefs.getInt(KEY_START_HOUR, 8).coerceIn(0, 23),
+            startMinute = prefs.getInt(KEY_START_MINUTE, 0).coerceIn(0, 59),
+            endHour = prefs.getInt(KEY_END_HOUR, 22).coerceIn(0, 23),
+            endMinute = prefs.getInt(KEY_END_MINUTE, 0).coerceIn(0, 59),
+            frequencyMinutes = prefs.getInt(KEY_FREQUENCY, 60).coerceIn(15, 240),
             enableVibration = prefs.getBoolean(KEY_VIBRATION, true),
             enableSound = prefs.getBoolean(KEY_SOUND, true),
             soundUri = prefs.getString(KEY_SOUND_URI, "default") ?: "default",

@@ -25,7 +25,7 @@ fun QuietHoursDialog(
     onToggle: (Boolean) -> Unit,
     onSetStart: (Int, Int) -> Unit,
     onSetEnd: (Int, Int) -> Unit,
-    onToggleEmergency: (Boolean) -> Unit,
+    onToggleHighPriority: (Boolean) -> Unit,
     onDismiss: () -> Unit
 ) {
     var showStartTimePicker by remember { mutableStateOf(false) }
@@ -113,7 +113,7 @@ fun QuietHoursDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Emergency Override
+                // High-priority reminder behavior
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -130,7 +130,7 @@ fun QuietHoursDialog(
                     }
                     Checkbox(
                         checked = quietHours.allowEmergencyOverride,
-                        onCheckedChange = onToggleEmergency,
+                        onCheckedChange = onToggleHighPriority,
                         enabled = quietHours.isEnabled
                     )
                 }

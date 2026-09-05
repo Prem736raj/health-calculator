@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,8 +52,8 @@ fun HydrationToolsScreen(
     onNavigateToElectrolytes: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-    val recentUrineColors by viewModel.recentUrineColors.collectAsState(initial = emptyList())
-    val latestUrineColor by viewModel.latestUrineColor.collectAsState()
+    val recentUrineColors by viewModel.recentUrineColors.collectAsStateWithLifecycle(initialValue = emptyList())
+    val latestUrineColor by viewModel.latestUrineColor.collectAsStateWithLifecycle()
 
     var selectedTab by remember { mutableIntStateOf(0) }
     var isVisible by remember { mutableStateOf(false) }

@@ -9,6 +9,7 @@ import android.graphics.*
 import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.FileProvider
 import com.health.calculator.bmi.tracker.data.local.entity.BloodPressureEntity
 import com.health.calculator.bmi.tracker.data.model.*
@@ -23,6 +24,8 @@ import java.time.format.DateTimeFormatter
 class BpExportManager(@ApplicationContext private val context: Context) {
 
     private val authority = "${context.packageName}.fileprovider"
+    private val exportDirectory: File
+        get() = File(context.cacheDir, "exports").apply { mkdirs() }
 
     companion object {
         private const val PDF_PAGE_WIDTH = 595 // A4
@@ -39,7 +42,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
     ): Uri? {
         try {
             val fileName = "bp_readings_${System.currentTimeMillis()}.csv"
-            val file = File(context.cacheDir, fileName)
+            val file = File(exportDirectory, fileName)
 
             FileWriter(file).use { writer ->
                 ExportDisclosurePolicy.csvMetadataRows().forEach { row ->
@@ -106,7 +109,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
 
             return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("BpExportManager", "Unable to create BP CSV export", e)
             return null
         }
     }
@@ -318,7 +321,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
 
             // Save
             val fileName = "bp_reading_${System.currentTimeMillis()}.png"
-            val file = File(context.cacheDir, fileName)
+            val file = File(exportDirectory, fileName)
             FileOutputStream(file).use { out ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
             }
@@ -326,7 +329,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
 
             return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("BpExportManager", "Unable to create BP image export", e)
             return null
         }
     }
@@ -662,7 +665,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
             // Save file
             val prefix = if (isDoctorReport) "bp_doctor_report" else "bp_report"
             val fileName = "${prefix}_${System.currentTimeMillis()}.pdf"
-            val file = File(context.cacheDir, fileName)
+            val file = File(exportDirectory, fileName)
             FileOutputStream(file).use { out ->
                 document.writeTo(out)
             }
@@ -670,7 +673,7 @@ class BpExportManager(@ApplicationContext private val context: Context) {
 
             return FileProvider.getUriForFile(context, authority, file)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("BpExportManager", "Unable to create BP PDF export", e)
             return null
         }
     }

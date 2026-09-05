@@ -461,21 +461,10 @@ private fun BpHeaderNote() {
 
 @Composable
 private fun EmergencyWarningBanner() {
-    val infiniteTransition = rememberInfiniteTransition(label = "emergency_pulse")
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.8f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse_alpha"
-    )
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFB71C1C).copy(alpha = pulseAlpha)
+            containerColor = MaterialTheme.colorScheme.errorContainer
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -487,7 +476,7 @@ private fun EmergencyWarningBanner() {
             Icon(
                 Icons.Filled.Warning,
                 contentDescription = null,
-                tint = Color.White,
+                tint = MaterialTheme.colorScheme.onErrorContainer,
                 modifier = Modifier.size(28.dp)
             )
             Column {
@@ -495,13 +484,13 @@ private fun EmergencyWarningBanner() {
                     stringResource(R.string.txt_emergency_reading_detected),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onErrorContainer
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     stringResource(R.string.txt_if_your_reading_is_above_180_1),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.9f)
+                    color = MaterialTheme.colorScheme.onErrorContainer
                 )
             }
         }

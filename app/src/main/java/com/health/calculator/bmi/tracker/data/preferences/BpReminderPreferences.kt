@@ -19,7 +19,7 @@ data class BpReminderSettings(
     val eveningReminderEnabled: Boolean = false,
     val eveningReminderHour: Int = 19,
     val eveningReminderMinute: Int = 0,
-    val customReminderMessage: String = "Time to check your blood pressure! 🩺",
+    val customReminderMessage: String = "Time to check your blood pressure",
     val doctorReminderEnabled: Boolean = false,
     val doctorReminderTimestamp: Long = 0L,
     val doctorReminderNote: String = "",
@@ -65,7 +65,7 @@ class BpReminderPreferences(@ApplicationContext private val context: Context) {
             eveningReminderHour = prefs[EVENING_REMINDER_HOUR] ?: 19,
             eveningReminderMinute = prefs[EVENING_REMINDER_MINUTE] ?: 0,
             customReminderMessage = prefs[CUSTOM_REMINDER_MESSAGE]
-                ?: "Time to check your blood pressure! 🩺",
+                ?: "Time to check your blood pressure",
             doctorReminderEnabled = prefs[DOCTOR_REMINDER_ENABLED] ?: false,
             doctorReminderTimestamp = prefs[DOCTOR_REMINDER_TIMESTAMP] ?: 0L,
             doctorReminderNote = prefs[DOCTOR_REMINDER_NOTE] ?: "",

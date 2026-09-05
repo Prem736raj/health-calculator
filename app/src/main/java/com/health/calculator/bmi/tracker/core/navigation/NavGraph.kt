@@ -21,7 +21,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -137,7 +137,7 @@ fun NavGraph(
     }
 
     // Track whether onboarding has been completed
-    val onboardingCompleted by app.onboardingCompletedFlow.collectAsState(initial = null)
+    val onboardingCompleted by app.onboardingCompletedFlow.collectAsStateWithLifecycle(initialValue = null)
 
     // Wait until we know the onboarding state before rendering
     if (onboardingCompleted == null) return
@@ -354,7 +354,7 @@ fun NavGraph(
 
         composable(route = Screen.Insights.route) {
             val insightsHomeViewModel: HomeViewModel = hiltViewModel()
-            val insightsHomeState by insightsHomeViewModel.uiState.collectAsState()
+            val insightsHomeState by insightsHomeViewModel.uiState.collectAsStateWithLifecycle()
             InsightsHubScreen(
                 onOpenWeeklyReport = { navController.navigate(Screen.WeeklyReport.route) { launchSingleTop = true } },
                 onOpenTrends = { navController.navigate(Screen.WeightTracking.route) { launchSingleTop = true } },
@@ -550,7 +550,7 @@ fun NavGraph(
 
         composable(route = Screen.HealthConnections.route) {
             val multiProfileViewModel: MultiProfileViewModel = hiltViewModel()
-            val state by multiProfileViewModel.uiState.collectAsState()
+            val state by multiProfileViewModel.uiState.collectAsStateWithLifecycle()
             
             HealthConnectionsScreen(
                 state = state,
@@ -611,7 +611,7 @@ fun NavGraph(
         }
         composable(route = Screen.BmrCalculator.route) {
             val profileViewModel: ProfileViewModel = hiltViewModel()
-            val profileState = profileViewModel.uiState.collectAsState().value
+            val profileState = profileViewModel.uiState.collectAsStateWithLifecycle().value
 
             BMRCalculatorScreen(
                 onNavigateBack = { navController.popBackStack() },
@@ -746,7 +746,7 @@ fun NavGraph(
                     viewModel.calculateResult(waist, hip, gender, age)
                 }
                 
-                val result by viewModel.result.collectAsState()
+                val result by viewModel.result.collectAsStateWithLifecycle()
                 
                 if (result != null) {
                     com.health.calculator.bmi.tracker.ui.screens.whr.WhrResultScreen(
@@ -904,7 +904,7 @@ fun NavGraph(
 
             // Auto-populate from profile if available
             val profileViewModel: ProfileViewModel = hiltViewModel()
-            val profileState = profileViewModel.uiState.collectAsState().value
+            val profileState = profileViewModel.uiState.collectAsStateWithLifecycle().value
             
             androidx.compose.runtime.LaunchedEffect(profileState) {
                 // Determine if metric based on weight unit
@@ -1010,10 +1010,10 @@ fun NavGraph(
             }
         ) {
             val profileViewModel: ProfileViewModel = hiltViewModel()
-            val profileState by profileViewModel.uiState.collectAsState()
+            val profileState by profileViewModel.uiState.collectAsStateWithLifecycle()
 
             val bpViewModel: BloodPressureViewModel = hiltViewModel()
-            val lastPulseReading by bpViewModel.lastPulseReading.collectAsState()
+            val lastPulseReading by bpViewModel.lastPulseReading.collectAsStateWithLifecycle()
 
             val historyViewModel: HistoryViewModel = hiltViewModel()
 
@@ -1076,8 +1076,8 @@ fun NavGraph(
         composable(route = Screen.CalorieHistory.route) {
             val foodLogViewModel: FoodLogViewModel = hiltViewModel()
             val calorieViewModel: CalorieViewModel = hiltViewModel()
-            val calUiState by calorieViewModel.uiState.collectAsState()
-            val foodLogUiState by foodLogViewModel.uiState.collectAsState()
+            val calUiState by calorieViewModel.uiState.collectAsStateWithLifecycle()
+            val foodLogUiState by foodLogViewModel.uiState.collectAsStateWithLifecycle()
             
             // Use current targets if available from calculator state, otherwise defaults
             val targetCal = calUiState.result?.safeGoalCalories ?: 2000.0

@@ -23,10 +23,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CompletableDeferred
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
@@ -77,6 +79,8 @@ class AiCoachViewModel @Inject constructor(
 
     private var lastRequestMillis: Long? = null
     private var lastFailedPrompt: String? = null
+    private val messagesLoaded = CompletableDeferred<Unit>()
+    private var activeRequest: Job? = null
 
     init {
         productAnalytics.track(
@@ -84,7 +88,14 @@ class AiCoachViewModel @Inject constructor(
             mapOf("entry_point" to "insights")
         )
         viewModelScope.launch {
-            chatDao.getAllMessages().collectLatest { entities ->
+            // Load the persisted conversation once. A live Room collector used
+            // to overwrite the transient streaming bubble whenever the user or
+            // assistant message was inserted, which could duplicate bubbles or
+            // reset partial streaming text. This screen is the sole writer;
+            // updates are applied explicitly below and remain process-safe via
+            // Room persistence.
+            try {
+                val entities = chatDao.getAllMessages().first()
                 if (entities.isEmpty()) {
                     val welcomeMsg = ChatMessage(context.getString(R.string.ai_coach_welcome), isUser = false)
                     _messages.value = listOf(welcomeMsg)
@@ -92,6 +103,8 @@ class AiCoachViewModel @Inject constructor(
                 } else {
                     _messages.value = entities.map { ChatMessage(it.text, it.isUser) }
                 }
+            } finally {
+                messagesLoaded.complete(Unit)
             }
         }
     }
@@ -113,10 +126,18 @@ class AiCoachViewModel @Inject constructor(
     }
 
     fun clearConversation() {
+        activeRequest?.cancel()
+        activeRequest = null
+        _isTyping.value = false
         viewModelScope.launch {
+            messagesLoaded.await()
             chatDao.clearHistory()
+            val welcomeMsg = ChatMessage(context.getString(R.string.ai_coach_welcome), isUser = false)
+            chatDao.insertMessage(ChatMessageEntity(text = welcomeMsg.text, isUser = false))
+            _messages.value = listOf(welcomeMsg)
             _notice.value = null
             _canRetry.value = false
+            lastFailedPrompt = null
         }
     }
 
@@ -138,13 +159,17 @@ class AiCoachViewModel @Inject constructor(
         _notice.value = null
         _canRetry.value = false
         lastFailedPrompt = null
+        // Reserve the in-flight slot before waiting for the initial Room load;
+        // two taps during startup must not create concurrent model requests.
+        _isTyping.value = true
 
-        viewModelScope.launch {
+        activeRequest = viewModelScope.launch {
+            messagesLoaded.await()
             chatDao.insertMessage(ChatMessageEntity(text = validation.normalizedText, isUser = true))
             
-            // The UI will update automatically because of collectLatest above, but we also want to show a loading bubble
+            // Keep the streaming bubble in UI state while the final response is
+            // written to Room, avoiding a second copy from a live collector.
             _messages.value = _messages.value + ChatMessage("", isUser = false, isLoading = true)
-            _isTyping.value = true
 
             try {
                 if (!geminiHelper.isNetworkAvailable()) {
@@ -179,6 +204,8 @@ class AiCoachViewModel @Inject constructor(
                 // Once stream finishes, save the final response to database
                 chatDao.insertMessage(ChatMessageEntity(text = safeResponse, isUser = false))
                 _canRetry.value = false
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: AiCoachException) {
                 lastFailedPrompt = validation.normalizedText
                 _notice.value = failureMessage(e.reason)

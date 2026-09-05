@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,10 +62,10 @@ fun WaterHistoryScreen(
     onNavigateBack: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-    val stats by viewModel.stats.collectAsState()
-    val dailyData by viewModel.dailyData.collectAsState()
-    val selectedDayLogs by viewModel.selectedDayLogs.collectAsState()
-    val weeklyReport by viewModel.weeklyReport.collectAsState()
+    val stats by viewModel.stats.collectAsStateWithLifecycle()
+    val dailyData by viewModel.dailyData.collectAsStateWithLifecycle()
+    val selectedDayLogs by viewModel.selectedDayLogs.collectAsStateWithLifecycle()
+    val weeklyReport by viewModel.weeklyReport.collectAsStateWithLifecycle()
 
     var selectedTab by remember { mutableIntStateOf(0) }
     var isVisible by remember { mutableStateOf(false) }

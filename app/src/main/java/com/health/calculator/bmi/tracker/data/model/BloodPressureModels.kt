@@ -65,14 +65,14 @@ enum class BpCategory(
     ),
     GRADE_1_HYPERTENSION(
         displayName = "Stage 2 range",
-        description = "140+ systolic or 90+ diastolic",
+        description = "140 or higher systolic or 90 or higher diastolic",
         systolicRange = "≥ 140",
         diastolicRange = "≥ 90",
         sortOrder = 5
     ),
     GRADE_2_HYPERTENSION(
         displayName = "Stage 2 range",
-        description = "140+ systolic or 90+ diastolic",
+        description = "Stage 2 reference range retained for older saved results",
         systolicRange = "≥ 140",
         diastolicRange = "≥ 90",
         sortOrder = 6
@@ -164,7 +164,7 @@ object BloodPressureCalculator {
     private fun categorizeSystolic(systolic: Int): BpCategory {
         return when {
             systolic >= 180 -> BpCategory.GRADE_3_HYPERTENSION
-            systolic >= 140 -> BpCategory.GRADE_2_HYPERTENSION
+            systolic >= 140 -> BpCategory.GRADE_1_HYPERTENSION
             systolic in 130..139 -> BpCategory.HIGH_NORMAL
             systolic in 120..129 -> BpCategory.NORMAL
             systolic >= 90 -> BpCategory.OPTIMAL
@@ -175,7 +175,7 @@ object BloodPressureCalculator {
     private fun categorizeDiastolic(diastolic: Int): BpCategory {
         return when {
             diastolic >= 120 -> BpCategory.GRADE_3_HYPERTENSION
-            diastolic >= 90 -> BpCategory.GRADE_2_HYPERTENSION
+            diastolic >= 90 -> BpCategory.GRADE_1_HYPERTENSION
             diastolic in 80..89 -> BpCategory.HIGH_NORMAL
             diastolic >= 60 -> BpCategory.OPTIMAL
             else -> BpCategory.HYPOTENSION
@@ -246,7 +246,6 @@ object BloodPressureCalculator {
         val dia = diastolic.toIntOrNull() ?: return null
         return when {
             sys <= dia -> "Systolic must be higher than diastolic"
-            sys == dia -> "Systolic and diastolic cannot be equal"
             sys - dia < 10 -> "The difference between systolic and diastolic seems too small. Please verify."
             else -> null
         }

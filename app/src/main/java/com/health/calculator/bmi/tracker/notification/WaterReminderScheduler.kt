@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
+import com.health.calculator.bmi.tracker.data.preferences.ReminderSchedulePolicy
 import com.health.calculator.bmi.tracker.receiver.WaterReminderReceiver
 import java.util.Calendar
 
@@ -46,7 +47,9 @@ class WaterReminderScheduler(@ApplicationContext private val context: Context) {
         )
 
         // Calculate next alarm time
-        val nextAlarmTime = calculateNextAlarmTime(settings)
+        val nextAlarmTime = ReminderSchedulePolicy
+            .nextWaterReminder(Calendar.getInstance(), settings)
+            .timeInMillis
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setAndAllowWhileIdle(
@@ -75,50 +78,5 @@ class WaterReminderScheduler(@ApplicationContext private val context: Context) {
         alarmManager.cancel(pendingIntent)
     }
 
-    private fun calculateNextAlarmTime(settings: WaterReminderSettings): Long {
-        val now = Calendar.getInstance()
-        val nextAlarm = Calendar.getInstance().apply {
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-
-        val currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
-        val startMinutes = settings.startHour * 60 + settings.startMinute
-        val endMinutes = settings.endHour * 60 + settings.endMinute
-        val frequencyMinutes = settings.frequencyMinutes.coerceAtLeast(1)
-
-        if (currentMinutes < startMinutes) {
-            // Before start time — schedule at start
-            nextAlarm.set(Calendar.HOUR_OF_DAY, settings.startHour)
-            nextAlarm.set(Calendar.MINUTE, settings.startMinute)
-        } else if (currentMinutes >= endMinutes) {
-            // After end time — schedule at start tomorrow
-            nextAlarm.add(Calendar.DAY_OF_YEAR, 1)
-            nextAlarm.set(Calendar.HOUR_OF_DAY, settings.startHour)
-            nextAlarm.set(Calendar.MINUTE, settings.startMinute)
-        } else {
-            // During active hours — schedule next interval
-            val minutesSinceStart = currentMinutes - startMinutes
-            val nextIntervalIndex = (minutesSinceStart / frequencyMinutes) + 1
-            val nextMinutes = startMinutes + (nextIntervalIndex * frequencyMinutes)
-
-            if (nextMinutes >= endMinutes) {
-                // Next would be after end — schedule tomorrow
-                nextAlarm.add(Calendar.DAY_OF_YEAR, 1)
-                nextAlarm.set(Calendar.HOUR_OF_DAY, settings.startHour)
-                nextAlarm.set(Calendar.MINUTE, settings.startMinute)
-            } else {
-                nextAlarm.set(Calendar.HOUR_OF_DAY, nextMinutes / 60)
-                nextAlarm.set(Calendar.MINUTE, nextMinutes % 60)
-            }
-        }
-
-        // Ensure it's in the future
-        if (nextAlarm.timeInMillis <= now.timeInMillis) {
-            nextAlarm.add(Calendar.MINUTE, frequencyMinutes)
-        }
-
-        return nextAlarm.timeInMillis
-    }
 }
 

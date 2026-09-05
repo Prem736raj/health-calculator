@@ -23,6 +23,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,9 +82,9 @@ fun WaterTrackingScreen(
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
 
-    val todayLogs by viewModel.todayLogs.collectAsState(initial = emptyList())
-    val todayTotal by viewModel.todayTotal.collectAsState(initial = 0)
-    val message by viewModel.message.collectAsState()
+    val todayLogs by viewModel.todayLogs.collectAsStateWithLifecycle(initialValue = emptyList())
+    val todayTotal by viewModel.todayTotal.collectAsStateWithLifecycle(initialValue = 0)
+    val message by viewModel.message.collectAsStateWithLifecycle()
     val goalMl = viewModel.dailyGoalMl
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -93,8 +95,8 @@ fun WaterTrackingScreen(
         }
     }
     
-    val streakData by gamificationViewModel.streakData.collectAsState(initial = null)
-    val todayScore by gamificationViewModel.todayScore.collectAsState()
+    val streakData by gamificationViewModel.streakData.collectAsStateWithLifecycle(initialValue = null)
+    val todayScore by gamificationViewModel.todayScore.collectAsStateWithLifecycle()
 
     val percentage = if (goalMl > 0) {
         ((todayTotal.toFloat() / goalMl) * 100).coerceAtMost(200f)
@@ -212,7 +214,7 @@ fun WaterTrackingScreen(
                             enter = fadeIn(tween(600)) + slideInVertically(tween(600)) { -30 }
                         ) {
                             val todayTotalVal = todayTotal
-                            val justWatered by viewModel.justWatered.collectAsState()
+                            val justWatered by viewModel.justWatered.collectAsStateWithLifecycle()
                             
                             // Initialize date key and update plant tracking
                             val currentDateKey = remember { SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(Date()) }
@@ -1166,9 +1168,9 @@ private fun CustomAmountDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int) -> Unit
 ) {
-    var amount by remember { mutableStateOf("") }
-    var note by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf<String?>(null) }
+    var amount by rememberSaveable { mutableStateOf("") }
+    var note by rememberSaveable { mutableStateOf("") }
+    var error by rememberSaveable { mutableStateOf<String?>(null) }
 
     AlertDialog(
         onDismissRequest = onDismiss,

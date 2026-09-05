@@ -52,7 +52,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -145,7 +145,7 @@ fun BmiCalculatorScreen(
     onNavigateToHistory: () -> Unit,
     viewModel: BmiViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val focusManager = LocalFocusManager.current
     val hapticManager = rememberHapticManager()
@@ -153,8 +153,8 @@ fun BmiCalculatorScreen(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val goalData by viewModel.bmiGoalState.collectAsState()
-    val goalSaveSuccess by viewModel.goalSaveSuccess.collectAsState()
+    val goalData by viewModel.bmiGoalState.collectAsStateWithLifecycle()
+    val goalSaveSuccess by viewModel.goalSaveSuccess.collectAsStateWithLifecycle()
 
     LaunchedEffect(goalSaveSuccess) {
         if (goalSaveSuccess) {
@@ -428,10 +428,10 @@ private fun BmiInputContent(
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
 
-    val useSliders by viewModel.useSliderInput.collectAsState()
-    val sliderWeightKg by viewModel.sliderWeightKg.collectAsState()
-    val sliderHeightCm by viewModel.sliderHeightCm.collectAsState()
-    val lastUsedInput by viewModel.lastUsedInput.collectAsState()
+    val useSliders by viewModel.useSliderInput.collectAsStateWithLifecycle()
+    val sliderWeightKg by viewModel.sliderWeightKg.collectAsStateWithLifecycle()
+    val sliderHeightCm by viewModel.sliderHeightCm.collectAsStateWithLifecycle()
+    val lastUsedInput by viewModel.lastUsedInput.collectAsStateWithLifecycle()
     
     val hapticManager = rememberHapticManager()
     

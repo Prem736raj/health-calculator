@@ -4,6 +4,7 @@ import javax.inject.Inject
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 import android.content.Context
+import android.util.Log
 import com.health.calculator.bmi.tracker.data.model.IBWHistoryEntry
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -90,7 +91,7 @@ class IBWHistoryRepository @Inject constructor(@ApplicationContext private val c
             }
             _entries.value = list
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("IBWHistoryRepository", "Unable to read saved IBW history", e)
         }
     }
 

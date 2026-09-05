@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,10 +56,10 @@ fun HeartRateZoneResultScreen(
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
 
-    var showResults by remember { mutableStateOf(false) }
-    var savedToHistory by remember { mutableStateOf(false) }
-    var expandedZoneIndex by remember { mutableIntStateOf(-1) }
-    var selectedGoalName by remember { mutableStateOf("") }
+    var showResults by rememberSaveable { mutableStateOf(false) }
+    var savedToHistory by rememberSaveable { mutableStateOf(false) }
+    var expandedZoneIndex by rememberSaveable { mutableIntStateOf(-1) }
+    var selectedGoalName by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         delay(200)

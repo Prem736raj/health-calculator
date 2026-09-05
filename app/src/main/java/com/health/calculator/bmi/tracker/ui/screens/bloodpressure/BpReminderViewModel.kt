@@ -22,7 +22,7 @@ data class BpReminderUiState(
     val eveningEnabled: Boolean = false,
     val eveningHour: Int = 19,
     val eveningMinute: Int = 0,
-    val reminderMessage: String = "Time to check your blood pressure! 🩺",
+    val reminderMessage: String = "Time to check your blood pressure",
     val doctorReminderSet: Boolean = false,
     val doctorReminderDateFormatted: String = "",
     val doctorNote: String = "",

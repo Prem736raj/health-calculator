@@ -56,6 +56,7 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Info
@@ -112,6 +113,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.model.UnitSystem
 import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectPermissionPolicy
@@ -139,7 +141,7 @@ fun SettingsScreen(
     onNavigateToDataManagement: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -169,6 +171,14 @@ fun SettingsScreen(
             scope.launch {
                 snackbarHostState.showSnackbar("Notifications remain off. You can enable access in Android Settings.")
             }
+        }
+    }
+
+    val requestNotificationPermissionIfNeeded = {
+        if (NotificationPermissionHelper.needsPermissionRequest() &&
+            !NotificationPermissionHelper.isNotificationPermissionGranted(context)
+        ) {
+            notificationPermissionLauncher.launch(NotificationPermissionHelper.getPermission())
         }
     }
 
@@ -288,7 +298,7 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     // ── GENERAL SECTION ───────────────────────────────────
-                    item { SectionHeader(title = "General", emoji = "⚙️") }
+                    item { SectionHeader(title = "General", icon = Icons.Filled.Settings) }
 
                     item {
                         SettingsCard {
@@ -326,7 +336,7 @@ fun SettingsScreen(
                     }
 
                     // ── WATER TRACKER SECTION ─────────────────────────────
-                    item { SectionHeader(title = "Water Tracker", emoji = "💧") }
+                    item { SectionHeader(title = "Water Tracker", icon = Icons.Outlined.WaterDrop) }
 
                     item {
                         SettingsCard {
@@ -349,7 +359,7 @@ fun SettingsScreen(
                     }
 
                     // ── NOTIFICATIONS SECTION ─────────────────────────────
-                    item { SectionHeader(title = "Notifications", emoji = "🔔") }
+                    item { SectionHeader(title = "Notifications", icon = Icons.Outlined.Notifications) }
 
                     item {
                         SettingsCard {
@@ -359,9 +369,16 @@ fun SettingsScreen(
                                 iconTint = if (uiState.remindersEnabled)
                                     SettingsAccent else MaterialTheme.colorScheme.onSurfaceVariant,
                                 title = "Enable Reminders",
-                                subtitle = "Master toggle for all notifications",
+                                subtitle = "Master toggle for water and weight reminders",
                                 checked = uiState.remindersEnabled,
-                                onCheckedChange = { viewModel.toggleReminders(it) }
+                                onCheckedChange = { enabled ->
+                                    viewModel.toggleReminders(enabled)
+                                    if (enabled &&
+                                        (uiState.waterReminderEnabled || uiState.weightReminderEnabled)
+                                    ) {
+                                        requestNotificationPermissionIfNeeded()
+                                    }
+                                }
                             )
 
                             // Sub-toggles (only interactive when master is on)
@@ -375,7 +392,10 @@ fun SettingsScreen(
                                         title = "Water Intake Reminder",
                                         subtitle = "Daily hydration reminders",
                                         checked = uiState.waterReminderEnabled,
-                                        onCheckedChange = { viewModel.toggleWaterReminder(it) },
+                                        onCheckedChange = { enabled ->
+                                            viewModel.toggleWaterReminder(enabled)
+                                            if (enabled) requestNotificationPermissionIfNeeded()
+                                        },
                                         enabled = uiState.remindersEnabled
                                     )
 
@@ -387,7 +407,10 @@ fun SettingsScreen(
                                         title = "Weight Tracking Reminder",
                                         subtitle = "Weekly weigh-in reminders",
                                         checked = uiState.weightReminderEnabled,
-                                        onCheckedChange = { viewModel.toggleWeightReminder(it) },
+                                        onCheckedChange = { enabled ->
+                                            viewModel.toggleWeightReminder(enabled)
+                                            if (enabled) requestNotificationPermissionIfNeeded()
+                                        },
                                     )
                                 }
                             }
@@ -396,8 +419,8 @@ fun SettingsScreen(
 
                             // Re-engagement & Streak Protection
                             val inactivityRepo = remember { InactivityRepository(context) }
-                            val inactivityState by inactivityRepo.getInactivityState().collectAsState(initial = com.health.calculator.bmi.tracker.data.models.InactivityState())
-                            val freezeCount by inactivityRepo.getStreakFreezeCount().collectAsState(initial = 1)
+                            val inactivityState by inactivityRepo.getInactivityState().collectAsStateWithLifecycle(initialValue = com.health.calculator.bmi.tracker.data.models.InactivityState())
+                            val freezeCount by inactivityRepo.getStreakFreezeCount().collectAsStateWithLifecycle(initialValue = 1)
 
                             InactivityNotificationSettings(
                                 inactivityEnabled = inactivityState.inactivityNotificationsEnabled,
@@ -438,7 +461,7 @@ fun SettingsScreen(
                     }
 
                     // ── DATA SECTION ──────────────────────────────────────
-                    item { SectionHeader(title = "Data Management", emoji = "💾") }
+                    item { SectionHeader(title = "Data Management", icon = Icons.Filled.Storage) }
 
                     item {
                         SettingsCard {
@@ -536,7 +559,7 @@ fun SettingsScreen(
                     }
 
                     // ── PRIVACY SECTION ───────────────────────────────────
-                    item { SectionHeader(title = "Privacy", emoji = "🔒") }
+                    item { SectionHeader(title = "Privacy", icon = Icons.Outlined.Shield) }
 
                     item {
                         SettingsCard {
@@ -566,7 +589,7 @@ fun SettingsScreen(
                     }
 
                     // ── ABOUT SECTION ─────────────────────────────────────
-                    item { SectionHeader(title = "About", emoji = "ℹ️") }
+                    item { SectionHeader(title = "About", icon = Icons.Outlined.Info) }
 
                     item {
                         val (versionName, versionCode) = remember(context) {
@@ -718,13 +741,18 @@ fun SettingsScreen(
 @Composable
 private fun SectionHeader(
     title: String,
-    emoji: String
+    icon: ImageVector
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = 16.dp, bottom = 4.dp, start = 4.dp)
     ) {
-        Text(text = emoji, fontSize = 18.sp)
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(20.dp)
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = title,

@@ -12,6 +12,7 @@ import com.health.calculator.bmi.tracker.data.model.WaterActivityLevel
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculator
 import com.health.calculator.bmi.tracker.data.model.ClimateType
 import com.health.calculator.bmi.tracker.data.model.HealthStatus
+import com.health.calculator.bmi.tracker.data.calculator.ReproductiveHealthPolicy
 import com.health.calculator.bmi.tracker.data.model.Gender
 import com.health.calculator.bmi.tracker.data.model.WhrCalculator
 import com.health.calculator.bmi.tracker.domain.usecase.CalorieCalculatorUseCase
@@ -65,8 +66,12 @@ class MedicalCalculatorAccuracyTest {
         assertEquals(BpCategory.NORMAL, BloodPressureCalculator.categorize(120, 79))
         assertEquals(BpCategory.HIGH_NORMAL, BloodPressureCalculator.categorize(130, 79))
         assertEquals(BpCategory.ISOLATED_SYSTOLIC, BloodPressureCalculator.categorize(140, 89))
+        assertEquals(BpCategory.GRADE_1_HYPERTENSION, BloodPressureCalculator.categorize(140, 90))
+        assertEquals(BpCategory.GRADE_1_HYPERTENSION, BloodPressureCalculator.categorize(159, 99))
         assertEquals(BpCategory.HYPERTENSIVE_CRISIS, BloodPressureCalculator.categorize(181, 79))
         assertTrue(BloodPressureCalculator.isEmergencyReading(179, 120))
+        assertEquals("Systolic must be higher than diastolic", BloodPressureCalculator.validateSystolicOverDiastolic("120", "120"))
+        assertEquals("The difference between systolic and diastolic seems too small. Please verify.", BloodPressureCalculator.validateSystolicOverDiastolic("120", "115"))
     }
 
     @Test
@@ -84,6 +89,15 @@ class MedicalCalculatorAccuracyTest {
         assertEquals(3000, WaterIntakeCalculator.beverageTargetMl("Male", WaterActivityLevel.SEDENTARY, ClimateType.TEMPERATE, HealthStatus.NORMAL))
         assertEquals(2200, WaterIntakeCalculator.beverageTargetMl("Female", WaterActivityLevel.SEDENTARY, ClimateType.TEMPERATE, HealthStatus.NORMAL))
         assertEquals(0, HealthStatus.ILLNESS.additionalMl)
+    }
+
+    @Test
+    fun reproductiveContextsDoNotCreateFalsePrecisionTargets() {
+        assertEquals(0, HealthStatus.PREGNANT.additionalMl)
+        assertEquals(0, HealthStatus.BREASTFEEDING.additionalMl)
+        assertTrue(ReproductiveHealthPolicy.disclaimerFor(HealthStatus.PREGNANT)!!.contains("does not personalize"))
+        assertTrue(ReproductiveHealthPolicy.disclaimerFor(HealthStatus.BREASTFEEDING)!!.contains("care team"))
+        assertNull(ReproductiveHealthPolicy.disclaimerFor(HealthStatus.NORMAL))
     }
 
     @Test

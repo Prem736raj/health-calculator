@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,9 +59,9 @@ fun WhrResultScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
-    var isSaved by remember { mutableStateOf(false) }
-    var showHeightDialog by remember { mutableStateOf(showHeightInput && result.heightCm == null) }
-    var heightInput by remember { mutableStateOf("") }
+    var isSaved by rememberSaveable { mutableStateOf(false) }
+    var showHeightDialog by rememberSaveable { mutableStateOf(showHeightInput && result.heightCm == null) }
+    var heightInput by rememberSaveable { mutableStateOf("") }
 
     // Animation
     val animationProgress = remember { Animatable(0f) }

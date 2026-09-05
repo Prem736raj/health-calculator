@@ -75,6 +75,12 @@ class BpNotificationHelper(@ApplicationContext private val context: Context) {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        if (timestamp <= System.currentTimeMillis()) {
+            // Also remove any previously scheduled appointment at this
+            // request code when a user edits it to a past time.
+            alarmManager.cancel(pendingIntent)
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -119,7 +125,7 @@ class BpNotificationHelper(@ApplicationContext private val context: Context) {
             }
         }
 
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -149,12 +155,15 @@ class BpReminderReceiver : BroadcastReceiver() {
 
         val type = intent.getStringExtra(BpNotificationHelper.EXTRA_NOTIFICATION_TYPE) ?: return
         val message = intent.getStringExtra(BpNotificationHelper.EXTRA_MESSAGE)
-            ?: "Time to check your blood pressure! 🩺"
+            ?.trim()
+            ?.take(160)
+            ?.ifBlank { null }
+            ?: "A blood-pressure check-in is scheduled."
 
         val (title, notificationId) = when (type) {
-            BpNotificationHelper.TYPE_MORNING -> "🌅 Morning BP Check" to BpNotificationHelper.MORNING_REMINDER_ID
-            BpNotificationHelper.TYPE_EVENING -> "🌆 Evening BP Check" to BpNotificationHelper.EVENING_REMINDER_ID
-            BpNotificationHelper.TYPE_DOCTOR -> "🏥 Doctor Appointment" to BpNotificationHelper.DOCTOR_REMINDER_ID
+            BpNotificationHelper.TYPE_MORNING -> "Morning blood-pressure check-in" to BpNotificationHelper.MORNING_REMINDER_ID
+            BpNotificationHelper.TYPE_EVENING -> "Evening blood-pressure check-in" to BpNotificationHelper.EVENING_REMINDER_ID
+            BpNotificationHelper.TYPE_DOCTOR -> "Appointment reminder" to BpNotificationHelper.DOCTOR_REMINDER_ID
             else -> "BP Reminder" to BpNotificationHelper.STREAK_REMINDER_ID
         }
 
@@ -172,26 +181,18 @@ class BpReminderReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, BpNotificationHelper.CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_menu_my_calendar)
+            .setSmallIcon(com.health.calculator.bmi.tracker.R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingOpenIntent)
             .setAutoCancel(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setVibrate(longArrayOf(0, 250, 250, 250))
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(notificationId, notification)
-    }
-}
-
-class BpBootReceiver : BroadcastReceiver() {
-    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            // Note: In a real app, you'd trigger a WorkManager job here to re-schedule
-            // based on DataStore settings. For simplicity in this prompt, it's a placeholder.
-        }
     }
 }
 

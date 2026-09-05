@@ -768,7 +768,8 @@ fun shareHeartRateZonesAsImage(
 
     // Save and share
     try {
-        val file = File(context.cacheDir, "heart_rate_zones.png")
+        val exportDirectory = File(context.cacheDir, "exports").apply { mkdirs() }
+        val file = File(exportDirectory, "heart_rate_zones.png")
         FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
         }

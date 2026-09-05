@@ -7,6 +7,7 @@ import com.health.calculator.bmi.tracker.core.util.launchAsync
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.WaterReminderSettings
 import com.health.calculator.bmi.tracker.data.preferences.WaterReminderPreferences
+import com.health.calculator.bmi.tracker.data.preferences.ReminderSchedulePolicy
 import com.health.calculator.bmi.tracker.notification.WaterNotificationHelper
 import com.health.calculator.bmi.tracker.notification.WaterReminderScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -72,12 +73,18 @@ class WaterReminderReceiver : BroadcastReceiver() {
                         isBehindSchedule = isBehind
                     )
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (_: Exception) {
+                // A reminder failure should not crash the receiver or expose
+                // private log data. The next occurrence is still restored.
             } finally {
                 // Every delivered reminder schedules the next occurrence, including
                 // smart-skipped reminders and recoverable failures.
-                WaterReminderScheduler(context).schedule(settings)
+                val latestSettings = WaterReminderPreferences(context).load()
+                if (latestSettings.isEnabled) {
+                    WaterReminderScheduler(context).schedule(latestSettings)
+                } else {
+                    WaterReminderScheduler(context).cancel()
+                }
             }
         }
     }
@@ -91,12 +98,9 @@ class WaterReminderReceiver : BroadcastReceiver() {
         val currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
         val startMinutes = settings.startHour * 60 + settings.startMinute
         val endMinutes = settings.endHour * 60 + settings.endMinute
-        val totalActiveMinutes = endMinutes - startMinutes
-
-        if (totalActiveMinutes <= 0) return false
-        if (currentMinutes < startMinutes || currentMinutes > endMinutes) return false
-
-        val elapsedMinutes = currentMinutes - startMinutes
+        val totalActiveMinutes = ReminderSchedulePolicy.windowDurationMinutes(startMinutes, endMinutes)
+        val elapsedMinutes = ReminderSchedulePolicy.elapsedInWindow(currentMinutes, startMinutes, endMinutes)
+            ?: return false
         val progressFraction = (elapsedMinutes.toFloat() / totalActiveMinutes).coerceIn(0f, 1f)
         val expectedMl = (goalMl * progressFraction).toInt()
         val deficit = expectedMl - currentMl

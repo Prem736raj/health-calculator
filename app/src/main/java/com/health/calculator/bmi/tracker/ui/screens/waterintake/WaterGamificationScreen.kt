@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -54,10 +55,10 @@ fun WaterGamificationScreen(
     onNavigateBack: () -> Unit
 ) {
     val haptic = LocalHapticFeedback.current
-    val earnedBadges by viewModel.earnedBadges.collectAsState(initial = emptyList())
-    val streakData by viewModel.streakData.collectAsState(initial = null)
-    val hydrationScore by viewModel.todayScore.collectAsState()
-    val newlyEarnedBadge by viewModel.newlyEarnedBadge.collectAsState()
+    val earnedBadges by viewModel.earnedBadges.collectAsStateWithLifecycle(initialValue = emptyList())
+    val streakData by viewModel.streakData.collectAsStateWithLifecycle(initialValue = null)
+    val hydrationScore by viewModel.todayScore.collectAsStateWithLifecycle()
+    val newlyEarnedBadge by viewModel.newlyEarnedBadge.collectAsStateWithLifecycle()
 
     var isVisible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { isVisible = true }

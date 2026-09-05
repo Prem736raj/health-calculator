@@ -50,8 +50,8 @@ class NotificationStatistics(@ApplicationContext context: Context) {
     }
 
     private fun incrementCategoryStat(category: String, type: String) {
-        val jsonStr = prefs.getString(KEY_CATEGORY_STATS, "{}")
-        val json = JSONObject(jsonStr)
+        val jsonStr = prefs.getString(KEY_CATEGORY_STATS, "{}") ?: "{}"
+        val json = runCatching { JSONObject(jsonStr) }.getOrElse { JSONObject() }
         
         val catJson = json.optJSONObject(category) ?: JSONObject()
         catJson.put(type, catJson.optInt(type, 0) + 1)

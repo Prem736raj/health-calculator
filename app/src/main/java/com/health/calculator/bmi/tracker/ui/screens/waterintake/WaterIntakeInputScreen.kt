@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.ClimateType
 import com.health.calculator.bmi.tracker.data.model.HealthStatus
+import com.health.calculator.bmi.tracker.data.calculator.ReproductiveHealthPolicy
 import com.health.calculator.bmi.tracker.data.model.WaterActivityLevel
 
 // Water-themed colors
@@ -572,25 +573,18 @@ private fun HealthStatusSection(
 ) {
     SectionCard(title = "Health Status", icon = "🩺") {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            val statusIcons = mapOf(
-                HealthStatus.NORMAL to "✅",
-                HealthStatus.PREGNANT to "🤰",
-                HealthStatus.BREASTFEEDING to "🤱",
-                HealthStatus.ILLNESS to "🤒"
-            )
-
             HealthStatus.entries.forEach { status ->
                 val isSelected = viewModel.selectedHealthStatus == status
                 SelectableOptionRow(
-                    text = "${statusIcons[status] ?: ""} ${status.displayName}",
+                    text = status.displayName,
                     selected = isSelected,
                     onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         viewModel.updateHealthStatus(status)
                     },
                     subtitle = when (status) {
-                        HealthStatus.PREGNANT -> "+300ml context adjustment"
-                        HealthStatus.BREASTFEEDING -> "+700ml context adjustment"
+                        HealthStatus.PREGNANT, HealthStatus.BREASTFEEDING ->
+                            ReproductiveHealthPolicy.NO_AUTOMATIC_ADJUSTMENT
                         HealthStatus.ILLNESS -> "No automatic adjustment — ask a clinician"
                         else -> null
                     }

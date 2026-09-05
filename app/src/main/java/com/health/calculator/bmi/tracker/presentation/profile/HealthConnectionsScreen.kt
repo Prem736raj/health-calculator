@@ -23,6 +23,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.health.connect.client.PermissionController
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +47,7 @@ fun HealthConnectionsScreen(
     onNavigateToCalculator: (String) -> Unit
 ) {
     val healthConnectViewModel: SettingsViewModel = hiltViewModel()
-    val healthConnectState by healthConnectViewModel.uiState.collectAsState()
+    val healthConnectState by healthConnectViewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = PermissionController.createRequestPermissionResultContract()

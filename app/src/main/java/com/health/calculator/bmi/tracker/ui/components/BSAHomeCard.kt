@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,7 @@ fun BSALastResult(
     val context = LocalContext.current
     val repository = remember { BSATrackingRepository(context) }
     // Get records as list and pick last
-    val records by repository.getRecordsFlow().collectAsState(initial = emptyList())
+    val records by repository.getRecordsFlow().collectAsStateWithLifecycle(initialValue = emptyList())
     val latestRecord = records.lastOrNull()
 
     if (latestRecord != null) {
