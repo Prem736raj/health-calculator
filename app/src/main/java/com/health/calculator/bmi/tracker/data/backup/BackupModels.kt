@@ -67,6 +67,7 @@ data class BackupState(
 )
 
 enum class RestoreMode(val label: String, val description: String) {
-    REPLACE("Replace", "Replace all current data with backup data"),
-    MERGE("Merge", "Add backup data to existing data (duplicates skipped)")
+    REPLACE("Replace history", "Replace current calculation history with the snapshot history"),
+    MERGE("Merge history", "Add snapshot history while skipping matching history entries")
 }
+

@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.work.*
 import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
+import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import com.health.calculator.bmi.tracker.data.model.ParsedHistoryEntry
 import com.health.calculator.bmi.tracker.data.model.toDisplayEntry
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.TimeUnit
+import java.util.Locale
 
 class BackupRepository(
     @ApplicationContext private val context: Context,
@@ -209,15 +211,14 @@ class BackupRepository(
             }
 
             if (result.success) {
-                // Apply the restored data
-                applyRestoreResult(result)
+                val restoredCount = applyRestoreResult(result)
 
                 _backupState.update {
                     it.copy(
                         isRestoring = false,
                         isComplete = true,
                         progress = 1f,
-                        statusMessage = "Restored ${result.entryCount} entries"
+                        statusMessage = "Restored $restoredCount history entries"
                     )
                 }
             } else {
@@ -279,17 +280,46 @@ class BackupRepository(
         }
     }
 
-    private suspend fun applyRestoreResult(result: RestoreResult) {
-        if (result.mode == RestoreMode.REPLACE) {
-            // Clear existing data first
+    private suspend fun applyRestoreResult(result: RestoreResult): Int {
+        val seen = if (result.mode == RestoreMode.REPLACE) {
             historyRepository.clearAllHistory()
+            mutableSetOf()
+        } else {
+            historyRepository.getAllEntries().first()
+                .mapTo(mutableSetOf()) { historySignature(it) }
         }
 
-        // Import history entries
+        var inserted = 0
         result.historyEntries.forEach { entry ->
-            historyRepository.insertParsedEntry(entry)
+            val signature = parsedSignature(entry)
+            if (seen.add(signature)) {
+                historyRepository.insertParsedEntry(entry)
+                inserted++
+            }
         }
+        return inserted
     }
+
+    private fun historySignature(entry: HistoryEntry): String = listOf(
+        entry.calculatorKey,
+        entry.timestamp.toString(),
+        normalizeNumber(entry.resultValue.toDoubleOrNull()),
+        entry.resultLabel.trim(),
+        entry.category.orEmpty().trim(),
+        entry.note.orEmpty().trim()
+    ).joinToString("|")
+
+    private fun parsedSignature(entry: ParsedHistoryEntry): String = listOf(
+        entry.calculatorKey,
+        entry.timestamp.toString(),
+        normalizeNumber(entry.primaryValue),
+        entry.primaryLabel.trim(),
+        entry.category.orEmpty().trim(),
+        entry.note.orEmpty().trim()
+    ).joinToString("|")
+
+    private fun normalizeNumber(value: Double?): String =
+        value?.takeIf { it.isFinite() }?.let { String.format(Locale.US, "%.6f", it) } ?: ""
 
     // === QR TRANSFER ===
 
@@ -352,3 +382,4 @@ class BackupRepository(
         _backupState.update { it.copy(availableBackups = localBackups) }
     }
 }
+

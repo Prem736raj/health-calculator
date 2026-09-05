@@ -9,11 +9,15 @@ import com.health.calculator.bmi.tracker.calculator.BSACalculator
 import com.health.calculator.bmi.tracker.calculator.BSAFormulaInfo
 import com.health.calculator.bmi.tracker.calculator.BSAResult
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
+import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
+import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
+import com.health.calculator.bmi.tracker.domain.model.Gender
 import com.health.calculator.bmi.tracker.data.model.HistoryEntry
 import com.health.calculator.bmi.tracker.data.export.ExportDisclosurePolicy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -53,6 +57,7 @@ class BSAViewModel @Inject constructor(application: Application) : AndroidViewMo
     val uiState: StateFlow<BSAUiState> = _uiState.asStateFlow()
 
     private val historyRepository = HistoryRepository(com.health.calculator.bmi.tracker.data.local.AppDatabase.getDatabase(application).historyDao())
+    private val profileRepository = ProfileRepository(ProfileDataStore(application.applicationContext))
     private val trackingRepository = com.health.calculator.bmi.tracker.data.BSATrackingRepository(application)
 
     init {
@@ -72,21 +77,22 @@ class BSAViewModel @Inject constructor(application: Application) : AndroidViewMo
     }
 
     private fun loadProfileData() {
-        val prefs = getApplication<Application>().getSharedPreferences("user_profile", android.content.Context.MODE_PRIVATE)
-        val profileWeight = prefs.getFloat("weight", -1f)
-        val profileHeight = prefs.getFloat("height", -1f)
-        val profileGender = prefs.getString("gender", null)
+        viewModelScope.launch {
+            val profile = profileRepository.getProfile().first()
+            val profileWeight = profile.weightKg?.takeIf { it > 0f }
+            val profileHeight = profile.heightCm?.takeIf { it > 0f }
 
-        _uiState.value = _uiState.value.copy(
-            weight = if (profileWeight > 0) "%.1f".format(profileWeight) else "",
-            height = if (profileHeight > 0) "%.1f".format(profileHeight) else "",
-            isFromProfile = profileWeight > 0 && profileHeight > 0,
-            isMale = when (profileGender) {
-                "MALE", "Male" -> true
-                "FEMALE", "Female" -> false
-                else -> null
-            }
-        )
+            _uiState.value = _uiState.value.copy(
+                weight = profileWeight?.let { "%.1f".format(it) } ?: "",
+                height = profileHeight?.let { "%.1f".format(it) } ?: "",
+                isFromProfile = profileWeight != null && profileHeight != null,
+                isMale = when (profile.gender) {
+                    Gender.MALE -> true
+                    Gender.FEMALE -> false
+                    Gender.NOT_SPECIFIED -> null
+                }
+            )
+        }
     }
 
     fun updateGender(isMale: Boolean) {
@@ -305,3 +311,4 @@ class BSAViewModel @Inject constructor(application: Application) : AndroidViewMo
         }
     }
 }
+

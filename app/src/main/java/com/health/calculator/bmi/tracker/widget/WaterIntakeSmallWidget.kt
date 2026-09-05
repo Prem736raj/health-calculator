@@ -1,16 +1,14 @@
 package com.health.calculator.bmi.tracker.widget
 
-import dagger.hilt.android.qualifiers.ApplicationContext
-
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Intent
-import com.health.calculator.bmi.tracker.data.WaterWidgetRepository
 import com.health.calculator.bmi.tracker.widget.core.PolishedWidgetUpdater
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 /**
- * Small (2x1) Water Intake Widget Provider
+ * Small (2x1) Water Intake Widget Provider.
+ * Mutating actions are handled by the non-exported WaterWidgetActionReceiver.
  */
 class WaterIntakeSmallWidget : AppWidgetProvider() {
 
@@ -24,27 +22,19 @@ class WaterIntakeSmallWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        // Delegate specific actions to central logic
-        when (intent.action) {
-            WaterWidgetActions.ACTION_ADD_GLASS -> {
-                WaterWidgetRepository.getInstance(context)
-                    .addWater(WaterWidgetActions.AMOUNT_GLASS_ML)
-                WidgetDataNotifier.notifyWaterChanged(context)
-            }
-            WaterWidgetActions.ACTION_REFRESH -> {
-                val manager = AppWidgetManager.getInstance(context)
-                onUpdate(context, manager, manager.getAppWidgetIds(
-                    android.content.ComponentName(context, WaterIntakeSmallWidget::class.java)
-                ))
-            }
-        }
-    }
-
     companion object {
-        fun updateWidget(@ApplicationContext context: Context, manager: AppWidgetManager, widgetId: Int) {
-            PolishedWidgetUpdater.updateWater(context, manager, widgetId, isMedium = false)
+        fun updateWidget(
+            @ApplicationContext context: Context,
+            manager: AppWidgetManager,
+            widgetId: Int
+        ) {
+            PolishedWidgetUpdater.updateWater(
+                context,
+                manager,
+                widgetId,
+                isMedium = false
+            )
         }
     }
 }
+

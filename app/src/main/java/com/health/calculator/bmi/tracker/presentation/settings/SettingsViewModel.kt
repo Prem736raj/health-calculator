@@ -14,6 +14,7 @@ import com.health.calculator.bmi.tracker.data.export.ExportConfig
 import com.health.calculator.bmi.tracker.data.export.ExportFormat
 import com.health.calculator.bmi.tracker.data.export.ExportScope
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
+import com.health.calculator.bmi.tracker.data.management.FullAppDataResetter
 import com.health.calculator.bmi.tracker.data.model.SettingsData
 import com.health.calculator.bmi.tracker.data.model.ThemeMode
 import com.health.calculator.bmi.tracker.data.model.UnitSystem
@@ -323,31 +324,15 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun confirmClearAllData() {
-        viewModelScope.launch {
-            val result = runCatching {
-                withContext(Dispatchers.IO) {
-                    appDatabase.clearAllTables()
-                }
-                profileRepository.clearProfile()
-                settingsRepository.clearSettings()
-            }
-
-            if (result.isSuccess) {
-                _uiState.update {
-                    it.copy(
-                        showClearAllDataDialog = false,
-                        showClearSuccessMessage = true
-                    )
-                }
-            } else {
-                _uiState.update {
-                    it.copy(
-                        showClearAllDataDialog = false,
-                        exportStatusMessage = "Failed to clear all data: ${result.exceptionOrNull()?.localizedMessage ?: "Unknown error"}"
-                    )
-                }
+        _uiState.update { it.copy(showClearAllDataDialog = false) }
+        val requested = FullAppDataResetter.request(appContext)
+        if (!requested) {
+            _uiState.update {
+                it.copy(exportStatusMessage = "Android could not start the full app-data reset. Please try again.")
             }
         }
+        // On success Android clears the complete private app data set and normally
+        // terminates this process, so no partial success state is shown here.
     }
 
     fun exportData() {
@@ -394,3 +379,4 @@ class SettingsViewModel @Inject constructor(
         _uiState.update { it.copy(exportStatusMessage = null) }
     }
 }
+

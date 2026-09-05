@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_background_large"
@@ -93,7 +94,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bmi" android:tint="@color/health_bmi_accent" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bmi" tools:ignore="UseAppTint" android:tint="@color/health_bmi_accent" />
                 <TextView android:id="@+id/bmi_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BMI" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -109,7 +110,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bp" android:tint="@color/health_bp_accent" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_bp" tools:ignore="UseAppTint" android:tint="@color/health_bp_accent" />
                 <TextView android:id="@+id/bp_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BP" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -125,7 +126,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_water" android:tint="@color/health_water_accent" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_water" tools:ignore="UseAppTint" android:tint="@color/health_water_accent" />
                 <TextView android:id="@+id/water_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Water" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -148,7 +149,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calories" android:tint="@color/health_cal_accent" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_calories" tools:ignore="UseAppTint" android:tint="@color/health_cal_accent" />
                 <TextView android:id="@+id/calories_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cals" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -164,7 +165,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" android:tint="#E91E63" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" tools:ignore="UseAppTint" android:tint="#E91E63" />
                 <TextView android:id="@+id/hr_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="HR" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>
@@ -180,7 +181,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" android:tint="#FF9800" />
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_streak" tools:ignore="UseAppTint" android:tint="#FF9800" />
                 <TextView android:id="@+id/streak_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--" android:textColor="@color/widget_text_primary" android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Streak" android:textColor="@color/widget_text_secondary" android:textSize="10sp" />
             </LinearLayout>

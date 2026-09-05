@@ -3,22 +3,18 @@ package com.health.calculator.bmi.tracker.notifications
 
 import dagger.hilt.android.qualifiers.ApplicationContext
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import com.health.calculator.bmi.tracker.HealthCalculatorApp
+import com.health.calculator.bmi.tracker.core.util.launchAsync
 import com.health.calculator.bmi.tracker.data.models.QuietHours
 import com.health.calculator.bmi.tracker.data.models.ReminderCategory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class ReminderBroadcastReceiver : BroadcastReceiver() {
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val reminderId = intent.getStringExtra(ReminderScheduler.EXTRA_REMINDER_ID) ?: return
@@ -37,16 +33,16 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
         val contentBuilder = SmartNotificationContentBuilder(context)
         val notificationBuilder = EnhancedNotificationBuilder(context)
 
-        scope.launch {
-            val reminder = repository.getReminderById(reminderId) ?: return@launch
-            if (!reminder.isEnabled) return@launch
+        launchAsync {
+            val reminder = repository.getReminderById(reminderId) ?: return@launchAsync
+            if (!reminder.isEnabled) return@launchAsync
 
             // 1. Check Quiet Hours
             val quietHours = repository.getQuietHours()
             val now = Calendar.getInstance()
             if (quietHours.isEnabled && quietHours.isInQuietPeriod(now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE))) {
                 if (!(reminder.isHighPriority && quietHours.allowEmergencyOverride)) {
-                    return@launch
+                    return@launchAsync
                 }
             }
 
@@ -54,7 +50,7 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
             val rateLimitResult = rateLimiter.shouldSendNotification(reminder.isHighPriority, reminder.category)
             if (!rateLimitResult.allowed) {
                 // Log reason for debugging but don't show
-                return@launch
+                return@launchAsync
             }
 
             // 3. Gather Context Data
@@ -74,8 +70,10 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
                 data = contextData
             )
 
-            // 5. Show Notification
+            // 5. Show Notification only when Android notification permission is available.
+            if (!NotificationPermission.canPost(context)) return@launchAsync
             val notification = notificationBuilder.buildNotification(reminder, content)
+            @SuppressLint("MissingPermission")
             NotificationManagerCompat.from(context).notify(reminder.id.hashCode(), notification)
 
             // 6. Record Stats & Rate Limit
@@ -92,3 +90,4 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
         }
     }
 }
+

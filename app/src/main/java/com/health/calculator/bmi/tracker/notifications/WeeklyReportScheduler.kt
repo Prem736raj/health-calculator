@@ -11,9 +11,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.health.calculator.bmi.tracker.core.util.launchAsync
 import java.util.Calendar
 
 class WeeklyReportScheduler @javax.inject.Inject constructor(@ApplicationContext private val context: Context) {
@@ -101,9 +99,11 @@ class WeeklyReportScheduler @javax.inject.Inject constructor(@ApplicationContext
 
 class WeeklyReportReceiver : BroadcastReceiver() {
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
+        launchAsync {
             val prefs = context.getSharedPreferences("weekly_report_prefs", Context.MODE_PRIVATE)
-            if (!prefs.getBoolean("report_enabled", false)) return@launch
+            if (!prefs.getBoolean("report_enabled", false)) return@launchAsync
+
+            if (!NotificationPermission.canPost(context)) return@launchAsync
 
             NotificationChannelsManager.createAllChannels(context)
 
@@ -157,3 +157,4 @@ class WeeklyReportReceiver : BroadcastReceiver() {
         const val NOTIFICATION_ID = 8001
     }
 }
+

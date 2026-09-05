@@ -85,6 +85,7 @@ class WaterReminderScheduler(@ApplicationContext private val context: Context) {
         val currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE)
         val startMinutes = settings.startHour * 60 + settings.startMinute
         val endMinutes = settings.endHour * 60 + settings.endMinute
+        val frequencyMinutes = settings.frequencyMinutes.coerceAtLeast(1)
 
         if (currentMinutes < startMinutes) {
             // Before start time — schedule at start
@@ -98,8 +99,8 @@ class WaterReminderScheduler(@ApplicationContext private val context: Context) {
         } else {
             // During active hours — schedule next interval
             val minutesSinceStart = currentMinutes - startMinutes
-            val nextIntervalIndex = (minutesSinceStart / settings.frequencyMinutes) + 1
-            val nextMinutes = startMinutes + (nextIntervalIndex * settings.frequencyMinutes)
+            val nextIntervalIndex = (minutesSinceStart / frequencyMinutes) + 1
+            val nextMinutes = startMinutes + (nextIntervalIndex * frequencyMinutes)
 
             if (nextMinutes >= endMinutes) {
                 // Next would be after end — schedule tomorrow
@@ -114,9 +115,10 @@ class WaterReminderScheduler(@ApplicationContext private val context: Context) {
 
         // Ensure it's in the future
         if (nextAlarm.timeInMillis <= now.timeInMillis) {
-            nextAlarm.add(Calendar.MINUTE, settings.frequencyMinutes)
+            nextAlarm.add(Calendar.MINUTE, frequencyMinutes)
         }
 
         return nextAlarm.timeInMillis
     }
 }
+

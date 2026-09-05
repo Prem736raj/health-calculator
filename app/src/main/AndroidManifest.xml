@@ -71,6 +71,27 @@
             android:name=".notifications.WeeklyReportReceiver"
             android:exported="false" />
 
+        <!-- Explicit alarm/action receivers used by reminder and widget PendingIntents. -->
+        <receiver
+            android:name=".notification.BpReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".notifications.WeightReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receiver.WaterReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receiver.WaterQuickLogReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".widget.WaterWidgetActionReceiver"
+            android:exported="false" />
+
         <receiver
             android:name=".notifications.QuickActionReceiver"
             android:exported="false">
@@ -97,9 +118,6 @@
             android:label="@string/widget_water_small_description">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_GLASS" />
-                <action android:name="com.health.calculator.bmi.tracker.WIDGET_REFRESH" />
-                <action android:name="com.health.calculator.bmi.tracker.MIDNIGHT_RESET" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -112,10 +130,6 @@
             android:label="@string/widget_water_medium_description">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_GLASS" />
-                <action android:name="com.health.calculator.bmi.tracker.WIDGET_ADD_BOTTLE" />
-                <action android:name="com.health.calculator.bmi.tracker.WIDGET_REFRESH" />
-                <action android:name="com.health.calculator.bmi.tracker.MIDNIGHT_RESET" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -253,3 +267,4 @@
     </application>
 
 </manifest>
+

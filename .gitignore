@@ -50,3 +50,4 @@ dependencies.txt
 extracted_strings.xml
 logs.txt
 *.ps1
+scratch/

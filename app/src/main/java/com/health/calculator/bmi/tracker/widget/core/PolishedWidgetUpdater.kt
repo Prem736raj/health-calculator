@@ -105,7 +105,7 @@ object PolishedWidgetUpdater {
     }
 
     private fun buildActionIntent(@ApplicationContext context: Context, action: String, widgetId: Int, code: Int): PendingIntent {
-        val intent = Intent(context, WaterIntakeSmallWidget::class.java).apply {
+        val intent = Intent(context, WaterWidgetActionReceiver::class.java).apply {
             this.action = action
         }
         return PendingIntent.getBroadcast(context, widgetId + code, intent, 
@@ -305,3 +305,4 @@ object PolishedWidgetUpdater {
         }
     }
 }
+

@@ -3,17 +3,12 @@ package com.health.calculator.bmi.tracker.ui.screens.backup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import android.app.Application
-import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.health.calculator.bmi.tracker.data.backup.*
-import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
-import com.health.calculator.bmi.tracker.data.datastore.SettingsDataStore
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.*
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
-import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
-import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -22,8 +17,6 @@ class BackupViewModel @Inject constructor(application: Application) : AndroidVie
 
     private val database = AppDatabase.getDatabase(application)
     private val historyRepository = HistoryRepository(database.historyDao())
-    private val profileRepository = ProfileRepository(ProfileDataStore(application.applicationContext))
-    private val settingsRepository = SettingsRepository(SettingsDataStore(application.applicationContext))
     
     private val localBackupManager = LocalBackupManager.getInstance(application)
     private val googleDriveManager = GoogleDriveBackupManager.getInstance(application)
@@ -44,27 +37,14 @@ class BackupViewModel @Inject constructor(application: Application) : AndroidVie
     fun createLocalBackup() {
         viewModelScope.launch {
             val entries = historyRepository.getAllEntries().first().map { it.toDisplayEntry() }
-            val profileData = buildProfileDataMap()
-            val settingsData = buildSettingsDataMap()
-            val achievementsData = buildAchievementsMap()
-            repository.createLocalBackup(
-                entries = entries,
-                profileData = profileData,
-                settingsData = settingsData,
-                achievementsData = achievementsData
-            )
+            repository.createLocalBackup(entries = entries)
         }
     }
 
     fun backupToGoogleDrive() {
         viewModelScope.launch {
             val entries = historyRepository.getAllEntries().first().map { it.toDisplayEntry() }
-            repository.backupToGoogleDrive(
-                entries = entries,
-                profileData = buildProfileDataMap(),
-                settingsData = buildSettingsDataMap(),
-                achievementsData = buildAchievementsMap()
-            )
+repository.backupToGoogleDrive(entries = entries)
         }
     }
 
@@ -194,53 +174,5 @@ class BackupViewModel @Inject constructor(application: Application) : AndroidVie
         }
     }
 
-    fun restoreFromFile(uri: Uri, mode: RestoreMode = RestoreMode.MERGE) {
-        viewModelScope.launch {
-            _restoreMode.value = mode
-            repository.restoreFromLocal(uri, mode)
-        }
-    }
-
-    private suspend fun buildProfileDataMap(): Map<String, String> {
-        val profile = profileRepository.getProfile().first()
-        return buildMap {
-            put("name", profile.name)
-            put("profilePictureUri", profile.profilePictureUri ?: "")
-            put("dateOfBirthMillis", (profile.dateOfBirthMillis ?: 0L).toString())
-            put("gender", profile.gender.name)
-            put("heightCm", (profile.heightCm ?: 0f).toString())
-            put("weightKg", (profile.weightKg ?: 0f).toString())
-            put("goalWeightKg", (profile.goalWeightKg ?: 0f).toString())
-            put("activityLevel", profile.activityLevel.name)
-            put("healthGoals", profile.healthGoals.joinToString(",") { it.name })
-            put("frameSize", profile.frameSize.name)
-            put("ethnicityRegion", profile.ethnicityRegion.name)
-            put("useMetricSystem", profile.useMetricSystem.toString())
-        }
-    }
-
-    private suspend fun buildSettingsDataMap(): Map<String, String> {
-        val settings = settingsRepository.settingsFlow.first()
-        return buildMap {
-            put("unitSystem", settings.unitSystem.name)
-            put("themeMode", settings.themeMode.name)
-            put("remindersEnabled", settings.remindersEnabled.toString())
-            put("waterReminderEnabled", settings.waterReminderEnabled.toString())
-            put("weightReminderEnabled", settings.weightReminderEnabled.toString())
-            put("lastUpdatedMillis", settings.lastUpdatedMillis.toString())
-        }
-    }
-
-    private suspend fun buildAchievementsMap(): Map<String, Any> {
-        val earnedBadges = database.waterGamificationDao().getAllEarnedBadges().first()
-        val currentStreak = database.waterGamificationDao().observeStreakData().first()
-        val personalRecords = database.milestonesDao().getAllRecords().first()
-        val milestones = database.milestonesDao().getAllMilestones().first()
-        return buildMap {
-            put("earnedBadgesCount", earnedBadges.size)
-            put("currentStreakDays", currentStreak?.currentStreak ?: 0)
-            put("personalRecordsCount", personalRecords.size)
-            put("milestonesCount", milestones.size)
-        }
-    }
 }
+

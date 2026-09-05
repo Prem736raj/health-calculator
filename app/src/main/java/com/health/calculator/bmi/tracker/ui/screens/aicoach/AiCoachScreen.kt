@@ -1,5 +1,6 @@
 package com.health.calculator.bmi.tracker.ui.screens.aicoach
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -325,45 +326,53 @@ fun MessageBubble(message: ChatMessage) {
             }
         }
 
-        // Extract first URL for a dedicated action button
-        val firstUrl = remember(message.text) {
-            val matcher = java.util.regex.Pattern.compile("(ht|f)tp(s?):\\/\\/[^\\s]+").matcher(message.text)
-            if (matcher.find()) matcher.group() else null
-        }
-        
+        // Only surface secure HTTPS links from model output.
+        val firstUrl = remember(message.text) { extractSafeHttpsUrl(message.text) }
+
         if (firstUrl != null && !message.isUser) {
             Spacer(modifier = Modifier.height(4.dp))
             OutlinedButton(
                 onClick = { uriHandler.openUri(firstUrl) },
-                modifier = Modifier.height(32.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                modifier = Modifier.heightIn(min = 48.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text("Open Link", style = MaterialTheme.typography.labelSmall)
+                Text("Open secure link", style = MaterialTheme.typography.labelLarge)
             }
         }
     }
 }
 
+private fun extractSafeHttpsUrl(text: String): String? {
+    val matcher = Regex("https://[^\\s]+", RegexOption.IGNORE_CASE).findAll(text)
+    return matcher.map { it.value.trimEnd('.', ',', ';', ':', '!', '?', ')', ']', '}') }
+        .firstOrNull { candidate ->
+            runCatching {
+                val uri = Uri.parse(candidate)
+                uri.scheme.equals("https", ignoreCase = true) && !uri.host.isNullOrBlank()
+            }.getOrDefault(false)
+        }
+}
+
 @OptIn(androidx.compose.ui.text.ExperimentalTextApi::class)
 fun buildAnnotatedStringWithLinks(text: String) = buildAnnotatedString {
     append(text)
-    val urlPattern = java.util.regex.Pattern.compile(
-        "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" +
-        "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*" +
-        "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
-        java.util.regex.Pattern.CASE_INSENSITIVE
-    )
-    val matcher = urlPattern.matcher(text)
-    
-    while (matcher.find()) {
-        val matchStart = matcher.start(1)
-        val matchEnd = matcher.end()
-        val url = text.substring(matchStart, matchEnd)
-        addUrlAnnotation(UrlAnnotation(url), start = matchStart, end = matchEnd)
-        addStyle(
-            style = SpanStyle(textDecoration = TextDecoration.Underline),
-            start = matchStart,
-            end = matchEnd
-        )
+    Regex("https://[^\\s]+", RegexOption.IGNORE_CASE).findAll(text).forEach { match ->
+        val raw = match.value
+        val url = raw.trimEnd('.', ',', ';', ':', '!', '?', ')', ']', '}')
+        val isSafe = runCatching {
+            val uri = Uri.parse(url)
+            uri.scheme.equals("https", ignoreCase = true) && !uri.host.isNullOrBlank()
+        }.getOrDefault(false)
+        if (isSafe) {
+            val matchStart = match.range.first
+            val matchEnd = matchStart + url.length
+            addUrlAnnotation(UrlAnnotation(url), start = matchStart, end = matchEnd)
+            addStyle(
+                style = SpanStyle(textDecoration = TextDecoration.Underline),
+                start = matchStart,
+                end = matchEnd
+            )
+        }
     }
 }
+

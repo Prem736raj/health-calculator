@@ -12,12 +12,10 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.core.util.launchAsync
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class StreakProtectionScheduler(@ApplicationContext private val context: Context) {
@@ -65,14 +63,14 @@ class StreakProtectionScheduler(@ApplicationContext private val context: Context
 class StreakProtectionReceiver : BroadcastReceiver() {
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
+        launchAsync {
             val engagementState = runCatching {
                 InactivityRepository(context).getInactivityState().first()
-            }.getOrNull() ?: return@launch
+            }.getOrNull() ?: return@launchAsync
 
             // The Settings toggle is the source of truth. A streak reminder is
             // never allowed to become a background high-priority notification.
-            if (!engagementState.streakProtectionEnabled) return@launch
+            if (!engagementState.streakProtectionEnabled) return@launchAsync
 
             val prefs = context.getSharedPreferences("streak_protection_prefs", Context.MODE_PRIVATE)
 
@@ -85,11 +83,13 @@ class StreakProtectionReceiver : BroadcastReceiver() {
             val hasStreakAtRisk = (currentWaterStreak > 2 && !waterLoggedToday) ||
                     (currentTrackingStreak > 2 && !anyActivityToday)
 
-            if (!hasStreakAtRisk) return@launch
+            if (!hasStreakAtRisk) return@launchAsync
 
             // Rate limit
             val rateLimiter = NotificationRateLimiter(context)
-            if (!rateLimiter.shouldSendNotification(false, "STREAK_PROTECTION").allowed) return@launch
+            if (!rateLimiter.shouldSendNotification(false, "STREAK_PROTECTION").allowed) return@launchAsync
+
+            if (!NotificationPermission.canPost(context)) return@launchAsync
 
             sendStreakProtectionNotification(
                 context,
@@ -187,3 +187,4 @@ class StreakProtectionReceiver : BroadcastReceiver() {
         const val NOTIFICATION_ID = 9110
     }
 }
+

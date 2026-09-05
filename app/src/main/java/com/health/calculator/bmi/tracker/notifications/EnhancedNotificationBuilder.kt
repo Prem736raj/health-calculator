@@ -98,9 +98,11 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
                 )
             }
             ReminderCategory.CALORIE_LOGGING -> {
+                // Never fabricate a calorie value from a notification action.
+                // Open the actual food log so the user records what they ate.
                 builder.addAction(
-                    0, "Log Meal",
-                    getQuickActionPendingIntent(reminder, "LOG_MEAL", "")
+                    0, "Open Food Log",
+                    getRoutePendingIntent(reminder, "food_log")
                 )
             }
             ReminderCategory.BLOOD_PRESSURE, ReminderCategory.WEIGHT_CHECK -> {
@@ -110,13 +112,11 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
                 )
             }
             ReminderCategory.MEDICATION -> {
+                // Medication adherence is not persisted by this app. Avoid actions
+                // that falsely claim a dose was recorded.
                 builder.addAction(
-                    0, "Taken",
-                    getQuickActionPendingIntent(reminder, "MED_TAKEN", "")
-                )
-                builder.addAction(
-                    0, "Skip",
-                    getQuickActionPendingIntent(reminder, "MED_SKIP", "")
+                    0, "Open Reminder",
+                    getMainPendingIntent(reminder)
                 )
             }
             else -> {}
@@ -150,6 +150,19 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
         )
     }
 
+
+    private fun getRoutePendingIntent(reminder: Reminder, route: String): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            data = Uri.parse("healthapp://navigate/$route")
+        }
+        return PendingIntent.getActivity(
+            context,
+            reminder.id.hashCode() + route.hashCode(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
     private fun getMainPendingIntent(reminder: Reminder): PendingIntent {
         val intent = Intent(context, MainActivity::class.java).apply {
             data = Uri.parse("healthapp://navigate/${reminder.navigateRoute ?: "reminders"}")
@@ -162,3 +175,4 @@ class EnhancedNotificationBuilder(@ApplicationContext private val context: Conte
         )
     }
 }
+

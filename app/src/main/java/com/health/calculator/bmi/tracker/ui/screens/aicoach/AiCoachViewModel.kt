@@ -153,11 +153,16 @@ class AiCoachViewModel @Inject constructor(
                         reason = AiCoachFailureReason.NETWORK
                     )
                 }
+                val priorMessages = _messages.value
+                    .filter { !it.isLoading && it.text.isNotBlank() }
+                    .takeLast(6)
+                    .map { it.isUser to it.text }
+
                 val prompt = if (isContextSharingEnabled.value) {
                     val optionalContext = buildOptionalContext()
-                    AiPromptPolicy.buildModelPrompt(validation.normalizedText, optionalContext)
+                    AiPromptPolicy.buildModelPrompt(validation.normalizedText, optionalContext, priorMessages)
                 } else {
-                    AiPromptPolicy.buildModelPrompt(validation.normalizedText)
+                    AiPromptPolicy.buildModelPrompt(validation.normalizedText, recentDialogue = priorMessages)
                 }
                 var responseText = ""
                 geminiHelper.generateContentStream(prompt).collect { chunk ->

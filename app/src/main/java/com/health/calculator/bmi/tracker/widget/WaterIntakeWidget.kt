@@ -15,6 +15,7 @@ import android.widget.RemoteViews
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.data.WaterWidgetRepository
+import com.health.calculator.bmi.tracker.core.util.launchAsync
 import java.util.Calendar
 
 class WaterIntakeWidget : AppWidgetProvider() {
@@ -49,13 +50,16 @@ class WaterIntakeWidget : AppWidgetProvider() {
         val mediumComponent = ComponentName(context, WaterIntakeMediumWidget::class.java)
 
         when (intent.action) {
-            WaterWidgetActions.ACTION_ADD_GLASS -> {
-                repo.addWater(WaterWidgetActions.AMOUNT_GLASS_ML)
-                refreshAllWidgets(context, appWidgetManager, smallComponent, mediumComponent)
-            }
-            WaterWidgetActions.ACTION_ADD_BOTTLE -> {
-                repo.addWater(WaterWidgetActions.AMOUNT_BOTTLE_ML)
-                refreshAllWidgets(context, appWidgetManager, smallComponent, mediumComponent)
+            WaterWidgetActions.ACTION_ADD_GLASS, WaterWidgetActions.ACTION_ADD_BOTTLE -> {
+                val amountMl = if (intent.action == WaterWidgetActions.ACTION_ADD_BOTTLE) {
+                    WaterWidgetActions.AMOUNT_BOTTLE_ML
+                } else {
+                    WaterWidgetActions.AMOUNT_GLASS_ML
+                }
+                launchAsync {
+                    repo.addWaterPersisted(amountMl)
+                    refreshAllWidgets(context, appWidgetManager, smallComponent, mediumComponent)
+                }
             }
             WaterWidgetActions.ACTION_REFRESH -> {
                 refreshAllWidgets(context, appWidgetManager, smallComponent, mediumComponent)
@@ -241,7 +245,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_medium_root, openPending)
 
             // +Glass button - add 250ml without opening app
-            val glassIntent = Intent(context, WaterIntakeWidget::class.java).apply {
+            val glassIntent = Intent(context, WaterWidgetActionReceiver::class.java).apply {
                 action = WaterWidgetActions.ACTION_ADD_GLASS
             }
             val glassPending = PendingIntent.getBroadcast(
@@ -253,7 +257,7 @@ class WaterIntakeWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.btn_add_glass, glassPending)
 
             // +Bottle button - add 500ml without opening app
-            val bottleIntent = Intent(context, WaterIntakeWidget::class.java).apply {
+            val bottleIntent = Intent(context, WaterWidgetActionReceiver::class.java).apply {
                 action = WaterWidgetActions.ACTION_ADD_BOTTLE
             }
             val bottlePending = PendingIntent.getBroadcast(
@@ -342,3 +346,4 @@ class WaterIntakeWidget : AppWidgetProvider() {
         }
     }
 }
+

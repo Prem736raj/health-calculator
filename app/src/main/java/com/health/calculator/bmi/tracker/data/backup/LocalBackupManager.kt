@@ -225,18 +225,37 @@ class LocalBackupManager(
 
     fun getLocalBackups(): List<BackupMetadata> {
         return backupDir.listFiles()
-            ?.filter { it.extension == "hcb" }
-            ?.map { file ->
-                BackupMetadata(
-                    id = file.name,
-                    fileName = file.name,
-                    timestamp = file.lastModified(),
-                    sizeBytes = file.length(),
-                    source = BackupSource.LOCAL
-                )
-            }
+            ?.filter { it.isFile && it.extension.equals("hcb", ignoreCase = true) }
+            ?.map { file -> readBackupMetadata(file) }
             ?.sortedByDescending { it.timestamp }
             ?: emptyList()
+    }
+
+    private fun readBackupMetadata(file: File): BackupMetadata {
+        val fallback = BackupMetadata(
+            id = file.name,
+            fileName = file.name,
+            timestamp = file.lastModified(),
+            sizeBytes = file.length(),
+            source = BackupSource.LOCAL
+        )
+
+        return runCatching {
+            val decrypted = BackupEncryption.decrypt(file.readBytes())
+            val json = JSONObject(String(decrypted, Charsets.UTF_8))
+            BackupMetadata(
+                id = file.name,
+                fileName = file.name,
+                timestamp = json.optLong("created_at", file.lastModified()),
+                sizeBytes = file.length(),
+                version = json.optInt("backup_version", BackupMetadata.BACKUP_VERSION),
+                entryCount = json.optInt("entry_count", 0),
+                hasProfile = (json.optJSONObject("profile")?.length() ?: 0) > 0,
+                hasSettings = (json.optJSONObject("settings")?.length() ?: 0) > 0,
+                hasAchievements = (json.optJSONObject("achievements")?.length() ?: 0) > 0,
+                source = BackupSource.LOCAL
+            )
+        }.getOrElse { fallback }
     }
 
     fun deleteBackup(fileName: String) {
@@ -265,3 +284,4 @@ data class RestoreResult(
     val entryCount: Int = 0,
     val mode: RestoreMode = RestoreMode.REPLACE
 )
+

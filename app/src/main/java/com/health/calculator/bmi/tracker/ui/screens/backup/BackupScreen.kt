@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.health.calculator.bmi.tracker.data.backup.*
 import kotlinx.coroutines.launch
 
@@ -41,22 +42,14 @@ fun BackupScreen(
     viewModel: BackupViewModel,
     onNavigateBack: () -> Unit
 ) {
-    val state by viewModel.backupState.collectAsState()
-    val showRestoreConfirm by viewModel.showRestoreConfirm.collectAsState()
-    val backupToRestore by viewModel.backupToRestore.collectAsState()
-    val restoreMode by viewModel.restoreMode.collectAsState()
+    val state by viewModel.backupState.collectAsStateWithLifecycle()
+    val showRestoreConfirm by viewModel.showRestoreConfirm.collectAsStateWithLifecycle()
+    val backupToRestore by viewModel.backupToRestore.collectAsStateWithLifecycle()
+    val restoreMode by viewModel.restoreMode.collectAsStateWithLifecycle()
     
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-    val filePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        uri?.let {
-            viewModel.restoreFromFile(it, restoreMode)
-        }
-    }
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -122,18 +115,6 @@ fun BackupScreen(
                             Spacer(Modifier.width(4.dp))
                             Text(stringResource(R.string.txt_refresh))
                         }
-                    }
-                    TextButton(
-                        onClick = {
-                            filePickerLauncher.launch(
-                                arrayOf("application/octet-stream", "application/json")
-                            )
-                        },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Icon(Icons.Default.FileOpen, null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(4.dp))
-                        Text(stringResource(R.string.txt_import_backup_file))
                     }
                 }
             }
@@ -207,7 +188,7 @@ fun BackupActionsSection(
 
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Create an encrypted local backup of your health records on this device. You can restore it anytime or export it to files.",
+                text = "Create an encrypted recovery snapshot of calculation history for this app installation. Snapshots rely on this installation's Android Keystore key, so uninstalling or clearing app data also removes the ability to restore them.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -571,3 +552,4 @@ fun ProgressOverlay(
         }
     }
 }
+

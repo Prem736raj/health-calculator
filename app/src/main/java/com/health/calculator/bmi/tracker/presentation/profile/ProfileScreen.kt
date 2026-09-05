@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -46,9 +47,9 @@ fun ProfileScreen(
     onNavigateToReminders: () -> Unit,
     milestonesViewModel: com.health.calculator.bmi.tracker.ui.screens.profile.milestones.MilestonesViewModel
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val multiProfileState by multiProfileViewModel.uiState.collectAsState()
-    val milestonesState by milestonesViewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val multiProfileState by multiProfileViewModel.uiState.collectAsStateWithLifecycle()
+    val milestonesState by milestonesViewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showActionsMenu by remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -64,7 +65,7 @@ fun ProfileScreen(
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
-        val imageUri = bitmap?.let { saveBitmapToCache(context, it) }
+        val imageUri = bitmap?.let { saveBitmapToPrivateStorage(context, it) }
         if (imageUri != null) {
             viewModel.updateProfilePicture(imageUri)
         } else {
@@ -441,18 +442,14 @@ fun ProfileScreen(
     }
 }
 
-private fun saveBitmapToCache(@ApplicationContext context: Context, bitmap: Bitmap): Uri? {
+private fun saveBitmapToPrivateStorage(@ApplicationContext context: Context, bitmap: Bitmap): Uri? {
     return try {
-        context.cacheDir.listFiles()
-            ?.filter { it.name.startsWith("profile_") && it.extension.equals("jpg", ignoreCase = true) }
-            ?.forEach {
-                if (!it.delete()) {
-                    Log.w(PROFILE_SCREEN_TAG, "Failed to delete stale profile image: ${it.absolutePath}")
-                }
-            }
-        val file = File(context.cacheDir, "profile_${System.currentTimeMillis()}.jpg")
+        val directory = File(context.filesDir, "profile_images").apply { mkdirs() }
+        val file = File(directory, "profile_${System.currentTimeMillis()}.jpg")
         FileOutputStream(file).use { out ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)
+            if (!bitmap.compress(Bitmap.CompressFormat.JPEG, PROFILE_IMAGE_QUALITY, out)) {
+                throw IllegalStateException("Bitmap compression failed")
+            }
         }
         FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
     } catch (e: Exception) {
@@ -460,3 +457,4 @@ private fun saveBitmapToCache(@ApplicationContext context: Context, bitmap: Bitm
         null
     }
 }
+

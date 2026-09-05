@@ -12,6 +12,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.health.calculator.bmi.tracker.MainActivity
+import com.health.calculator.bmi.tracker.notifications.NotificationPermission
 import java.util.Calendar
 
 class BpNotificationHelper(@ApplicationContext private val context: Context) {
@@ -143,6 +145,8 @@ class BpNotificationHelper(@ApplicationContext private val context: Context) {
 class BpReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
+        if (!NotificationPermission.canPost(context)) return
+
         val type = intent.getStringExtra(BpNotificationHelper.EXTRA_NOTIFICATION_TYPE) ?: return
         val message = intent.getStringExtra(BpNotificationHelper.EXTRA_MESSAGE)
             ?: "Time to check your blood pressure! 🩺"
@@ -155,12 +159,10 @@ class BpReminderReceiver : BroadcastReceiver() {
         }
 
         // Intent to open app directly to BP calculator
-        val openIntent = context.packageManager
-            .getLaunchIntentForPackage(context.packageName)
-            ?.apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                putExtra("navigate_to", "blood_pressure")
-            }
+        val openIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("navigate_to", "blood_pressure")
+        }
 
         val pendingOpenIntent = PendingIntent.getActivity(
             context,
@@ -192,3 +194,4 @@ class BpBootReceiver : BroadcastReceiver() {
         }
     }
 }
+

@@ -11,10 +11,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.health.calculator.bmi.tracker.MainActivity
 import java.util.Calendar
 
 class WeightReminderReceiver : BroadcastReceiver() {
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
+        if (!NotificationPermission.canPost(context)) return
+
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -29,6 +32,17 @@ class WeightReminderReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
         }
 
+        val openIntent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("navigate_to", "weight_tracking")
+        }
+        val openPendingIntent = PendingIntent.getActivity(
+            context,
+            NOTIFICATION_ID,
+            openIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("⚖️ Weekly Weigh-in")
@@ -41,6 +55,7 @@ class WeightReminderReceiver : BroadcastReceiver() {
                     )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(openPendingIntent)
             .setAutoCancel(true)
             .build()
 
@@ -101,3 +116,4 @@ class WeightReminderManager @javax.inject.Inject constructor(@ApplicationContext
         private const val REQUEST_CODE = 3001
     }
 }
+

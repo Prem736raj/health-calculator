@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_background_medium"
@@ -85,7 +86,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_bmi"
-                android:tint="@color/health_bmi_accent" />
+                tools:ignore="UseAppTint" android:tint="@color/health_bmi_accent" />
             <TextView
                 android:id="@+id/bmi_value"
                 android:layout_width="wrap_content"
@@ -120,7 +121,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_bp"
-                android:tint="@color/health_bp_accent" />
+                tools:ignore="UseAppTint" android:tint="@color/health_bp_accent" />
             <TextView
                 android:id="@+id/bp_value"
                 android:layout_width="wrap_content"
@@ -155,7 +156,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_water"
-                android:tint="@color/health_water_accent" />
+                tools:ignore="UseAppTint" android:tint="@color/health_water_accent" />
             <TextView
                 android:id="@+id/water_value"
                 android:layout_width="wrap_content"

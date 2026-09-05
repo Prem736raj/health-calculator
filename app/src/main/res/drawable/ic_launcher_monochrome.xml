@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer wellness activity ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round"
+        android:pathData="M54,26 A28,28 0 1,1 53.99,26 Z" />
+        
+    <!-- Central Vitality Heart -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,67 C54,67 38,54.5 38,44.5 C38,38.5 42.5,35 47.5,35 C51,35 53.2,37.2 54,39 C54.8,37.2 57,35 60.5,35 C65.5,35 70,38.5 70,44.5 C70,54.5 54,67 54,67 Z" />
+        
+    <!-- ECG Heartbeat Pulse Line cutting across center -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M23,54 L44,54 L48,46 L52,62 L56,41 L60,57 L63,54 L85,54" />
+</vector>

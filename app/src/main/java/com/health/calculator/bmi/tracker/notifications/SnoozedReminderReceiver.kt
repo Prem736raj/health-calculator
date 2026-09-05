@@ -8,14 +8,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import com.health.calculator.bmi.tracker.HealthCalculatorApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import com.health.calculator.bmi.tracker.core.util.launchAsync
 
 class SnoozedReminderReceiver : BroadcastReceiver() {
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val reminderId = intent.getStringExtra("reminder_id") ?: return
@@ -28,7 +23,7 @@ class SnoozedReminderReceiver : BroadcastReceiver() {
         val repository = app.reminderRepository
         val scheduler = ReminderScheduler(context)
 
-        scope.launch {
+        launchAsync {
             val reminder = repository.getReminderById(reminderId)
             if (reminder != null) {
                 // Schedule a one-time snooze alarm
@@ -40,3 +35,4 @@ class SnoozedReminderReceiver : BroadcastReceiver() {
         }
     }
 }
+

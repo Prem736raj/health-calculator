@@ -19,6 +19,9 @@ import com.health.calculator.bmi.tracker.domain.usecase.CalorieCalculatorUseCase
 import com.health.calculator.bmi.tracker.domain.usecase.MacroCalculatorUseCase
 import com.health.calculator.bmi.tracker.domain.usecase.MealPlanningUseCase
 import com.health.calculator.bmi.tracker.data.repository.FoodLogRepository
+import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
+import com.health.calculator.bmi.tracker.data.datastore.ProfileDataStore
+import com.health.calculator.bmi.tracker.domain.model.Gender
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository as MainHistoryRepository
 import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.model.CalculatorType
@@ -28,6 +31,7 @@ import org.json.JSONObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 data class ActivityLevelOption(
@@ -101,6 +105,7 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
     private val macroCalculator = MacroCalculatorUseCase()
     private val mealPlanningUseCase = MealPlanningUseCase()
     private val historyRepository = CalorieHistoryRepository(application.applicationContext)
+    private val profileRepository = ProfileRepository(ProfileDataStore(application.applicationContext))
     private val mainHistoryRepository = MainHistoryRepository(AppDatabase.getDatabase(application).historyDao())
     private val foodLogRepository = FoodLogRepository(application.applicationContext)
 
@@ -144,31 +149,38 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
     }
 
     private fun loadProfileData() {
-        val prefs = getApplication<Application>().getSharedPreferences("user_profile", 0)
-        val weight = prefs.getFloat("weight", 0f)
-        val height = prefs.getFloat("height", 0f)
-        val age = prefs.getInt("age", 0)
-        val gender = prefs.getString("gender", "Male") ?: "Male"
-        val activityLevel = prefs.getString("activity_level", "") ?: ""
+        viewModelScope.launch {
+            val profile = profileRepository.getProfile().first()
+            val weight = profile.weightKg?.takeIf { it > 0f }
+            val height = profile.heightCm?.takeIf { it > 0f }
+            val age = profile.age?.takeIf { it > 0 }
+            val gender = when (profile.gender) {
+                Gender.FEMALE -> "Female"
+                Gender.MALE -> "Male"
+                Gender.NOT_SPECIFIED -> "Male"
+            }
+            val selectedActivity = mapProfileActivity(profile.activityLevel.name)
+            val hasProfileData = weight != null || height != null || age != null || selectedActivity.isNotEmpty()
 
-        if (weight > 0 || height > 0 || age > 0) {
-            _uiState.value = _uiState.value.copy(
-                weightValue = if (weight > 0) "%.1f".format(weight) else "",
-                heightValue = if (height > 0) "%.1f".format(height) else "",
-                age = if (age > 0) age.toString() else "",
-                gender = gender,
-                selectedActivityLevel = mapProfileActivity(activityLevel),
-                isProfileDataUsed = true
-            )
+            if (hasProfileData) {
+                _uiState.value = _uiState.value.copy(
+                    weightValue = weight?.let { "%.1f".format(it) } ?: "",
+                    heightValue = height?.let { "%.1f".format(it) } ?: "",
+                    age = age?.toString() ?: "",
+                    gender = gender,
+                    selectedActivityLevel = selectedActivity,
+                    isProfileDataUsed = true
+                )
+            }
         }
     }
 
-    private fun mapProfileActivity(level: String): String = when (level.lowercase()) {
-        "sedentary" -> "sedentary"
-        "lightly active", "light" -> "light"
-        "moderately active", "moderate" -> "moderate"
-        "very active" -> "very_active"
-        "extremely active" -> "extremely_active"
+    private fun mapProfileActivity(level: String): String = when (level.uppercase()) {
+        "SEDENTARY" -> "sedentary"
+        "LIGHTLY_ACTIVE" -> "light"
+        "MODERATELY_ACTIVE" -> "moderate"
+        "VERY_ACTIVE" -> "very_active"
+        "EXTREMELY_ACTIVE" -> "extremely_active"
         else -> ""
     }
 
@@ -663,3 +675,4 @@ class CalorieViewModel @Inject constructor(application: Application) : AndroidVi
         return "$adjustedHour:00 $amPm"
     }
 }
+

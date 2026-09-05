@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # This app has a large Compose/Kotlin surface. Keep the repository's
-    # conservative local heap defaults, but give the hosted compiler enough
-    # memory to finish instead of timing out after a Kotlin OOM.
     env:
       GRADLE_OPTS: >-
         -Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=768m
@@ -35,7 +32,7 @@ jobs:
       run: ./gradlew test --stacktrace
 
     - name: Run Lint
-      run: ./gradlew lintDebug --stacktrace
+      run: ./gradlew lintRelease --stacktrace
 
     - name: Build Debug APK
       run: ./gradlew assembleDebug --stacktrace
@@ -45,3 +42,4 @@ jobs:
 
     - name: Build Release App Bundle
       run: ./gradlew bundleRelease --stacktrace
+

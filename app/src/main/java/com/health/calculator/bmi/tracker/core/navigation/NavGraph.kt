@@ -1077,6 +1077,7 @@ fun NavGraph(
             val foodLogViewModel: FoodLogViewModel = hiltViewModel()
             val calorieViewModel: CalorieViewModel = hiltViewModel()
             val calUiState by calorieViewModel.uiState.collectAsState()
+            val foodLogUiState by foodLogViewModel.uiState.collectAsState()
             
             // Use current targets if available from calculator state, otherwise defaults
             val targetCal = calUiState.result?.safeGoalCalories ?: 2000.0
@@ -1086,7 +1087,7 @@ fun NavGraph(
 
             val stats = foodLogViewModel.getStats(targetCal, targetP, targetC, targetF)
             val weeklySummaries = foodLogViewModel.getWeeklySummaries()
-            val logs = foodLogViewModel.getHistoricalLogs() + listOfNotNull(foodLogViewModel.uiState.value.todayLog)
+            val logs = foodLogViewModel.getHistoricalLogs() + listOfNotNull(foodLogUiState.todayLog)
 
             com.health.calculator.bmi.tracker.ui.screens.calorie.CalorieHistoryScreen(
                 logs = logs,

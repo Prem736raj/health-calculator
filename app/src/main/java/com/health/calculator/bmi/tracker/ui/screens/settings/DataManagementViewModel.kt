@@ -220,16 +220,17 @@ class DataManagementViewModel @Inject constructor(application: Application) : An
         _uiState.update { it.copy(isDeleting = true) }
 
         viewModelScope.launch {
-            cleanupManager.deleteEverything()
-
-            _uiState.update {
-                it.copy(
-                    isDeleting = false,
-                    showDeleteEverything = false,
-                    deleteEverythingStep = 3,
-                    operationComplete = true
-                )
+            val requested = cleanupManager.deleteEverything()
+            if (!requested) {
+                _uiState.update {
+                    it.copy(
+                        isDeleting = false,
+                        snackbarMessage = "Android could not start the full app-data reset. Please try again."
+                    )
+                }
             }
+            // On success Android clears the app's entire private data set and normally
+            // terminates the process before further UI state can be persisted.
         }
     }
 
@@ -257,3 +258,4 @@ class DataManagementViewModel @Inject constructor(application: Application) : An
         _uiState.update { it.copy(snackbarMessage = null) }
     }
 }
+

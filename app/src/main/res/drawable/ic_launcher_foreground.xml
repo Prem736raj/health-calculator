@@ -1,10 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    
+    <!-- Outer wellness ring with gradient -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,77.5 C54,77.5 24,53 24,38.5 C24,28 31.5,23.5 37.5,23.5 C44.5,23.5 49.5,28 54,32 C58.5,28 63.5,23.5 70.5,23.5 C76.5,23.5 84,28 84,38.5 C84,53 54,77.5 54,77.5 Z" />
+        android:fillColor="#00000000"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round"
+        android:pathData="M54,26 A28,28 0 1,1 53.99,26 Z">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="sweep"
+                android:centerX="54"
+                android:centerY="54">
+                <item android:color="#70EFDE" android:offset="0.0" />
+                <item android:color="#38BDF8" android:offset="0.25" />
+                <item android:color="#8B5CF6" android:offset="0.5" />
+                <item android:color="#EC4899" android:offset="0.75" />
+                <item android:color="#70EFDE" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Vitality Heart with violet-rose gradient -->
+    <path
+        android:pathData="M54,67 C54,67 38,54.5 38,44.5 C38,38.5 42.5,35 47.5,35 C51,35 53.2,37.2 54,39 C54.8,37.2 57,35 60.5,35 C65.5,35 70,38.5 70,44.5 C70,54.5 54,67 54,67 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="38"
+                android:startY="35"
+                android:endX="70"
+                android:endY="67">
+                <item android:color="#8B5CF6" android:offset="0.0" />
+                <item android:color="#06B6D4" android:offset="0.5" />
+                <item android:color="#FB7185" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Glowing Cyan/Teal ECG pulse wave line -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#70EFDE"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M23,54 L44,54 L48,46 L52,62 L56,41 L60,57 L63,54 L85,54" />
 </vector>

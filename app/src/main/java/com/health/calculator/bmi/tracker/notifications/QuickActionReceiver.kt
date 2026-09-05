@@ -1,7 +1,4 @@
-// notifications/QuickActionReceiver.kt
 package com.health.calculator.bmi.tracker.notifications
-
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -9,69 +6,36 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.health.calculator.bmi.tracker.HealthCalculatorApp
-import com.health.calculator.bmi.tracker.data.models.Reminder
-import com.health.calculator.bmi.tracker.data.model.FoodEntry
-import kotlinx.coroutines.CoroutineScope
+import com.health.calculator.bmi.tracker.core.util.launchAsync
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class QuickActionReceiver : BroadcastReceiver() {
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         val action = intent.action ?: return
+        if (action != ACTION_LOG_WATER) return
+
         val reminderId = intent.getStringExtra("reminder_id") ?: ""
-        val actionValue = intent.getStringExtra("action_value") ?: ""
+        val amount = intent.getStringExtra("action_value")
+            ?.toIntOrNull()
+            ?.coerceIn(MIN_WATER_ML, MAX_WATER_ML)
+            ?: DEFAULT_WATER_ML
 
         val app = context.applicationContext as HealthCalculatorApp
         val stats = NotificationStatistics(context)
-        val usageTracker = AppUsageTracker(context)
-        
-        // Mark interaction to prevent immediate follow-up notifications
-        usageTracker.recordInteraction()
+        AppUsageTracker(context).recordInteraction()
 
-        scope.launch {
+        launchAsync {
             val reminder = app.reminderRepository.getReminderById(reminderId)
             val category = reminder?.category ?: "unknown"
 
-            when (action) {
-                "LOG_WATER" -> {
-                    val amount = actionValue.toIntOrNull() ?: 250
-                    app.waterIntakeRepository.logWater(amount, "Logged from notification")
-                    showToast(context, "💧 ${amount}ml water logged!")
-                    stats.recordAction(category, "LOG_WATER")
-                }
-                "LOG_MEAL" -> {
-                    // Open app to log meal or provide a simple "Generic Meal" log?
-                    // For now, let's log a generic 500 cal meal if quick-log is requested
-                    val entry = FoodEntry(
-                        name = "Quick Log Meal",
-                        calories = 500.0,
-                        mealSlot = "Quick Log",
-                        timestamp = System.currentTimeMillis()
-                    )
-                    app.foodLogRepository.addEntry(entry)
-                    showToast(context, "🍽️ 500 calories logged!")
-                    stats.recordAction(category, "LOG_MEAL")
-                }
-                "MED_TAKEN" -> {
-                    // Log medication taken (e.g., in a Medication repository - placeholder)
-                    showToast(context, "💊 Medication marked as taken")
-                    stats.recordAction(category, "MED_TAKEN")
-                }
-                "MED_SKIP" -> {
-                    showToast(context, "💊 Medication marked as skipped")
-                    stats.recordAction(category, "MED_SKIP")
-                }
-            }
-
-            // Record engagement
+            app.waterIntakeRepository.logWater(amount, "Logged from notification")
+            showToast(context, "💧 ${amount}ml water logged")
+            stats.recordAction(category, ACTION_LOG_WATER)
             stats.recordTap(category)
-            
-            // Dismiss notification
+
             withContext(Dispatchers.Main) {
                 val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 manager.cancel(reminderId.hashCode())
@@ -84,4 +48,12 @@ class QuickActionReceiver : BroadcastReceiver() {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    private companion object {
+        const val ACTION_LOG_WATER = "LOG_WATER"
+        const val DEFAULT_WATER_ML = 250
+        const val MIN_WATER_ML = 50
+        const val MAX_WATER_ML = 2_000
+    }
 }
+

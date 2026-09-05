@@ -9,6 +9,26 @@ plugins {
     alias(libs.plugins.google.services)
 }
 
+val releaseStoreFilePath = providers.gradleProperty("RELEASE_STORE_FILE")
+    .orElse(providers.environmentVariable("RELEASE_STORE_FILE"))
+    .orNull
+val releaseStorePassword = providers.gradleProperty("RELEASE_STORE_PASSWORD")
+    .orElse(providers.environmentVariable("RELEASE_STORE_PASSWORD"))
+    .orNull
+val releaseKeyAlias = providers.gradleProperty("RELEASE_KEY_ALIAS")
+    .orElse(providers.environmentVariable("RELEASE_KEY_ALIAS"))
+    .orNull
+val releaseKeyPassword = providers.gradleProperty("RELEASE_KEY_PASSWORD")
+    .orElse(providers.environmentVariable("RELEASE_KEY_PASSWORD"))
+    .orNull
+val hasReleaseSigning = listOf(
+    releaseStoreFilePath,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword
+).all { !it.isNullOrBlank() }
+
+
 android {
     namespace = "com.health.calculator.bmi.tracker"
     compileSdk = 36
@@ -26,18 +46,13 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            /*
-             * IMPORTANT:
-             * Do NOT hardcode real signing passwords here.
-             *
-             * Configure them through:
-             * - environment variables
-             * - local.properties
-             * - CI secrets
-             *
-             * Add the actual configuration only on your local/CI environment.
-             */
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(requireNotNull(releaseStoreFilePath))
+                storePassword = requireNotNull(releaseStorePassword)
+                keyAlias = requireNotNull(releaseKeyAlias)
+                keyPassword = requireNotNull(releaseKeyPassword)
+            }
         }
     }
 
@@ -49,6 +64,10 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -65,7 +84,7 @@ android {
     }
 
     lint {
-        abortOnError = false
+        abortOnError = true
         checkReleaseBuilds = true
     }
 
@@ -243,3 +262,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+
+tasks.register("verifyPlayReleaseSigning") {
+    group = "verification"
+    description = "Fails unless all release signing credentials are supplied."
+    doLast {
+        check(hasReleaseSigning) {
+            "Missing release signing configuration. Supply RELEASE_STORE_FILE, " +
+                "RELEASE_STORE_PASSWORD, RELEASE_KEY_ALIAS and RELEASE_KEY_PASSWORD " +
+                "as Gradle properties or environment variables."
+        }
+    }
+}
+

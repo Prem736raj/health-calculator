@@ -8,7 +8,6 @@ import com.health.calculator.bmi.tracker.data.model.HistoryDisplayEntry
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
 import java.util.*
 
 class DataCleanupManager private constructor(
@@ -107,44 +106,9 @@ class DataCleanupManager private constructor(
         return allIssueIds.size
     }
 
-    suspend fun deleteEverything() {
-        withContext(Dispatchers.IO) {
-            // Clear history
-            historyRepository.clearAllHistory()
-
-            // Clear cache
-            storageAnalyzer.clearCache()
-
-            // Clear exports
-            storageAnalyzer.clearExports()
-
-            // Clear backups
-            storageAnalyzer.clearBackups()
-
-            // Clear DataStore files
-            clearDataStoreFiles()
-
-            // Clear shared preferences
-            clearSharedPrefs()
-        }
-    }
-
-    private fun clearDataStoreFiles() {
-        val datastoreDir = File(context.filesDir, "datastore")
-        if (datastoreDir.exists()) {
-            datastoreDir.listFiles()?.forEach { it.delete() }
-        }
-    }
-
-    private fun clearSharedPrefs() {
-        val prefsDir = File(context.filesDir.parent ?: "", "shared_prefs")
-        if (prefsDir.exists()) {
-            prefsDir.listFiles()?.forEach { file ->
-                // Keep critical system/library prefs if necessary, but here we clear most
-                if (!file.name.contains("androidx") && !file.name.contains("google")) {
-                    file.delete()
-                }
-            }
+    suspend fun deleteEverything(): Boolean {
+        return withContext(Dispatchers.Main.immediate) {
+            FullAppDataResetter.request(context)
         }
     }
 
@@ -173,3 +137,4 @@ class DataCleanupManager private constructor(
         }
     }
 }
+
