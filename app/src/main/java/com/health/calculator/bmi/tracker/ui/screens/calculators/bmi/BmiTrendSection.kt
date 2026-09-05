@@ -36,9 +36,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.TrendingDown
-import androidx.compose.material.icons.automirrored.filled.TrendingFlat
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.TrendingFlat
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Calculate
@@ -343,9 +343,9 @@ private fun ComparisonCard(stats: BmiTrendStats) {
     }
 
     val changeIcon = when {
-        isUp -> Icons.AutoMirrored.Filled.TrendingUp
-        isDown -> Icons.AutoMirrored.Filled.TrendingDown
-        else -> Icons.AutoMirrored.Filled.TrendingFlat
+        isUp -> Icons.Filled.TrendingUp
+        isDown -> Icons.Filled.TrendingDown
+        else -> Icons.Filled.TrendingFlat
     }
 
     val changeText = when {

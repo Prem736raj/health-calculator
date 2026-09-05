@@ -535,7 +535,7 @@ private fun GenderComparisonCard(bsa: Float, isMale: Boolean?) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                    Icon(if (isAbove) Icons.AutoMirrored.Filled.TrendingUp else Icons.AutoMirrored.Filled.TrendingDown, contentDescription = null, tint = comparisonColor, modifier = Modifier.size(20.dp))
+                    Icon(if (isAbove) Icons.Filled.TrendingUp else Icons.Filled.TrendingDown, contentDescription = null, tint = comparisonColor, modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Your BSA is ${"%.1f".format(abs(percentDiff))}% ${if (isAbove) "above" else "below"} average for adult ${genderLabel}s",

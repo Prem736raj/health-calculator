@@ -14,7 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
@@ -23,7 +23,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
@@ -59,7 +59,7 @@ fun MetabolicSyndromeScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -133,7 +133,7 @@ fun MetabolicSyndromeScreen(
                             }
                         ) {
                             Icon(
-                                Icons.AutoMirrored.Filled.TrendingUp,
+                                Icons.Filled.TrendingUp,
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp)
                             )

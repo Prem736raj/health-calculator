@@ -18,9 +18,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.TrendingDown
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -83,7 +83,7 @@ fun BpTrendScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onNavigateBack()
                     }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -184,17 +184,17 @@ private fun BpTrendArrowCard(statistics: BpStatistics) {
         BpTrendDirection.IMPROVING -> Triple(
             Color(0xFF4CAF50).copy(alpha = 0.1f),
             Color(0xFF4CAF50),
-            Icons.AutoMirrored.Filled.TrendingDown
+            Icons.Filled.TrendingDown
         )
         BpTrendDirection.WORSENING -> Triple(
             Color(0xFFF44336).copy(alpha = 0.1f),
             Color(0xFFF44336),
-            Icons.AutoMirrored.Filled.TrendingUp
+            Icons.Filled.TrendingUp
         )
         BpTrendDirection.STEADY -> Triple(
             Color(0xFF2196F3).copy(alpha = 0.1f),
             Color(0xFF2196F3),
-            Icons.AutoMirrored.Filled.TrendingUp
+            Icons.Filled.TrendingUp
         )
         else -> return
     }
@@ -766,7 +766,7 @@ private fun BpCalendarTab(
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             onMonthChange(calendarMonth.minusMonths(1))
                         }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous month")
+                            Icon(Icons.Filled.ArrowBack, contentDescription = "Previous month")
                         }
                         Text(
                             calendarMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy")),
@@ -777,7 +777,7 @@ private fun BpCalendarTab(
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             onMonthChange(calendarMonth.plusMonths(1))
                         }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next month")
+                            Icon(Icons.Filled.ArrowForward, contentDescription = "Next month")
                         }
                     }
 

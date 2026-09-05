@@ -63,7 +63,7 @@ fun BMRBodyFatInput(
                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
             ) {
                 Icon(
-                    Icons.AutoMirrored.Outlined.HelpOutline,
+                    Icons.Outlined.HelpOutline,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(16.dp)
@@ -90,7 +90,7 @@ private fun BodyFatHelpDialog(onDismiss: () -> Unit) {
         onDismissRequest = onDismiss,
         icon = {
             Icon(
-                Icons.AutoMirrored.Outlined.HelpOutline,
+                Icons.Outlined.HelpOutline,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )

@@ -506,7 +506,7 @@ private fun BSATrendGraph(records: List<BSARecord>) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ShowChart,
+                    Icons.Filled.ShowChart,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(22.dp)

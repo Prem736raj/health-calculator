@@ -33,7 +33,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.rounded.Person
@@ -229,7 +229,7 @@ fun BmiCalculatorScreen(
                         ),
                         modifier = Modifier.padding(start = 4.dp)
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(Icons.Filled.ArrowBack, "Back")
                     }
                 },
                 actions = {

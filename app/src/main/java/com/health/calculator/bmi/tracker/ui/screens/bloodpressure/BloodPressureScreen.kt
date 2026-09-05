@@ -17,7 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -90,7 +90,7 @@ fun BloodPressureScreen(
                         onNavigateBack()
                     }) {
                         Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
+                            Icons.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }

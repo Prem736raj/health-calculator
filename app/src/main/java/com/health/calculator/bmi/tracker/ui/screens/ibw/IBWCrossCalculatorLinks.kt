@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -129,7 +129,7 @@ private fun CrossLinkItem(
                 )
             }
             Icon(
-                Icons.AutoMirrored.Filled.ArrowForward,
+                Icons.Filled.ArrowForward,
                 contentDescription = "Go",
                 tint = color.copy(alpha = 0.6f),
                 modifier = Modifier.size(18.dp)

@@ -16,9 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.TrendingDown
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -91,7 +91,7 @@ fun WaterHistoryScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onNavigateBack()
                     }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(Icons.Filled.ArrowBack, "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -835,9 +835,9 @@ private fun WeeklyReportCard(report: WeeklyReport) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     val trendIcon = when (report.trend) {
-                        TrendDirection.IMPROVING -> Icons.AutoMirrored.Filled.TrendingUp
-                        TrendDirection.DECLINING -> Icons.AutoMirrored.Filled.TrendingDown
-                        TrendDirection.STEADY -> Icons.AutoMirrored.Filled.TrendingFlat
+                        TrendDirection.IMPROVING -> Icons.Filled.TrendingUp
+                        TrendDirection.DECLINING -> Icons.Filled.TrendingDown
+                        TrendDirection.STEADY -> Icons.Filled.TrendingFlat
                     }
                     val trendColor = when (report.trend) {
                         TrendDirection.IMPROVING -> Color(0xFF81C784)

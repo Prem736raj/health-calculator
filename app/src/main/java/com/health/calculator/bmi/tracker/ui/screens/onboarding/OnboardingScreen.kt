@@ -40,7 +40,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
@@ -562,7 +562,7 @@ private fun BottomSection(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            imageVector = Icons.Filled.ArrowForward,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp),
                             tint = Color.White

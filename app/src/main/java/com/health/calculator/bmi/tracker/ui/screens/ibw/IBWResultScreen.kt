@@ -9,7 +9,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.*
-import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -200,7 +200,7 @@ fun IBWResultScreen(
                     else Color.Transparent
                 )
             ) {
-                Icon(Icons.AutoMirrored.Filled.MenuBook, null, Modifier.size(16.dp))
+                Icon(Icons.Filled.MenuBook, null, Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(stringResource(R.string.txt_learn), style = MaterialTheme.typography.labelMedium)
             }

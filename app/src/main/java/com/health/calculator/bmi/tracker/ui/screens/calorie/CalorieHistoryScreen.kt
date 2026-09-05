@@ -14,8 +14,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -65,7 +65,7 @@ fun CalorieHistoryScreen(
                 title = { Text(stringResource(R.string.txt_calorie_history)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(Icons.Filled.ArrowBack, "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -286,14 +286,14 @@ private fun CalorieCalendarCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onPreviousMonth) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Previous")
+                    Icon(Icons.Filled.ArrowBack, "Previous")
                 }
                 Text(
                     "${monthNames[month]} $year",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                 )
                 IconButton(onClick = onNextMonth) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowForward, "Next")
+                    Icon(Icons.Filled.ArrowForward, "Next")
                 }
             }
 

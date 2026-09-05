@@ -35,8 +35,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.TrendingDown
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.TrendingDown
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.BookmarkAdded
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
@@ -577,7 +577,7 @@ private fun WeightAdviceCard(result: BmiResult, categoryColor: Color) {
     } else {
         val isGain = result.weightAdvice == WeightAdvice.GAIN
         val adviceColor = if (isGain) Color(0xFF1E88E5) else Color(0xFFFF9800)
-        val adviceIcon = if (isGain) Icons.AutoMirrored.Filled.TrendingUp else Icons.AutoMirrored.Filled.TrendingDown
+        val adviceIcon = if (isGain) Icons.Filled.TrendingUp else Icons.Filled.TrendingDown
         val adviceVerb = if (isGain) "gain" else "lose"
         val diffDisplay = formatWeight(result.weightDifferenceKg, result.displayWeightUnit)
         val targetDisplay = formatWeight(result.targetWeightKg, result.displayWeightUnit)

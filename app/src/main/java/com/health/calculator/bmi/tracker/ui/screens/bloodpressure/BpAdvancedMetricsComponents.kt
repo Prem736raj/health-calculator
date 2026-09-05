@@ -137,7 +137,7 @@ private fun PulsePressureCard(analysis: PulsePressureAnalysis) {
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            Icons.AutoMirrored.Outlined.CompareArrows,
+                            Icons.Outlined.CompareArrows,
                             contentDescription = null,
                             tint = Color(0xFF7E57C2),
                             modifier = Modifier.size(22.dp)

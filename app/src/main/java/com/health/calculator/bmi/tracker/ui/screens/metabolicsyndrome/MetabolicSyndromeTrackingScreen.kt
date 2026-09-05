@@ -155,7 +155,7 @@ private fun TrendArrowsOverview(comparison: AssessmentComparison) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    Icons.AutoMirrored.Filled.TrendingUp,
+                    Icons.Filled.TrendingUp,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(22.dp)
@@ -193,9 +193,9 @@ private fun TrendArrowRow(trend: CriterionTrend) {
     }
 
     val trendIcon = when (trend.trend) {
-        MetabolicTrendDirection.IMPROVED -> Icons.AutoMirrored.Filled.TrendingDown
-        MetabolicTrendDirection.WORSENED -> Icons.AutoMirrored.Filled.TrendingUp
-        MetabolicTrendDirection.UNCHANGED -> Icons.AutoMirrored.Filled.TrendingFlat
+        MetabolicTrendDirection.IMPROVED -> Icons.Filled.TrendingDown
+        MetabolicTrendDirection.WORSENED -> Icons.Filled.TrendingUp
+        MetabolicTrendDirection.UNCHANGED -> Icons.Filled.TrendingFlat
         MetabolicTrendDirection.NEW -> Icons.Filled.FiberNew
     }
 
@@ -339,7 +339,7 @@ private fun HistoryComparisonCard(comparison: AssessmentComparison) {
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Icon(
-                        Icons.AutoMirrored.Filled.ArrowForward,
+                        Icons.Filled.ArrowForward,
                         contentDescription = null,
                         tint = overallColor,
                         modifier = Modifier.size(28.dp)
@@ -463,7 +463,7 @@ private fun CriteriaCountGraph(records: List<MetabolicSyndromeRecord>) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ShowChart,
+                    Icons.Filled.ShowChart,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(22.dp)
