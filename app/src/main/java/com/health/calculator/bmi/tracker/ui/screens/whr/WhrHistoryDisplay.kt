@@ -98,9 +98,11 @@ fun WhrHistoryEntryCard(
                             .background(riskColor.copy(alpha = 0.12f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            stringResource(R.string.txt_text_placeholder_42),
-                            fontSize = 18.sp
+                        Icon(
+                            imageVector = Icons.Outlined.Straighten,
+                            contentDescription = stringResource(R.string.txt_waist_to_hip_ratio),
+                            tint = riskColor,
+                            modifier = Modifier.size(20.dp)
                         )
                     }
 
@@ -298,7 +300,12 @@ fun WhrHistoryEntryDetailDialog(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 24.sp)
+                Icon(
+                    imageVector = Icons.Outlined.Straighten,
+                    contentDescription = stringResource(R.string.txt_waist_to_hip_ratio),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
                 Text(
                     stringResource(R.string.txt_whr_details),
                     fontWeight = FontWeight.Bold

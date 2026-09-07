@@ -7,13 +7,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /*
- * The type system uses only platform families so it remains offline-safe and
- * respects the user's font scale.  A serif display voice gives the product a
- * point of view; sans-serif keeps instructions easy to scan; monospace gives
- * measured values a stable, instrument-like rhythm.
- *
- * TODO: Bundle actual Inter/Plus Jakarta Sans font assets for a premium feel.
- *       When bundled, update these aliases to use the real FontFamily resources.
+ * The type system uses platform families so it remains offline-safe and
+ * respects the user's font scale. Sans-serif keeps instructions easy to scan;
+ * monospace gives measured values a stable, instrument-like rhythm. The
+ * hierarchy is deliberately carried by size, weight and spacing rather than
+ * by making every surface bold.
  */
 
 /** Primary body/UI typeface — system sans-serif (typically Roboto on Android). */
@@ -22,11 +20,11 @@ val BodyFontFamily: FontFamily = FontFamily.SansSerif
 /** Secondary typeface for titles — system sans-serif until real fonts are bundled. */
 val TitleFontFamily: FontFamily = FontFamily.SansSerif
 
-/** Modern, high-energy display voice for headlines — bold and friendly. */
-val WellnessDisplayFontFamily: FontFamily = FontFamily.Default
+/** Friendly editorial display voice for headlines. */
+val WellnessDisplayFontFamily: FontFamily = FontFamily.Serif
 
-/** Clean, modern numeric typeface for metrics, counts, and dates. */
-val WellnessMetricFontFamily: FontFamily = FontFamily.Default
+/** Tabular numeric voice for metrics, counts, dates and calculator results. */
+val WellnessMetricFontFamily: FontFamily = FontFamily.Monospace
 
 // Legacy aliases — keep in sync with the primary names above.
 val InterFontFamily: FontFamily = BodyFontFamily
@@ -38,7 +36,20 @@ val WellnessMetricTextStyle = TextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 20.sp,
     lineHeight = 24.sp,
-    letterSpacing = (-0.3).sp
+    letterSpacing = (-0.2).sp,
+    fontFeatureSettings = "tnum"
+)
+
+val WellnessMetricLargeTextStyle = WellnessMetricTextStyle.copy(
+    fontSize = 32.sp,
+    lineHeight = 38.sp,
+    fontWeight = FontWeight.SemiBold
+)
+
+val WellnessMetricSmallTextStyle = WellnessMetricTextStyle.copy(
+    fontSize = 16.sp,
+    lineHeight = 20.sp,
+    fontWeight = FontWeight.SemiBold
 )
 
 val HealthTypography = Typography(

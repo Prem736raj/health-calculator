@@ -18,7 +18,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -39,8 +41,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.ui.theme.ActionRowShape
+import com.health.calculator.bmi.tracker.ui.theme.HealthElevation
+import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
 import com.health.calculator.bmi.tracker.ui.theme.InsightCalloutShape
 import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
+import com.health.calculator.bmi.tracker.ui.theme.WellnessPalette
 import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 
 /** A stylish vector badge with energetic background and rounded squircle shape. */
@@ -66,9 +71,66 @@ fun WellnessIconBadge(
 }
 
 /**
- * Vibrant gradient metric tile — each feature gets its own rich colour personality.
- * Gradient highlights, frosted translucent icon container, and crisp typography
- * give the dashboard an energetic, consumer-first feel.
+ * The one primary/hero surface used for a score, a first-use prompt or a
+ * meaningful weekly summary. Secondary surfaces deliberately stay tonal.
+ */
+@Composable
+fun WellnessHeroSurface(
+    onClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    val surfaceModifier = modifier
+        .fillMaxWidth()
+        .shadow(
+            elevation = HealthElevation.hero,
+            shape = com.health.calculator.bmi.tracker.ui.theme.HeroCardShape,
+            spotColor = WellnessPalette.HeroStart.copy(alpha = 0.28f)
+        )
+
+    val heroContent: @Composable () -> Unit = {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(WellnessPalette.HeroStart, WellnessPalette.HeroEnd)
+                    ),
+                    shape = com.health.calculator.bmi.tracker.ui.theme.HeroCardShape
+                )
+                .padding(HealthSpacing.card)
+        ) {
+            content()
+        }
+    }
+
+    if (onClick == null) {
+        Surface(
+            modifier = surfaceModifier,
+            shape = com.health.calculator.bmi.tracker.ui.theme.HeroCardShape,
+            color = Color.Transparent,
+            contentColor = WellnessPalette.OnHero,
+            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+        ) {
+            heroContent()
+        }
+    } else {
+        Surface(
+            onClick = onClick,
+            modifier = surfaceModifier,
+            shape = com.health.calculator.bmi.tracker.ui.theme.HeroCardShape,
+            color = Color.Transparent,
+            contentColor = WellnessPalette.OnHero,
+            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+        ) {
+            heroContent()
+        }
+    }
+}
+
+/**
+ * Compatibility entry point for existing dashboard callers. The metric tier is
+ * intentionally tonal; gradients are reserved for the single hero surface.
  */
 @Composable
 fun WellnessMetricTile(
@@ -79,82 +141,89 @@ fun WellnessMetricTile(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     progress: Float? = null,
-    accent: Color = MaterialTheme.colorScheme.primary,
-    gradientStart: Color = accent,
-    gradientEnd: Color = accent.copy(alpha = 0.78f)
+    accent: Color = MaterialTheme.colorScheme.primary
+) {
+    WellnessMetricCard(
+        icon = icon,
+        label = label,
+        value = value,
+        supportingText = supportingText,
+        onClick = onClick,
+        modifier = modifier,
+        progress = progress,
+        accent = accent
+    )
+}
+
+/**
+ * Tonal metric/data tier. The accent communicates category, while the
+ * surface treatment keeps numbers easy to compare and read in both themes.
+ */
+@Composable
+fun WellnessMetricCard(
+    icon: ImageVector,
+    label: String,
+    value: String,
+    supportingText: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    progress: Float? = null,
+    accent: Color = MaterialTheme.colorScheme.primary
 ) {
     Surface(
         onClick = onClick,
         modifier = modifier
-            .heightIn(min = 136.dp)
-            .shadow(elevation = 6.dp, shape = MetricTileShape, spotColor = gradientStart.copy(alpha = 0.35f))
+            .heightIn(min = 132.dp)
+            .shadow(elevation = HealthElevation.metric, shape = MetricTileShape)
             .semantics { contentDescription = "$label. $value. $supportingText" },
         shape = MetricTileShape,
-        color = Color.Transparent,
-        contentColor = Color.White,
-        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.28f))
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.24f))
     ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    Brush.linearGradient(
-                        colors = listOf(gradientStart, gradientEnd)
-                    ),
-                    shape = MetricTileShape
-                )
+        Column(
+            modifier = Modifier.padding(HealthSpacing.cardCompact),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                // White frosted badge on gradient
-                Surface(
-                    modifier = Modifier.size(38.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.White.copy(alpha = 0.22f),
-                    contentColor = Color.White,
-                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.35f))
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(icon, contentDescription = null, modifier = Modifier.size(20.dp))
-                    }
-                }
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.White.copy(alpha = 0.90f),
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+            WellnessIconBadge(
+                icon = icon,
+                tint = accent,
+                container = accent.copy(alpha = 0.12f),
+                contentDescription = label
+            )
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = value,
+                style = WellnessMetricTextStyle,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = supportingText,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            progress?.let { fraction ->
+                Spacer(Modifier.height(4.dp))
+                LinearProgressIndicator(
+                    progress = { fraction.coerceIn(0f, 1f) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp)
+                        .clip(RoundedCornerShape(3.dp)),
+                    color = accent,
+                    trackColor = accent.copy(alpha = 0.12f)
                 )
-                Text(
-                    text = value,
-                    style = WellnessMetricTextStyle,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = supportingText,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.82f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                progress?.let { fraction ->
-                    Spacer(Modifier.height(4.dp))
-                    LinearProgressIndicator(
-                        progress = { fraction.coerceIn(0f, 1f) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(6.dp)
-                            .clip(RoundedCornerShape(3.dp)),
-                        color = Color.White,
-                        trackColor = Color.White.copy(alpha = 0.28f)
-                    )
-                }
             }
         }
     }
@@ -175,7 +244,7 @@ fun WellnessActionRow(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .shadow(elevation = 2.dp, shape = ActionRowShape, spotColor = accent.copy(alpha = 0.12f))
+            .shadow(elevation = HealthElevation.row, shape = ActionRowShape)
             .semantics { contentDescription = "$title. $description" },
         shape = ActionRowShape,
         color = MaterialTheme.colorScheme.surface,
@@ -185,7 +254,7 @@ fun WellnessActionRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+                .padding(horizontal = HealthSpacing.cardCompact, vertical = 13.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
@@ -195,7 +264,7 @@ fun WellnessActionRow(
                 container = accent.copy(alpha = 0.14f)
             )
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                 Text(
                     description,
                     style = MaterialTheme.typography.bodySmall,
@@ -302,7 +371,7 @@ fun WellnessEmptyState(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(elevation = 2.dp, shape = ActionRowShape, spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
+            .shadow(elevation = HealthElevation.row, shape = ActionRowShape),
         shape = ActionRowShape,
         color = MaterialTheme.colorScheme.surface,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
@@ -310,7 +379,7 @@ fun WellnessEmptyState(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
+                .padding(HealthSpacing.xLarge),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -346,4 +415,51 @@ fun WellnessEmptyState(
             }
         }
     }
+}
+
+/** Shared loading treatment so screens do not invent unrelated spinners. */
+@Composable
+fun WellnessLoadingState(
+    message: String? = null,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(HealthSpacing.xLarge),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(HealthSpacing.medium)
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.semantics { contentDescription = "Loading" },
+            color = MaterialTheme.colorScheme.primary
+        )
+        message?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+        }
+    }
+}
+
+/** Shared recoverable error treatment with an optional retry action. */
+@Composable
+fun WellnessErrorState(
+    title: String,
+    message: String,
+    actionLabel: String? = null,
+    onAction: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
+    WellnessEmptyState(
+        icon = Icons.Outlined.Info,
+        title = title,
+        message = message,
+        actionLabel = actionLabel,
+        onAction = onAction,
+        modifier = modifier
+    )
 }

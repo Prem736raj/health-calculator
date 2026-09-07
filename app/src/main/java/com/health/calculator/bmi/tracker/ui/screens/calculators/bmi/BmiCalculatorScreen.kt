@@ -82,6 +82,8 @@ import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.A
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.AnimatedCalculateButton
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.AnimatedClearButton
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.ValidationErrorSummary
+import com.health.calculator.bmi.tracker.ui.components.WellnessLoadingState
+import com.health.calculator.bmi.tracker.ui.theme.FeatureColors
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.ValidationResult
 import com.health.calculator.bmi.tracker.ui.screens.calculators.bmi.components.EdgeCaseWarningCard
 import com.health.calculator.bmi.tracker.ui.utils.rememberHapticManager
@@ -108,7 +110,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.IconButtonDefaults
@@ -210,8 +211,8 @@ fun BmiCalculatorScreen(
                                    else "Adult BMI reference categories",
                             style = MaterialTheme.typography.bodySmall,
                             color = if (uiState.showResult)
-                                uiState.bmiResult?.let { Color(it.category.colorHex) } ?: Color(0xFF1E88E5)
-                            else Color(0xFF1E88E5).copy(alpha = 0.8f)
+                                uiState.bmiResult?.let { Color(it.category.colorHex) } ?: FeatureColors.BmiDeep
+                            else FeatureColors.BmiDeep.copy(alpha = 0.8f)
                         )
                     }
                 },
@@ -261,13 +262,9 @@ fun BmiCalculatorScreen(
                 modifier = Modifier.fillMaxSize().padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    CircularProgressIndicator(color = Color(0xFF1E88E5))
-                    if (uiState.isCalculating) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(stringResource(R.string.txt_calculating), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
+                WellnessLoadingState(
+                    message = if (uiState.isCalculating) stringResource(R.string.txt_calculating) else null
+                )
             }
         } else {
             AnimatedVisibility(
@@ -287,13 +284,13 @@ fun BmiCalculatorScreen(
                         TabRow(
                             selectedTabIndex = pagerState.currentPage,
                             containerColor = Color.Transparent,
-                            contentColor = Color(0xFF1E88E5),
+                            contentColor = FeatureColors.BmiDeep,
                             indicator = { tabPositions ->
                                 if (pagerState.currentPage < tabPositions.size) {
                                     TabRowDefaults.SecondaryIndicator(
                                         modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
                                         height = 3.dp,
-                                        color = Color(0xFF1E88E5)
+                                        color = FeatureColors.BmiDeep
                                     )
                                 }
                             },
@@ -322,7 +319,7 @@ fun BmiCalculatorScreen(
                                             )
                                         }
                                     },
-                                    selectedContentColor = Color(0xFF1E88E5),
+                                    selectedContentColor = FeatureColors.BmiDeep,
                                     unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                                 )
                             }

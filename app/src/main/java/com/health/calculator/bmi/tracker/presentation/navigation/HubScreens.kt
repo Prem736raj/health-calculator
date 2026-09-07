@@ -58,6 +58,7 @@ import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
 import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
 import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
 import com.health.calculator.bmi.tracker.ui.theme.CalculatorColors
+import com.health.calculator.bmi.tracker.ui.theme.FeatureColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
 
@@ -89,13 +90,13 @@ fun TrackHubScreen(
                     subtitle = "Log what matters to you. Nothing here is required, and missing a day does not erase your progress."
                 )
             }
-            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight, Color(0xFF7C3AED)) }
-            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater, Color(0xFF0284C7)) }
-            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure, Color(0xFFE11D48)) }
-            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood, Color(0xFFEA580C)) }
-            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections, Color(0xFF0D9488)) }
-            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory, Color(0xFF6366F1)) }
-            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders, Color(0xFFEC4899)) }
+            item { HubActionCard("Weight", "Add a weigh-in and see your trend", Icons.Outlined.MonitorWeight, onOpenWeight, CalculatorColors.IdealWeight) }
+            item { HubActionCard("Water", "Record glasses or millilitres", Icons.Outlined.WaterDrop, onOpenWater, CalculatorColors.WaterIntake) }
+            item { HubActionCard("Blood pressure", "Keep a careful home reading log", Icons.Outlined.MonitorHeart, onOpenBloodPressure, CalculatorColors.BloodPressure) }
+            item { HubActionCard("Food and calories", "Optional meal and calorie notes", Icons.Outlined.LocalDining, onOpenFood, CalculatorColors.DailyCalorie) }
+            item { HubActionCard("Steps and connected data", "Choose whether to connect Health Connect", Icons.Outlined.DirectionsWalk, onOpenHealthConnections, FeatureColors.StepsDeep) }
+            item { HubActionCard("History", "Review, edit or remove previous entries", Icons.Outlined.History, onOpenHistory, HealthColors.Info) }
+            item { HubActionCard("Reminders", "Choose helpful prompts only when you want them", Icons.Outlined.Notifications, onOpenReminders, FeatureColors.BpDeep) }
         }
     }
 }

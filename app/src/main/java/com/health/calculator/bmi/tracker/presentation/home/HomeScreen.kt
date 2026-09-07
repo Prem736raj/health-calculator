@@ -79,15 +79,15 @@ import com.health.calculator.bmi.tracker.ui.components.home.HomeSearchBar
 import com.health.calculator.bmi.tracker.ui.components.WellnessEmptyState
 import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
 import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
+import com.health.calculator.bmi.tracker.ui.components.WellnessHeroSurface
 import com.health.calculator.bmi.tracker.ui.components.WellnessMetricTile
 import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
 import com.health.calculator.bmi.tracker.ui.theme.ActionRowShape
 import com.health.calculator.bmi.tracker.ui.theme.FeatureColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
-import com.health.calculator.bmi.tracker.ui.theme.HeroCardShape
 import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
-import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricFontFamily
+import com.health.calculator.bmi.tracker.ui.theme.WellnessPalette
 import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
 import com.health.calculator.bmi.tracker.util.HealthMetricsSnapshot
 import com.health.calculator.bmi.tracker.util.HealthScoreCategory
@@ -310,8 +310,8 @@ private fun HomeHeader(
                             fontWeight = FontWeight.ExtraBold,
                             brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color(0xFFE91E63),
-                                    Color(0xFF9C27B0)
+                                    WellnessPalette.HeroEnd,
+                                    WellnessPalette.HeroStart
                                 )
                             )
                         )
@@ -383,112 +383,86 @@ private fun WellnessScoreCard(
         label = "wellness_score_ring"
     )
 
-    Surface(
-        onClick = onOpenDetails,
-        modifier = modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = HeroCardShape,
-                spotColor = Color(0xFF6C3CE1).copy(alpha = 0.45f)
-            ),
-        shape = HeroCardShape,
-        color = Color.Transparent,
-        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.28f))
-    ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFF6C3CE1),
-                            Color(0xFF4F46E5),
-                            Color(0xFFE11D48)
-                        )
-                    ),
-                    shape = HeroCardShape
-                )
+    WellnessHeroSurface(onClick = onOpenDetails, modifier = modifier) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.padding(20.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(
-                        progress = { animatedProgress },
-                        modifier = Modifier.size(82.dp),
-                        strokeWidth = 8.dp,
-                        color = Color.White,
-                        trackColor = Color.White.copy(alpha = 0.25f)
-                    )
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = if (hasEnoughData) result.totalScore.toString() else "--",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                        Text(
-                            "/100",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White.copy(alpha = 0.85f),
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-                Spacer(Modifier.width(18.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Surface(
-                        shape = RoundedCornerShape(50),
-                        color = Color.White.copy(alpha = 0.22f),
-                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.35f))
-                    ) {
-                        Text(
-                            text = result.category.label,
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
-                        )
-                    }
-                    Spacer(Modifier.height(4.dp))
+            Box(contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(
+                    progress = { animatedProgress },
+                    modifier = Modifier.size(82.dp),
+                    strokeWidth = 8.dp,
+                    color = WellnessPalette.OnHero,
+                    trackColor = WellnessPalette.OnHero.copy(alpha = 0.25f)
+                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = result.scoreName,
+                        text = if (hasEnoughData) result.totalScore.toString() else "--",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
+                        color = WellnessPalette.OnHero
                     )
-                    Spacer(Modifier.height(2.dp))
                     Text(
-                        text = if (hasEnoughData) {
-                            "Based on weight, water, steps & check-ins this week."
-                        } else {
-                            "Record at least two metrics to build your consistency score."
-                        },
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.88f)
-                    )
-                    Spacer(Modifier.height(2.dp))
-                    Text(
-                        text = "Informational only • not clinically validated",
+                        "/100",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White.copy(alpha = 0.65f)
+                        color = WellnessPalette.OnHero.copy(alpha = 0.85f),
+                        fontWeight = FontWeight.Bold
                     )
                 }
+            }
+            Spacer(Modifier.width(18.dp))
+            Column(modifier = Modifier.weight(1f)) {
                 Surface(
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.22f),
-                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.35f)),
-                    modifier = Modifier.size(34.dp)
+                    shape = RoundedCornerShape(50),
+                    color = WellnessPalette.OnHero.copy(alpha = 0.22f),
+                    border = BorderStroke(1.dp, WellnessPalette.OnHero.copy(alpha = 0.35f))
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            Icons.Default.ChevronRight,
-                            contentDescription = "View Wellness Score details",
-                            tint = Color.White,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
+                    Text(
+                        text = result.category.label,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = WellnessPalette.OnHero,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp)
+                    )
+                }
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = result.scoreName,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = WellnessPalette.OnHero
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = if (hasEnoughData) {
+                        "Based on weight, water, steps & check-ins this week."
+                    } else {
+                        "Record at least two metrics to build your consistency score."
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = WellnessPalette.OnHero.copy(alpha = 0.88f)
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = "Informational only • not clinically validated",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = WellnessPalette.OnHero.copy(alpha = 0.65f)
+                )
+            }
+            Surface(
+                shape = CircleShape,
+                color = WellnessPalette.OnHero.copy(alpha = 0.22f),
+                border = BorderStroke(1.dp, WellnessPalette.OnHero.copy(alpha = 0.35f)),
+                modifier = Modifier.size(34.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        Icons.Default.ChevronRight,
+                        contentDescription = "View Wellness Score details",
+                        tint = WellnessPalette.OnHero,
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
         }
@@ -519,8 +493,7 @@ private fun DailyMetricsSection(
                 supportingText = if (metrics.stepsToday == null) "Health Connect" else "synced today",
                 progress = null,
                 onClick = onOpenSteps,
-                accent = Color(0xFF0D9488), // Energetic Teal
-                gradientEnd = Color(0xFF14B8A6),
+                accent = FeatureColors.StepsDeep,
                 modifier = Modifier.weight(1f)
             )
             DailyMetricCard(
@@ -536,8 +509,7 @@ private fun DailyMetricsSection(
                     (metrics.waterIntakeToday.toFloat() / it).coerceIn(0f, 1f)
                 },
                 onClick = onOpenWater,
-                accent = Color(0xFF0284C7), // Ocean Azure
-                gradientEnd = Color(0xFF38BDF8),
+                accent = FeatureColors.WaterDeep,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -549,8 +521,7 @@ private fun DailyMetricsSection(
                 supportingText = if (weight == null) "start a trend" else "latest log",
                 progress = null,
                 onClick = onOpenWeight,
-                accent = Color(0xFF7C3AED), // Royal Violet
-                gradientEnd = Color(0xFFA78BFA),
+                accent = FeatureColors.BmiDeep,
                 modifier = Modifier.weight(1f)
             )
             DailyMetricCard(
@@ -566,8 +537,7 @@ private fun DailyMetricsSection(
                     (metrics.caloriesConsumedToday.toFloat() / it).coerceIn(0f, 1f)
                 },
                 onClick = onOpenCalories,
-                accent = Color(0xFFEA580C), // Sunset Coral Flame
-                gradientEnd = Color(0xFFFB923C),
+                accent = FeatureColors.CalorieDeep,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -583,8 +553,7 @@ private fun DailyMetricCard(
     progress: Float?,
     onClick: () -> Unit,
     accent: Color,
-    modifier: Modifier = Modifier,
-    gradientEnd: Color = accent.copy(alpha = 0.75f)
+    modifier: Modifier = Modifier
 ) {
     WellnessMetricTile(
         icon = icon,
@@ -594,8 +563,6 @@ private fun DailyMetricCard(
         progress = progress,
         onClick = onClick,
         accent = accent,
-        gradientStart = accent,
-        gradientEnd = gradientEnd,
         modifier = modifier
     )
 }
@@ -611,13 +578,13 @@ private fun LatestMetricsSection(
 ) {
     val availableRows = buildList {
         metrics.bmi?.let {
-            add(LatestMetric(Icons.Outlined.Assessment, "BMI", String.format(Locale.getDefault(), "%.1f", it), metrics.bmiCategory, Color(0xFF7C3AED), onOpenBmi))
+            add(LatestMetric(Icons.Outlined.Assessment, "BMI", String.format(Locale.getDefault(), "%.1f", it), metrics.bmiCategory, FeatureColors.BmiDeep, onOpenBmi))
         }
         if (metrics.systolicBP != null && metrics.diastolicBP != null) {
-            add(LatestMetric(Icons.Outlined.MonitorHeart, "Blood pressure", "${metrics.systolicBP}/${metrics.diastolicBP}", metrics.bpCategory, Color(0xFFC026D3), onOpenBloodPressure))
+            add(LatestMetric(Icons.Outlined.MonitorHeart, "Blood pressure", "${metrics.systolicBP}/${metrics.diastolicBP}", metrics.bpCategory, FeatureColors.BpDeep, onOpenBloodPressure))
         }
         metrics.restingHR?.let {
-            add(LatestMetric(Icons.Outlined.FavoriteBorder, "Resting heart rate", "$it bpm", "Latest saved value", Color(0xFFE11D48), onOpenHeartRate))
+            add(LatestMetric(Icons.Outlined.FavoriteBorder, "Resting heart rate", "$it bpm", "Latest saved value", FeatureColors.HeartDeep, onOpenHeartRate))
         }
     }.take(HomeDashboardPolicy.MAX_LATEST_METRICS)
 
@@ -838,10 +805,10 @@ private fun QuickActionsSection(
     modifier: Modifier = Modifier
 ) {
     val actions = listOf(
-        HomeAction("Water", Icons.Default.WaterDrop, onOpenWater, Color(0xFF0284C7)),
-        HomeAction("Weight", Icons.Default.Scale, onOpenWeight, Color(0xFF7C3AED)),
-        HomeAction("BP", Icons.Default.Favorite, onOpenBloodPressure, Color(0xFFE11D48)),
-        HomeAction("Calc", Icons.Default.Calculate, onOpenCalculators, Color(0xFFEA580C))
+        HomeAction("Water", Icons.Default.WaterDrop, onOpenWater, FeatureColors.WaterDeep),
+        HomeAction("Weight", Icons.Default.Scale, onOpenWeight, FeatureColors.BmiDeep),
+        HomeAction("BP", Icons.Default.Favorite, onOpenBloodPressure, FeatureColors.HeartDeep),
+        HomeAction("Calc", Icons.Default.Calculate, onOpenCalculators, FeatureColors.CalorieDeep)
     )
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -929,32 +896,32 @@ private fun RelevantCalculatorsCard(
                     onClick = onOpenBmi,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(14.dp),
-                    color = Color(0xFF7C3AED).copy(alpha = 0.10f),
-                    border = BorderStroke(1.dp, Color(0xFF7C3AED).copy(alpha = 0.30f))
+                    color = FeatureColors.BmiDeep.copy(alpha = 0.10f),
+                    border = BorderStroke(1.dp, FeatureColors.BmiDeep.copy(alpha = 0.30f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(Icons.Default.Calculate, contentDescription = null, tint = Color(0xFF7C3AED), modifier = Modifier.size(20.dp))
-                        Text("BMI", fontWeight = FontWeight.Bold, color = Color(0xFF7C3AED))
+                        Icon(Icons.Default.Calculate, contentDescription = null, tint = FeatureColors.BmiDeep, modifier = Modifier.size(20.dp))
+                        Text("BMI", fontWeight = FontWeight.Bold, color = FeatureColors.BmiDeep)
                     }
                 }
                 Surface(
                     onClick = onOpenCalories,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(14.dp),
-                    color = Color(0xFFEA580C).copy(alpha = 0.10f),
-                    border = BorderStroke(1.dp, Color(0xFFEA580C).copy(alpha = 0.30f))
+                    color = FeatureColors.CalorieDeep.copy(alpha = 0.10f),
+                    border = BorderStroke(1.dp, FeatureColors.CalorieDeep.copy(alpha = 0.30f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(Icons.Outlined.LocalDining, contentDescription = null, tint = Color(0xFFEA580C), modifier = Modifier.size(20.dp))
-                        Text("Daily energy", fontWeight = FontWeight.Bold, color = Color(0xFFEA580C))
+                        Icon(Icons.Outlined.LocalDining, contentDescription = null, tint = FeatureColors.CalorieDeep, modifier = Modifier.size(20.dp))
+                        Text("Daily energy", fontWeight = FontWeight.Bold, color = FeatureColors.CalorieDeep)
                     }
                 }
             }

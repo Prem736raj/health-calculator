@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.MonitorWeight
@@ -49,12 +48,16 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.health.calculator.bmi.tracker.ui.theme.CalculatorColors
 import com.health.calculator.bmi.tracker.ui.theme.HealthCalculatorTheme
+import com.health.calculator.bmi.tracker.ui.theme.HealthSpacing
+import com.health.calculator.bmi.tracker.ui.theme.MetricTileShape
 import androidx.compose.foundation.isSystemInDarkTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -142,17 +145,18 @@ fun CalculatorCard(
             .alpha(entranceAlpha.value)
             .shadow(
                 elevation = pressElevation.dp,
-                shape = RoundedCornerShape(20.dp),
+                shape = MetricTileShape,
                 ambientColor = data.color.copy(alpha = 0.1f),
                 spotColor = data.color.copy(alpha = 0.15f)
             )
+            .semantics { contentDescription = "${data.title}. ${data.description}" }
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 role = Role.Button,
                 onClick = onClick
             ),
-        shape = RoundedCornerShape(20.dp),
+        shape = MetricTileShape,
         colors = CardDefaults.cardColors(
             containerColor = cardBackgroundColor
         ),
@@ -177,13 +181,13 @@ fun CalculatorCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(HealthSpacing.cardCompact)
             ) {
                 // Icon with colored background
                 Box(
                     modifier = Modifier
                         .size(48.dp)
-                        .clip(RoundedCornerShape(14.dp))
+                        .clip(com.health.calculator.bmi.tracker.ui.theme.ActionRowShape)
                         .background(iconBackgroundColor),
                     contentAlignment = Alignment.Center
                 ) {
@@ -308,17 +312,18 @@ fun CalculatorCardWide(
             .alpha(entranceAlpha.value)
             .shadow(
                 elevation = if (isPressed) 1.dp else 3.dp,
-                shape = RoundedCornerShape(20.dp),
+                shape = MetricTileShape,
                 ambientColor = data.color.copy(alpha = 0.08f),
                 spotColor = data.color.copy(alpha = 0.12f)
             )
+            .semantics { contentDescription = "${data.title}. ${data.description}" }
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 role = Role.Button,
                 onClick = onClick
             ),
-        shape = RoundedCornerShape(20.dp),
+        shape = MetricTileShape,
         colors = CardDefaults.cardColors(
             containerColor = cardBackgroundColor
         ),
@@ -338,14 +343,14 @@ fun CalculatorCardWide(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(HealthSpacing.cardCompact),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Icon
                 Box(
                     modifier = Modifier
                         .size(52.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(MetricTileShape)
                         .background(data.color.copy(alpha = if (isDark) 0.2f else 0.1f)),
                     contentAlignment = Alignment.Center
                 ) {

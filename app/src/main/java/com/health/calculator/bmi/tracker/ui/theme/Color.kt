@@ -164,6 +164,17 @@ object WellnessPalette {
     val WarmAccentDark = Color(0xFFFB923C)
     val QuietBorderLight = Color(0xFFE0DCE4)
     val QuietBorderDark = Color(0xFF49454F)
+
+    // The single hero surface has a deep, calm treatment. Secondary surfaces
+    // stay tonal so the whole app does not become a wall of gradients.
+    val HeroStart = Color(0xFF3D2A70)
+    val HeroEnd = Color(0xFF0F6661)
+    val OnHero = Color(0xFFFFFFFF)
+
+    val MetricSurfaceLight = Color(0xFFF7F4FC)
+    val MetricSurfaceDark = Color(0xFF242239)
+    val QuietSurfaceLight = Color(0xFFFFFFFF)
+    val QuietSurfaceDark = Color(0xFF1C1B2E)
 }
 
 /** Semantic colors for interpretation, never as the only signal of meaning. */

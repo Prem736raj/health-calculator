@@ -14,6 +14,8 @@ class ThemeTokensTest {
         assertTrue("light primary container", contrastRatio(PrimaryContainerLight, OnPrimaryContainerLight) >= 4.5)
         assertTrue("dark primary", contrastRatio(PrimaryDark, OnPrimaryDark) >= 4.5)
         assertTrue("dark primary container", contrastRatio(PrimaryContainerDark, OnPrimaryContainerDark) >= 4.5)
+        assertTrue("hero start", contrastRatio(WellnessPalette.HeroStart, WellnessPalette.OnHero) >= 4.5)
+        assertTrue("hero end", contrastRatio(WellnessPalette.HeroEnd, WellnessPalette.OnHero) >= 4.5)
     }
 
     @Test
@@ -45,6 +47,15 @@ class ThemeTokensTest {
     fun `measured values use the dedicated numeric family`() {
         assertEquals(WellnessMetricFontFamily, WellnessMetricTextStyle.fontFamily)
         assertNotEquals(WellnessDisplayFontFamily, InterFontFamily)
+    }
+
+    @Test
+    fun `component tiers keep hierarchy and touch targets explicit`() {
+        assertTrue(HealthSpacing.touchTarget.value >= 48f)
+        assertTrue(HealthElevation.hero > HealthElevation.metric)
+        assertEquals(HealthElevation.row.value, 0f, 0.001f)
+        assertNotEquals(WellnessPalette.HeroStart, WellnessPalette.MetricSurfaceLight)
+        assertNotEquals(WellnessPalette.HeroEnd, WellnessPalette.QuietSurfaceDark)
     }
 
     private fun contrastRatio(first: Color, second: Color): Double {

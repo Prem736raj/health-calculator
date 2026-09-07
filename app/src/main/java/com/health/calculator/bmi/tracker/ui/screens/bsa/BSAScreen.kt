@@ -231,7 +231,12 @@ private fun BSAInputContent(
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 20.sp)
+                    Icon(
+                        imageVector = Icons.Outlined.Straighten,
+                        contentDescription = stringResource(R.string.txt_body_surface_area),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp)
+                    )
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {

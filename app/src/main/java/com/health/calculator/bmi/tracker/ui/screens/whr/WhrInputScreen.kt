@@ -328,7 +328,12 @@ private fun WhrHeaderCard() {
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 24.sp)
+                    Icon(
+                        imageVector = Icons.Outlined.Straighten,
+                        contentDescription = stringResource(R.string.txt_waist_to_hip_ratio),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(26.dp)
+                    )
                 }
             }
             Column(modifier = Modifier.weight(1f)) {

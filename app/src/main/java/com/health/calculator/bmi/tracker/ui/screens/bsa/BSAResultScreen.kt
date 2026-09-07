@@ -179,7 +179,12 @@ private fun PrimaryResultCard(
                 modifier = Modifier.padding(28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(stringResource(R.string.txt_text_placeholder_42), fontSize = 44.sp)
+                Icon(
+                    imageVector = Icons.Outlined.Straighten,
+                    contentDescription = stringResource(R.string.txt_body_surface_area),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(44.dp)
+                )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
