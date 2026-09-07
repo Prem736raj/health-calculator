@@ -56,6 +56,7 @@ import com.health.calculator.bmi.tracker.ui.screens.waterintake.components.Water
 
 import com.health.calculator.bmi.tracker.ui.screens.waterintake.components.HydrationPlantCard
 import com.health.calculator.bmi.tracker.ui.screens.waterintake.components.PlantDetailDialog
+import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 
 // Water-themed colors
 private val WaterBlueLight = Color(0xFF64B5F6)
@@ -128,7 +129,12 @@ fun WaterTrackingScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 22.sp)
+                        Icon(
+                            imageVector = Icons.Filled.WaterDrop,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(26.dp)
+                        )
                         Text(stringResource(R.string.txt_water_tracker), fontWeight = FontWeight.Bold)
                     }
                 },
@@ -307,7 +313,12 @@ fun WaterTrackingScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 28.sp)
+                                Icon(
+                                    imageVector = Icons.Filled.MenuBook,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    modifier = Modifier.size(28.dp)
+                                )
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
                                         stringResource(R.string.txt_hydration_guide),
@@ -320,7 +331,12 @@ fun WaterTrackingScreen(
                                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.75f)
                                     )
                                 }
-                                Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 18.sp, color = MaterialTheme.colorScheme.primary)
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowForward,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    modifier = Modifier.size(20.dp)
+                                )
                             }
                         }
                     }
@@ -392,7 +408,12 @@ fun WaterTrackingScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Text(stringResource(R.string.txt_text_placeholder_10), fontSize = 18.sp)
+                                Icon(
+                                    imageVector = Icons.Filled.History,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
                                 Text(
                                     stringResource(R.string.txt_today_s_log),
                                     fontWeight = FontWeight.Bold,
@@ -665,7 +686,12 @@ private fun QuickAddSection(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(stringResource(R.string.txt_text_placeholder_83), fontSize = 18.sp)
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
                     Text(
                         stringResource(R.string.txt_quick_add),
                         fontWeight = FontWeight.Bold,
@@ -702,28 +728,28 @@ private fun QuickAddSection(
             ) {
                 QuickAddButton(
                     amount = 100,
-                    icon = "💧",
+                    icon = Icons.Filled.WaterDrop,
                     label = "Sip",
                     onClick = { onAdd(100) },
                     modifier = Modifier.weight(1f)
                 )
                 QuickAddButton(
                     amount = 250,
-                    icon = "🥛",
+                    icon = Icons.Filled.WaterDrop,
                     label = "Glass",
                     onClick = { onAdd(250) },
                     modifier = Modifier.weight(1f)
                 )
                 QuickAddButton(
                     amount = 500,
-                    icon = "🍶",
+                    icon = Icons.Filled.WaterDrop,
                     label = "Bottle",
                     onClick = { onAdd(500) },
                     modifier = Modifier.weight(1f)
                 )
                 QuickAddButton(
                     amount = null,
-                    icon = "✏️",
+                    icon = Icons.Filled.Edit,
                     label = "Custom",
                     onClick = onCustom,
                     modifier = Modifier.weight(1f),
@@ -737,7 +763,7 @@ private fun QuickAddSection(
 @Composable
 private fun QuickAddButton(
     amount: Int?,
-    icon: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
     label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -787,7 +813,16 @@ private fun QuickAddButton(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Text(icon, fontSize = 26.sp)
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = if (isCustom) {
+                    MaterialTheme.colorScheme.onTertiaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                },
+                modifier = Modifier.size(26.dp)
+            )
             if (amount != null) {
                 Text(
                     text = "+${amount}ml",
@@ -833,7 +868,12 @@ private fun GlassIndicatorsCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(stringResource(R.string.txt_text_placeholder_79), fontSize = 18.sp)
+                Icon(
+                    imageVector = Icons.Filled.WaterDrop,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
                 Text(
                     "$filledGlasses of $totalGlasses glasses",
                     fontWeight = FontWeight.Bold,
@@ -971,13 +1011,11 @@ private fun WaterLogEntry(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = when {
-                        log.amountMl >= 500 -> "🍶"
-                        log.amountMl >= 250 -> "🥛"
-                        else -> "💧"
-                    },
-                    fontSize = 20.sp
+                Icon(
+                    imageVector = Icons.Filled.WaterDrop,
+                    contentDescription = "Water",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(22.dp)
                 )
             }
 
@@ -1065,7 +1103,20 @@ private fun EmptyLogState() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(stringResource(R.string.txt_text_placeholder_78), fontSize = 48.sp)
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.WaterDrop,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.size(34.dp)
+                )
+            }
             Text(
                 text = stringResource(R.string.txt_no_water_logged_today),
                 fontWeight = FontWeight.Bold,
@@ -1178,7 +1229,12 @@ private fun CustomAmountDialog(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
+                Icon(
+                    imageVector = Icons.Filled.WaterDrop,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
                 Text(stringResource(R.string.txt_custom_amount), fontWeight = FontWeight.Bold)
             }
         },
@@ -1290,12 +1346,17 @@ private fun StreakAndScoreMiniCard(
         ) {
             // Streak
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(if (currentStreak > 0) "🔥" else "💤", fontSize = 24.sp)
+                Icon(
+                    imageVector = if (currentStreak > 0) Icons.Filled.Whatshot else Icons.Filled.Schedule,
+                    contentDescription = null,
+                    tint = if (currentStreak > 0) HealthColors.Warning else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(24.dp)
+                )
                 Text(
                     "$currentStreak",
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 20.sp,
-                    color = if (currentStreak > 0) Color(0xFFFF6B35) else Color.Gray
+                    color = if (currentStreak > 0) HealthColors.Warning else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(stringResource(R.string.txt_streak), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
             }

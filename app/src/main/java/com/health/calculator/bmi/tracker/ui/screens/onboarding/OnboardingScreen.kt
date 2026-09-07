@@ -6,7 +6,6 @@ import com.health.calculator.bmi.tracker.R
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -255,7 +254,7 @@ private fun OnboardingPageContent(
             iconScale.snapTo(0.5f)
             iconScale.animateTo(
                 targetValue = 1f,
-                animationSpec = tween(500, easing = EaseOutBack)
+                animationSpec = tween(500, easing = FastOutSlowInEasing)
             )
         }
     }

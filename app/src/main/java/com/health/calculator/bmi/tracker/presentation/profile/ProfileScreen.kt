@@ -184,6 +184,28 @@ fun ProfileScreen(
                 onAddClick = multiProfileViewModel::showAddProfileDialog
             )
 
+            // Keep the identity/edit affordance in the first viewport. It used
+            // to live inside the scrollable My Info pane, so on compact devices
+            // only the top of the avatar was visible beneath the tabs.
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 8.dp),
+                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+            ) {
+                ProfilePictureSection(
+                    profilePictureUri = uiState.profile.profilePictureUri,
+                    initials = uiState.profile.name.ifBlank { "U" }.take(1),
+                    onEditClick = viewModel::showImagePickerDialog
+                )
+                Text(
+                    text = uiState.profile.name.ifBlank { "Your profile" },
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
             // Profile Completion Progress
             // Prompt says: "A progress bar at the top of the profile screen indicating completion"
             ProfileCompletionBar(

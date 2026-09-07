@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.domain.model.UserProfile
-import com.health.calculator.bmi.tracker.ui.components.ProfilePictureSection
 import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
 import com.health.calculator.bmi.tracker.ui.theme.HealthColors
 import com.health.calculator.bmi.tracker.ui.theme.WellnessMetricTextStyle
@@ -52,14 +51,6 @@ fun MyInfoSection(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        ProfilePictureSection(
-            profilePictureUri = profile.profilePictureUri,
-            initials = if (profile.name.isNotEmpty()) profile.name.take(1) else "U",
-            onEditClick = onProfilePictureClick
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
         Text(
             text = stringResource(R.string.txt_personal_details),
             style = MaterialTheme.typography.titleMedium,

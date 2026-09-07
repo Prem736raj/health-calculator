@@ -12,6 +12,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.Whatshot
+import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,6 +39,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -192,7 +203,7 @@ fun HydrationPlantCard(
 
             // Stage label
             Text(
-                text = "${plantState.stage.displayName} 🌱",
+                text = plantState.stage.displayName,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
@@ -539,16 +550,17 @@ private fun WaterSplashEffect() {
             val distance = animProgress * 35f
             val alpha = (1f - animProgress).coerceAtLeast(0f)
 
-            Text(
-                text = stringResource(R.string.txt_text_placeholder_71),
-                fontSize = (12 * (1f - animProgress * 0.5f)).sp,
+            Icon(
+                imageVector = Icons.Filled.WaterDrop,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = alpha),
                 modifier = Modifier
                     .align(Alignment.Center)
+                    .size((12 * (1f - animProgress * 0.5f)).dp)
                     .offset(
                         x = (direction.x * distance).dp,
                         y = (direction.y * distance).dp
                     )
-                    .alpha(alpha)
             )
         }
     }
@@ -561,14 +573,14 @@ private fun PlantMoodBubble(
     goalReached: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val (emoji, message) = when {
-        goalReached -> "🌟" to "I'm thriving!"
-        mood == PlantMood.THRIVING -> "😊" to "So hydrated!"
-        mood == PlantMood.HAPPY -> "🙂" to "Feeling good!"
-        mood == PlantMood.NEUTRAL -> "😐" to "Need water..."
-        mood == PlantMood.THIRSTY -> "😟" to "I'm thirsty!"
-        mood == PlantMood.WILTING -> "😢" to "Help me..."
-        else -> "🌱" to "Water me!"
+    val (moodIcon, message) = when {
+        goalReached -> Icons.Filled.Star to "I'm thriving!"
+        mood == PlantMood.THRIVING -> Icons.Filled.Favorite to "So hydrated!"
+        mood == PlantMood.HAPPY -> Icons.Filled.CheckCircle to "Feeling good!"
+        mood == PlantMood.NEUTRAL -> Icons.Filled.Info to "Need water..."
+        mood == PlantMood.THIRSTY -> Icons.Filled.WaterDrop to "I'm thirsty!"
+        mood == PlantMood.WILTING -> Icons.Filled.WaterDrop to "Help me..."
+        else -> Icons.Filled.WaterDrop to "Water me!"
     }
 
     val infiniteTransition = rememberInfiniteTransition(label = "bubble")
@@ -595,7 +607,12 @@ private fun PlantMoodBubble(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(emoji, fontSize = 14.sp)
+            Icon(
+                imageVector = moodIcon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(16.dp)
+            )
             Text(
                 text = message,
                 fontSize = 10.sp,
@@ -667,14 +684,24 @@ fun PlantDetailDialog(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(R.string.txt_text_placeholder_49), fontSize = 20.sp)
+                        Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
                         Text(
                             plantName,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
                         TextButton(onClick = { editingName = true }) {
-                            Text(stringResource(R.string.txt_text_placeholder_84), fontSize = 14.sp)
+                            Icon(
+                                imageVector = Icons.Filled.Edit,
+                                contentDescription = "Edit plant name",
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(18.dp)
+                            )
                         }
                     }
                 }
@@ -682,11 +709,11 @@ fun PlantDetailDialog(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
                 // Stats
-                val statsItems = listOf(
-                    "📅" to "Days tracked: ${plantState.totalDaysTracked}",
-                    "🔥" to "Current streak: ${plantState.currentStreak}",
-                    "💧" to "Today: ${(plantState.todayPercentage * 100).toInt()}%",
-                    "🌱" to "Stage: ${plantState.stage.displayName}"
+                val statsItems = listOf<Pair<ImageVector, String>>(
+                    Icons.Filled.DateRange to "Days tracked: ${plantState.totalDaysTracked}",
+                    Icons.Filled.Whatshot to "Current streak: ${plantState.currentStreak}",
+                    Icons.Filled.WaterDrop to "Today: ${(plantState.todayPercentage * 100).toInt()}%",
+                    Icons.Outlined.Flag to "Stage: ${plantState.stage.displayName}"
                 )
 
                 statsItems.forEach { (icon, text) ->
@@ -695,7 +722,12 @@ fun PlantDetailDialog(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(icon, fontSize = 16.sp)
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(18.dp)
+                        )
                         Text(text, fontSize = 13.sp)
                     }
                 }
@@ -719,9 +751,11 @@ fun PlantDetailDialog(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(
-                            if (isCompleted) "✅" else "⬜",
-                            fontSize = 14.sp
+                        Icon(
+                            imageVector = if (isCompleted) Icons.Filled.CheckCircle else Icons.Outlined.Flag,
+                            contentDescription = if (isCompleted) "Completed" else "Not yet completed",
+                            tint = if (isCompleted) StemGreen else MaterialTheme.colorScheme.outline,
+                            modifier = Modifier.size(16.dp)
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(

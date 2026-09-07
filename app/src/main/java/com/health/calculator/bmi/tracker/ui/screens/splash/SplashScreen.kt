@@ -5,7 +5,6 @@ import com.health.calculator.bmi.tracker.R
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -126,7 +125,7 @@ fun SplashScreen(
         // Step 1: Logo scales in with bounce
         logoScale.animateTo(
             targetValue = 1f,
-            animationSpec = tween(500, easing = EaseOutBack)
+            animationSpec = tween(500, easing = FastOutSlowInEasing)
         )
 
         // Step 2: Title fades in

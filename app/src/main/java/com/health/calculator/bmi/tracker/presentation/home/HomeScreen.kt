@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Assessment
@@ -42,6 +43,7 @@ import androidx.compose.material.icons.outlined.MonitorHeart
 import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.outlined.ShowChart
 import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -264,10 +266,10 @@ private fun HomeHeader(
 ) {
     val hour = remember { Calendar.getInstance().get(Calendar.HOUR_OF_DAY) }
     val (greeting, greetingIcon) = when (hour) {
-        in 5..11 -> "Good morning" to "☀️"
-        in 12..16 -> "Good afternoon" to "🌤️"
-        in 17..21 -> "Good evening" to "🌙"
-        else -> "Welcome back" to "✨"
+        in 5..11 -> "Good morning" to Icons.Outlined.WbSunny
+        in 12..16 -> "Good afternoon" to Icons.Outlined.WbSunny
+        in 17..21 -> "Good evening" to Icons.Filled.Star
+        else -> "Welcome back" to Icons.Filled.AutoAwesome
     }
     val dateString = remember {
         try {
@@ -314,9 +316,11 @@ private fun HomeHeader(
                             )
                         )
                     )
-                    Text(
-                        text = greetingIcon,
-                        style = MaterialTheme.typography.titleLarge
+                    Icon(
+                        imageVector = greetingIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
                 Text(

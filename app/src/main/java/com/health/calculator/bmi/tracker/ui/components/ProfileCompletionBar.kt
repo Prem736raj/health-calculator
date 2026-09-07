@@ -35,10 +35,13 @@ fun ProfileCompletionBar(
 
     // Completion is an invitation, not a health warning.  Keep incomplete
     // profiles out of the error palette and reserve red for actual errors.
-    val progressColor = when {
-        completion.percentage >= 80 -> HealthColors.Healthy
-        completion.percentage >= 50 -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.tertiary
+    // Completion is an invitation, not a warning. Keep the progress treatment
+    // inside the product's action/positive palette; reserve coral/error tones
+    // for actual problems that need attention.
+    val progressColor = if (completion.percentage >= 80) {
+        HealthColors.Healthy
+    } else {
+        MaterialTheme.colorScheme.primary
     }
 
     Card(

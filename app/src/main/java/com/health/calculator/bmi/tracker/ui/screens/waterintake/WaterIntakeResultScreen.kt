@@ -57,6 +57,7 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculation
@@ -1341,7 +1342,13 @@ private fun BottomActionBar(
             ) {
                 Icon(Icons.Default.Refresh, null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
-                Text(stringResource(R.string.txt_recalculate), fontSize = 13.sp)
+                Text(
+                    stringResource(R.string.txt_recalculate),
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
 
             // Save / Saved
@@ -1360,8 +1367,11 @@ private fun BottomActionBar(
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    if (isSaved) "Saved" else "Save Goal",
-                    fontSize = 13.sp
+                    if (isSaved) "Saved" else stringResource(R.string.txt_save),
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 

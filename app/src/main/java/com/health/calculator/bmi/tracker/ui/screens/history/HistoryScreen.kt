@@ -110,7 +110,10 @@ fun HistoryScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            LargeTopAppBar(
+                // History is a utility screen, so keep the title and actions in
+                // one compact row. A large app bar leaves an unnecessary blank
+                // band above the tabs on smaller phones.
+                TopAppBar(
                 title = {
                     Column {
                         Text(

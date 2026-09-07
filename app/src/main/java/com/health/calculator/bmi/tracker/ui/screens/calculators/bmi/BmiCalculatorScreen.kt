@@ -595,15 +595,13 @@ private fun BmiInputContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        AnimatedContent(
-            targetState = useSliders,
-            transitionSpec = {
-                (fadeIn(tween(300)) + slideInVertically { it / 4 })
-                    .togetherWith(fadeOut(tween(200)) + slideOutVertically { -it / 4 })
-            },
-            label = "inputModeSwitch"
-        ) { isSliderMode ->
-            if (isSliderMode) {
+        // Keep the two input layouts mutually exclusive. Sliding the entire
+        // column in while the previous layout is still composed makes the
+        // Weight row and the live BMI preview occupy the same pixels on short
+        // screens. The toggle itself already provides clear state feedback, so
+        // a direct branch is safer and easier to read than an overlapping
+        // transition here.
+        if (useSliders) {
                 BMISliderInputSection(
                     weightKg = sliderWeightKg,
                     heightCm = sliderHeightCm,
@@ -613,7 +611,7 @@ private fun BmiInputContent(
                     onHeightChange = { viewModel.updateSliderHeight(it) },
                     modifier = Modifier.fillMaxWidth()
                 )
-            } else {
+        } else {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                     // --- Weight Input ---
         Row(
@@ -731,7 +729,6 @@ private fun BmiInputContent(
         
                 }
             }
-        }
 
         Spacer(modifier = Modifier.height(32.dp))
 

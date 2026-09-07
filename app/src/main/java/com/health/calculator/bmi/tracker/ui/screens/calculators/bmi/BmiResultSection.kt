@@ -10,8 +10,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.EaseOutCubic
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -107,7 +107,7 @@ fun BmiResultSection(
         delay(200)
         showBmiNumber = true
         numberScale.snapTo(0.3f)
-        numberScale.animateTo(1f, tween(600, easing = EaseOutBack))
+        numberScale.animateTo(1f, tween(600, easing = FastOutSlowInEasing))
 
         delay(200); showGauge = true
         delay(300); showDetails = true

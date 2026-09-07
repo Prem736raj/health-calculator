@@ -5,7 +5,6 @@ import com.health.calculator.bmi.tracker.R
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -434,7 +433,7 @@ private fun BmiTrendGraph(points: List<BmiTrendPoint>) {
     LaunchedEffect(points) {
         dotScale.snapTo(0f)
         delay(800)
-        dotScale.animateTo(1f, tween(500, easing = EaseOutBack))
+        dotScale.animateTo(1f, tween(500, easing = FastOutSlowInEasing))
     }
 
     val density = LocalDensity.current
