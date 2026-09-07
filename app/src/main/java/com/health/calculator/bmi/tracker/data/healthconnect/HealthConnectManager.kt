@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
@@ -66,44 +68,48 @@ class HealthConnectManager @Inject constructor(
     }
 
     suspend fun readDailySteps(): Long {
+        val today = LocalDate.now()
+        return readStepsHistory(days = 1)
+            .firstOrNull { it.date == today }
+            ?.steps
+            ?: 0L
+    }
 
-        if (!isSupported.value) {
-            return 0L
-        }
+    /**
+     * Reads a bounded date-level step history for the visible tracking feature.
+     * Only aggregated counts are returned; raw Health Connect records never
+     * leave this manager. A missing permission or provider error is represented
+     * by an empty list so the local dashboard can continue working offline.
+     */
+    suspend fun readStepsHistory(days: Int = 30): List<HealthConnectStepsDay> {
+        if (!isSupported.value || !hasAllPermissions()) return emptyList()
 
-        if (!hasAllPermissions()) {
-            return 0L
-        }
-
-        val start =
-            ZonedDateTime
-                .now()
-                .truncatedTo(ChronoUnit.DAYS)
-                .toInstant()
-
+        val safeDays = days.coerceIn(1, 90)
+        val zone = ZoneId.systemDefault()
         val end = Instant.now()
+        val start = ZonedDateTime.now(zone)
+            .toLocalDate()
+            .minusDays((safeDays - 1).toLong())
+            .atStartOfDay(zone)
+            .toInstant()
 
         return try {
-
-            val result =
-                healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                        recordType = StepsRecord::class,
-                        timeRangeFilter =
-                            TimeRangeFilter.between(
-                                start,
-                                end
-                            )
-                    )
+            val result = healthConnectClient.readRecords(
+                ReadRecordsRequest(
+                    recordType = StepsRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(start, end)
                 )
-
-            result.records.sumOf {
-                it.count
-            }
-
+            )
+            result.records
+                .asSequence()
+                .filter { it.count >= 0L }
+                .groupBy { it.startTime.atZone(zone).toLocalDate() }
+                .map { (date, records) ->
+                    HealthConnectStepsDay(date, records.sumOf { it.count })
+                }
+                .sortedBy { it.date }
         } catch (_: Exception) {
-
-            0L
+            emptyList()
         }
     }
 
@@ -143,4 +149,9 @@ class HealthConnectManager @Inject constructor(
 data class HealthConnectWeight(
     val kilograms: Double,
     val timestampMillis: Long
+)
+
+data class HealthConnectStepsDay(
+    val date: LocalDate,
+    val steps: Long
 )

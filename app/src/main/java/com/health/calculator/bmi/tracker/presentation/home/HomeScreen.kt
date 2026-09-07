@@ -199,6 +199,7 @@ fun HomeScreen(
         item {
             DailyMetricsSection(
                 state = uiState,
+                stepsTrend = uiState.stepsTrend,
                 onOpenSteps = onNavigateToHealthConnections,
                 onOpenWater = onNavigateToWater,
                 onOpenWeight = onNavigateToWeight,
@@ -472,6 +473,7 @@ private fun WellnessScoreCard(
 @Composable
 private fun DailyMetricsSection(
     state: HomeUiState,
+    stepsTrend: com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison?,
     onOpenSteps: () -> Unit,
     onOpenWater: () -> Unit,
     onOpenWeight: () -> Unit,
@@ -490,7 +492,15 @@ private fun DailyMetricsSection(
                 icon = Icons.Outlined.DirectionsWalk,
                 label = "Steps",
                 value = metrics.stepsToday?.let(numberFormat::format) ?: "Connect",
-                supportingText = if (metrics.stepsToday == null) "Health Connect" else "synced today",
+                supportingText = when {
+                    metrics.stepsToday == null -> "Health Connect"
+                    stepsTrend == null -> "synced today"
+                    else -> String.format(
+                        Locale.getDefault(),
+                        "%+.0f%% vs last week",
+                        stepsTrend.percentChange
+                    )
+                },
                 progress = null,
                 onClick = onOpenSteps,
                 accent = FeatureColors.StepsDeep,

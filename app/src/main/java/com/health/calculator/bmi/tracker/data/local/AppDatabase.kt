@@ -40,9 +40,10 @@ import com.health.calculator.bmi.tracker.data.dao.UrineColorDao
         com.health.calculator.bmi.tracker.data.models.HealthMilestone::class,
         com.health.calculator.bmi.tracker.data.models.Reminder::class,
         com.health.calculator.bmi.tracker.data.models.WeeklyReport::class,
-        com.health.calculator.bmi.tracker.data.local.entity.ChatMessageEntity::class
+        com.health.calculator.bmi.tracker.data.local.entity.ChatMessageEntity::class,
+        com.health.calculator.bmi.tracker.data.model.StepHistoryEntry::class
     ],
-    version = 15,
+    version = 16,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -83,6 +84,9 @@ abstract class AppDatabase : RoomDatabase() {
     /** DAO for AI chat history */
     abstract fun chatDao(): com.health.calculator.bmi.tracker.data.local.dao.ChatDao
 
+    /** DAO for date-level Health Connect step snapshots. */
+    abstract fun stepHistoryDao(): com.health.calculator.bmi.tracker.data.local.dao.StepHistoryDao
+
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
@@ -102,6 +106,14 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_15_16 = object : Migration(15, 16) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `step_history` (`dayStartMillis` INTEGER NOT NULL, `steps` INTEGER NOT NULL, `source` TEXT NOT NULL, `syncedAtMillis` INTEGER NOT NULL, PRIMARY KEY(`dayStartMillis`))"
+                )
+            }
+        }
+
         /**
          * Returns the singleton database instance, creating it if needed.
          */
@@ -113,6 +125,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "health_calculator_database"
                 )
                     .addMigrations(MIGRATION_13_14, MIGRATION_14_15)
+                    .addMigrations(MIGRATION_15_16)
                     .build()
                     .also { INSTANCE = it }
             }

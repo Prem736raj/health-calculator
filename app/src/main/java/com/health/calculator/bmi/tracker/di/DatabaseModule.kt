@@ -41,6 +41,9 @@ object DatabaseModule {
     fun provideWeightDao(database: AppDatabase) = database.weightDao()
 
     @Provides
+    fun provideStepHistoryDao(database: AppDatabase) = database.stepHistoryDao()
+
+    @Provides
     fun provideFamilyProfileDao(database: AppDatabase) = database.familyProfileDao()
 
     @Provides

@@ -23,6 +23,9 @@ import com.health.calculator.bmi.tracker.util.UserHealthContext
 import kotlinx.coroutines.flow.combine
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.WeightRepository
+import com.health.calculator.bmi.tracker.data.repository.StepHistoryRepository
+import com.health.calculator.bmi.tracker.data.model.StepHistoryEntry
+import com.health.calculator.bmi.tracker.domain.tracking.StepTrendPolicy
 import com.health.calculator.bmi.tracker.domain.insights.DeterministicInsightEngine
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
@@ -40,6 +43,7 @@ data class HomeUiState(
     val lastActivity: com.health.calculator.bmi.tracker.util.LastActivity? = null,
     val recommendations: List<SmartRecommendation> = emptyList(),
     val deterministicInsights: List<WellnessInsight> = emptyList(),
+    val stepsTrend: com.health.calculator.bmi.tracker.domain.tracking.TrackingComparison? = null,
     val calculatorCardsState: com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState = com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState(),
     val isLoading: Boolean = false
 )
@@ -48,7 +52,8 @@ data class HomeUiState(
 class HomeViewModel @Inject constructor(
     application: Application,
     private val healthConnectManager: HealthConnectManager,
-    private val productAnalytics: ProductAnalytics
+    private val productAnalytics: ProductAnalytics,
+    private val stepHistoryRepository: StepHistoryRepository
 ) : AndroidViewModel(application) {
     
     private val database = AppDatabase.getInstance(application)
@@ -67,6 +72,12 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
     
     private val stepsFlow = MutableStateFlow<Int?>(null)
+    private val stepsHistoryFlow = MutableStateFlow<List<StepHistoryEntry>>(emptyList())
+
+    private data class StepsSnapshot(
+        val today: Int?,
+        val byDay: Map<LocalDate, Int>
+    )
 
     init {
         productAnalytics.track(
@@ -77,6 +88,7 @@ class HomeViewModel @Inject constructor(
         observeBp()
         observeWhr()
         observeHeartRate()
+        observeStepHistory()
         fetchHealthConnectData()
         observeHealthMetrics()
         observeRecommendations()
@@ -86,11 +98,43 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (healthConnectManager.isSupported.value && healthConnectManager.hasAllPermissions()) {
-                    val steps = healthConnectManager.readDailySteps()
-                    stepsFlow.update { steps.toInt() }
+                    val imported = healthConnectManager.readStepsHistory(days = 30)
+                    val zone = java.time.ZoneId.systemDefault()
+                    val stored = imported.map { day ->
+                        StepHistoryEntry(
+                            dayStartMillis = day.date.atStartOfDay(zone).toInstant().toEpochMilli(),
+                            steps = day.steps
+                        )
+                    }
+                    stepHistoryRepository.saveAll(stored)
+                    stepHistoryRepository.prune(
+                        before = LocalDate.now(zone).minusDays(34),
+                        zone = zone
+                    )
+                    val today = stored.firstOrNull { it.dayStartMillis == LocalDate.now(zone).atStartOfDay(zone).toInstant().toEpochMilli() }
+                    today?.steps
+                        ?.coerceAtMost(Int.MAX_VALUE.toLong())
+                        ?.toInt()
+                        ?.let { stepsFlow.value = it }
                 }
             } catch (e: Exception) {
                 // Ignore errors silently for home screen
+            }
+        }
+    }
+
+    private fun observeStepHistory() {
+        viewModelScope.launch {
+            stepHistoryRepository.recentEntries.collect { entries ->
+                stepsHistoryFlow.value = entries
+                val todayStart = LocalDate.now()
+                    .atStartOfDay(java.time.ZoneId.systemDefault())
+                    .toInstant()
+                    .toEpochMilli()
+                stepsFlow.value = entries.firstOrNull { it.dayStartMillis == todayStart }
+                    ?.steps
+                    ?.coerceAtMost(Int.MAX_VALUE.toLong())
+                    ?.toInt()
             }
         }
     }
@@ -150,6 +194,16 @@ class HomeViewModel @Inject constructor(
             calendar.set(java.util.Calendar.MILLISECOND, 999)
             val endOfDay = calendar.timeInMillis
 
+            val stepsSnapshotFlow = kotlinx.coroutines.flow.combine(
+                stepsFlow,
+                stepsHistoryFlow
+            ) { todaySteps, entries ->
+                StepsSnapshot(
+                    today = todaySteps,
+                    byDay = stepHistoryRepository.asDateMap(entries)
+                )
+            }
+
             kotlinx.coroutines.flow.combine(
                 kotlinx.coroutines.flow.combine(
                     historyRepository.getLatestEntry(com.health.calculator.bmi.tracker.data.model.CalculatorType.BMI),
@@ -165,7 +219,7 @@ class HomeViewModel @Inject constructor(
                     bmrPrefs.lastValueFlow,
                     historyRepository.getLatestEntry(com.health.calculator.bmi.tracker.data.model.CalculatorType.BSA),
                     bmiGoalPrefs.bmiGoalFlow,
-                    stepsFlow
+                    stepsSnapshotFlow
                 ) { bmr, bsa, goal, steps -> listOf(bmr, bsa, goal, steps) }
                 ,
                 weightRepository.getLatestWeight()
@@ -180,7 +234,8 @@ class HomeViewModel @Inject constructor(
                 val bmrValue = extraList[0] as com.health.calculator.bmi.tracker.data.preferences.BMRLastValue
                 val bsaEntry = extraList[1] as? com.health.calculator.bmi.tracker.data.model.HistoryEntry
                 val bmiGoal = extraList[2] as com.health.calculator.bmi.tracker.data.model.BMIGoalData
-                val steps = extraList[3] as? Int
+                val stepsSnapshot = extraList[3] as StepsSnapshot
+                val steps = stepsSnapshot.today
                 val (weightEntries, waterLogs) = trackingData
                 
                 val lastBp = bpReadings.maxByOrNull { it.measurementTimestamp }
@@ -235,7 +290,7 @@ class HomeViewModel @Inject constructor(
                     weights = weightEntries,
                     waterLogs = waterLogs,
                     waterGoalMl = metrics.waterGoalToday,
-                    stepsByDay = steps?.let { mapOf(LocalDate.now() to it) } ?: emptyMap(),
+                    stepsByDay = stepsSnapshot.byDay,
                     bloodPressureTimestamps = bpReadings.map { it.measurementTimestamp },
                     goalWeightKg = bmiGoal.targetWeight?.toDouble()
                 )
@@ -256,6 +311,10 @@ class HomeViewModel @Inject constructor(
                         healthScore = score,
                         quickStats = stats,
                         deterministicInsights = deterministicInsights,
+                        stepsTrend = StepTrendPolicy.weeklyComparison(
+                            stepsByDay = stepsSnapshot.byDay,
+                            today = LocalDate.now()
+                        ),
                         lastActivity = lastAct,
                         calculatorCardsState = com.health.calculator.bmi.tracker.ui.components.home.CalculatorCardsState(
                             lastBMI = metrics.bmi,

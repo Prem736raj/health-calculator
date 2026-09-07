@@ -23,6 +23,8 @@ import com.health.calculator.bmi.tracker.data.preferences.WaterReminderPreferenc
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
 import com.health.calculator.bmi.tracker.data.repository.SettingsRepository
+import com.health.calculator.bmi.tracker.data.repository.StepHistoryRepository
+import com.health.calculator.bmi.tracker.data.model.StepHistoryEntry
 import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalytics
 import com.health.calculator.bmi.tracker.domain.analytics.ProductAnalyticsEvent
 import com.health.calculator.bmi.tracker.notification.WaterReminderScheduler
@@ -65,6 +67,7 @@ data class SettingsUiState(
     val isHealthConnectWeightConnected: Boolean = false,
     val healthConnectSteps: Long? = null,
     val healthConnectWeightKg: Double? = null,
+    val healthConnectStepHistory: List<StepHistoryEntry> = emptyList(),
     val healthConnectSyncStatus: String? = null
 )
 
@@ -78,7 +81,8 @@ class SettingsViewModel @Inject constructor(
     val healthConnectManager: HealthConnectManager,
     private val settingsDataStore: SettingsDataStore,
     private val productAnalytics: ProductAnalytics,
-    private val weightReminderManager: WeightReminderManager
+    private val weightReminderManager: WeightReminderManager,
+    private val stepHistoryRepository: StepHistoryRepository
 ) : AndroidViewModel(application) {
     private val appContext = application.applicationContext
     private val waterReminderPreferences = WaterReminderPreferences(appContext)
@@ -102,6 +106,15 @@ class SettingsViewModel @Inject constructor(
         loadSettings()
         loadProductAnalyticsConsent()
         checkHealthConnectStatus()
+        observeHealthConnectStepHistory()
+    }
+
+    private fun observeHealthConnectStepHistory() {
+        viewModelScope.launch {
+            stepHistoryRepository.recentEntries.collect { entries ->
+                _uiState.update { it.copy(healthConnectStepHistory = entries) }
+            }
+        }
     }
 
     private fun loadProductAnalyticsConsent() {
@@ -147,7 +160,19 @@ class SettingsViewModel @Inject constructor(
             _uiState.update { it.copy(healthConnectSyncStatus = "Syncing...") }
             try {
                 val steps = if (healthConnectManager.hasAllPermissions()) {
-                    healthConnectManager.readDailySteps()
+                    val imported = healthConnectManager.readStepsHistory(days = 30)
+                    val zone = java.time.ZoneId.systemDefault()
+                    stepHistoryRepository.saveAll(imported.map { day ->
+                        StepHistoryEntry(
+                            dayStartMillis = day.date.atStartOfDay(zone).toInstant().toEpochMilli(),
+                            steps = day.steps
+                        )
+                    })
+                    stepHistoryRepository.prune(
+                        before = java.time.LocalDate.now(zone).minusDays(34),
+                        zone = zone
+                    )
+                    imported.firstOrNull { it.date == java.time.LocalDate.now(zone) }?.steps
                 } else null
                 val weight = if (healthConnectManager.hasAllPermissions(HealthConnectPermissionPolicy.weightRead)) {
                     healthConnectManager.readLatestWeight()

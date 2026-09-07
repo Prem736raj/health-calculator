@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
@@ -38,6 +39,10 @@ import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectFeature
 import com.health.calculator.bmi.tracker.data.healthconnect.HealthConnectPermissionPolicy
 import com.health.calculator.bmi.tracker.presentation.settings.SettingsUiState
 import com.health.calculator.bmi.tracker.presentation.settings.SettingsViewModel
+import com.health.calculator.bmi.tracker.data.model.StepHistoryEntry
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,12 +96,19 @@ fun HealthConnectionsScreen(
                 },
                 onSync = healthConnectViewModel::syncHealthConnectData
             )
-            
+
             LazyColumn(
                 modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                if (healthConnectState.healthConnectStepHistory.isNotEmpty()) {
+                    item {
+                        StepHistorySummary(
+                            entries = healthConnectState.healthConnectStepHistory
+                        )
+                    }
+                }
                 item {
                     Text(
                         stringResource(R.string.txt_your_health_data_network),
@@ -121,6 +133,90 @@ fun HealthConnectionsScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun StepHistorySummary(
+    entries: List<StepHistoryEntry>,
+    modifier: Modifier = Modifier
+) {
+    val zone = remember { ZoneId.systemDefault() }
+    val formatter = remember { DateTimeFormatter.ofPattern("EEE") }
+    val days = entries
+        .sortedBy { it.dayStartMillis }
+        .takeLast(7)
+        .map { entry ->
+            Instant.ofEpochMilli(entry.dayStartMillis).atZone(zone).toLocalDate() to entry.steps
+        }
+    if (days.isEmpty()) return
+
+    val maxSteps = days.maxOf { it.second }.coerceAtLeast(1L)
+    val average = days.map { it.second }.average()
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text("Recent steps", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    Text(
+                        "Read-only daily snapshots · average ${"%,.0f".format(average)} steps",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Icon(Icons.Outlined.DirectionsWalk, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth().height(104.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                days.forEach { (date, steps) ->
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        Text(
+                            if (steps > 0) "${(steps / 1_000.0).let { "%.1f".format(it) }}k" else "—",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.7f)
+                                .height((56f * (steps.toFloat() / maxSteps)).coerceAtLeast(if (steps > 0) 6f else 2f).dp)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.78f))
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            date.format(formatter),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+            Text(
+                "Trends describe recorded activity only; they do not predict health outcomes.",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
