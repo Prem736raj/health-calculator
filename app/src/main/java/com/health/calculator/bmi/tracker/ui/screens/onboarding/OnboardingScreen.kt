@@ -41,8 +41,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Analytics
+import androidx.compose.material.icons.outlined.Assignment
+import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.outlined.Timeline
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -65,6 +73,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -72,57 +81,55 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// ─── Accent Colors ────────────────────────────────────────────────────────────
-
-private val OnboardingTeal = com.health.calculator.bmi.tracker.ui.theme.HealthColors.BelowNormal
-private val OnboardingTealDark = com.health.calculator.bmi.tracker.ui.theme.HealthColors.Info
-private val OnboardingTealLight = com.health.calculator.bmi.tracker.ui.theme.HealthColors.BelowNormalDark
-
 // ─── Onboarding Page Data ─────────────────────────────────────────────────────
 
 private data class OnboardingPage(
-    val emoji: String,
-    val decorativeEmojis: List<String>,
+    val icon: ImageVector,
+    val decorativeIcons: List<ImageVector>,
     val title: String,
     val subtitle: String,
-    val description: String,
-    val accentColor: Color
+    val description: String
 )
 
 private val onboardingPages = listOf(
     OnboardingPage(
-        emoji = "❤️",
-        decorativeEmojis = listOf("🫀", "🩺", "💪", "🧘"),
+        icon = Icons.Outlined.FavoriteBorder,
+        decorativeIcons = listOf(Icons.Outlined.MonitorHeart, Icons.Outlined.DirectionsWalk, Icons.Outlined.WaterDrop),
         title = "Welcome to\nHealth Metrics Tracker",
         subtitle = "Your Personal Health Companion",
-        description = "Track and understand your health metrics with easy-to-use calculators. All your data stays private on your device.",
-        accentColor = Color(0xFFFF4B4B)
+        description = "Track and understand the metrics you choose with easy-to-use calculators. Your records stay private on this device."
     ),
     OnboardingPage(
-        emoji = "📊",
-        decorativeEmojis = listOf("⚖️", "🔥", "❤️", "💧", "📊", "🎯", "💓", "🩺", "📐", "🍎"),
+        icon = Icons.Outlined.Analytics,
+        decorativeIcons = listOf(Icons.Outlined.MonitorWeight, Icons.Outlined.Timeline, Icons.Outlined.Assignment),
         title = "10 practical\nhealth calculators",
         subtitle = "Evidence-informed estimates",
-        description = "From BMI and BMR to blood pressure and heart-rate zones — each tool explains its method, sources, and limits.",
-        accentColor = Color(0xFF1E88E5)
+        description = "From BMI and BMR to blood pressure and heart-rate zones — each tool explains its method, sources, and limits."
     ),
     OnboardingPage(
-        emoji = "📈",
-        decorativeEmojis = listOf("📊", "📉", "🏆", "⭐"),
+        icon = Icons.Outlined.Timeline,
+        decorativeIcons = listOf(Icons.Outlined.Analytics, Icons.Outlined.Flag, Icons.Outlined.DirectionsWalk),
         title = "Track Your\nProgress",
-        subtitle = "Beautiful Charts & History",
-        description = "Every calculation is saved automatically. Watch your health trends over time with beautiful charts and detailed history.",
-        accentColor = Color(0xFF7B1FA2)
+        subtitle = "Clear history and trends",
+        description = "Save the check-ins you want, then review gentle trends and history over time."
     ),
     OnboardingPage(
-        emoji = "👤",
-        decorativeEmojis = listOf("📋", "✨", "🎯", "❤️"),
+        icon = Icons.Outlined.Assignment,
+        decorativeIcons = listOf(Icons.Outlined.Flag, Icons.Outlined.WaterDrop, Icons.Outlined.FavoriteBorder),
         title = "Set Up Your\nProfile",
         subtitle = "Personalized Results",
-        description = "Enter your details once and they'll be used across all calculators. Get personalized estimates and gentle wellness guidance tailored to you.",
-        accentColor = OnboardingTeal
+        description = "Enter a few optional details once to personalize estimates and gentle wellness guidance."
     )
 )
+
+@Composable
+private fun onboardingAccentColor(pageIndex: Int): Color {
+    return when (pageIndex % 3) {
+        0 -> MaterialTheme.colorScheme.primary
+        1 -> MaterialTheme.colorScheme.secondary
+        else -> MaterialTheme.colorScheme.tertiary
+    }
+}
 
 // ─── Main Onboarding Screen ──────────────────────────────────────────────────
 
@@ -158,7 +165,7 @@ fun OnboardingScreen(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                            MaterialTheme.colorScheme.surface,
                             MaterialTheme.colorScheme.background
                         )
                     )
@@ -239,6 +246,8 @@ private fun OnboardingPageContent(
     pageIndex: Int,
     isCurrentPage: Boolean
 ) {
+    val accentColor = onboardingAccentColor(pageIndex)
+
     // Icon entrance animation
     val iconScale = remember { Animatable(0.5f) }
     LaunchedEffect(isCurrentPage) {
@@ -277,9 +286,10 @@ private fun OnboardingPageContent(
                 .size(200.dp)
                 .scale(iconScale.value)
         ) {
-            // Decorative floating emojis around the main icon
-            page.decorativeEmojis.forEachIndexed { index, emoji ->
-                val angle = (360f / page.decorativeEmojis.size) * index
+            // Decorative vector icons reinforce the page without relying on
+            // emoji glyphs that vary by device and theme.
+            page.decorativeIcons.forEachIndexed { index, icon ->
+                val angle = (360f / page.decorativeIcons.size) * index
                 val radius = 80.dp
                 val radians = Math.toRadians(angle.toDouble())
                 val x = (radius.value * Math.cos(radians)).toFloat()
@@ -298,10 +308,12 @@ private fun OnboardingPageContent(
                     label = "decor_${pageIndex}_$index"
                 )
 
-                Text(
-                    text = emoji,
-                    fontSize = 20.sp,
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = accentColor.copy(alpha = 0.65f),
                     modifier = Modifier
+                        .size(22.dp)
                         .align(Alignment.Center)
                         .offset(
                             x = x.dp,
@@ -319,8 +331,8 @@ private fun OnboardingPageContent(
                     .background(
                         Brush.radialGradient(
                             colors = listOf(
-                                page.accentColor.copy(alpha = 0.15f),
-                                page.accentColor.copy(alpha = 0.03f),
+                                accentColor.copy(alpha = 0.15f),
+                                accentColor.copy(alpha = 0.03f),
                                 Color.Transparent
                             )
                         )
@@ -335,22 +347,24 @@ private fun OnboardingPageContent(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                page.accentColor.copy(alpha = 0.1f),
-                                page.accentColor.copy(alpha = 0.04f)
+                                accentColor.copy(alpha = 0.1f),
+                                accentColor.copy(alpha = 0.04f)
                             )
                         )
                     )
                     .border(
                         width = 1.5.dp,
-                        color = page.accentColor.copy(alpha = 0.2f),
+                        color = accentColor.copy(alpha = 0.2f),
                         shape = CircleShape
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = page.emoji,
-                    fontSize = 48.sp,
+                Icon(
+                    imageVector = page.icon,
+                    contentDescription = null,
+                    tint = accentColor,
                     modifier = Modifier
+                        .size(48.dp)
                         .padding(bottom = floatY.dp)
                 )
             }
@@ -366,8 +380,8 @@ private fun OnboardingPageContent(
                 lineHeight = 36.sp,
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        page.accentColor,
-                        page.accentColor.copy(alpha = 0.7f)
+                        accentColor,
+                        accentColor.copy(alpha = 0.7f)
                     )
                 )
             ),
@@ -383,7 +397,7 @@ private fun OnboardingPageContent(
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 0.5.sp
             ),
-            color = page.accentColor,
+            color = accentColor,
             textAlign = TextAlign.Center
         )
 
@@ -447,7 +461,8 @@ private fun BottomSection(
                         .height(56.dp),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     contentPadding = PaddingValues(0.dp),
                     elevation = ButtonDefaults.buttonElevation(
@@ -455,38 +470,22 @@ private fun BottomSection(
                         pressedElevation = 2.dp
                     )
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.horizontalGradient(
-                                    colors = listOf(
-                                        Color(0xFFE91E63),
-                                        Color(0xFF9C27B0)
-                                    )
-                                )
-                            ),
-                        contentAlignment = Alignment.Center
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Person,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp),
-                                tint = Color.White
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = stringResource(R.string.txt_set_up_my_profile),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold
                             )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = stringResource(R.string.txt_set_up_my_profile),
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White
-                                )
-                            )
-                        }
+                        )
                     }
                 }
 
@@ -528,7 +527,8 @@ private fun BottomSection(
                     .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
+                    containerColor = onboardingAccentColor(pagerState.currentPage),
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 contentPadding = PaddingValues(0.dp),
                 elevation = ButtonDefaults.buttonElevation(
@@ -536,38 +536,22 @@ private fun BottomSection(
                     pressedElevation = 2.dp
                 )
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.horizontalGradient(
-                                colors = listOf(
-                                    onboardingPages[pagerState.currentPage].accentColor,
-                                    onboardingPages[pagerState.currentPage].accentColor.copy(alpha = 0.8f)
-                                )
-                            )
-                        ),
-                    contentAlignment = Alignment.Center
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_next),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
+                    Text(
+                        text = stringResource(R.string.txt_next),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Icon(
-                            imageVector = Icons.Filled.ArrowForward,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = Color.White
-                        )
-                    }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        imageVector = Icons.Filled.ArrowForward,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
         }
@@ -600,7 +584,7 @@ private fun PageIndicators(
                 label = "indicator_alpha_$index"
             )
 
-            val pageColor = onboardingPages[currentPage].accentColor
+            val pageColor = onboardingAccentColor(currentPage)
 
             Box(
                 modifier = Modifier
