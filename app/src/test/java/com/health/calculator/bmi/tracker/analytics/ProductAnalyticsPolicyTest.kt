@@ -71,4 +71,15 @@ class ProductAnalyticsPolicyTest {
             "reminder_enabled"
         )))
     }
+
+    @Test
+    fun onboardingActionUsesOnlySmallNonSensitiveVocabulary() {
+        assertEquals(
+            mapOf("action" to "water"),
+            ProductAnalyticsPolicy.sanitize(
+                ProductAnalyticsEvent.ONBOARDING_ACTION_SELECTED,
+                mapOf("action" to "WATER", "weight" to "72")
+            )
+        )
+    }
 }

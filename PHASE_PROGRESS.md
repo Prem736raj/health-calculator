@@ -177,3 +177,11 @@ This file is the source of truth for the sequential product-development phases. 
 - **Tests:** Theme token tests now cover hero contrast, component-tier elevation and touch-target minimums. `test`, `assembleDebug`, `assembleRelease` and `bundleRelease` pass after this pass; release lint-vital also passes. A full debug lint analysis was attempted twice but exceeded the local Windows host memory budget before producing a fresh report; the pre-existing lint report and CI configuration remain unchanged.
 - **Known limitations:** Some deep educational/calculator content still owns legacy local colors and emoji-backed semantic data; these are the next visual migration targets after the first-session flow. Large-font, TalkBack, tablet and OEM dark-mode checks still require a real device/emulator.
 - **Next phase:** Improve the first five minutes so a new user gets one useful result before optional profile, notification or Health Connect setup.
+
+## Item 2 — First-session activation flow
+
+- **Status:** Complete locally; device/onboarding smoke QA remains open
+- **Major changes:** Shortened onboarding from four pages to three, replaced the profile-first ending with a calm first-action chooser, and made the copy explicit that setup is optional and missed days do not erase progress. New users can choose Water, Weight, Steps or a direct BMI calculator route; Steps lands on the Track hub so Health Connect remains permission-led rather than being requested on launch. Profile setup is still available as a secondary choice, while Explore Home remains the no-commitment path. Added a privacy-safe `onboarding_action_selected` analytics event using a fixed vocabulary.
+- **Tests:** Added route mapping coverage for all four first actions and analytics sanitization coverage for the new event. Focused Kotlin compilation and unit tests pass after the flow change.
+- **Known limitations:** A first action does not yet automatically offer a reminder after the user completes it; reminder prompts remain feature-led in the relevant trackers and belong to the retention pass. Device-level first-run, process-death and large-font testing still require a usable emulator/device.
+- **Next phase:** Deepen tracking so the selected action has fast logging, history, trends, goals and reliable restoration.

@@ -48,6 +48,7 @@ import com.health.calculator.bmi.tracker.presentation.profile.ProfileScreen
 import com.health.calculator.bmi.tracker.presentation.settings.SettingsScreen
 import com.health.calculator.bmi.tracker.ui.screens.history.HistoryScreen
 import com.health.calculator.bmi.tracker.ui.screens.onboarding.OnboardingScreen
+import com.health.calculator.bmi.tracker.ui.screens.onboarding.OnboardingStartAction
 import com.health.calculator.bmi.tracker.ui.screens.splash.SplashScreen
 import com.health.calculator.bmi.tracker.ui.screens.articles.HealthArticlesScreen
 import com.health.calculator.bmi.tracker.ui.screens.export.ExportDataScreen
@@ -121,6 +122,16 @@ const val ELECTROLYTE_INFO_ROUTE = "electrolyte_info"
  */
 internal fun rootOwnsSystemBarInsets(route: String?): Boolean {
     return route == null || route == Screen.Home.route || route == Screen.Splash.route
+}
+
+/** Maps the onboarding choice to an existing, optional first-use destination. */
+internal fun onboardingDestination(action: OnboardingStartAction): String = when (action) {
+    OnboardingStartAction.WATER -> Screen.WaterTracker.route
+    OnboardingStartAction.WEIGHT -> Screen.WeightTracking.route
+    // Steps stays permission-led: the Track hub explains Health Connect before access is requested.
+    OnboardingStartAction.STEPS -> Screen.Track.route
+    // BMI is the shortest calculator path to an understandable first result.
+    OnboardingStartAction.CALCULATORS -> Screen.BmiCalculator.route
 }
 
 @Composable
@@ -304,6 +315,20 @@ fun NavGraph(
                         launchSingleTop = true
                     }
                     navController.navigate(Screen.Profile.route) {
+                        launchSingleTop = true
+                    }
+                },
+                onStartAction = { action ->
+                    productAnalytics.track(
+                        ProductAnalyticsEvent.ONBOARDING_ACTION_SELECTED,
+                        mapOf("action" to action.analyticsValue)
+                    )
+                    productAnalytics.track(ProductAnalyticsEvent.ONBOARDING_COMPLETED)
+                    scope.launch {
+                        app.settingsDataStore.setOnboardingCompleted()
+                    }
+                    navController.navigate(onboardingDestination(action)) {
+                        popUpTo(Screen.Onboarding.route) { inclusive = true }
                         launchSingleTop = true
                     }
                 }

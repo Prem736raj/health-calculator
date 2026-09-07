@@ -18,6 +18,10 @@ enum class ProductAnalyticsEvent(
         allowedParameterKeys = setOf("launch_source")
     ),
     ONBOARDING_COMPLETED(eventName = "onboarding_completed"),
+    ONBOARDING_ACTION_SELECTED(
+        eventName = "onboarding_action_selected",
+        allowedParameterKeys = setOf("action")
+    ),
     SURFACE_OPENED(
         eventName = "surface_opened",
         allowedParameterKeys = setOf("surface")
@@ -98,6 +102,7 @@ object ProductAnalyticsPolicy {
     private val allowedValuesByKey: Map<String, Set<String>> = mapOf(
         "launch_source" to setOf("direct", "notification", "widget", "deep_link"),
         "surface" to setOf("home", "track", "calculators", "insights", "profile"),
+        "action" to setOf("water", "weight", "steps", "calculator"),
         "calculator_id" to setOf(
             "bmi",
             "bmr",

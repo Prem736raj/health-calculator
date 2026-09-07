@@ -1,7 +1,9 @@
 package com.health.calculator.bmi.tracker.navigation
 
 import com.health.calculator.bmi.tracker.core.navigation.Screen
+import com.health.calculator.bmi.tracker.core.navigation.onboardingDestination
 import com.health.calculator.bmi.tracker.core.navigation.rootOwnsSystemBarInsets
+import com.health.calculator.bmi.tracker.ui.screens.onboarding.OnboardingStartAction
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -33,5 +35,13 @@ class NavigationStructureTest {
         assertFalse(rootOwnsSystemBarInsets(Screen.Track.route))
         assertFalse(rootOwnsSystemBarInsets(Screen.Profile.route))
         assertFalse(rootOwnsSystemBarInsets(Screen.BmiCalculator.route))
+    }
+
+    @Test
+    fun onboardingChoicesOpenUsefulOptionalDestinations() {
+        assertEquals(Screen.WaterTracker.route, onboardingDestination(OnboardingStartAction.WATER))
+        assertEquals(Screen.WeightTracking.route, onboardingDestination(OnboardingStartAction.WEIGHT))
+        assertEquals(Screen.Track.route, onboardingDestination(OnboardingStartAction.STEPS))
+        assertEquals(Screen.BmiCalculator.route, onboardingDestination(OnboardingStartAction.CALCULATORS))
     }
 }
