@@ -20,6 +20,18 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.AcUnit
+import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.MonitorWeight
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Thermostat
+import androidx.compose.material.icons.outlined.Timeline
+import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.material.icons.outlined.WbSunny
+import androidx.compose.material.icons.outlined.Whatshot
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -80,7 +92,12 @@ fun WaterIntakeInputScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(R.string.txt_text_placeholder_71), fontSize = 24.sp)
+                        Icon(
+                            imageVector = Icons.Outlined.WaterDrop,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
+                        )
                         Text(
                             stringResource(R.string.txt_daily_water_intake),
                             fontWeight = FontWeight.Bold
@@ -199,7 +216,12 @@ fun WaterIntakeInputScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        Text(stringResource(R.string.txt_text_placeholder_24), fontSize = 20.sp)
+                        Icon(
+                            imageVector = Icons.Outlined.MenuBook,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.size(20.dp)
+                        )
                         Text(
                             stringResource(R.string.txt_learn_about_hydration_science),
                             fontSize = 13.sp,
@@ -286,9 +308,11 @@ private fun WaterHeaderCard(waterDropOffset: Float) {
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.offset(y = waterDropOffset.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.txt_text_placeholder_71),
-                        fontSize = 52.sp
+                    Icon(
+                        imageVector = Icons.Outlined.WaterDrop,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(52.dp)
                     )
                 }
             }
@@ -333,7 +357,7 @@ private fun BodyInfoSection(
     viewModel: WaterIntakeViewModel,
     haptic: androidx.compose.ui.hapticfeedback.HapticFeedback
 ) {
-    SectionCard(title = "Body Information", icon = "🏋️") {
+    SectionCard(title = "Body Information", icon = Icons.Outlined.MonitorWeight) {
         Text(
             text = stringResource(R.string.txt_water_reference_note),
             style = MaterialTheme.typography.bodySmall,
@@ -438,7 +462,7 @@ private fun BodyInfoSection(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                listOf("Male" to "🚹", "Female" to "🚺").forEach { (gender, icon) ->
+                listOf("Male" to Icons.Outlined.Person, "Female" to Icons.Outlined.Person).forEach { (gender, icon) ->
                     val isSelected = viewModel.selectedGender == gender
                     SelectableChipCard(
                         selected = isSelected,
@@ -453,7 +477,12 @@ private fun BodyInfoSection(
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.padding(vertical = 12.dp)
                         ) {
-                            Text(icon, fontSize = 20.sp)
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null,
+                                tint = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp)
+                            )
                             Spacer(Modifier.width(8.dp))
                             Text(
                                 text = gender,
@@ -473,7 +502,7 @@ private fun ActivityLevelSection(
     viewModel: WaterIntakeViewModel,
     haptic: androidx.compose.ui.hapticfeedback.HapticFeedback
 ) {
-    SectionCard(title = "Activity Level", icon = "🏃") {
+    SectionCard(title = "Activity Level", icon = Icons.Outlined.DirectionsWalk) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             WaterActivityLevel.entries.forEach { level ->
                 val isSelected = viewModel.selectedActivityLevel == level
@@ -495,13 +524,13 @@ private fun ClimateSection(
     viewModel: WaterIntakeViewModel,
     haptic: androidx.compose.ui.hapticfeedback.HapticFeedback
 ) {
-    SectionCard(title = "Climate / Environment", icon = "🌡️") {
+    SectionCard(title = "Climate / Environment", icon = Icons.Outlined.Thermostat) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             val climateIcons = mapOf(
-                ClimateType.COLD to "❄️",
-                ClimateType.TEMPERATE to "🌤️",
-                ClimateType.HOT to "☀️",
-                ClimateType.VERY_HOT to "🔥"
+                ClimateType.COLD to Icons.Outlined.AcUnit,
+                ClimateType.TEMPERATE to Icons.Outlined.WbSunny,
+                ClimateType.HOT to Icons.Outlined.Thermostat,
+                ClimateType.VERY_HOT to Icons.Outlined.Whatshot
             )
 
             Row(
@@ -522,7 +551,14 @@ private fun ClimateSection(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp)
                         ) {
-                            Text(climateIcons[climate] ?: "", fontSize = 24.sp)
+                            climateIcons[climate]?.let { icon ->
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = climate.displayName,
@@ -553,7 +589,14 @@ private fun ClimateSection(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp)
                         ) {
-                            Text(climateIcons[climate] ?: "", fontSize = 24.sp)
+                            climateIcons[climate]?.let { icon ->
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = climate.displayName,
@@ -575,7 +618,7 @@ private fun HealthStatusSection(
     viewModel: WaterIntakeViewModel,
     haptic: androidx.compose.ui.hapticfeedback.HapticFeedback
 ) {
-    SectionCard(title = "Health Status", icon = "🩺") {
+    SectionCard(title = "Health Status", icon = Icons.Outlined.MonitorHeart) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             HealthStatus.entries.forEach { status ->
                 val isSelected = viewModel.selectedHealthStatus == status
@@ -617,9 +660,10 @@ private fun CalculateButton(onClick: () -> Unit) {
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
-        Text(
-            text = stringResource(R.string.txt_text_placeholder_71),
-            fontSize = 20.sp
+        Icon(
+            imageVector = Icons.Outlined.WaterDrop,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
         )
         Spacer(Modifier.width(8.dp))
         Text(
@@ -635,7 +679,7 @@ private fun CalculateButton(onClick: () -> Unit) {
 @Composable
 private fun SectionCard(
     title: String,
-    icon: String,
+    icon: ImageVector,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
@@ -655,7 +699,12 @@ private fun SectionCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(icon, fontSize = 20.sp)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
