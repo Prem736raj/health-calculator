@@ -31,6 +31,7 @@ import java.util.*
 @Composable
 fun MyInfoSection(
     profile: UserProfile,
+    useMetricSystem: Boolean = profile.useMetricSystem,
     onNameChange: (String) -> Unit,
     onNameClick: () -> Unit = {},
     onProfilePictureClick: () -> Unit,
@@ -97,23 +98,43 @@ fun MyInfoSection(
             color = MaterialTheme.colorScheme.primary
         )
 
+        val formatValue: (Float) -> String = { value ->
+            String.format(Locale.getDefault(), "%.1f", value)
+        }
+        val heightValue = profile.heightCm?.takeIf { it > 0f }?.let { heightCm ->
+            if (useMetricSystem) {
+                "${formatValue(heightCm)} cm"
+            } else {
+                "${formatValue(heightCm / 2.54f)} in"
+            }
+        } ?: "Not set"
+        val weightUnit = if (useMetricSystem) "kg" else "lb"
+        val weightValue = profile.weightKg?.takeIf { it > 0f }?.let { weightKg ->
+            val displayed = if (useMetricSystem) weightKg else weightKg * 2.20462f
+            "${formatValue(displayed)} $weightUnit"
+        } ?: "Not set"
+        val goalWeightValue = profile.goalWeightKg?.takeIf { it > 0f }?.let { goalWeightKg ->
+            val displayed = if (useMetricSystem) goalWeightKg else goalWeightKg * 2.20462f
+            "${formatValue(displayed)} $weightUnit"
+        } ?: "Not set"
+
         InfoItem(
             label = "Height",
-            value = if (profile.heightCm != null && profile.heightCm > 0) "${profile.heightCm} cm" else "Not set",
+            value = heightValue,
             icon = Icons.Default.Height,
             onClick = onHeightClick
         )
 
         InfoItem(
             label = "Weight",
-            value = if (profile.weightKg != null && profile.weightKg > 0) "${profile.weightKg} kg" else "Not set",
+            value = weightValue,
             icon = Icons.Default.MonitorWeight,
             onClick = onWeightClick
         )
 
         InfoItem(
             label = "Goal Weight",
-            value = if (profile.goalWeightKg != null && profile.goalWeightKg > 0) "${profile.goalWeightKg} kg" else "Not set",
+            value = goalWeightValue,
             icon = Icons.Default.Flag,
             onClick = onGoalWeightClick
         )

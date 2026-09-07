@@ -16,7 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
@@ -75,7 +75,55 @@ fun WaterIntakeResultScreen(
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
-    val result = viewModel.calculationResult ?: return
+    val result = viewModel.calculationResult
+    if (result == null) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.txt_your_water_goal)) },
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(Modifier.height(16.dp))
+                Text(
+                    text = stringResource(R.string.txt_water_result_unavailable),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.txt_water_result_unavailable_message),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.height(24.dp))
+                Button(onClick = onRecalculate) {
+                    Text(stringResource(R.string.txt_calculate_water_again))
+                }
+            }
+        }
+        return
+    }
     val scrollState = rememberScrollState()
 
     // Entrance animation
@@ -112,7 +160,7 @@ fun WaterIntakeResultScreen(
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onNavigateBack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -635,7 +683,7 @@ private fun UnitItem(value: String, unit: String, icon: String) {
             text = value,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
-            color = WaterBlueDark
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             text = unit,
@@ -1006,13 +1054,13 @@ private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
                     text = stringResource(R.string.txt_total_daily_goal),
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 15.sp,
-                    color = WaterBlueDark
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "${result.recommendedIntakeMl} ml",
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp,
-                    color = WaterBlueDark
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 

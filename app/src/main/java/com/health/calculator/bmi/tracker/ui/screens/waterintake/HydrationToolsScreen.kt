@@ -41,8 +41,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private val WaterBlueMedium = Color(0xFF2196F3)
-private val WaterBlueDark = Color(0xFF1565C0)
-private val WaterBlueSurface = Color(0xFFE3F2FD)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +92,7 @@ fun HydrationToolsScreen(
             TabRow(
                 selectedTabIndex = selectedTab,
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = WaterBlueMedium
+                contentColor = MaterialTheme.colorScheme.primary
             ) {
                 Tab(
                     selected = selectedTab == 0,
@@ -353,7 +351,7 @@ private fun UrineColorChartCard(
             UrineColor.entries.forEach { color ->
                 val isSelected = selectedLevel == color.level
                 val borderColor by animateColorAsState(
-                    if (isSelected) Color(0xFF1565C0)
+                    if (isSelected) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                     label = "urine_border_${color.level}"
                 )
@@ -463,7 +461,10 @@ private fun UrineColorChartCard(
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = WaterBlueMedium)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
                 ) {
                     Text(stringResource(R.string.txt_log_this_color), fontWeight = FontWeight.Bold)
                 }
@@ -480,7 +481,7 @@ private fun LatestUrineCard(entry: UrineColorEntry) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = WaterBlueSurface)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Row(
             modifier = Modifier
@@ -500,7 +501,7 @@ private fun LatestUrineCard(entry: UrineColorEntry) {
                     "Latest: ${color.label}",
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    color = WaterBlueDark
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     "${color.hydrationLevel.emoji} ${color.status} • ${timeFormat.format(Date(entry.timestamp))}",
@@ -760,7 +761,7 @@ private fun SymptomCheckItem(
     onClick: () -> Unit
 ) {
     val bgColor by animateColorAsState(
-        if (isChecked) Color(0xFFFFF3E0) else Color.Transparent,
+        if (isChecked) MaterialTheme.colorScheme.tertiaryContainer else Color.Transparent,
         label = "symptom_bg"
     )
 
@@ -778,7 +779,7 @@ private fun SymptomCheckItem(
             checked = isChecked,
             onCheckedChange = { onClick() },
             colors = CheckboxDefaults.colors(
-                checkedColor = Color(0xFFFF9800),
+                checkedColor = MaterialTheme.colorScheme.tertiary,
                 uncheckedColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
             )
         )
@@ -1020,7 +1021,7 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = WaterBlueSurface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         elevation = CardDefaults.cardElevation(1.dp)
     ) {
         Column(
@@ -1030,7 +1031,7 @@ private fun FoodContributionCard(estimatedMl: Int, goalMl: Int) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(stringResource(R.string.txt_your_food_water_estimate), fontWeight = FontWeight.Bold, fontSize = 15.sp, color = WaterBlueDark)
+            Text(stringResource(R.string.txt_your_food_water_estimate), fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.onPrimaryContainer)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -1395,7 +1396,7 @@ private fun ElectrolytesTab(
                         .fillMaxWidth()
                         .clickable { onNavigateToFull() },
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
                 ) {
                     Row(
                         modifier = Modifier
@@ -1417,7 +1418,7 @@ private fun ElectrolytesTab(
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                             )
                         }
-                        Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 18.sp, color = Color(0xFF43A047))
+                        Text(stringResource(R.string.txt_text_placeholder_61), fontSize = 18.sp, color = MaterialTheme.colorScheme.secondary)
                     }
                 }
             }

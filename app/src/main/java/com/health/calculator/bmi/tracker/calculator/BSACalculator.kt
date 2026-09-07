@@ -111,13 +111,16 @@ object BSACalculator {
     fun calculate(weightKg: Float, heightCm: Float, formulaId: String): BSAResult {
         require(weightKg.isFinite() && weightKg > 0f) { "Weight must be a positive finite value" }
         require(heightCm.isFinite() && heightCm > 0f) { "Height must be a positive finite value" }
-        val selectedFormula = formulas.find { it.id == formulaId } ?: formulas[0]
+        // Treat an unknown id as the documented default instead of returning a
+        // zero primary value. This keeps the aggregate result internally
+        // consistent for callers that restore a stale/renamed preference.
+        val selectedFormula = formulas.firstOrNull { it.id == formulaId } ?: formulas.first()
 
         val allResults = formulas.map { formula ->
             Pair(formula, calculateSingle(weightKg, heightCm, formula.id))
         }
 
-        val primaryBSA = allResults.find { it.first.id == formulaId }?.second ?: 0f
+        val primaryBSA = allResults.first { it.first.id == selectedFormula.id }.second
 
         return BSAResult(
             primaryBSA = primaryBSA,

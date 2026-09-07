@@ -16,9 +16,10 @@ import com.health.calculator.bmi.tracker.data.repository.HealthOverviewRepositor
 import com.health.calculator.bmi.tracker.data.repository.HistoryRepository
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import com.health.calculator.bmi.tracker.data.repository.ProfileRepository
-import com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository
+import com.health.calculator.bmi.tracker.data.repository.WaterGamificationRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 data class WelcomeBackUiState(
     val isVisible: Boolean = false,
@@ -34,7 +35,7 @@ class WelcomeBackViewModel @Inject constructor(
     private val inactivityRepository: InactivityRepository,
     private val profileRepository: ProfileRepository,
     private val historyRepository: HistoryRepository,
-    private val waterTrackingRepository: WaterIntakeRepository,
+    private val waterGamificationRepository: WaterGamificationRepository,
     private val healthOverviewRepository: HealthOverviewRepository
 ) : ViewModel() {
 
@@ -66,12 +67,12 @@ class WelcomeBackViewModel @Inject constructor(
             val lastMetrics = buildLastKnownMetrics(overview)
             val frequentCalcs = getFrequentCalculators()
 
-            // For water streak, we use waterTrackingRepository
-            // Note: The prompt code used waterTrackingRepository.getCurrentStreak()
-            // but in our app it's waterIntakeRepository and might have different methods.
-            // I'll check WaterIntakeRepository again if needed.
-            val currentWaterStreak = 0 // Placeholder or fetch if available
+            val currentWaterStreak = waterGamificationRepository.getStreakData().currentStreak
+            val currentTrackingStreak = calculateCurrentTrackingStreak(
+                historyRepository.getAllEntriesSync(MAX_HISTORY_ENTRIES).map { it.timestamp }
+            )
             val waterStreakBroken = streakBeforeBreak.first > 0 && currentWaterStreak == 0
+            val trackingStreakBroken = streakBeforeBreak.second > 0 && currentTrackingStreak == 0
 
             val welcomeData = WelcomeBackData(
                 userName = profile.name,
@@ -81,8 +82,8 @@ class WelcomeBackViewModel @Inject constructor(
                     waterStreak = currentWaterStreak,
                     wasWaterStreakBroken = waterStreakBroken,
                     waterStreakBeforeBreak = streakBeforeBreak.first,
-                    trackingStreak = 0,
-                    wasTrackingStreakBroken = streakBeforeBreak.second > 0,
+                    trackingStreak = currentTrackingStreak,
+                    wasTrackingStreakBroken = trackingStreakBroken,
                     trackingStreakBeforeBreak = streakBeforeBreak.second,
                     streakFreezeAvailable = freezeCount > 0,
                     streakFreezeUsed = false
@@ -131,6 +132,32 @@ class WelcomeBackViewModel @Inject constructor(
         }
 
         return metrics.take(4)
+    }
+
+    private suspend fun calculateCurrentTrackingStreak(timestamps: List<Long>): Int {
+        val activeDays = timestamps.map(::startOfDay).toSet()
+        if (activeDays.isEmpty()) return 0
+
+        val today = startOfDay(System.currentTimeMillis())
+        val cursor = Calendar.getInstance().apply { timeInMillis = today }
+        if (!activeDays.contains(today)) cursor.add(Calendar.DAY_OF_YEAR, -1)
+
+        var streak = 0
+        while (activeDays.contains(cursor.timeInMillis)) {
+            streak++
+            cursor.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        return streak
+    }
+
+    private fun startOfDay(timestamp: Long): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = timestamp
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
     }
 
     private suspend fun getFrequentCalculators(): List<FrequentCalculator> {
@@ -195,5 +222,9 @@ class WelcomeBackViewModel @Inject constructor(
             inactivityRepository.resetNotificationLevel()
             _uiState.update { it.copy(isVisible = false) }
         }
+    }
+
+    private companion object {
+        const val MAX_HISTORY_ENTRIES = 1_000
     }
 }

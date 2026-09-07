@@ -17,7 +17,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Person
@@ -43,11 +42,8 @@ import com.health.calculator.bmi.tracker.data.calculator.ReproductiveHealthPolic
 import com.health.calculator.bmi.tracker.data.model.WaterActivityLevel
 
 // Water-themed colors
-private val WaterBlueLight = Color(0xFF64B5F6)
 private val WaterBlueMedium = Color(0xFF2196F3)
 private val WaterBlueDark = Color(0xFF1565C0)
-private val WaterBlueSurface = Color(0xFFE3F2FD)
-private val WaterBlueSurfaceDark = Color(0xFF0D2137)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -193,7 +189,7 @@ fun WaterIntakeInputScreen(
                         .clickable { onNavigateToEducation() },
                     shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = WaterBlueSurface.copy(alpha = 0.5f)
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                     )
                 ) {
                     Row(
@@ -207,7 +203,7 @@ fun WaterIntakeInputScreen(
                         Text(
                             stringResource(R.string.txt_learn_about_hydration_science),
                             fontSize = 13.sp,
-                            color = WaterBlueDark,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -306,7 +302,7 @@ private fun ProfileDataBanner() {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = WaterBlueSurface
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         )
     ) {
         Row(
@@ -319,13 +315,13 @@ private fun ProfileDataBanner() {
             Icon(
                 Icons.Default.Person,
                 contentDescription = null,
-                tint = WaterBlueMedium,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
             Text(
                 text = stringResource(R.string.txt_using_profile_data_you_can_ove_1),
                 fontSize = 13.sp,
-                color = WaterBlueDark
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
@@ -338,6 +334,13 @@ private fun BodyInfoSection(
     haptic: androidx.compose.ui.hapticfeedback.HapticFeedback
 ) {
     SectionCard(title = "Body Information", icon = "🏋️") {
+        Text(
+            text = stringResource(R.string.txt_water_reference_note),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(8.dp))
+
         // Weight Input
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
@@ -382,7 +385,8 @@ private fun BodyInfoSection(
                     modifier = Modifier.padding(top = 4.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = WaterBlueSurface
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 ) {
                     Text(
@@ -454,7 +458,7 @@ private fun BodyInfoSection(
                             Text(
                                 text = gender,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isSelected) WaterBlueDark else MaterialTheme.colorScheme.onSurface
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -525,7 +529,7 @@ private fun ClimateSection(
                                 fontSize = 12.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                 textAlign = TextAlign.Center,
-                                color = if (isSelected) WaterBlueDark else MaterialTheme.colorScheme.onSurface
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -556,7 +560,7 @@ private fun ClimateSection(
                                 fontSize = 12.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                                 textAlign = TextAlign.Center,
-                                color = if (isSelected) WaterBlueDark else MaterialTheme.colorScheme.onSurface
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -609,7 +613,8 @@ private fun CalculateButton(onClick: () -> Unit) {
             ),
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = WaterBlueMedium
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(
@@ -677,7 +682,7 @@ private fun SelectableChipCard(
         label = "border_color"
     )
     val backgroundColor by animateColorAsState(
-        targetValue = if (selected) WaterBlueSurface else MaterialTheme.colorScheme.surface,
+        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
         animationSpec = tween(300),
         label = "bg_color"
     )
@@ -714,7 +719,7 @@ private fun SelectableOptionRow(
     subtitle: String? = null
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (selected) WaterBlueSurface else Color.Transparent,
+        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
         animationSpec = tween(300),
         label = "option_bg"
     )
@@ -744,13 +749,13 @@ private fun SelectableOptionRow(
                 text = text,
                 fontSize = 14.sp,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                color = if (selected) WaterBlueDark else MaterialTheme.colorScheme.onSurface
+                color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
                     fontSize = 11.sp,
-                    color = WaterBlueMedium.copy(alpha = 0.8f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 2.dp)
                 )
             }
@@ -763,13 +768,13 @@ private fun SelectableOptionRow(
             Box(
                 modifier = Modifier
                     .size(24.dp)
-                    .background(WaterBlueMedium, CircleShape),
+                    .background(MaterialTheme.colorScheme.primary, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Default.Check,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(16.dp)
                 )
             }

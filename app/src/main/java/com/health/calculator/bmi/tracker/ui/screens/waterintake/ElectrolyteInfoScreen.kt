@@ -44,8 +44,6 @@ private val PotassiumColor = Color(0xFFFFCA28)
 private val MagnesiumColor = Color(0xFF66BB6A)
 private val CalciumColor = Color(0xFF42A5F5)
 private val WaterBlueMedium = Color(0xFF2196F3)
-private val WaterBlueDark = Color(0xFF1565C0)
-private val WaterBlueSurface = Color(0xFFE3F2FD)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -825,7 +823,7 @@ private fun NaturalSourcesCard() {
             Card(
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = WaterBlueSurface
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
             ) {
                 Row(
@@ -841,7 +839,7 @@ private fun NaturalSourcesCard() {
                                 "It's a great post-workout option!",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
-                        color = WaterBlueDark
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

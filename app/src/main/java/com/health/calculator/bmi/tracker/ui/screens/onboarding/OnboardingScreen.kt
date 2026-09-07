@@ -99,7 +99,7 @@ private val onboardingPages = listOf(
         accentColor = Color(0xFFFF4B4B)
     ),
     OnboardingPage(
-        emoji = "🏥",
+        emoji = "📊",
         decorativeEmojis = listOf("⚖️", "🔥", "❤️", "💧", "📊", "🎯", "💓", "🩺", "📐", "🍎"),
         title = "10 practical\nhealth calculators",
         subtitle = "Evidence-informed estimates",
@@ -119,7 +119,7 @@ private val onboardingPages = listOf(
         decorativeEmojis = listOf("📋", "✨", "🎯", "❤️"),
         title = "Set Up Your\nProfile",
         subtitle = "Personalized Results",
-        description = "Enter your details once and they'll be used across all calculators. Get personalized, accurate health insights tailored to you.",
+        description = "Enter your details once and they'll be used across all calculators. Get personalized estimates and gentle wellness guidance tailored to you.",
         accentColor = OnboardingTeal
     )
 )

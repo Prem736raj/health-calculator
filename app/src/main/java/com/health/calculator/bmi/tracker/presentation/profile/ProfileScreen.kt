@@ -239,6 +239,7 @@ fun ProfileScreen(
                         ProfileTab.MY_INFO -> {
                             MyInfoSection(
                                 profile = uiState.profile,
+                                useMetricSystem = uiState.profile.useMetricSystem,
                                 onNameChange = viewModel::updateName,
                                 onNameClick = { beginEditing(PROFILE_FIELD_NAME) },
                                 onProfilePictureClick = viewModel::showImagePickerDialog,
@@ -257,7 +258,9 @@ fun ProfileScreen(
                             HealthOverviewSection(
                                 overview = uiState.healthOverview,
                                 weightStatistics = weightStatistics,
-                                latestWeight = uiState.profile.weightKg?.toDouble() ?: 0.0,
+                                latestWeight = weightStatistics?.currentWeight
+                                    ?: uiState.profile.weightKg?.toDouble()
+                                    ?: 0.0,
                                 useMetric = uiState.profile.useMetricSystem,
                                 onLogWeight = { viewModel.showWeightLogDialog() },
                                 onViewTrends = onViewWeightTrends,

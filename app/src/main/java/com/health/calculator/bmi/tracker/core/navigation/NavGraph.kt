@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -139,8 +141,20 @@ fun NavGraph(
     // Track whether onboarding has been completed
     val onboardingCompleted by app.onboardingCompletedFlow.collectAsStateWithLifecycle(initialValue = null)
 
-    // Wait until we know the onboarding state before rendering
-    if (onboardingCompleted == null) return
+    // Keep the launch surface explicit while DataStore restores the onboarding
+    // flag. Returning an empty composition here made slow/cold starts look like
+    // a blank screen (especially after process death or on a busy device).
+    if (onboardingCompleted == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+        }
+        return
+    }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
@@ -497,7 +511,7 @@ fun NavGraph(
                             inactivityRepository = InactivityRepository(context),
                             profileRepository = app.profileRepository,
                             historyRepository = app.historyRepository,
-                            waterTrackingRepository = app.waterIntakeRepository,
+                            waterGamificationRepository = app.waterGamificationRepository,
                             healthOverviewRepository = app.healthOverviewRepository
                         ) as T
                     }
@@ -723,7 +737,11 @@ fun NavGraph(
                 ) + fadeOut(animationSpec = tween(NAV_ANIMATION_DURATION))
             }
         ) { backStackEntry ->
-            val calculationId = backStackEntry.arguments?.getString("calculationId") ?: return@composable
+            val calculationId = backStackEntry.arguments?.getString("calculationId")
+            if (calculationId == null) {
+                PlaceholderScreen("This calculation is unavailable") { navController.popBackStack() }
+                return@composable
+            }
             
             if (calculationId == "whr_result") {
                 val waist = backStackEntry.arguments?.getFloat("waist") ?: 0f
@@ -777,7 +795,7 @@ fun NavGraph(
                     PlaceholderScreen("Loading WHR Result...") { navController.popBackStack() }
                 }
             } else {
-                PlaceholderScreen("Result for ID: \$calculationId") { navController.popBackStack() }
+                PlaceholderScreen("This calculation is unavailable") { navController.popBackStack() }
             }
         }
         composable(
@@ -894,12 +912,6 @@ fun NavGraph(
                 ) + fadeOut(animationSpec = tween(350))
             }
         ) {
-            val application = context.applicationContext as android.app.Application
-            val repository = remember { 
-                com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository(
-                    com.health.calculator.bmi.tracker.data.local.AppDatabase.getDatabase(context).waterIntakeDao()
-                ) 
-            }
             val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel = hiltViewModel()
 
             // Auto-populate from profile if available
@@ -940,15 +952,14 @@ fun NavGraph(
                 slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(400)) + fadeOut(tween(400))
             }
         ) {
-            val application = context.applicationContext as android.app.Application
-            val repository = remember { 
-                com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository(
-                    com.health.calculator.bmi.tracker.data.local.AppDatabase.getDatabase(context).waterIntakeDao()
-                ) 
-            }
             // Use the previous back stack entry to share the ViewModel
-            val previousEntry = remember { navController.previousBackStackEntry }
-            val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel = hiltViewModel()
+            val previousEntry = navController.previousBackStackEntry
+            val waterIntakeViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeViewModel =
+                if (previousEntry != null) {
+                    hiltViewModel(previousEntry)
+                } else {
+                    hiltViewModel()
+                }
 
             com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterIntakeResultScreen(
                 viewModel = waterIntakeViewModel,
@@ -1116,19 +1127,8 @@ fun NavGraph(
                 slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(300)) + fadeOut(tween(300))
             }
         ) {
-            val application = context.applicationContext as android.app.Application
-            val waterIntakeRepository = remember { 
-                com.health.calculator.bmi.tracker.data.repository.WaterIntakeRepository(
-                    com.health.calculator.bmi.tracker.data.local.AppDatabase.getDatabase(context).waterIntakeDao()
-                ) 
-            }
             val waterTrackingViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterTrackingViewModel = hiltViewModel()
 
-            val gamificationRepository = remember {
-                com.health.calculator.bmi.tracker.data.repository.WaterGamificationRepository(
-                    com.health.calculator.bmi.tracker.data.local.AppDatabase.getDatabase(context).waterGamificationDao()
-                )
-            }
             val gamificationViewModel: com.health.calculator.bmi.tracker.ui.screens.waterintake.WaterGamificationViewModel = hiltViewModel()
 
             // Check for yesterday's data on screen load

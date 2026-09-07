@@ -49,7 +49,6 @@ private val WaterBlueLight = Color(0xFF64B5F6)
 private val WaterBlueMedium = Color(0xFF2196F3)
 private val WaterBlueDark = Color(0xFF1565C0)
 private val WaterBluePale = Color(0xFFBBDEFB)
-private val WaterBlueSurface = Color(0xFFE3F2FD)
 private val GoalGreen = Color(0xFF4CAF50)
 private val GoalYellow = Color(0xFFFFC107)
 private val GoalOrange = Color(0xFFFF9800)
@@ -249,7 +248,7 @@ private fun CalendarCard(
                     text = monthFormat.format(currentMonth.time),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = WaterBlueDark
+                    color = MaterialTheme.colorScheme.primary
                 )
                 IconButton(onClick = { onMonthChanged(1) }) {
                     Icon(Icons.Default.ChevronRight, "Next month")
@@ -371,7 +370,7 @@ private fun CalendarDayCell(
                 fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal,
                 color = when {
                     isFuture -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
-                    isToday -> WaterBlueDark
+                    isToday -> MaterialTheme.colorScheme.primary
                     else -> MaterialTheme.colorScheme.onSurface
                 }
             )
@@ -451,7 +450,7 @@ private fun SelectedDayDetailCard(dayInfo: SelectedDayInfo, goalMl: Int) {
                     text = dateFormat.format(dayInfo.date),
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    color = WaterBlueDark
+                    color = MaterialTheme.colorScheme.primary
                 )
                 val statusColor = when {
                     percentage >= 100 -> GoalGreen
@@ -562,8 +561,8 @@ private fun TrendsTab(
                             onClick = { selectedRange = days },
                             label = { Text(label, fontSize = 12.sp) },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = WaterBlueMedium,
-                                selectedLabelColor = Color.White
+                                selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                             ),
                             modifier = Modifier.weight(1f)
                         )
@@ -1110,7 +1109,7 @@ private fun StatGridItem(
     Card(
         modifier = modifier.padding(4.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = WaterBlueSurface.copy(alpha = 0.5f))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(
             modifier = Modifier
@@ -1120,8 +1119,8 @@ private fun StatGridItem(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(icon, fontSize = 20.sp)
-            Text(value, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = WaterBlueDark)
-            Text(label, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+            Text(value, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
+            Text(label, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.75f))
         }
     }
 }
@@ -1162,7 +1161,7 @@ private fun RecordRow(icon: String, label: String, value: String, date: String?)
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(WaterBlueSurface.copy(alpha = 0.3f), RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(10.dp))
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -1174,6 +1173,6 @@ private fun RecordRow(icon: String, label: String, value: String, date: String?)
                 Text(date, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f))
             }
         }
-        Text(value, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = WaterBlueDark)
+        Text(value, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = MaterialTheme.colorScheme.primary)
     }
 }

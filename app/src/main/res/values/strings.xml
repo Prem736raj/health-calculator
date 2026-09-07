@@ -1255,8 +1255,12 @@
 <string name="txt_daily_intake">Daily Intake</string>
 <string name="txt_trends">Trends</string>
 <string name="txt_water_history">Water History</string>
-<string name="txt_calculate_my_water_needs">Calculate My Water Needs</string>
-<string name="txt_e_g_30">e.g., 30</string>
+    <string name="txt_calculate_my_water_needs">Calculate My Water Needs</string>
+    <string name="txt_water_result_unavailable">Water result unavailable</string>
+    <string name="txt_water_result_unavailable_message">This calculation was cleared when the screen was restored. You can calculate it again.</string>
+    <string name="txt_calculate_water_again">Calculate again</string>
+    <string name="txt_water_reference_note">This is a general beverage starting point, not a medical prescription. Weight and age are saved for context but do not change the reference target.</string>
+    <string name="txt_e_g_30">e.g., 30</string>
 <string name="txt_using_profile_data_you_can_ove_1">Using profile data • You can override any value</string>
 <string name="txt_proper_hydration_is_essential_">Proper hydration is essential for every body function.</string>
 <string name="txt_learn_about_hydration_science">Learn about hydration science →</string>

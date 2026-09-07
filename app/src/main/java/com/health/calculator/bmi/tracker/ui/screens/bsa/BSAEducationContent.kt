@@ -581,7 +581,7 @@ private fun WhichFormulaContent() {
             emoji = "🤷",
             title = "Still Not Sure? Use This Simple Rule:",
             color = HealthGreen,
-            content = "• If you're an adult → Du Bois\n• If it's for a child → Haycock\n• If you want it simple → Mosteller\n• If you're East Asian → Fujimoto\n• If your doctor told you a specific formula → Use that one!\n\nWhen in doubt, Du Bois is always a safe choice. It's been the worldwide standard for over a century."
+            content = "• For a general adult estimate → Du Bois or Mosteller\n• For a child → Ask a clinician which method they use\n• If your care team requested a formula → Use that one\n• For research or comparison → Record the formula with the result\n\nNo BSA equation is universally correct for every person. Treat the result as an estimate and follow the method requested by a qualified professional when BSA is being used in clinical care."
         )
 
         Spacer(modifier = Modifier.height(14.dp))

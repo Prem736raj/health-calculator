@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -111,7 +112,12 @@ private fun EmptyTrackingState() {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(stringResource(R.string.txt_text_placeholder_9), fontSize = 48.sp)
+            Icon(
+                imageVector = Icons.Outlined.ShowChart,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(48.dp)
+            )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = stringResource(R.string.txt_no_bsa_readings_yet),
@@ -126,15 +132,15 @@ private fun EmptyTrackingState() {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(10.dp))
-            UseCaseChip(emoji = "👶", text = "Monitoring growth in children")
-            UseCaseChip(emoji = "⚖️", text = "Tracking weight change effects")
-            UseCaseChip(emoji = "🏥", text = "Medical follow-ups over time")
+            UseCaseChip(icon = Icons.Outlined.Timeline, text = "Comparing readings over time")
+            UseCaseChip(icon = Icons.Outlined.MonitorWeight, text = "Understanding weight-change context")
+            UseCaseChip(icon = Icons.Outlined.EventNote, text = "Preparing questions for a care visit")
         }
     }
 }
 
 @Composable
-private fun UseCaseChip(emoji: String, text: String) {
+private fun UseCaseChip(icon: ImageVector, text: String) {
     Surface(
         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
         shape = RoundedCornerShape(8.dp),
@@ -146,7 +152,12 @@ private fun UseCaseChip(emoji: String, text: String) {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(emoji, fontSize = 16.sp)
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(18.dp)
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = text,

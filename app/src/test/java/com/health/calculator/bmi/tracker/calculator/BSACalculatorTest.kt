@@ -52,4 +52,17 @@ class BSACalculatorTest {
         val valid = BSAEdgeCaseValidator.validate(weightKg = 75f, heightCm = 180f, formulaId = "dubois")
         assertTrue(valid.isValid)
     }
+
+    @Test
+    fun unknownFormulaFallsBackToDefaultWithoutZeroResult() {
+        val result = BSACalculator.calculate(75f, 180f, "formula-from-old-version")
+
+        assertEquals("dubois", result.selectedFormula.id)
+        assertEquals(
+            BSACalculator.calculateSingle(75f, 180f, "dubois"),
+            result.primaryBSA,
+            delta
+        )
+        assertTrue(result.primaryBSA > 0f)
+    }
 }

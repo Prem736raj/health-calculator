@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import com.health.calculator.bmi.tracker.MainActivity
 import com.health.calculator.bmi.tracker.R
 import com.health.calculator.bmi.tracker.core.util.launchAsync
+import com.health.calculator.bmi.tracker.data.local.AppDatabase
 import com.health.calculator.bmi.tracker.data.repository.InactivityRepository
 import com.health.calculator.bmi.tracker.domain.engagement.WellnessEngagementPolicy
 import kotlinx.coroutines.flow.first
@@ -72,13 +73,34 @@ class StreakProtectionReceiver : BroadcastReceiver() {
             // never allowed to become a background high-priority notification.
             if (!engagementState.streakProtectionEnabled) return@launchAsync
 
-            val prefs = context.getSharedPreferences("streak_protection_prefs", Context.MODE_PRIVATE)
+            // Read streak state from the same Room/DataStore sources used by the
+            // tracker screens. The old implementation read four SharedPreferences
+            // keys that were never written, so this notification could never reflect
+            // the user's real streak and could advertise a stale freeze count.
+            val database = AppDatabase.getDatabase(context)
+            val today = Calendar.getInstance()
+            val startOfToday = startOfDay(today)
+            val endOfToday = Calendar.getInstance().apply {
+                timeInMillis = startOfToday
+                add(Calendar.DAY_OF_YEAR, 1)
+            }.timeInMillis
 
-            // Check if user has active streaks at risk
-            val waterLoggedToday = prefs.getBoolean("water_logged_today_${getTodayKey()}", false)
-            val anyActivityToday = prefs.getBoolean("activity_today_${getTodayKey()}", false)
-            val currentWaterStreak = prefs.getInt("current_water_streak", 0)
-            val currentTrackingStreak = prefs.getInt("current_tracking_streak", 0)
+            val waterLoggedToday = database.waterIntakeDao()
+                .getTotalWaterForDaySync(startOfToday, endOfToday)
+                ?.let { it > 0 }
+                ?: false
+            val currentWaterStreak = database.waterGamificationDao()
+                .getStreakData()
+                ?.currentStreak
+                ?: 0
+            val recentHistory = database.historyDao().getAllEntriesSync(MAX_HISTORY_ENTRIES)
+            val anyActivityToday = recentHistory.any { startOfDay(it.timestamp) == startOfToday }
+            val currentTrackingStreak = calculateCurrentTrackingStreak(
+                recentHistory.map { it.timestamp },
+                startOfToday,
+                anyActivityToday
+            )
+            val freezeCount = InactivityRepository(context).getStreakFreezeCount().first()
 
             val hasStreakAtRisk = (currentWaterStreak > 2 && !waterLoggedToday) ||
                     (currentTrackingStreak > 2 && !anyActivityToday)
@@ -97,7 +119,7 @@ class StreakProtectionReceiver : BroadcastReceiver() {
                 trackingStreak = currentTrackingStreak,
                 waterLoggedToday = waterLoggedToday,
                 activityToday = anyActivityToday,
-                freezeAvailable = prefs.getInt("streak_freeze_count", 1) > 0
+                freezeAvailable = freezeCount > 0
             )
 
             rateLimiter.recordNotificationSent("STREAK_PROTECTION")
@@ -178,13 +200,49 @@ class StreakProtectionReceiver : BroadcastReceiver() {
         nm.notify(NOTIFICATION_ID, builder.build())
     }
 
-    private fun getTodayKey(): String {
-        val cal = Calendar.getInstance()
-        return "${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
+    private fun calculateCurrentTrackingStreak(
+        timestamps: List<Long>,
+        todayStart: Long,
+        activityToday: Boolean
+    ): Int {
+        val activeDays = timestamps.map(::startOfDay).toSet()
+        if (activeDays.isEmpty()) return 0
+
+        val cursor = Calendar.getInstance().apply {
+            timeInMillis = todayStart
+            if (!activityToday) add(Calendar.DAY_OF_YEAR, -1)
+        }
+        var streak = 0
+        while (activeDays.contains(cursor.timeInMillis)) {
+            streak++
+            cursor.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        return streak
+    }
+
+    private fun startOfDay(calendar: Calendar): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = calendar.timeInMillis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+    }
+
+    private fun startOfDay(timestamp: Long): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = timestamp
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
     }
 
     companion object {
         const val NOTIFICATION_ID = 9110
+        private const val MAX_HISTORY_ENTRIES = 1_000
     }
 }
 
