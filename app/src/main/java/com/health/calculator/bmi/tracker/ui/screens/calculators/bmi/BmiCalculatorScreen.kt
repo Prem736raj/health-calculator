@@ -234,6 +234,9 @@ fun BmiCalculatorScreen(
                     }
                 },
                 actions = {
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.BMI
+                    )
                     if (!uiState.showResult && pagerState.currentPage == 0) {
                         IconButton(onClick = onNavigateToHistory) {
                             Icon(Icons.Default.List, contentDescription = "History")

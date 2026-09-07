@@ -57,6 +57,11 @@ fun IBWScreen(
                         Icon(Icons.Filled.ArrowBack, "Back")
                     }
                 },
+                actions = {
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.IDEAL_WEIGHT
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )

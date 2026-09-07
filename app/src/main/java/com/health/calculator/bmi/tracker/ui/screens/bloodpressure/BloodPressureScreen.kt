@@ -96,6 +96,11 @@ fun BloodPressureScreen(
                     }
                 },
                 actions = {
+                    if (uiState.systolic.isEmpty() && uiState.diastolic.isEmpty()) {
+                        com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                            com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.BLOOD_PRESSURE
+                        )
+                    }
                     IconButton(onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onNavigateToExport()

@@ -90,6 +90,11 @@ fun HeartRateZoneScreen(
                         )
                     }
                 },
+                actions = {
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.HEART_RATE
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 )

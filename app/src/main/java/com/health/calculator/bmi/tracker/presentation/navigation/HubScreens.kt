@@ -7,13 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Assessment
 import androidx.compose.material.icons.outlined.AutoAwesome
@@ -33,7 +30,6 @@ import androidx.compose.material.icons.outlined.Timeline
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.health.calculator.bmi.tracker.domain.insights.WellnessInsight
 import com.health.calculator.bmi.tracker.ui.components.WellnessActionRow
+import com.health.calculator.bmi.tracker.ui.components.CalculatorQualitySheet
 import com.health.calculator.bmi.tracker.ui.components.WellnessIconBadge
 import com.health.calculator.bmi.tracker.ui.components.WellnessInsightCallout
 import com.health.calculator.bmi.tracker.ui.components.WellnessSectionLabel
@@ -147,7 +144,7 @@ fun CalculatorsHubScreen(onOpen: (CalculatorDestination) -> Unit) {
     }
 
     selectedInfo?.let { info ->
-        CalculatorQualityDialog(info = info, onDismiss = { selectedInfo = null })
+        CalculatorQualitySheet(info = info, onDismiss = { selectedInfo = null })
     }
 }
 
@@ -273,57 +270,6 @@ private fun CalculatorHubCard(
             }
         }
     )
-}
-
-@Composable
-private fun CalculatorQualityDialog(
-    info: CalculatorQualityInfo,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("${info.title}: method and limits") },
-        text = {
-            Column(
-                modifier = Modifier
-                    .heightIn(max = 520.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                QualityDialogSection("What it does", info.description)
-                QualityDialogSection("Inputs", info.inputs)
-                QualityDialogSection("Method", info.method)
-                QualityDialogSection("How to read it", info.interpretation)
-                QualityDialogSection("Limitations", info.limitations)
-                Text("Sources", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                info.sources.forEach { source ->
-                    Text("• $source", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                if (info.related.isNotEmpty()) {
-                    Text("Related tools", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                    Text(
-                        info.related.map { CalculatorQualityCatalog.get(it).title }.joinToString(" · "),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Text(
-                    "Informational wellness estimate only—not a diagnosis or treatment plan.",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-        },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done") } }
-    )
-}
-
-@Composable
-private fun QualityDialogSection(title: String, body: String) {
-    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-        Text(body, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

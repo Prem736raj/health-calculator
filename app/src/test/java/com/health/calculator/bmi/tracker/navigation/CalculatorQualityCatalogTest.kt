@@ -16,10 +16,12 @@ class CalculatorQualityCatalogTest {
     }
 
     @Test
-    fun `every calculator explains inputs method limits and sources`() {
+    fun `every calculator explains purpose inputs method interpretation limits and sources`() {
         CalculatorQualityCatalog.all.forEach { info ->
+            assertTrue(info.id.name, info.description.isNotBlank())
             assertTrue(info.id.name, info.inputs.isNotBlank())
             assertTrue(info.id.name, info.method.isNotBlank())
+            assertTrue(info.id.name, info.interpretation.isNotBlank())
             assertTrue(info.id.name, info.limitations.isNotBlank())
             assertFalse(info.id.name, info.sources.isEmpty())
         }

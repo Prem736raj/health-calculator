@@ -72,6 +72,9 @@ fun WhrInputScreen(
                     }
                 },
                 actions = {
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.WAIST_HIP
+                    )
                     TextButton(onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         viewModel.clearAll()

@@ -116,6 +116,9 @@ fun WaterIntakeInputScreen(
                     }
                 },
                 actions = {
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.WATER
+                    )
                     TextButton(onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         viewModel.clearAll()

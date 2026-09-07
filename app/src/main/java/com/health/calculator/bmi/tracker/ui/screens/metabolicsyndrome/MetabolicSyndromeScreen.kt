@@ -66,12 +66,9 @@ fun MetabolicSyndromeScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Show info dialog */ }) {
-                        Icon(
-                            imageVector = Icons.Default.Info,
-                            contentDescription = "Information"
-                        )
-                    }
+                    com.health.calculator.bmi.tracker.ui.components.CalculatorQualityAction(
+                        com.health.calculator.bmi.tracker.presentation.navigation.CalculatorDestination.METABOLIC
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
