@@ -165,11 +165,21 @@ class AiCoachViewModel @Inject constructor(
 
         activeRequest = viewModelScope.launch {
             messagesLoaded.await()
+            val priorMessages = _messages.value
+                .filter { !it.isLoading && it.text.isNotBlank() }
+                .takeLast(6)
+                .map { it.isUser to it.text }
+            val userMessage = ChatMessage(
+                text = validation.normalizedText,
+                isUser = true
+            )
             chatDao.insertMessage(ChatMessageEntity(text = validation.normalizedText, isUser = true))
             
-            // Keep the streaming bubble in UI state while the final response is
-            // written to Room, avoiding a second copy from a live collector.
-            _messages.value = _messages.value + ChatMessage("", isUser = false, isLoading = true)
+            // Render the user's bubble immediately, then keep the streaming
+            // assistant bubble in UI state while the final response is written
+            // to Room. This keeps the conversation honest during slow streams
+            // and avoids relying on a later database emission for the bubble.
+            _messages.value = _messages.value + userMessage + ChatMessage("", isUser = false, isLoading = true)
 
             try {
                 if (!geminiHelper.isNetworkAvailable()) {
@@ -178,11 +188,6 @@ class AiCoachViewModel @Inject constructor(
                         reason = AiCoachFailureReason.NETWORK
                     )
                 }
-                val priorMessages = _messages.value
-                    .filter { !it.isLoading && it.text.isNotBlank() }
-                    .takeLast(6)
-                    .map { it.isUser to it.text }
-
                 val prompt = if (isContextSharingEnabled.value) {
                     val optionalContext = buildOptionalContext()
                     AiPromptPolicy.buildModelPrompt(validation.normalizedText, optionalContext, priorMessages)

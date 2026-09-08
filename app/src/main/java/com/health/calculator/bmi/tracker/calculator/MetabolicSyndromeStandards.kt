@@ -67,7 +67,6 @@ object MetabolicSyndromeStandards {
         fastingGlucoseMgDl: Float,
         triglyceridesMgDl: Float,
         hdlMgDl: Float,
-        onWaistMedication: Boolean,
         onBpMedication: Boolean,
         onGlucoseMedication: Boolean,
         onTriglyceridesMedication: Boolean,
@@ -87,7 +86,6 @@ object MetabolicSyndromeStandards {
             glucose = fastingGlucoseMgDl,
             triglycerides = triglyceridesMgDl,
             hdl = hdlMgDl,
-            waistMedication = onWaistMedication,
             bpMedication = onBpMedication,
             glucoseMedication = onGlucoseMedication,
             triglycerideMedication = onTriglyceridesMedication,
@@ -106,7 +104,6 @@ object MetabolicSyndromeStandards {
             glucose = fastingGlucoseMgDl,
             triglycerides = triglyceridesMgDl,
             hdl = hdlMgDl,
-            waistMedication = onWaistMedication,
             bpMedication = onBpMedication,
             glucoseMedication = onGlucoseMedication,
             triglycerideMedication = onTriglyceridesMedication,
@@ -155,7 +152,6 @@ object MetabolicSyndromeStandards {
         glucose: Float,
         triglycerides: Float,
         hdl: Float,
-        waistMedication: Boolean,
         bpMedication: Boolean,
         glucoseMedication: Boolean,
         triglycerideMedication: Boolean,
@@ -165,7 +161,7 @@ object MetabolicSyndromeStandards {
     ): StandardResult {
         val hdlThreshold = if (isMale) 40f else 50f
         val details = listOf(
-            StandardCriterionDetail("Central waist measurement", "≥ %.0f cm".format(waistThreshold), "%.1f cm".format(waistCm), waistCm >= waistThreshold || waistMedication, required),
+            StandardCriterionDetail("Central waist measurement", "≥ %.0f cm".format(waistThreshold), "%.1f cm".format(waistCm), waistCm >= waistThreshold, required),
             StandardCriterionDetail("Elevated triglycerides", "≥ 150 mg/dL", "%.0f mg/dL".format(triglycerides), triglycerides >= 150f || triglycerideMedication, false),
             StandardCriterionDetail("Reduced HDL", "< %.0f mg/dL".format(hdlThreshold), "%.0f mg/dL".format(hdl), hdl < hdlThreshold || hdlMedication, false),
             StandardCriterionDetail("Elevated blood pressure", "≥ 130 systolic or ≥ 85 diastolic", "%.0f/%.0f mmHg".format(systolic, diastolic), systolic >= 130f || diastolic >= 85f || bpMedication, false),

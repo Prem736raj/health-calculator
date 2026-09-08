@@ -271,12 +271,20 @@ private fun GoalOptionsList(
 
     val bmiMidKg = (result.bmiLowerKg + result.bmiUpperKg) / 2.0
 
-    val options = listOf(
-        Triple("Devine Formula", result.frameAdjustedDevineKg, "Primary recommendation"),
-        Triple("Robinson Formula", result.robinsonKg, "Alternative calculation"),
-        Triple("Average of All", result.averageKg, "Average across formulas"),
-        Triple("BMI Range Middle", bmiMidKg, "Middle of healthy BMI range")
-    )
+    val options = buildList {
+        if (result.frameAdjustedDevineKg.isFinite()) {
+            add(Triple("Devine Formula", result.frameAdjustedDevineKg, "Primary recommendation"))
+        }
+        if (result.robinsonKg.isFinite()) {
+            add(Triple("Robinson Formula", result.robinsonKg, "Alternative calculation"))
+        }
+        if (result.averageKg.isFinite()) {
+            add(Triple("Average of All", result.averageKg, "Average across formulas"))
+        }
+        // BMI reference weights remain available when historical equations are
+        // intentionally not extrapolated for heights below 60 inches.
+        add(Triple("BMI Range Middle", bmiMidKg, "Middle of healthy BMI range"))
+    }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { (source, weightKg, description) ->

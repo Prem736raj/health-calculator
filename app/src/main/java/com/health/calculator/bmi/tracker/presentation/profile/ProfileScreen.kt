@@ -40,7 +40,6 @@ private const val PROFILE_SCREEN_TAG = "ProfileScreen"
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel,
-    multiProfileViewModel: com.health.calculator.bmi.tracker.presentation.profile.MultiProfileViewModel,
     onNavigateToConnections: () -> Unit,
     onNavigateToMetric: (String) -> Unit,
     onViewWeightTrends: () -> Unit,
@@ -49,7 +48,6 @@ fun ProfileScreen(
     milestonesViewModel: com.health.calculator.bmi.tracker.ui.screens.profile.milestones.MilestonesViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val multiProfileState by multiProfileViewModel.uiState.collectAsStateWithLifecycle()
     val milestonesState by milestonesViewModel.uiState.collectAsStateWithLifecycle()
     val weightStatistics by viewModel.weightStatistics.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -128,14 +126,6 @@ fun ProfileScreen(
                                     onNavigateToReminders()
                                 }
                             )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.txt_share_profile)) },
-                                leadingIcon = { Icon(Icons.Default.Send, contentDescription = null) },
-                                onClick = {
-                                    showActionsMenu = false
-                                    multiProfileViewModel.showShareDialog()
-                                }
-                            )
                         }
                     }
                     if (uiState.selectedTab == ProfileTab.MY_INFO) {
@@ -176,14 +166,6 @@ fun ProfileScreen(
                     .fillMaxSize()
                     .padding(padding)
             ) {
-            // Profile Switcher
-            ProfileSwitcherBar(
-                profiles = multiProfileState.profiles,
-                activeProfileId = multiProfileState.activeProfile?.profileId,
-                onProfileClick = multiProfileViewModel::switchProfile,
-                onAddClick = multiProfileViewModel::showAddProfileDialog
-            )
-
             // Keep the identity/edit affordance in the first viewport. It used
             // to live inside the scrollable My Info pane, so on compact devices
             // only the top of the avatar was visible beneath the tabs.
@@ -491,59 +473,6 @@ fun ProfileScreen(
             // Should show snackbar instead
             viewModel.dismissSaveSuccess()
         }
-    }
-
-    // Multi-Profile Dialogs
-    if (multiProfileState.showAddProfileDialog) {
-        AddProfileDialog(
-            name = multiProfileState.newProfileName,
-            selectedColor = multiProfileState.newProfileColor,
-            onNameChange = multiProfileViewModel::updateNewProfileName,
-            onColorSelect = multiProfileViewModel::updateNewProfileColor,
-            onConfirm = multiProfileViewModel::createProfile,
-            onDismiss = multiProfileViewModel::dismissAddProfileDialog
-        )
-    }
-
-    if (multiProfileState.showShareDialog) {
-        ProfileShareDialog(
-            config = multiProfileState.shareConfig,
-            onConfigChange = multiProfileViewModel::updateShareConfig,
-            onShare = { multiProfileViewModel.shareProfile(context) },
-            onDismiss = multiProfileViewModel::dismissShareDialog
-        )
-    }
-
-    if (multiProfileState.showRecalculatePrompt) {
-        RecalculatePromptDialog(
-            calculators = multiProfileState.calculatorsToRecalculate,
-            onRecalculateClick = {
-                multiProfileViewModel.dismissRecalculatePrompt()
-                onNavigateToConnections()
-            },
-            onDismiss = multiProfileViewModel::dismissRecalculatePrompt
-        )
-    }
-
-    if (multiProfileState.showDeleteConfirm) {
-        AlertDialog(
-            onDismissRequest = multiProfileViewModel::dismissDeleteConfirm,
-            title = { Text(stringResource(R.string.txt_delete_profile)) },
-            text = { Text("Are you sure you want to delete ${multiProfileState.profileToDelete?.displayName}'s profile? All their data will be permanently removed.") },
-            confirmButton = {
-                Button(
-                    onClick = multiProfileViewModel::deleteProfile,
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                ) {
-                    Text(stringResource(R.string.txt_delete))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = multiProfileViewModel::dismissDeleteConfirm) {
-                    Text(stringResource(R.string.txt_cancel))
-                }
-            }
-        )
     }
 
     // Achievement Celebrations

@@ -438,7 +438,6 @@ fun NavGraph(
         }
 
         composable(route = Screen.Profile.route) {
-            val multiProfileViewModel: MultiProfileViewModel = hiltViewModel()
             val profileViewModel: ProfileViewModel = hiltViewModel()
             val milestonesViewModel: MilestonesViewModel = viewModel(
                 factory = object : ViewModelProvider.Factory {
@@ -454,7 +453,6 @@ fun NavGraph(
 
             ProfileScreen(
                 viewModel = profileViewModel,
-                multiProfileViewModel = multiProfileViewModel,
                 milestonesViewModel = milestonesViewModel,
                 onNavigateToMetric = { route ->
                     navController.navigate(route) {

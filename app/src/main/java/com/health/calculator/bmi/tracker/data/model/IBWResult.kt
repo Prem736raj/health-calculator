@@ -20,6 +20,12 @@ data class IBWResult(
     val isEdgeCaseHeight: Boolean
         get() = heightWarning != null
 
+    /** Historical named equations are not extrapolated below their usual
+     * 60-inch reference height. BMI-based reference weights remain available. */
+    val hasHistoricalFormulaResults: Boolean
+        get() = listOf(devineKg, robinsonKg, millerKg, hamwiKg, brocaKg, frameAdjustedDevineKg)
+            .all(Double::isFinite)
+
     val devineLbs: Double get() = devineKg * 2.20462
     val robinsonLbs: Double get() = robinsonKg * 2.20462
     val millerLbs: Double get() = millerKg * 2.20462
@@ -30,7 +36,8 @@ data class IBWResult(
     val frameAdjustedDevineLbs: Double get() = frameAdjustedDevineKg * 2.20462
 
     val weightDifferenceKg: Double?
-        get() = currentWeightKg?.let { it - frameAdjustedDevineKg }
+        get() = currentWeightKg?.takeIf { frameAdjustedDevineKg.isFinite() }
+            ?.let { it - frameAdjustedDevineKg }
 
     val weightDifferenceLbs: Double?
         get() = weightDifferenceKg?.let { it * 2.20462 }
@@ -45,14 +52,14 @@ data class IBWResult(
             "Miller (1983)" to millerKg,
             "Hamwi (1964)" to hamwiKg,
             "Broca Index" to brocaKg
-        )
+        ).filter { it.second.isFinite() }
 
     val averageKg: Double
         get() = allFormulasKg.map { it.second }.average()
 
     val rangeMinKg: Double
-        get() = allFormulasKg.minOf { it.second }
+        get() = allFormulasKg.minOfOrNull { it.second } ?: Double.NaN
 
     val rangeMaxKg: Double
-        get() = allFormulasKg.maxOf { it.second }
+        get() = allFormulasKg.maxOfOrNull { it.second } ?: Double.NaN
 }

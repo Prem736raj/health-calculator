@@ -69,9 +69,9 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
                 val lastEntry = entries.firstOrNull()
                 val homeSummary = if (lastEntry != null) {
                     IBWHomeSummaryData(
-                        idealWeightKg = lastEntry.frameAdjustedDevineKg,
+                        idealWeightKg = lastEntry.frameAdjustedDevineKg.takeIf { it.isFinite() },
                         currentWeightKg = lastEntry.currentWeightKg,
-                        differenceKg = lastEntry.currentWeightKg?.let {
+                        differenceKg = lastEntry.currentWeightKg?.takeIf { lastEntry.frameAdjustedDevineKg.isFinite() }?.let {
                             it - lastEntry.frameAdjustedDevineKg
                         },
                         frameSize = lastEntry.frameSize,
@@ -203,7 +203,7 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
                 age = age
             )
 
-            val additionalMetrics = if (currentWeightKg != null && currentWeightKg > 0) {
+            val additionalMetrics = if (result.hasHistoricalFormulaResults && currentWeightKg != null && currentWeightKg > 0) {
                 adjustedWeightUseCase.calculate(
                     actualWeightKg = currentWeightKg,
                     idealWeightKg = result.frameAdjustedDevineKg,
@@ -213,7 +213,7 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
             } else null
 
             val homeSummary = IBWHomeSummaryData(
-                idealWeightKg = result.frameAdjustedDevineKg,
+                idealWeightKg = result.frameAdjustedDevineKg.takeIf { it.isFinite() },
                 currentWeightKg = currentWeightKg,
                 differenceKg = result.weightDifferenceKg,
                 frameSize = state.frameSize,
@@ -238,6 +238,12 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
     fun saveToHistory() {
         val state = _uiState.value
         val result = state.result ?: return
+        if (!result.hasHistoricalFormulaResults) {
+            _uiState.value = state.copy(
+                errorMessage = "Historical IBW formulas are unavailable below 60 inches; the BMI reference range is still available."
+            )
+            return
+        }
         val metrics = state.additionalMetrics
 
         val entry = IBWHistoryEntry(
@@ -315,9 +321,13 @@ class IBWViewModel @Inject constructor(application: Application) : AndroidViewMo
         val unit = if (showInKg) "kg" else "lbs"
         val factor = if (showInKg) 1.0 else 2.20462
 
-        val idealWeight = "%.1f".format(result.frameAdjustedDevineKg * factor)
         val parts = mutableListOf<String>()
-        parts.add("My Ideal Body Weight: $idealWeight $unit (Devine Formula, ${result.frameSize} frame)")
+        if (result.hasHistoricalFormulaResults) {
+            val idealWeight = "%.1f".format(result.frameAdjustedDevineKg * factor)
+            parts.add("My Ideal Body Weight: $idealWeight $unit (Devine Formula, ${result.frameSize} frame)")
+        } else {
+            parts.add("Historical ideal-weight equations are unavailable below 60 inches.")
+        }
 
         result.currentWeightKg?.let { current ->
             val currentDisplay = "%.1f".format(current * factor)

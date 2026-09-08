@@ -47,7 +47,6 @@ object MetabolicSyndromeCalculator {
         fastingGlucoseMgDl: Float,
         triglyceridesMgDl: Float,
         hdlMgDl: Float,
-        onWaistMedication: Boolean,
         onBpMedication: Boolean,
         onGlucoseMedication: Boolean,
         onTriglyceridesMedication: Boolean,
@@ -63,7 +62,7 @@ object MetabolicSyndromeCalculator {
 
         val waistThreshold = if (isMale) ethnicity.maleWaistCm else ethnicity.femaleWaistCm
         val hdlThreshold = if (isMale) 40f else 50f
-        val waistMet = waistCm >= waistThreshold || onWaistMedication
+        val waistMet = waistCm >= waistThreshold
         val triglyceridesMet = triglyceridesMgDl >= 150f || onTriglyceridesMedication
         val hdlMet = hdlMgDl < hdlThreshold || onHdlMedication
         val bpMet = systolic >= 130f || diastolic >= 85f || onBpMedication
@@ -76,7 +75,7 @@ object MetabolicSyndromeCalculator {
                 "%.1f cm".format(waistCm),
                 "≥ %.0f cm".format(waistThreshold),
                 waistMet,
-                onWaistMedication
+                false
             ),
             MetabolicCriterion("Elevated triglycerides", "Fasting or clinician-reported laboratory value", "%.0f mg/dL".format(triglyceridesMgDl), "≥ 150 mg/dL", triglyceridesMet, onTriglyceridesMedication),
             MetabolicCriterion("Reduced HDL cholesterol", "Sex-specific reference", "%.0f mg/dL".format(hdlMgDl), "< %.0f mg/dL".format(hdlThreshold), hdlMet, onHdlMedication),
@@ -85,7 +84,7 @@ object MetabolicSyndromeCalculator {
         )
 
         val count = criteria.count { it.isMet }
-        val idfWaistMet = waistCm >= waistThreshold || onWaistMedication
+        val idfWaistMet = waistCm >= waistThreshold
         val idfOther = listOf(triglyceridesMet, hdlMet, bpMet, glucoseMet).count { it }
         val idfScreen = idfWaistMet && idfOther >= 2
         return MetabolicSyndromeResult(

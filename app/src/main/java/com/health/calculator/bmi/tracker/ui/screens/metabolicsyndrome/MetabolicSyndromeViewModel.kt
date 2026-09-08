@@ -35,8 +35,7 @@ data class MetabolicSyndromeUiState(
     val hdl: String = "",
     val hdlUnitMgDl: Boolean = true,
 
-    // Medication toggles
-    val onWaistMedication: Boolean = false,
+    // Medication toggles apply only to criteria with a valid medication rule.
     val onBpMedication: Boolean = false,
     val onGlucoseMedication: Boolean = false,
     val onTriglyceridesMedication: Boolean = false,
@@ -206,11 +205,6 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
         updatePartialAssessment()
     }
 
-    fun updateWaistMedication(value: Boolean) {
-        _uiState.value = _uiState.value.copy(onWaistMedication = value, showResult = false)
-        updatePartialAssessment()
-    }
-
     fun updateBpMedication(value: Boolean) {
         _uiState.value = _uiState.value.copy(onBpMedication = value, showResult = false)
         updatePartialAssessment()
@@ -273,7 +267,6 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             fastingGlucoseMgDl = glucoseMgDl,
             triglyceridesMgDl = trigMgDl,
             hdlMgDl = hdlMgDl,
-            onWaistMedication = state.onWaistMedication,
             onBpMedication = state.onBpMedication,
             onGlucoseMedication = state.onGlucoseMedication,
             onTriglyceridesMedication = state.onTriglyceridesMedication,
@@ -312,7 +305,6 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             glucoseMgDl = glucoseMgDl,
             trigMgDl = trigMgDl,
             hdlMgDl = hdlMgDl,
-            onWaistMed = state.onWaistMedication,
             onBpMed = state.onBpMedication,
             onGlucoseMed = state.onGlucoseMedication,
             onTrigMed = state.onTriglyceridesMedication,
@@ -393,7 +385,6 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             fastingGlucoseMgDl = glucoseMgDl!!,
             triglyceridesMgDl = trigMgDl!!,
             hdlMgDl = hdlMgDl!!,
-            onWaistMedication = state.onWaistMedication,
             onBpMedication = state.onBpMedication,
             onGlucoseMedication = state.onGlucoseMedication,
             onTriglyceridesMedication = state.onTriglyceridesMedication,
@@ -408,7 +399,6 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
             fastingGlucoseMgDl = glucoseMgDl!!,
             triglyceridesMgDl = trigMgDl!!,
             hdlMgDl = hdlMgDl!!,
-            onWaistMedication = state.onWaistMedication,
             onBpMedication = state.onBpMedication,
             onGlucoseMedication = state.onGlucoseMedication,
             onTriglyceridesMedication = state.onTriglyceridesMedication,
@@ -463,7 +453,9 @@ class MetabolicSyndromeViewModel @Inject constructor(application: Application) :
                 riskLevel = result.riskLevel.label,
                 waistCm = waistCm,
                 waistMet = result.criteria[0].isMet,
-                waistOnMed = state.onWaistMedication,
+                // Kept false for legacy record compatibility: waist medication
+                // is not a valid substitute for a waist measurement.
+                waistOnMed = false,
                 systolic = systolic,
                 diastolic = diastolic,
                 bpMet = result.criteria[3].isMet,

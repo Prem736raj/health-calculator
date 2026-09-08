@@ -13,8 +13,6 @@ import java.util.*
 
 class CsvExportHelper(@ApplicationContext private val context: Context) {
 
-    private val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
     fun exportAll(
         entries: List<HistoryDisplayEntry>,
         onProgress: (Float) -> Unit
@@ -27,10 +25,7 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
 
         BufferedWriter(FileWriter(file)).use { writer ->
             writeMetadata(writer)
-            // Universal header
-            writer.write("Calculator Type,Date,Time,Primary Value,Unit,Category,")
-            writer.write("Detail 1 Key,Detail 1 Value,Detail 2 Key,Detail 2 Value,")
-            writer.write("Detail 3 Key,Detail 3 Value,Note")
+            writer.write(CsvExportSchema.UNIVERSAL_HEADER)
             writer.newLine()
 
             val total = entries.size
@@ -61,14 +56,12 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
 
         BufferedWriter(FileWriter(file)).use { writer ->
             writeMetadata(writer)
-            // Type-specific headers
-            val headers = getHeadersForType(calculatorType)
-            writer.write(headers)
+            writer.write(CsvExportSchema.UNIVERSAL_HEADER)
             writer.newLine()
 
             val total = filtered.size
             filtered.forEachIndexed { index, entry ->
-                writer.write(buildTypedCsvRow(entry, calculatorType))
+                writer.write(CsvExportSchema.buildRow(entry))
                 writer.newLine()
                 if (total > 0) {
                     onProgress(0.1f + 0.85f * (index + 1) / total)
@@ -81,69 +74,7 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
     }
 
     private fun buildCsvRow(entry: HistoryDisplayEntry): String {
-        val details = entry.details.entries.toList()
-        val sb = StringBuilder()
-
-        sb.append(escapeCsv(entry.calculatorType.displayName)).append(",")
-        sb.append(escapeCsv(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(entry.timestamp)))).append(",")
-        sb.append(escapeCsv(SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(entry.timestamp)))).append(",")
-        sb.append(escapeCsv(entry.primaryValue)).append(",")
-        sb.append(escapeCsv(entry.primaryLabel)).append(",")
-        sb.append(escapeCsv(entry.category ?: "")).append(",")
-
-        // Up to 3 detail pairs
-        for (i in 0..2) {
-            if (i < details.size) {
-                sb.append(escapeCsv(details[i].key)).append(",")
-                sb.append(escapeCsv(details[i].value)).append(",")
-            } else {
-                sb.append(",,")
-            }
-        }
-
-        sb.append(escapeCsv(entry.note ?: ""))
-
-        return sb.toString()
-    }
-
-    private fun buildTypedCsvRow(entry: HistoryDisplayEntry, type: CalculatorType): String {
-        val sb = StringBuilder()
-        val dateStr = dateFormatter.format(Date(entry.timestamp))
-
-        sb.append(escapeCsv(dateStr)).append(",")
-        sb.append(escapeCsv(entry.primaryValue)).append(",")
-        sb.append(escapeCsv(entry.category ?: "")).append(",")
-
-        entry.details.values.forEach { value ->
-            sb.append(escapeCsv(value)).append(",")
-        }
-
-        sb.append(escapeCsv(entry.note ?: ""))
-
-        return sb.toString()
-    }
-
-    private fun getHeadersForType(type: CalculatorType): String {
-        val baseHeaders = "Date & Time,Value,Category"
-        val typeHeaders = when (type) {
-            CalculatorType.BMI -> ",Weight,Height,Age,Gender"
-            CalculatorType.BMR -> ",Formula,TDEE,Activity Level,Weight"
-            CalculatorType.BLOOD_PRESSURE -> ",Systolic,Diastolic,Pulse,Position,Arm"
-            CalculatorType.WHR -> ",Waist,Hip,WHtR,Body Shape"
-            CalculatorType.WATER_INTAKE -> ",Goal,Consumed,Percentage"
-            CalculatorType.METABOLIC_SYNDROME -> ",Criteria Met,Waist,BP,Glucose,Triglycerides,HDL"
-            CalculatorType.BSA -> ",Formula,Weight,Height"
-            CalculatorType.IBW -> ",Formula,Current Weight,Difference"
-            CalculatorType.CALORIE -> ",TDEE,Goal Calories,Activity Level"
-            CalculatorType.HEART_RATE -> ",Max HR,Resting HR,Formula,VO2 Max"
-        }
-        return "$baseHeaders$typeHeaders,Note"
-    }
-
-    private fun escapeCsv(value: String): String {
-        return if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            "\"${value.replace("\"", "\"\"")}\""
-        } else value
+        return CsvExportSchema.buildRow(entry)
     }
 
     private fun writeMetadata(writer: BufferedWriter) {
@@ -151,5 +82,37 @@ class CsvExportHelper(@ApplicationContext private val context: Context) {
             writer.write(row)
             writer.newLine()
         }
+    }
+}
+
+/** Stable schema shared by all CSV exports, regardless of calculator type. */
+internal object CsvExportSchema {
+    const val UNIVERSAL_HEADER =
+        "Calculator Type,Date,Time,Primary Value,Unit,Category," +
+            "Detail 1 Key,Detail 1 Value,Detail 2 Key,Detail 2 Value," +
+            "Detail 3 Key,Detail 3 Value,Note"
+
+    fun buildRow(entry: HistoryDisplayEntry): String {
+        val details = entry.details.entries.take(3).toList()
+        val values = buildList {
+            add(entry.calculatorType.displayName)
+            add(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(entry.timestamp)))
+            add(SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(entry.timestamp)))
+            add(entry.primaryValue)
+            add(entry.primaryLabel)
+            add(entry.category.orEmpty())
+            repeat(3) { index ->
+                add(details.getOrNull(index)?.key.orEmpty())
+                add(details.getOrNull(index)?.value.orEmpty())
+            }
+            add(entry.note.orEmpty())
+        }
+        return values.joinToString(",") { escapeCsv(it) }
+    }
+
+    private fun escapeCsv(value: String): String {
+        return if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            "\"${value.replace("\"", "\"\"")}\""
+        } else value
     }
 }

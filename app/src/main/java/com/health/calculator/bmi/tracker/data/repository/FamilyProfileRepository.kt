@@ -114,19 +114,17 @@ class FamilyProfileRepository @Inject constructor(
 
         val oldProfile = oldProfileRepository.profileFlow.first()
         
-        // Only migrate if the old profile had some data (e.g., height or weight set)
-        if (oldProfile.heightCm > 0 || oldProfile.weightKg > 0 || oldProfile.displayName.isNotBlank()) {
-            val family = FamilyProfile.fromProfileData(
-                profile = oldProfile,
-                color = ProfileColor.BLUE.colorValue,
-                isActive = true,
-                sortOrder = 0
-            )
+        // Always materialize one active profile, including for a brand-new user.
+        // The rest of the app reads the active Room profile, so leaving the table
+        // empty makes a valid empty profile look like missing data and can cause
+        // older DataStore values to be reinterpreted on every launch.
+        val family = FamilyProfile.fromProfileData(
+            profile = oldProfile,
+            color = ProfileColor.BLUE.colorValue,
+            isActive = true,
+            sortOrder = 0
+        )
 
-            familyProfileDao.insertProfile(family)
-            
-            // Optionally clear old repository to prevent re-migration attempts
-            // oldProfileRepository.clearProfile() 
-        }
+        familyProfileDao.insertProfile(family)
     }
 }

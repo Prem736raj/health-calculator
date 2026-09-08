@@ -66,6 +66,9 @@ class MedicalCalculatorAccuracyTest {
         assertEquals(BpCategory.NORMAL, BloodPressureCalculator.categorize(120, 79))
         assertEquals(BpCategory.HIGH_NORMAL, BloodPressureCalculator.categorize(130, 79))
         assertEquals(BpCategory.ISOLATED_SYSTOLIC, BloodPressureCalculator.categorize(140, 89))
+        assertEquals(BpCategory.ISOLATED_SYSTOLIC, BloodPressureCalculator.categorize(150, 55))
+        assertEquals(BpCategory.GRADE_1_HYPERTENSION, BloodPressureCalculator.categorize(135, 95))
+        assertEquals(BpCategory.HYPOTENSION, BloodPressureCalculator.categorize(89, 59))
         assertEquals(BpCategory.GRADE_1_HYPERTENSION, BloodPressureCalculator.categorize(140, 90))
         assertEquals(BpCategory.GRADE_1_HYPERTENSION, BloodPressureCalculator.categorize(159, 99))
         assertEquals(BpCategory.HYPERTENSIVE_CRISIS, BloodPressureCalculator.categorize(181, 79))
@@ -165,7 +168,6 @@ class MedicalCalculatorAccuracyTest {
             fastingGlucoseMgDl = 100f,
             triglyceridesMgDl = 150f,
             hdlMgDl = 39f,
-            onWaistMedication = false,
             onBpMedication = false,
             onGlucoseMedication = false,
             onTriglyceridesMedication = false,

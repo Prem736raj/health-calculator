@@ -33,7 +33,6 @@ object MetabolicSyndromePartialAssessment {
         glucoseMgDl: Float?,
         trigMgDl: Float?,
         hdlMgDl: Float?,
-        onWaistMed: Boolean,
         onBpMed: Boolean,
         onGlucoseMed: Boolean,
         onTrigMed: Boolean,
@@ -43,7 +42,7 @@ object MetabolicSyndromePartialAssessment {
         val waistThreshold = if (isMale) ethnicity.maleWaistCm else ethnicity.femaleWaistCm
         val hdlThreshold = if (isMale) 40f else 50f
         val criteria = listOf(
-            PartialCriterionResult("Central waist measurement", "📏", waistCm != null, waistCm?.let { it >= waistThreshold || onWaistMed }, waistCm?.let { "%.1f cm".format(it) }, "≥ ${waistThreshold.toInt()} cm", "Enter waist circumference"),
+            PartialCriterionResult("Central waist measurement", "📏", waistCm != null, waistCm?.let { it >= waistThreshold }, waistCm?.let { "%.1f cm".format(it) }, "≥ ${waistThreshold.toInt()} cm", "Enter waist circumference"),
             PartialCriterionResult("Elevated triglycerides", "🩸", trigMgDl != null, trigMgDl?.let { it >= 150f || onTrigMed }, trigMgDl?.let { "%.0f mg/dL".format(it) }, "≥ 150 mg/dL", "Enter triglycerides value"),
             PartialCriterionResult("Reduced HDL", "💛", hdlMgDl != null, hdlMgDl?.let { it < hdlThreshold || onHdlMed }, hdlMgDl?.let { "%.0f mg/dL".format(it) }, "< ${hdlThreshold.toInt()} mg/dL", "Enter HDL cholesterol value"),
             PartialCriterionResult("Elevated blood pressure", "❤️", systolic != null && diastolic != null, if (systolic != null && diastolic != null) systolic >= 130f || diastolic >= 85f || onBpMed else null, if (systolic != null && diastolic != null) "%.0f/%.0f mmHg".format(systolic, diastolic) else null, "≥ 130 systolic or ≥ 85 diastolic", "Enter blood pressure values"),

@@ -64,6 +64,10 @@ class ProfileViewModel @Inject constructor(
     val weightStatistics: StateFlow<com.health.calculator.bmi.tracker.data.model.WeightStatistics?> = _weightStatistics.asStateFlow()
 
     init {
+        // ProfileScreen intentionally exposes one profile until all health
+        // records are migrated to profile-scoped storage. Ensure the active
+        // Room row exists before collecting it, including for first launch.
+        viewModelScope.launch { familyProfileRepository.migrateFromDataStore() }
         loadProfile()
         loadHealthOverview()
         observeWeightStatistics()
@@ -373,7 +377,12 @@ class ProfileViewModel @Inject constructor(
                 source = com.health.calculator.bmi.tracker.data.model.WeightSource.PROFILE
             )
             
-            // Also update profile current weight if it's the latest
+            // Keep the active Room profile and the legacy DataStore mirror in
+            // sync. Tracking data is still device-wide, so multi-profile
+            // switching must not be exposed until records are profile-scoped.
+            familyProfileRepository.activeProfile.first()?.let { activeProfile ->
+                familyProfileRepository.updateProfile(activeProfile.copy(weightKg = weightKg))
+            }
             profileRepository.saveProfile(_uiState.value.profile.copy(weightKg = weightKg.toFloat()))
             
             _uiState.update {

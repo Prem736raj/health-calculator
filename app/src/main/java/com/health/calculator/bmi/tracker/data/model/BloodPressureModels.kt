@@ -140,25 +140,26 @@ object BloodPressureCalculator {
             return BpCategory.HYPERTENSIVE_CRISIS
         }
 
-        // Determine systolic category
-        val systolicCategory = categorizeSystolic(systolic)
-        // Determine diastolic category
-        val diastolicCategory = categorizeDiastolic(diastolic)
-
-        // Hypotension check
+        // Evaluate hypertensive patterns before hypotension. A mixed reading
+        // such as 150/55 should remain an isolated-systolic pattern rather
+        // than being labelled only as hypotension because the diastolic value
+        // is low.
+        if (systolic >= 140 && diastolic < 90) {
+            return BpCategory.ISOLATED_SYSTOLIC
+        }
+        if (systolic >= 140 || diastolic >= 90) {
+            return BpCategory.GRADE_1_HYPERTENSION
+        }
+        if (systolic in 130..139 || diastolic in 80..89) {
+            return BpCategory.HIGH_NORMAL
+        }
+        if (systolic in 120..129 && diastolic < 80) {
+            return BpCategory.NORMAL
+        }
         if (systolic < 90 || diastolic < 60) {
             return BpCategory.HYPOTENSION
         }
-
-        // Isolated systolic elevation remains useful as a descriptive label.
-        if (systolic >= 140 && diastolic < 90) return BpCategory.ISOLATED_SYSTOLIC
-
-        // Use the HIGHER (worse) category when they differ
-        return if (systolicCategory.sortOrder >= diastolicCategory.sortOrder) {
-            systolicCategory
-        } else {
-            diastolicCategory
-        }
+        return BpCategory.OPTIMAL
     }
 
     private fun categorizeSystolic(systolic: Int): BpCategory {

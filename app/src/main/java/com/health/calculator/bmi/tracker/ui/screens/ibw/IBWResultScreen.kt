@@ -118,7 +118,7 @@ fun IBWResultScreen(
 
         // Motivational Weight Comparison
         AnimatedVisibility(
-            visible = visible && result.currentWeightKg != null,
+            visible = visible && result.currentWeightKg != null && result.hasHistoricalFormulaResults,
             enter = fadeIn(tween(600, 200)) + slideInVertically(tween(600, 200))
         ) {
             IBWMotivationalComparison(
@@ -142,7 +142,7 @@ fun IBWResultScreen(
         ) { FormulaComparisonCard(result, showInKg) }
 
         // Additional Metrics
-        if (additionalMetrics != null && result.currentWeightKg != null) {
+        if (additionalMetrics != null && result.currentWeightKg != null && result.hasHistoricalFormulaResults) {
             Spacer(modifier = Modifier.height(24.dp))
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
             Spacer(modifier = Modifier.height(16.dp))
@@ -166,7 +166,14 @@ fun IBWResultScreen(
             visible = visible,
             enter = fadeIn(tween(1000, 700)) + slideInVertically(tween(1000, 700))
         ) {
-            ActionButtonsRow(isSaved, onSave, onRecalculate, onShare, onSetGoal)
+            ActionButtonsRow(
+                isSaved = isSaved,
+                canSave = result.hasHistoricalFormulaResults,
+                onSave = onSave,
+                onRecalculate = onRecalculate,
+                onShare = onShare,
+                onSetGoal = onSetGoal
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -258,9 +265,10 @@ private fun PrimaryResultCard(
 ) {
     val weight = if (showInKg) result.frameAdjustedDevineKg else result.frameAdjustedDevineLbs
     val unit = if (showInKg) "kg" else "lbs"
+    val weightAvailable = weight.isFinite()
     
     val animatedWeight by animateFloatAsState(
-        targetValue = weight.toFloat(),
+        targetValue = if (weightAvailable) weight.toFloat() else 0f,
         animationSpec = tween(1500, easing = FastOutSlowInEasing),
         label = "weight_anim"
     )
@@ -333,7 +341,7 @@ private fun PrimaryResultCard(
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = stringResource(R.string.txt_1f).format(animatedWeight),
+                            text = if (weightAvailable) stringResource(R.string.txt_1f).format(animatedWeight) else "—",
                             style = MaterialTheme.typography.displayLarge.copy(
                                 fontWeight = FontWeight.Black,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -376,7 +384,7 @@ private fun PrimaryResultCard(
                 }
 
                 Text(
-                    text = "Adjusted for ${result.frameSize} frame",
+                    text = if (weightAvailable) "Adjusted for ${result.frameSize} frame" else "Historical equations are unavailable below 60 inches",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
                     modifier = Modifier.padding(top = 12.dp)
@@ -452,7 +460,8 @@ private fun FormulaComparisonCard(result: IBWResult, showInKg: Boolean) {
                         ) {
                             Text(name, style = MaterialTheme.typography.bodyMedium)
                             Text(
-                                "${"%.1f".format(weight)} ${if(showInKg) "kg" else "lbs"}",
+                                if (weight.isFinite()) "${"%.1f".format(weight)} ${if(showInKg) "kg" else "lbs"}"
+                                else "Unavailable",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                             )
                         }
@@ -472,6 +481,7 @@ private fun FormulaComparisonCard(result: IBWResult, showInKg: Boolean) {
 @Composable
 private fun ActionButtonsRow(
     isSaved: Boolean,
+    canSave: Boolean,
     onSave: () -> Unit,
     onRecalculate: () -> Unit,
     onShare: () -> Unit,
@@ -488,7 +498,7 @@ private fun ActionButtonsRow(
             Button(
                 onClick = onSave,
                 modifier = Modifier.weight(1f).height(56.dp),
-                enabled = !isSaved,
+                enabled = !isSaved && canSave,
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (isSaved) Color(0xFF4CAF50) else MaterialTheme.colorScheme.primary,
@@ -501,7 +511,13 @@ private fun ActionButtonsRow(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(if (isSaved) "Saved ✓" else "Save")
+                Text(
+                    when {
+                        isSaved -> "Saved ✓"
+                        canSave -> "Save"
+                        else -> "Save unavailable"
+                    }
+                )
             }
 
             OutlinedButton(

@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.StateFlow
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 import javax.inject.Inject
@@ -68,7 +68,7 @@ class HealthConnectManager @Inject constructor(
     }
 
     suspend fun readDailySteps(): Long {
-        val today = LocalDate.now()
+        val today = LocalDate.now(ZoneId.systemDefault())
         return readStepsHistory(days = 1)
             .firstOrNull { it.date == today }
             ?.steps
@@ -86,28 +86,25 @@ class HealthConnectManager @Inject constructor(
 
         val safeDays = days.coerceIn(1, 90)
         val zone = ZoneId.systemDefault()
-        val end = Instant.now()
-        val start = ZonedDateTime.now(zone)
-            .toLocalDate()
-            .minusDays((safeDays - 1).toLong())
-            .atStartOfDay(zone)
-            .toInstant()
-
         return try {
-            val result = healthConnectClient.readRecords(
-                ReadRecordsRequest(
-                    recordType = StepsRecord::class,
-                    timeRangeFilter = TimeRangeFilter.between(start, end)
-                )
-            )
-            result.records
-                .asSequence()
-                .filter { it.count >= 0L }
-                .groupBy { it.startTime.atZone(zone).toLocalDate() }
-                .map { (date, records) ->
-                    HealthConnectStepsDay(date, records.sumOf { it.count })
+            val today = LocalDate.now(zone)
+            (0 until safeDays).mapNotNull { offset ->
+                val date = today.minusDays((safeDays - 1 - offset).toLong())
+                val start = date.atStartOfDay(zone).toInstant()
+                val end = if (date == today) {
+                    Instant.now()
+                } else {
+                    date.plusDays(1).atStartOfDay(zone).toInstant()
                 }
-                .sortedBy { it.date }
+                val aggregate = healthConnectClient.aggregate(
+                    AggregateRequest(
+                        metrics = setOf(StepsRecord.COUNT_TOTAL),
+                        timeRangeFilter = TimeRangeFilter.between(start, end)
+                    )
+                )
+                val steps = aggregate[StepsRecord.COUNT_TOTAL] ?: 0L
+                HealthConnectStepsDay(date, steps.coerceAtLeast(0L))
+            }
         } catch (_: Exception) {
             emptyList()
         }
