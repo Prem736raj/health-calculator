@@ -2,9 +2,11 @@
 
 package com.health.calculator.bmi.tracker.core.constants
 
+import com.health.calculator.bmi.tracker.core.brand.BrandVoice
+
 object AppConstants {
-    const val APP_NAME = "Health Metrics Tracker"
-    const val APP_SUBTITLE = "Your personal wellness companion"
+    const val APP_NAME = BrandVoice.APP_NAME
+    const val APP_SUBTITLE = BrandVoice.TAGLINE
     const val APP_VERSION = "1.0.0"
 
     // DataStore

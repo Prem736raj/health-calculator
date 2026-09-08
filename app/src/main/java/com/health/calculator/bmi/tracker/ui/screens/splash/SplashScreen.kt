@@ -28,6 +28,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,13 +60,13 @@ private val SplashTealLight = Color(0xFFD0BCFF)
 
 /**
  * Animated splash screen displayed on every app launch.
- * Shows the app logo with a heartbeat pulse animation for ~1.8 seconds
+ * Shows the app's calm wellness mark with a short pulse animation for ~1.8 seconds
  * before calling [onSplashComplete].
  *
  * Animation sequence:
  * 1. Logo scales in with bounce (0-400ms)
  * 2. App name fades in (200-600ms)
- * 3. Heartbeat pulse loops on the medical cross (400ms+)
+ * 3. A gentle pulse settles around the wellness mark (400ms+)
  * 4. Subtitle fades in (800-1200ms)
  * 5. Entire screen fades out (1600-1800ms)
  * 6. onSplashComplete is called
@@ -229,8 +232,7 @@ fun SplashScreen(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Medical cross made of two overlapping rounded rectangles
-                    MedicalCross()
+                    WellnessMark()
                 }
             }
 
@@ -278,36 +280,16 @@ fun SplashScreen(
     }
 }
 
-// ─── Medical Cross Icon ───────────────────────────────────────────────────────
+// ─── Wellness Mark ────────────────────────────────────────────────────────────
 
 @Composable
-private fun MedicalCross() {
-    Box(contentAlignment = Alignment.Center) {
-        // Vertical bar
-        Box(
-            modifier = Modifier
-                .width(12.dp)
-                .height(36.dp)
-                .clip(RoundedCornerShape(6.dp))
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(SplashTealLight, SplashTeal)
-                    )
-                )
-        )
-        // Horizontal bar
-        Box(
-            modifier = Modifier
-                .width(36.dp)
-                .height(12.dp)
-                .clip(RoundedCornerShape(6.dp))
-                .background(
-                    Brush.horizontalGradient(
-                        colors = listOf(SplashTealLight, SplashTeal)
-                    )
-                )
-        )
-    }
+private fun WellnessMark() {
+    Icon(
+        imageVector = Icons.Outlined.FavoriteBorder,
+        contentDescription = null,
+        modifier = Modifier.size(38.dp),
+        tint = SplashTeal
+    )
 }
 
 // ─── Loading Dots Animation ───────────────────────────────────────────────────

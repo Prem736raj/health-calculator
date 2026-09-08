@@ -201,3 +201,11 @@ This file is the source of truth for the sequential product-development phases. 
 - **Tests:** Extended `CalculatorQualityCatalogTest` to require non-empty purpose, inputs, method, interpretation, limitations and sources for all calculator destinations. Focused Kotlin compilation and unit tests pass.
 - **Known limitations:** This pass exposes and tests the existing reviewed formula documentation; it does not replace the different legacy calculation input/result layouts or add device-level TalkBack, large-font and route smoke coverage. No health values are added to analytics.
 - **Next phase:** Strengthen the focused product identity so the visual, onboarding, report and trust language all communicate a calm, privacy-conscious wellness companion.
+
+## Item 5 — Focused product identity and wellness voice
+
+- **Status:** Complete locally; device and console QA remain open
+- **Major changes:** Established one product voice for onboarding, splash, settings, reports and future store materials; centralized the app name and tagline; replaced the clinical-looking splash cross with a calm outlined wellness mark; removed the remaining visible footer emoji; and documented the approved positioning, visual signature and safety language in `docs/BRAND_IDENTITY.md`.
+- **Tests:** Added `BrandVoiceTest` to protect calm, privacy-conscious and non-diagnostic wording. The complete `test`, `lintDebug`, `assembleDebug`, `assembleRelease` and `bundleRelease` gates pass.
+- **Known limitations:** Store artwork, launcher icon exports and Play Console listing assets still require a visual asset pass and owner-side console work. GitHub may flag the Firebase Android client key in `google-services.json`; Firebase documents this config as public by design, but the Firebase-provisioned key must still be restricted to Firebase-related APIs in Google Cloud and monitored. That restriction requires console access.
+- **Next phase:** Validate reliability and accessibility across representative devices, then use closed-test evidence to prioritize remaining polish.

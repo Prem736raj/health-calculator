@@ -2,6 +2,7 @@ package com.health.calculator.bmi.tracker.ui.screens.onboarding
 
 import androidx.compose.ui.res.stringResource
 import com.health.calculator.bmi.tracker.R
+import com.health.calculator.bmi.tracker.core.brand.BrandVoice
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
@@ -112,8 +113,8 @@ private val onboardingPages = listOf(
         icon = Icons.Outlined.FavoriteBorder,
         decorativeIcons = listOf(Icons.Outlined.MonitorHeart, Icons.Outlined.DirectionsWalk, Icons.Outlined.WaterDrop),
         title = "Welcome to\nHealth Metrics Tracker",
-        subtitle = "Your Personal Health Companion",
-        description = "Track and understand the metrics you choose with easy-to-use calculators. Your records stay private on this device."
+        subtitle = BrandVoice.TAGLINE,
+        description = "Choose a few everyday measures to track, then understand them with clear, informational estimates. Your records stay private on this device."
     ),
     OnboardingPage(
         icon = Icons.Outlined.Analytics,

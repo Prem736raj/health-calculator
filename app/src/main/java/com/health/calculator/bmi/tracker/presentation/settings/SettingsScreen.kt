@@ -671,7 +671,7 @@ fun SettingsScreen(
                     // ── Footer ────────────────────────────────────────────
                     item {
                         Text(
-                            text = "Made with ❤️ for your wellness\n${AppConstants.APP_NAME} © ${java.time.Year.now().value}",
+                            text = "Made with care for your wellness\n${AppConstants.APP_NAME} © ${java.time.Year.now().value}",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center,
