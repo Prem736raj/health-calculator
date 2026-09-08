@@ -34,11 +34,11 @@ object BMRCalculator {
             BMRFormula.MIFFLIN_ST_JEOR -> mifflinStJeor(weightKg, heightCm, age, isMale)
             BMRFormula.WHO_FAO_UNU -> whoFaoUnu(weightKg, age, isMale)
             BMRFormula.KATCH_MCARDLE -> {
-                if (bodyFatPercentage <= 0 || bodyFatPercentage >= 80) return null
+                if (!bodyFatPercentage.isFinite() || bodyFatPercentage !in 2f..75f) return null
                 katchMcArdle(weightKg, bodyFatPercentage)
             }
             BMRFormula.CUNNINGHAM -> {
-                if (bodyFatPercentage <= 0 || bodyFatPercentage >= 80) return null
+                if (!bodyFatPercentage.isFinite() || bodyFatPercentage !in 2f..75f) return null
                 cunningham(weightKg, bodyFatPercentage)
             }
         }
@@ -139,9 +139,9 @@ object BMRCalculator {
 
     fun validateHeight(heightCm: Float): String? {
         return when {
-            heightCm <= 0f -> "Please enter a valid height"
-            heightCm < 30f -> "Height seems too low. Please check"
-            heightCm > 280f -> "Height exceeds maximum range"
+            !heightCm.isFinite() || heightCm <= 0f -> "Please enter a valid height"
+            heightCm < 100f -> "Adult estimates require a height of at least 100 cm"
+            heightCm > 250f -> "Please enter a height no greater than 250 cm"
             else -> null
         }
     }
@@ -158,7 +158,7 @@ object BMRCalculator {
     fun validateBodyFat(percentage: Float, isRequired: Boolean): String? {
         if (!isRequired) return null
         return when {
-            percentage <= 0f -> "Please enter body fat percentage"
+            !percentage.isFinite() || percentage <= 0f -> "Please enter body fat percentage"
             percentage < 2f -> "Body fat percentage seems too low"
             percentage > 75f -> "Body fat percentage seems too high"
             else -> null

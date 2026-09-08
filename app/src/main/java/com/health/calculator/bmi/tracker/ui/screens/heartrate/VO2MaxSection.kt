@@ -73,18 +73,6 @@ fun VO2MaxSection(
 
             // VO2 Max Result Card
             VO2MaxResultCard(result = vo2Result)
-
-            // Fitness Age Card
-            FitnessAgeCard(result = vo2Result)
-
-            // VO2 Classification Gauge
-            VO2ClassificationGauge(result = vo2Result)
-
-            // Improvement Section
-            VO2ImprovementSection(result = vo2Result)
-
-            // Recovery HR Section
-            RecoveryHeartRateSection()
         } else {
             // No resting HR provided
             NoRestingHRCard()
@@ -156,6 +144,7 @@ private fun NoRestingHRCard() {
 
 @Composable
 private fun VO2MaxResultCard(result: VO2MaxResult) {
+    val accentColor = MaterialTheme.colorScheme.primary
     val animatedVO2 by animateFloatAsState(
         targetValue = result.vo2Max,
         animationSpec = tween(1200, easing = FastOutSlowInEasing),
@@ -166,7 +155,7 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
         colors = CardDefaults.cardColors(
-            containerColor = result.classification.color.copy(alpha = 0.06f)
+            containerColor = accentColor.copy(alpha = 0.06f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -185,7 +174,7 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
                 Canvas(modifier = Modifier.size(140.dp)) {
                     val strokeWidth = 14.dp.toPx()
                     drawArc(
-                        color = result.classification.color.copy(alpha = 0.12f),
+                        color = accentColor.copy(alpha = 0.12f),
                         startAngle = 135f,
                         sweepAngle = 270f,
                         useCenter = false,
@@ -195,7 +184,7 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
                     // Animated progress (normalize to 0-70 range for display)
                     val progress = (animatedVO2 / 70f).coerceIn(0f, 1f)
                     drawArc(
-                        color = result.classification.color,
+                        color = accentColor,
                         startAngle = 135f,
                         sweepAngle = 270f * progress,
                         useCenter = false,
@@ -208,7 +197,7 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
                         text = stringResource(R.string.txt_1f).format(animatedVO2),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.ExtraBold,
-                        color = result.classification.color
+                        color = accentColor
                     )
                     Text(
                         text = stringResource(R.string.txt_ml_kg_min),
@@ -218,65 +207,19 @@ private fun VO2MaxResultCard(result: VO2MaxResult) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Classification badge
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = result.classification.color.copy(alpha = 0.12f)
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = result.classification.emoji,
-                        fontSize = 18.sp
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = result.classification.category,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = result.classification.color
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
             Text(
-                text = result.classification.description,
+                text = "Informational estimate only. Repeat under similar conditions to look for a personal trend; age and fitness reference bands are not shown because methods vary.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center,
                 lineHeight = 17.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Stats row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                StatBubble(
-                    emoji = "📊",
-                    value = if (result.percentile > 0) "Band ${result.percentile}%" else "—",
-                    label = "Reference band"
-                )
-                StatBubble(
-                    emoji = "📏",
-                    value = result.classification.rangeLabel,
-                    label = "Range"
-                )
-            }
-
             Spacer(modifier = Modifier.height(8.dp))
 
             // Formula note
             Text(
-                text = stringResource(R.string.txt_estimated_using_uth_et_al_form),
+                text = result.methodology,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f),
                 textAlign = TextAlign.Center
@@ -943,10 +886,18 @@ private fun RecoveryHeartRateSection() {
 
                     Text(
                         text = stringResource(R.string.txt_track_your_recovery_hr_monthly) +
-                                "your heart will recover faster — it's one of the best indicators of cardiovascular health!",
+                                "look for patterns under similar conditions; a single recovery reading is not diagnostic.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
                         lineHeight = 17.sp
+                    )
+
+                    Text(
+                        text = guidelines.firstOrNull()?.referenceNote.orEmpty(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        lineHeight = 15.sp,
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                 }
             }

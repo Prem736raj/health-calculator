@@ -63,7 +63,7 @@ object BMRValidation {
 
         val bodyFatError = when {
             !formula.requiresBodyFat -> null
-            bodyFatPercentage <= 0f -> "Please enter body fat percentage"
+            !bodyFatPercentage.isFinite() || bodyFatPercentage <= 0f -> "Please enter body fat percentage"
             bodyFatPercentage < 2f -> "Body fat percentage is too low (minimum essential fat is ~2-3%)"
             bodyFatPercentage > 75f -> "Body fat percentage seems too high (maximum ~70%)"
             bodyFatPercentage < 5f -> {

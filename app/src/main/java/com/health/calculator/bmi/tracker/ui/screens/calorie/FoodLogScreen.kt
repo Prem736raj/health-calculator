@@ -852,7 +852,9 @@ private fun AddCustomPresetDialog(
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     items(emojiOptions) { emoji ->
                         Surface(
-                            modifier = Modifier.clickable { onUpdateEmoji(emoji) }.size(36.dp),
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable { onUpdateEmoji(emoji) },
                             shape = CircleShape,
                             color = if (uiState.presetEmoji == emoji)
                                 MaterialTheme.colorScheme.primaryContainer

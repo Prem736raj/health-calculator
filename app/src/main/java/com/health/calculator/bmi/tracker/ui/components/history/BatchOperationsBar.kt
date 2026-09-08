@@ -47,7 +47,7 @@ fun BatchOperationsBar(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     // Close / deselect all
-                    IconButton(onClick = onDeselectAll, modifier = Modifier.size(36.dp)) {
+                    IconButton(onClick = onDeselectAll, modifier = Modifier.size(48.dp)) {
                         Icon(
                             Icons.Default.Close,
                             "Cancel selection",
@@ -84,7 +84,7 @@ fun BatchOperationsBar(
                     }
 
                     // Export selected
-                    IconButton(onClick = onExportSelected, modifier = Modifier.size(36.dp)) {
+                    IconButton(onClick = onExportSelected, modifier = Modifier.size(48.dp)) {
                         Icon(
                             Icons.Default.FileDownload,
                             "Export selected",
@@ -94,7 +94,7 @@ fun BatchOperationsBar(
                     }
 
                     // Delete selected
-                    IconButton(onClick = onDeleteSelected, modifier = Modifier.size(36.dp)) {
+                    IconButton(onClick = onDeleteSelected, modifier = Modifier.size(48.dp)) {
                         Icon(
                             Icons.Default.Delete,
                             "Delete selected",

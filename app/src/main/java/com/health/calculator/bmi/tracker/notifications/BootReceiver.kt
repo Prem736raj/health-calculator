@@ -20,7 +20,9 @@ class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(@ApplicationContext context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED ||
-            intent.action == "android.intent.action.QUICKBOOT_POWERON"
+            intent.action == "android.intent.action.QUICKBOOT_POWERON" ||
+            intent.action == Intent.ACTION_TIMEZONE_CHANGED ||
+            intent.action == Intent.ACTION_TIME_CHANGED
         ) {
             val pending = goAsync()
             CoroutineScope(Dispatchers.IO).launch {

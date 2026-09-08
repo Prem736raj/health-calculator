@@ -32,14 +32,6 @@ fun com.health.calculator.bmi.tracker.util.HeartRateZoneResult.toHistoryEntry():
         com.health.calculator.bmi.tracker.util.VO2MaxCalculator.estimateVO2Max(maxHeartRate, restingHeartRate)
     } else null
 
-    val vo2Classification = if (vo2Max != null && gender != null) {
-        com.health.calculator.bmi.tracker.util.VO2MaxCalculator.classifyVO2Max(vo2Max, age, gender).category
-    } else null
-
-    val fitnessAgeEst = if (vo2Max != null && gender != null) {
-        com.health.calculator.bmi.tracker.util.VO2MaxCalculator.estimateFitnessAge(vo2Max, gender)
-    } else null
-
     val detailsJson = org.json.JSONObject().apply {
         put("maxHeartRate", maxHeartRate)
         put("restingHeartRate", restingHeartRate)
@@ -47,8 +39,9 @@ fun com.health.calculator.bmi.tracker.util.HeartRateZoneResult.toHistoryEntry():
         put("gender", gender)
         put("formula", formulaUsed.label)
         put("vo2Max", vo2Max)
-        put("vo2Classification", vo2Classification)
-        put("fitnessAge", fitnessAgeEst)
+        // Keep only the raw estimate. Age/sex bands and "fitness age" are
+        // intentionally not persisted because they are not traceable clinical
+        // references and can imply false precision.
         put("zone1", "${zones[0].bpmLow}-${zones[0].bpmHigh}")
         put("zone2", "${zones[1].bpmLow}-${zones[1].bpmHigh}")
         put("zone3", "${zones[2].bpmLow}-${zones[2].bpmHigh}")

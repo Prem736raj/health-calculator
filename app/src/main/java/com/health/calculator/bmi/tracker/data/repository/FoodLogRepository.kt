@@ -28,7 +28,16 @@ class FoodLogRepository @Inject constructor(@ApplicationContext private val cont
     private val todayKey get() = dateFormat.format(Date())
 
     private val _todayLog = MutableStateFlow(emptyDailyLog())
-    val todayLog: StateFlow<DailyFoodLog> = _todayLog.asStateFlow()
+    /**
+     * The food log is day-scoped. Re-check the date whenever a consumer asks
+     * for the stream so a process that stays alive across midnight cannot keep
+     * showing yesterday's entries indefinitely.
+     */
+    val todayLog: StateFlow<DailyFoodLog>
+        get() {
+            checkAndResetIfNewDay()
+            return _todayLog.asStateFlow()
+        }
 
     private val _customPresets = MutableStateFlow<List<FoodPreset>>(emptyList())
     val customPresets: StateFlow<List<FoodPreset>> = _customPresets.asStateFlow()
@@ -105,10 +114,10 @@ class FoodLogRepository @Inject constructor(@ApplicationContext private val cont
     fun checkAndResetIfNewDay() {
         val savedDate = prefs.getString("log_date", "") ?: ""
         val today = todayKey
-        if (savedDate != today) {
+        if (FoodLogDayPolicy.needsReset(savedDate, today)) {
             // Save yesterday's log to history
             val yesterdayLog = _todayLog.value
-            if (yesterdayLog.entries.isNotEmpty()) {
+            if (savedDate.isNotBlank() && yesterdayLog.entries.isNotEmpty()) {
                 saveToHistory(yesterdayLog, savedDate)
             }
             // Reset for today
@@ -138,7 +147,20 @@ class FoodLogRepository @Inject constructor(@ApplicationContext private val cont
                 } catch (_: Exception) {}
             }
         }
-        _todayLog.value = emptyDailyLog()
+        if (savedDate.isNotBlank() && savedDate != today) {
+            // A cold start after midnight must archive the previous day before
+            // replacing it. This also covers users who never reopen the food
+            // screen while the app is running.
+            prefs.getString("today_log", null)?.let { json ->
+                runCatching { fromJson(JSONObject(json)) }
+                    .getOrNull()
+                    ?.takeIf { it.entries.isNotEmpty() }
+                    ?.let { saveToHistory(it, savedDate) }
+            }
+        }
+        val fresh = emptyDailyLog()
+        _todayLog.value = fresh
+        if (savedDate != today) saveTodayLog(fresh)
     }
 
     private fun loadCustomPresets() {
@@ -309,4 +331,8 @@ class FoodLogRepository @Inject constructor(@ApplicationContext private val cont
             log.date >= startStr && log.date <= endStr
         }
     }
+}
+
+internal object FoodLogDayPolicy {
+    fun needsReset(savedDate: String, today: String): Boolean = savedDate != today
 }

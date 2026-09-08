@@ -1056,6 +1056,13 @@ private fun FactorBreakdownCard(viewModel: WaterIntakeViewModel) {
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
 
+            Text(
+                text = com.health.calculator.bmi.tracker.data.model.WaterIntakeCalculator.METHODOLOGY_NOTE,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 17.sp
+            )
+
             // Beverage starting point
             BreakdownRow(
                 label = "Beverage starting point",

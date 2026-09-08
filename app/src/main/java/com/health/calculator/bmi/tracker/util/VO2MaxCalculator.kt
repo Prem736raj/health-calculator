@@ -2,6 +2,13 @@ package com.health.calculator.bmi.tracker.util
 
 import androidx.compose.ui.graphics.Color
 
+const val VO2_MAX_METHOD_SOURCE =
+    "Heart-rate ratio estimate using Uth et al. (2004); not a laboratory VO₂ max test or diagnosis."
+const val VO2_MAX_REFERENCE_SOURCE =
+    "Uth et al. (2004), Medicine & Science in Sports & Exercise 36(2):241–247. Age and gender bands here are app comparison bands, not clinical norms."
+const val RECOVERY_HR_REFERENCE_NOTE =
+    "Recovery bands are educational reference ranges; results vary with protocol, medication, fitness and conditions and are not diagnostic."
+
 data class VO2MaxResult(
     val vo2Max: Float,
     val classification: VO2Classification,
@@ -12,7 +19,8 @@ data class VO2MaxResult(
     val improvementPotential: Float,
     val projectedVO2After6Months: Float,
     val isClinicalMeasurement: Boolean = false,
-    val methodology: String = "Heart-rate ratio estimate; not a laboratory VO₂ max test or diagnosis."
+    val methodology: String = VO2_MAX_METHOD_SOURCE,
+    val referenceSource: String = VO2_MAX_REFERENCE_SOURCE
 )
 
 data class VO2Classification(
@@ -20,7 +28,8 @@ data class VO2Classification(
     val color: Color,
     val emoji: String,
     val description: String,
-    val rangeLabel: String
+    val rangeLabel: String,
+    val referenceNote: String = VO2_MAX_REFERENCE_SOURCE
 )
 
 data class RecoveryHRGuideline(
@@ -28,7 +37,8 @@ data class RecoveryHRGuideline(
     val dropInFirstMinute: String,
     val color: Color,
     val emoji: String,
-    val description: String
+    val description: String,
+    val referenceNote: String = RECOVERY_HR_REFERENCE_NOTE
 )
 
 object VO2MaxCalculator {
@@ -149,26 +159,28 @@ object VO2MaxCalculator {
             "Resting heart rate must be between 30 and 200 BPM and below maximum heart rate"
         }
         val vo2Max = estimateVO2Max(maxHR, restingHR)
-        val classification = classifyVO2Max(vo2Max, age, gender)
-        val fitnessAge = estimateFitnessAge(vo2Max, gender)
-        val percentile = estimatePercentile(vo2Max, age, gender)
 
         // A six-month projection is not supportable from a single heart-rate
         // ratio. Keep the legacy field equal to the estimate and explain the
         // uncertainty instead of promising an improvement percentage.
-        val fitnessAgeMessage = if (fitnessAge > 0) {
-            "Reference-age comparison only (${fitnessAge} years); it is not an age prediction or health diagnosis."
-        } else {
-            "Reference-age comparison is unavailable for this estimate."
-        }
+        // Keep the legacy result fields for callers that deserialize old
+        // history, but do not populate unsupported age/percentile bands in a
+        // new consumer result.
+        val classification = VO2Classification(
+            category = "Estimate only",
+            color = Color(0xFF4F6B7A),
+            emoji = "",
+            description = "Age and fitness reference bands are not shown because methods and populations differ.",
+            rangeLabel = "—"
+        )
 
         return VO2MaxResult(
             vo2Max = vo2Max,
             classification = classification,
-            fitnessAge = fitnessAge,
+            fitnessAge = 0,
             actualAge = age,
-            fitnessAgeMessage = fitnessAgeMessage,
-            percentile = percentile,
+            fitnessAgeMessage = "Reference-age comparison is unavailable for this estimate.",
+            percentile = 0,
             improvementPotential = 0f,
             projectedVO2After6Months = vo2Max
         )
@@ -180,23 +192,23 @@ object VO2MaxCalculator {
     fun getRecoveryHRGuidelines(): List<RecoveryHRGuideline> = listOf(
         RecoveryHRGuideline(
             "Excellent", ">40 BPM drop", Color(0xFF1565C0), "🏆",
-            "Elite-level recovery. Your heart is very efficient at returning to baseline."
+            "A large drop in this reference band; protocol and individual conditioning affect the result."
         ),
         RecoveryHRGuideline(
             "Good", "30-39 BPM drop", Color(0xFF4CAF50), "💪",
-            "Above-average recovery. Indicates good cardiovascular fitness."
+            "A drop in an above-average reference band; use repeated measurements for context."
         ),
         RecoveryHRGuideline(
             "Average", "20-29 BPM drop", Color(0xFFFFC107), "📊",
-            "Normal recovery rate. Regular Zone 2-3 training will improve this."
+            "A mid-range reference band; recovery varies with effort, rest and measurement conditions."
         ),
         RecoveryHRGuideline(
             "Below Average", "12-19 BPM drop", Color(0xFFFF9800), "📈",
-            "Slower than ideal recovery. Focus on consistent aerobic exercise."
+            "A lower reference band; prioritize comfortable, progressive activity and recovery."
         ),
         RecoveryHRGuideline(
             "Poor", "<12 BPM drop", Color(0xFFF44336), "⚠️",
-            "Slow recovery may indicate low fitness or medical concerns. Consult your doctor if concerned."
+            "A lower reference band can have many explanations. If you feel unwell or this is unexpected, consider professional advice."
         )
     )
 

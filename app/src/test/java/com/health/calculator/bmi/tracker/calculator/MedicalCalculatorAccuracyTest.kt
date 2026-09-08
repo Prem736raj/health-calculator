@@ -1,6 +1,7 @@
 package com.health.calculator.bmi.tracker.calculator
 
 import com.health.calculator.bmi.tracker.data.calculator.BMRCalculator
+import com.health.calculator.bmi.tracker.data.calculator.BMRValidation
 import com.health.calculator.bmi.tracker.data.calculator.BmiCalculator
 import com.health.calculator.bmi.tracker.data.calculator.BmiReferenceCategory
 import com.health.calculator.bmi.tracker.data.calculator.IdealWeightCalculator
@@ -53,6 +54,20 @@ class MedicalCalculatorAccuracyTest {
     }
 
     @Test
+    fun bmrValidationMatchesCalculationBounds() {
+        assertNotNull(BMRCalculator.calculate(70f, 100f, 30, true, formula = BMRFormula.MIFFLIN_ST_JEOR))
+        assertNotNull(BMRCalculator.calculate(70f, 250f, 30, true, formula = BMRFormula.MIFFLIN_ST_JEOR))
+        assertNull(BMRCalculator.calculate(70f, 99.9f, 30, true, formula = BMRFormula.MIFFLIN_ST_JEOR))
+        assertNull(BMRCalculator.calculate(70f, 250.1f, 30, true, formula = BMRFormula.MIFFLIN_ST_JEOR))
+        assertNull(BMRCalculator.calculate(70f, 175f, 30, true, 1.9f, BMRFormula.KATCH_MCARDLE))
+        assertNotNull(BMRCalculator.calculate(70f, 175f, 30, true, 2f, BMRFormula.KATCH_MCARDLE))
+        assertNotNull(BMRCalculator.calculate(70f, 175f, 30, true, 75f, BMRFormula.CUNNINGHAM))
+        assertNull(BMRCalculator.calculate(70f, 175f, 30, true, 75.1f, BMRFormula.CUNNINGHAM))
+        assertTrue(BMRValidation.validateInputs(70f, 99.9f, 30, 20f, BMRFormula.MIFFLIN_ST_JEOR).heightError != null)
+        assertTrue(BMRValidation.validateInputs(70f, 175f, 30, Float.NaN, BMRFormula.KATCH_MCARDLE).bodyFatError != null)
+    }
+
+    @Test
     fun idealWeightUses24_9UpperReference() {
         val range = IdealWeightCalculator.calculateHealthyRange(180f)
         assertEquals(18.5f * 1.8f * 1.8f, range.first, 0.001f)
@@ -85,6 +100,8 @@ class MedicalCalculatorAccuracyTest {
         assertEquals(0.5f, result.whtr!!, 0.0001f)
         assertTrue(result.whtrAtRisk == true)
         assertTrue(result.healthRisks.none { it.title == "Hypertension" })
+        val near = WhrCalculator.calculate(87f, 100f, Gender.MALE, 30)
+        assertEquals("Near action point", near.whrCategory.label)
     }
 
     @Test
@@ -92,6 +109,7 @@ class MedicalCalculatorAccuracyTest {
         assertEquals(3000, WaterIntakeCalculator.beverageTargetMl("Male", WaterActivityLevel.SEDENTARY, ClimateType.TEMPERATE, HealthStatus.NORMAL))
         assertEquals(2200, WaterIntakeCalculator.beverageTargetMl("Female", WaterActivityLevel.SEDENTARY, ClimateType.TEMPERATE, HealthStatus.NORMAL))
         assertEquals(0, HealthStatus.ILLNESS.additionalMl)
+        assertTrue(WaterIntakeCalculator.METHODOLOGY_NOTE.contains("heuristic"))
     }
 
     @Test
@@ -206,7 +224,12 @@ class MedicalCalculatorAccuracyTest {
         assertFalse(result.isClinicalMeasurement)
         assertEquals(result.vo2Max, result.projectedVO2After6Months, 0.0001f)
         assertEquals(0f, result.improvementPotential, 0.0001f)
-        assertTrue(result.methodology.contains("not a laboratory"))
+        assertEquals("Estimate only", result.classification.category)
+        assertEquals(0, result.fitnessAge)
+        assertEquals(0, result.percentile)
+        assertTrue(result.methodology.contains("Uth et al."))
+        assertTrue(result.referenceSource.contains("not clinical norms"))
+        assertTrue(VO2MaxCalculator.getRecoveryHRGuidelines().all { it.referenceNote.contains("not diagnostic") })
     }
 
     @Test

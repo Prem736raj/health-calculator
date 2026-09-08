@@ -27,7 +27,11 @@ enum class WhrCategory(
     val riskLevel: Int
 ) {
     LOW_RISK("Below action point", "Below the commonly used WHO waist-to-hip action point", 0),
-    MODERATE_RISK("At action point", "At or near a population reference action point", 1),
+    MODERATE_RISK(
+        "Near action point",
+        "Within 0.05 of a population reference action point; this app-defined band is not a clinical category",
+        1
+    ),
     HIGH_RISK("Above action point", "Above a population reference action point; context is needed", 2)
 }
 

@@ -1,6 +1,7 @@
 package com.health.calculator.bmi.tracker.data.model
 
 import com.health.calculator.bmi.tracker.data.model.*
+import org.json.JSONObject
 
 /**
  * Extension functions for HistoryEntry data conversion.
@@ -70,28 +71,98 @@ private fun mapCategoryColor(category: String?, calculatorKey: String): Category
 
 private fun parseDetails(json: String?): Map<String, String> {
     if (json.isNullOrBlank()) return emptyMap()
-    return try {
-        if (json.contains("|")) {
-            json.split("|").associate { pair ->
-                val parts = pair.split(":", limit = 2)
-                if (parts.size == 2) parts[0].trim() to parts[1].trim()
-                else pair to ""
-            }
-        } else if (json.startsWith("{") && json.endsWith("}")) {
-            json.substring(1, json.length - 1)
-                .split(",")
-                .associate { pair ->
-                    val parts = pair.split(":", limit = 2)
-                    if (parts.size == 2) {
-                        val key = parts[0].trim().removeSurrounding("\"")
-                        val value = parts[1].trim().removeSurrounding("\"")
-                        key to value
-                    } else pair to ""
-                }
-        } else {
-            emptyMap()
+    val parsedJson = try {
+        val objectValue = JSONObject(json)
+        objectValue.keys().asSequence().associateWith { key ->
+            objectValue.opt(key)?.toString().orEmpty()
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
+        // Local JVM tests do not provide Android's full org.json runtime. The
+        // conservative fallback keeps valid string-valued detail payloads
+        // readable there while Android still uses JSONObject as the primary
+        // parser.
+        parseJsonObjectFallback(json)
+    }
+    if (parsedJson.isNotEmpty() || json.trim() == "{}") return parsedJson
+
+    return try {
+        // Older releases stored a pipe-delimited payload. Keep this fallback
+        // so existing history remains readable after the JSON parser upgrade.
+        if (!json.contains("|")) return emptyMap()
+        json.split("|").mapNotNull { pair ->
+            val parts = pair.split(":", limit = 2)
+            parts.takeIf { it.size == 2 }?.let { it[0].trim() to it[1].trim() }
+        }.toMap()
+    } catch (_: Exception) {
         emptyMap()
+    }
+}
+
+private fun parseJsonObjectFallback(json: String): Map<String, String> {
+    val source = json.trim()
+    if (source.length < 2 || source.first() != '{' || source.last() != '}') return emptyMap()
+
+    var index = 1
+    val result = linkedMapOf<String, String>()
+
+    fun skipWhitespace() {
+        while (index < source.length && source[index].isWhitespace()) index++
+    }
+
+    fun readString(): String? {
+        if (index >= source.length || source[index] != '\"') return null
+        index++
+        val builder = StringBuilder()
+        while (index < source.length) {
+            when (val character = source[index++]) {
+                '\"' -> return builder.toString()
+                '\\' -> {
+                    if (index >= source.length) return null
+                    when (val escaped = source[index++]) {
+                        '\"', '\\', '/' -> builder.append(escaped)
+                        'b' -> builder.append('\b')
+                        'f' -> builder.append('\u000C')
+                        'n' -> builder.append('\n')
+                        'r' -> builder.append('\r')
+                        't' -> builder.append('\t')
+                        'u' -> {
+                            if (index + 4 > source.length) return null
+                            val code = source.substring(index, index + 4).toIntOrNull(16) ?: return null
+                            builder.append(code.toChar())
+                            index += 4
+                        }
+                        else -> return null
+                    }
+                }
+                else -> builder.append(character)
+            }
+        }
+        return null
+    }
+
+    while (true) {
+        skipWhitespace()
+        if (index >= source.length) return emptyMap()
+        if (source[index] == '}') return result
+
+        val key = readString() ?: return emptyMap()
+        skipWhitespace()
+        if (index >= source.length || source[index++] != ':') return emptyMap()
+        skipWhitespace()
+
+        val value = if (index < source.length && source[index] == '\"') {
+            readString() ?: return emptyMap()
+        } else {
+            val start = index
+            while (index < source.length && source[index] != ',' && source[index] != '}') index++
+            source.substring(start, index).trim()
+        }
+        result[key] = value
+        skipWhitespace()
+        when {
+            index < source.length && source[index] == ',' -> index++
+            index < source.length && source[index] == '}' -> return result
+            else -> return emptyMap()
+        }
     }
 }

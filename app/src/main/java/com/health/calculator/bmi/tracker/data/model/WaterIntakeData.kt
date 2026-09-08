@@ -37,6 +37,9 @@ enum class HealthStatus(val displayName: String, val additionalMl: Int) {
  * adults. Food contributes to total water, so these are not universal targets.
  */
 object WaterIntakeCalculator {
+    const val METHODOLOGY_NOTE =
+        "This is an informational beverage starting point. Activity and climate adjustments are heuristic, not clinical requirements."
+
     fun beverageTargetMl(
         gender: String,
         activity: WaterActivityLevel,
