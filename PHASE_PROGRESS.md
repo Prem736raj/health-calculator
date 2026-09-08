@@ -225,3 +225,11 @@ This file is the source of truth for the sequential product-development phases. 
 - **Tests:** Added history JSON/legacy parsing, food day-policy, BMR boundary, WHR wording, hydration disclosure, VO2 safety, and timezone/DST schedule unit tests. Added an instrumentation `MigrationTestHelper` for 15→16.
 - **Known limitations:** The oldest real distributed Room version is unknown and only schemas 15/16 are checked in. Migration instrumentation, macrobenchmark startup timing, device accessibility, Health Connect providers, notification reboot/timezone behavior, and Firebase/Play Console checks still require owner/device access.
 - **Next phase:** Complete P3 repository/manifest cleanup and retain only the documented runtime and publishing gates.
+
+## Production audit — P3 repository and manifest cleanup
+
+- **Status:** Complete for verified dead artifacts; larger architecture migrations remain deferred by design.
+- **Major changes:** Removed the dead `LOG_MEAL` quick-action intent, deleted the obsolete root handoff/prompt/extractor files, and removed the unreferenced `app/src/layout/widget_health_large.xml` while retaining the live `app/src/main/res/layout` widget resource. No application behavior or user data migration was changed.
+- **Tests:** Re-ran reference searches to confirm the deleted artifacts and action are not referenced; the live large-widget resource remains referenced by its provider and updater.
+- **Known limitations:** The `notification`/`notifications` package split and legacy Hilt/service-locator overlap remain incremental architecture work, not release blockers. Migration history below version 13, macrobenchmark, device accessibility, Health Connect provider behavior, and Play/Firebase owner gates remain open in `docs/RELEASE_STATUS.md`.
+- **Next phase:** Maintain the documented runtime/publishing gates and avoid enabling multi-profile until profile-scoped migrations are designed and tested.

@@ -26,6 +26,9 @@ verification.
   disclosure, and 48dp targets are implemented.
 - A Room `MigrationTestHelper` test covers the checked-in 15→16 migration and
   verifies row preservation plus the `step_history` table.
+- Dead quick-action/repository artifacts were removed after reference checks;
+  the live large-widget resource under `app/src/main/res` was intentionally
+  retained.
 
 ## Open runtime or owner gates
 
