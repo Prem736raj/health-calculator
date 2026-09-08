@@ -1,0 +1,3231 @@
+WHO STANDARD HEALTH TRACKER / HEALTH METRICS TRACKER
+PRODUCTION-GRADE ANDROID REPOSITORY AUDIT
+Audit date: 2026-09-08
+Repository: Prem736raj/WHO-Standard-Health-Tracker
+Primary source of truth audited: master
+Master commit audited: c43df6fa9c43f293c2a2100056003f2f5f2510a9
+Secondary branch reviewed: audit-hardening-2026-09-05
+
+IMPORTANT INTERPRETATION RULE
+=============================
+This report distinguishes:
+- CONFIRMED: directly supported by current source.
+- RUNTIME VERIFICATION REQUIRED: cannot be proven by static inspection alone.
+- EXTERNAL CONFIGURATION: requires Play Console, Firebase Console, Google Cloud or signing-owner action.
+
+Current master is substantially newer than the old Sept-05 audit branch. The old hardening branch contains only a temporary GitHub Actions source-snapshot upload change and must NOT be merged as if it were the production hardening branch.
+
+BUILD VERIFICATION STATUS
+=========================
+Current master CI run: 34209659320
+Head SHA: c43df6fa9c43f293c2a2100056003f2f5f2510a9
+Result: SUCCESS
+
+✅ PASS — ./gradlew test --stacktrace
+✅ PASS — ./gradlew lintRelease --stacktrace
+✅ PASS — ./gradlew assembleDebug --stacktrace
+✅ PASS — ./gradlew assembleRelease --stacktrace
+✅ PASS — ./gradlew bundleRelease --stacktrace
+⚪ NOT RUN LOCALLY — no claim is made that a second local environment reproduced the build.
+
+A green compile/build does NOT prove Health Connect runtime accuracy, Room upgrade compatibility on real historical databases, alarm delivery, widget behavior on OEM launchers, accessibility, or Firebase console configuration.
+
+
+## A. Executive Summary
+=======================
+
+The current master branch is materially healthier than the original Sept-05 audit baseline. Many previously identified issues are already fixed: missing reminder receivers are declared, receiver coroutine work uses goAsync-style handling, FileProvider exposure is narrow, cleartext traffic is disabled, “Clear All Data” delegates to Android’s full app-data reset, notification permission checks are present, water-widget mutations are routed through a private receiver, deep-link/navigation handling is allow-listed, analytics is opt-in and parameter-allowlisted, App Check separates debug from release, release signing is externalized, and current CI runs unit tests, release lint, debug/release APK builds and an AAB build.
+
+However, the application is NOT yet ready for a confident public health/wellness launch. The remaining blockers are not cosmetic. The highest-impact confirmed problems are:
+
+P1-01 — Multi-profile privacy/data-isolation failure. The UI claims/seems to support independent family profiles, but weight, water, calculation history and other health records are global and do not carry profileId. Switching profiles therefore does not isolate stored health data. This can expose another local profile’s history/summary/share content.
+
+P1-02 — Health Connect steps are read using raw StepsRecord records and manually summed. Android’s current Health Connect guidance explicitly says cumulative types such as StepsRecord should use aggregate() to avoid double counting across sources. Current code can therefore produce incorrect daily step totals/trends.
+
+P1-03 — Blood-pressure mixed-category readings can be misclassified as hypotension. Example: 150/55 passes the low-diastolic check before the Stage 2 rule and is returned as HYPOTENSION even though current AHA classification requires the higher category.
+
+P1-04 — Metabolic-syndrome screening treats “waist medication” as if medication can satisfy the central-waist criterion. The harmonized criteria provide drug-treatment alternatives for triglycerides, HDL, blood pressure and glucose—not waist circumference.
+
+P1-05 — AI chat currently persists the user message to Room but does not append it to the in-memory messages StateFlow before showing the assistant bubble. The sent user message can disappear from the live conversation until reload.
+
+P1-06 — Per-calculator CSV export can write a type-specific header but then append an arbitrary number/order of details values. Rows can have more columns than the header and values can be under the wrong headings.
+
+P1-07 — Ideal-body-weight logic invents a proportional scaling for heights below 60 inches and continues labeling the values as Devine/Robinson/Miller/Hamwi results. That extrapolation is not part of those historical equations.
+
+There are also important P2 issues: unsourced VO2 “fitness age”/percentile bands and recovery labels, WHR “At action point” wording below the actual threshold, hydration activity/climate additions presented with more precision than their evidence supports, BMR validator/calculation range mismatches, a fragile history-details parser, food-log day rollover that depends on opening specific screens, BP alarm timezone/DST behavior, insufficient Room migration testing, legacy 36dp interactive targets, and a near absence of instrumentation/UI/accessibility tests.
+
+Overall production score: 7.0 / 10.
+Build/CI readiness is relatively strong; medical/data isolation/runtime validation is the reason the product should not yet be considered launch-ready.
+
+Primary recommendation:
+1. Fix the P1 medical/privacy/data correctness issues first.
+2. Temporarily disable multi-profile switching/sharing until records are profile-scoped.
+3. Validate on real Android 13–16 devices/emulators with Health Connect.
+4. Complete Play/Firebase owner-side declarations and signing.
+5. Launch a closed test before production.
+
+
+## B. Repository & Technology Stack
+===================================
+
+Verified current configuration:
+
+Application:
+- namespace: com.health.calculator.bmi.tracker
+- applicationId: com.healthmetrics.tracker
+- minSdk: 26
+- compileSdk: 36
+- targetSdk: 36
+- versionCode: 2
+- versionName: 1.0.1
+- Java/JVM: 17
+- UI: Jetpack Compose + Material 3
+- DI: Hilt plus a parallel Application service-locator pattern
+- Local DB: Room
+- Preferences: DataStore + multiple SharedPreferences stores
+- Background: AlarmManager, receivers, WorkManager dependency
+- Images: Coil
+- Health data: Health Connect
+- AI: Firebase AI Logic / Gemini
+- App integrity: Firebase App Check
+- Optional analytics: Firebase Analytics through a reflection bridge
+- Build: Gradle Kotlin DSL, KSP
+- Release optimization: R8 minification + resource shrinking
+
+Versions from gradle/libs.versions.toml:
+- AGP 8.13.2
+- Kotlin 2.0.21
+- Compose BOM 2024.11.00
+- AndroidX Core KTX 1.15.0
+- Lifecycle 2.8.7
+- Activity Compose 1.9.3
+- Navigation Compose 2.8.5
+- DataStore 1.1.1
+- Room 2.7.1
+- KSP 2.0.21-1.0.26
+- WorkManager 2.10.0
+- Coil 2.7.0
+- Hilt 2.51.1
+- Health Connect 1.1.0
+- Google Services plugin 4.5.0
+- Firebase BoM 34.18.0
+- Gson 2.10.1
+
+Important build findings:
+- release signing credentials are read only from Gradle properties/environment.
+- release builds can be assembled unsigned when credentials are absent.
+- verifyPlayReleaseSigning exists to fail explicitly when publish signing credentials are missing.
+- lint abortOnError=true and checkReleaseBuilds=true.
+- current CI is green through bundleRelease.
+- Do NOT perform an AGP/Kotlin “upgrade everything” campaign immediately before release. The current toolchain is compiling successfully; large upgrades should be a separate, regression-tested maintenance change.
+
+
+## C. Architecture Map
+=====================
+
+Actual architecture is hybrid, not one clean theoretical pattern:
+
+Compose UI
+  |
+  +-- presentation/**                  newer/refreshed primary surfaces
+  +-- ui/screens/**                    many feature/deep screens
+  |
+ViewModels
+  |
+  +-- @HiltViewModel injection
+  +-- AndroidViewModel/manual construction in some older features
+  |
+Domain / policy / calculator layer
+  |
+  +-- domain/usecase/**
+  +-- domain/usecases/**
+  +-- data/calculator/**
+  +-- calculator/**
+  +-- policy/catalog objects
+  |
+Repositories / Managers
+  |
+  +-- Room repositories
+  +-- DataStore repositories
+  +-- SharedPreferences repositories
+  +-- Health Connect manager
+  +-- notification/reminder managers
+  +-- Firebase AI helper
+  +-- analytics adapter
+  |
+Persistence / external systems
+  |
+  +-- Room AppDatabase v16
+  +-- ProfileDataStore / SettingsDataStore
+  +-- feature SharedPreferences
+  +-- Health Connect (read-only steps + weight)
+  +-- Firebase AI
+  +-- optional Firebase Analytics
+
+Cross-cutting duplication:
+- both `notification` and `notifications` packages exist.
+- both Hilt DI and `HealthCalculatorApp` lazy service locator exist.
+- UI is split across `presentation` and `ui/screens`.
+- some features use Room while others still use SharedPreferences JSON.
+
+This is maintainable enough to ship after targeted fixes; a full “Clean Architecture rewrite” is not justified before launch.
+
+
+## D. Feature Inventory
+======================
+
+Status legend:
+✅ Working based on code/tests
+⚠️ Working with important problems
+🟡 Partially implemented
+❌ Confirmed broken
+🚫 Missing
+🧪 Implemented but insufficiently runtime-tested
+❓ Runtime verification required
+🗑️ Dead/obsolete
+
+| Feature | Status | Entry point / important files | Data source | Main risks |
+|---|---|---|---|---|
+| Splash/onboarding | ✅🧪 | NavGraph, OnboardingScreen | DataStore | Device/process-death/large-font QA still needed |
+| Home dashboard | ⚠️ | presentation/home/** | Room + prefs + Health Connect | cross-profile global data, food midnight rollover |
+| Track hub | ⚠️ | TrackHubScreen | mixed | inherits tracker/profile issues |
+| Calculators hub | ✅🧪 | CalculatorsHubScreen | catalog/static | deep calculator issues remain |
+| BMI | ✅ | MedicalCalculationPolicy/BmiCalculator | history Room | adult-only interpretation must remain explicit |
+| BMR | ⚠️ | BMRCalculator | history Room | validation range differs from calculate() |
+| TDEE/calorie estimate | ⚠️ | CalorieCalculatorUseCase | history + food prefs | fixed “safety floors” are heuristics |
+| Food log | ⚠️ | FoodLogRepository/FoodLogViewModel | SharedPreferences JSON | day rollover, data-source fragmentation |
+| Water estimate | ⚠️ | WaterIntakeCalculator | Room | activity/climate increments are heuristic |
+| Water tracking | ✅🧪 | WaterIntakeRepository/screens | Room | device/widget integration QA |
+| Weight tracking | ⚠️ | WeightRepository/WeightTrackingScreen | Room | not profile-scoped |
+| Blood pressure logging | ⚠️ | BloodPressureModels/BP screens | Room | mixed-category classification bug |
+| WHR/WHtR | ⚠️ | WhrCalculator | history Room | “At action point” below threshold |
+| BSA | ✅🧪 | BSACalculator/BSAViewModel | tracking + history | historical formulas need contextual limits |
+| Ideal body weight | ⚠️ | IBWCalculatorUseCase | prefs/history | unsupported short-height extrapolation |
+| Heart-rate zones | ⚠️ | HeartRateZoneCalculator | history | duration copy too prescriptive/unsourced |
+| VO2 estimate | ⚠️ | VO2MaxCalculator | history-derived | hardcoded reference/fitness-age tables insufficiently sourced |
+| Metabolic syndrome screen | ❌ | MetabolicSyndromeCalculator/Standards | history | false “waist medication” criterion |
+| Wellness Score | ✅ | HealthScoreCalculator | local metrics | correctly marked nonclinical |
+| Calculation history | ⚠️ | HistoryRepository/HistoryExtensions | Room | fragile details parsing |
+| Step history | ❌ | HealthConnectManager/StepHistoryRepository | Health Connect → Room | raw record summing can double count |
+| Health Connect weight | 🧪 | HealthConnectManager | Health Connect | provider/permission window runtime behavior |
+| Insights | ⚠️ | deterministic insight engine | local histories | input correctness depends on step/profile fixes |
+| AI Wellness Assistant | ⚠️ | GeminiHelper/AiCoachViewModel/Screen | Room + Firebase AI | sent user bubble missing live; external config |
+| Reminders | ✅🧪 | notifications/**, notification/** | prefs/Room/AlarmManager | timezone/DST behavior for BP |
+| Widgets | ✅🧪 | widget/** | Room/prefs | OEM launcher/reboot/privacy runtime QA |
+| Reports/export | ⚠️ | data/export/** | local history | typed CSV mismatch |
+| Profile | ✅ for one profile | ProfileViewModel/ProfileScreen | FamilyProfile Room + legacy DataStore | two competing profile sources |
+| Multiple profiles | ❌ | FamilyProfileRepository/MultiProfileViewModel | Room + global logs | records not isolated by profile |
+| Product analytics | ✅🧪 | ProductAnalytics/FirebaseProductAnalytics | DataStore + Firebase | console/cold-start verification |
+| Clear all data | ✅ | FullAppDataResetter | Android OS | correct full reset behavior |
+| Portable backup/restore | 🚫 by product design | legacy code not user-routed | — | should remain hidden until secure design exists |
+| Monetization | 🟡 | PremiumFeaturePolicy/docs | no live billing | foundation only; no real products |
+| Play release | 🟡 | build config/CI/docs | Play Console | signing, declarations, assets external |
+
+
+## E. What Is Working Well
+=========================
+
+1. File sharing boundary is substantially improved.
+   File: app/src/main/res/xml/file_paths.xml
+   It now exposes only cache/exports and files/profile_images rather than whole cache/files/external roots.
+
+2. Cleartext traffic is disabled.
+   File: app/src/main/res/xml/network_security_config.xml
+   `cleartextTrafficPermitted="false"`.
+
+3. Android automatic backup is disabled.
+   File: app/src/main/AndroidManifest.xml
+   `android:allowBackup="false"`.
+
+4. Full user-data deletion matches the label.
+   File: data/management/FullAppDataResetter.kt
+   It uses ActivityManager.clearApplicationUserData(), avoiding partial/manual deletion of selected stores.
+
+5. App Check release/debug separation is good.
+   Debug: DebugAppCheckProviderFactory.
+   Release: PlayIntegrityAppCheckProviderFactory.
+   This is better than accidentally shipping a debug provider.
+
+6. Analytics has a strong privacy boundary.
+   File: domain/analytics/ProductAnalytics.kt
+   - fixed event enum
+   - per-event allowed keys
+   - per-key fixed value vocabularies
+   - explicit forbidden health/sensitive parameter names.
+   File: data/analytics/FirebaseProductAnalytics.kt
+   - collection starts disabled
+   - enabled only from user preference
+   - sanitized values only.
+
+7. AI context is consent-gated separately.
+   Files: AiCoachViewModel.kt, AiPromptPolicy.kt, AiWellnessContextBuilder.kt
+   The optional context is bounded; notes/names/raw logs are intentionally excluded.
+
+8. AI output has deterministic last-line safety.
+   File: data/ai/AiResponseSafety.kt
+   It blocks obvious medication-action and diagnostic-certainty output and adds urgent escalation context.
+
+9. AI links are HTTPS-only.
+   File: ui/screens/aicoach/AiCoachScreen.kt
+   The URI validation rejects non-HTTPS and hostless URLs; the link action has a 48dp minimum target.
+
+10. Reminder receiver lifecycle handling is much better than the original baseline.
+    `launchAsync` / goAsync patterns are present; important explicit receivers are manifest-declared and private.
+
+11. Deep entry navigation is allow-listed.
+    MainActivity uses AppEntryRouteResolver rather than blindly navigating arbitrary intent strings.
+
+12. Water widget actions no longer mutate state through exported AppWidgetProvider custom broadcasts.
+    A private WaterWidgetActionReceiver is used.
+
+13. Release configuration is appropriately strict.
+    R8/resource shrink enabled; lint release checks fail build; signing secrets are external.
+
+14. The current CI is meaningful.
+    Unit tests + release lint + debug/release APK + AAB are all part of the gate and currently pass.
+
+15. The “Health Metrics Tracker” consumer brand is safer than “WHO Standard Health Tracker”.
+    StoreListingPolicy explicitly rejects “who standard” style claims and current public/privacy copy is branded Health Metrics Tracker.
+
+16. The custom score is now explicitly nonclinical.
+    HealthScoreCalculator describes Wellness Score as a logging/availability indicator, not a disease-risk score.
+
+
+## F. Confirmed Bugs
+===================
+
+### P1-01 — Multi-profile health data is not actually isolated
+Severity: P1 High
+Category: Privacy / data integrity / product correctness
+
+Evidence:
+- `data/model/FamilyProfile.kt` describes profiles as allowing multiple users to track independently.
+- `presentation/profile/ProfileScreen.kt` displays ProfileSwitcherBar and supports adding/switching profiles.
+- `data/repository/FamilyProfileRepository.switchProfile()` only toggles which FamilyProfile row is active.
+- `data/model/WeightEntry.kt` has no `profileId`.
+- `data/model/WaterIntakeLog` has no `profileId`.
+- `data/model/HistoryEntry` has no `profileId`.
+- `ProfileViewModel.observeWeightStatistics()` observes global WeightRepository.
+- `MultiProfileViewModel.loadHealthOverview()` observes global HealthOverviewRepository.
+- `MultiProfileViewModel.shareProfile()` combines active profile identity with the global overview.
+- `BSAViewModel` still builds a ProfileRepository from ProfileDataStore for autofill rather than using the active FamilyProfile.
+
+Impact:
+On a shared device, choosing profile B does not isolate profile A’s logs/history. Profile B can see analytics/trends/summary generated from global records. The share flow can pair B’s name/profile with A/global health summary data.
+
+Correct release action:
+Temporarily remove/hide multi-profile switching/add/share until records are fully profile-scoped. Do not rush a v17 migration without migration tests.
+
+Long-term fix:
+Add profileId to every profile-owned entity and all DAO queries; migrate legacy rows deterministically to a primary profile; scope exports, widgets, insights, AI optional context and trackers by active profile.
+
+Verification:
+- Create A, log weight/water/BP/history.
+- Create B, switch.
+- B must initially see no A records.
+- Log B data; switch A/B repeatedly.
+- Export/share from each and verify zero cross-profile entries.
+
+
+### P1-02 — Health Connect daily steps can double count
+Severity: P1 High
+Category: Health data correctness
+
+File:
+`app/src/main/java/com/health/calculator/bmi/tracker/data/healthconnect/HealthConnectManager.kt`
+Function:
+`readStepsHistory`
+
+Current:
+- uses readRecords(StepsRecord)
+- groups records by `record.startTime` local date
+- sums `record.count`.
+
+Problem:
+Current Android Health Connect documentation explicitly recommends aggregate() for cumulative types such as StepsRecord because aggregation handles duplicate data/source priority and lowers double-count/rate-limit risk. Raw records from phone/watch/provider combinations may overlap at the conceptual source level even if individual source records are internally valid.
+
+A second problem is date attribution: a record spanning midnight is attributed entirely to its start date.
+
+Impact:
+Home steps, locally cached step history and deterministic step trends can be wrong.
+
+Correct fix:
+Use StepsRecord.COUNT_TOTAL aggregation per local day or aggregateGroupByPeriod.
+
+Verification:
+- Phone + watch both contributing.
+- Compare app total against Health Connect UI.
+- Test a record/source combination around midnight.
+- Test DST transition day.
+- Test permission denied/no records.
+
+
+### P1-03 — Mixed high/low blood pressure can be classified as hypotension
+Severity: P1 High
+Category: Medical accuracy
+
+File:
+`data/model/BloodPressureModels.kt`
+Function:
+`BloodPressureCalculator.categorize`
+
+Current order:
+1. crisis check
+2. derive systolic/diastolic categories
+3. `if (systolic < 90 || diastolic < 60) return HYPOTENSION`
+4. high categories.
+
+Example:
+150/55 mmHg returns HYPOTENSION because diastolic is <60, even though systolic >=140 is Stage 2 range.
+
+Current AHA/ACC adult classification:
+Normal <120 AND <80
+Elevated 120–129 AND <80
+Stage 1 130–139 OR 80–89
+Stage 2 >=140 OR >=90
+If SBP and DBP are in different categories, the higher category is used.
+
+Impact:
+A markedly elevated systolic reading may be presented as low BP.
+
+Fix:
+Apply severe/stage/high categories before the low-BP descriptive branch.
+
+Verification tests:
+119/79 normal
+120/79 elevated
+130/79 stage 1
+140/89 stage 2/isolated systolic label
+150/55 stage 2/isolated systolic, NOT hypotension
+135/55 stage 1, NOT hypotension
+125/55 elevated, NOT hypotension
+85/55 hypotension
+181/79 severe
+179/120 severe
+
+
+### P1-04 — “Waist medication” falsely satisfies metabolic syndrome central-waist marker
+Severity: P1 High
+Category: Medical accuracy / trust
+
+Files:
+- calculator/MetabolicSyndromeCalculator.kt
+- calculator/MetabolicSyndromeStandards.kt
+- ui/screens/metabolicsyndrome/MetabolicSyndromeViewModel.kt
+- corresponding metabolic input UI
+
+Current code:
+`waistMet = waistCm >= waistThreshold || onWaistMedication`
+and the standards layer similarly includes `waistMedication`.
+
+Problem:
+The harmonized metabolic-syndrome criteria use waist measurement as the central-obesity component. Drug treatment alternatives are relevant for elevated triglycerides, reduced HDL, elevated blood pressure and elevated glucose. There is no “waist medication” substitute criterion.
+
+Impact:
+A user below the waist threshold can be incorrectly credited with a metabolic marker merely by toggling an invalid medication state.
+
+Fix:
+Delete the waist-medication field/toggle/parameter and determine the waist criterion only from the measured waist threshold.
+
+Verification:
+Below-threshold waist + all other normal values => waist criterion false.
+At-threshold waist => true.
+Medication toggles must exist only for supported components.
+
+
+### P1-05 — Sent AI user message is missing from live chat state
+Severity: P1 High
+Category: Core UX / reliability
+
+File:
+`ui/screens/aicoach/AiCoachViewModel.kt`
+Function:
+`sendMessage`
+
+Current:
+- persists user ChatMessageEntity to Room.
+- does NOT append ChatMessage(isUser=true) to `_messages`.
+- appends only the assistant loading bubble.
+- live Room collection was deliberately removed.
+
+Impact:
+After pressing Send, the user’s own message can disappear from the current conversation until a later reload, while the assistant response is shown.
+
+Fix:
+Capture prior history first, persist the user row, append the user bubble to `_messages`, then append the loading bubble.
+
+Verification:
+- send one message
+- immediately assert last visible pair is user + loading/assistant
+- rotate/recreate
+- assert no duplicate user messages.
+
+
+### P1-06 — Per-calculator CSV header and row shape can disagree
+Severity: P1 High
+Category: Export/data integrity
+
+File:
+`data/export/CsvExportHelper.kt`
+Functions:
+`exportByCalculator`, `getHeadersForType`, `buildTypedCsvRow`
+
+Current:
+A fixed type-specific header is written, then every `entry.details.values` item is appended in map iteration order.
+
+Example:
+BSA history stores more detail keys than the BSA typed header declares, including formula_id, date_time and per-formula BSA values.
+
+Impact:
+CSV columns can be shifted/misnamed and consumers can interpret a value under the wrong header.
+
+Fix:
+For the release-safe path, use the same deterministic universal schema for filtered and all-data exports. If type-specific CSVs are desired later, explicitly map named keys in a fixed order per CalculatorType.
+
+Verification:
+Parse every generated CSV with a CSV parser and assert every data row has exactly the same number of fields as the header.
+
+
+### P1-07 — Unsupported short-height extrapolation is labeled as historical IBW formulas
+Severity: P1 High / medical trust
+
+File:
+`domain/usecase/IBWCalculatorUseCase.kt`
+Function:
+`calculate`
+
+Current:
+For height <60 inches:
+`shortScaleFactor = heightInches / 60.0`
+and Devine/Robinson/Miller/Hamwi bases are multiplied by this factor.
+
+Problem:
+That proportional scaling is app-created; it is not the named Devine/Robinson/Miller/Hamwi equation.
+
+Impact:
+The UI can present invented outputs under recognized formula names, creating false methodological authority.
+
+Correct design:
+For unsupported height ranges, mark those formula outputs “not available for this height” and offer the BMI-based adult reference range only. This requires a small result-model/UI change rather than silently extrapolating.
+
+
+### P2-01 — History detail parser is fragile
+File:
+`data/model/HistoryExtensions.kt`
+Function:
+`parseDetails`
+
+Problems:
+- checks for `|` before deciding JSON, so a valid JSON string containing `|` is routed to legacy parsing.
+- “JSON” branch manually splits on commas/colons rather than using JSONObject.
+- escaped commas/colons/quotes and nested content can be corrupted.
+
+Fix:
+Parse `{...}` with org.json.JSONObject first; use the pipe parser only as a fallback for legacy pipe format.
+
+
+### P2-02 — Food “today” can remain yesterday after midnight
+File:
+`data/repository/FoodLogRepository.kt`
+Function:
+`checkAndResetIfNewDay`
+Consumers:
+FoodLogViewModel and CalorieViewModel call the rollover.
+HomeViewModel directly consumes `foodLogRepository.todayLog`.
+
+Problem:
+If process remains alive across midnight on Home, the repository does not automatically roll the day until a calorie/food path calls checkAndResetIfNewDay.
+
+Impact:
+Yesterday’s calorie intake can appear as today’s.
+
+Fix:
+Make the repository’s day boundary part of the data source itself, or call a foreground/day-change refresh centrally.
+
+
+### P2-03 — BMR validator ranges do not match calculate() ranges
+File:
+`data/calculator/BMRCalculator.kt`
+
+calculate():
+height must be 100..250 cm.
+Katch/Cunningham currently accept body-fat values >0 and <80.
+
+validators:
+validateHeight allows 30..280.
+validateBodyFat supports 2..75.
+
+Impact:
+UI can say a value is valid and calculate() can reject it, or vice versa.
+
+Fix:
+Use one shared range policy.
+
+
+### P2-04 — WHR “At action point” can be below the action point
+File:
+`data/model/WhrResult.kt`
+Function:
+`classifyWhr`
+
+Male action point is 0.90, female 0.85.
+Current code returns MODERATE_RISK when ratio is within 0.05 below the threshold and the label is “At action point”.
+
+Example:
+Male WHR 0.86 is below 0.90 but can be labeled “At action point”.
+
+Fix:
+Either two-state below/at-or-above classification, or rename the middle state to “Near action point” and explicitly identify it as an app-defined proximity band.
+
+
+### P2-05 — BP daily repeating alarm is timezone/DST fragile
+File:
+`notification/BpNotificationHelper.kt`
+Function:
+`scheduleDaily`
+
+Current:
+setInexactRepeating with INTERVAL_DAY.
+
+Issue:
+A 24-hour elapsed schedule is not the same as “same local wall-clock time every day” across timezone/DST changes. Manifest restore handles boot but does not show explicit TIMEZONE_CHANGED/TIME_SET restoration for this feature.
+
+Fix:
+Schedule a one-shot next local occurrence, then reschedule in receiver; restore on relevant clock/timezone changes.
+
+
+### P2-06 — Migration coverage is incomplete
+File:
+`data/local/AppDatabase.kt`
+
+Current DB:
+version 16.
+Explicit migrations:
+13→14
+14→15
+15→16
+
+No migration chain below 13 is visible in current AppDatabase.
+Only schema JSON 15 and 16 are checked in.
+androidTest currently contains only ExampleInstrumentedTest.
+
+Impact:
+If a real published user can have DB version <13, upgrade can fail. Whether such users exist is release-history dependent.
+
+Status:
+RUNTIME VERIFICATION REQUIRED / release-history dependent.
+
+Action:
+Confirm oldest version ever shipped to real users, restore its DB, and run MigrationTestHelper through v16.
+
+
+### P2-07 — Confirmed sub-48dp interactive controls
+Examples:
+- `ui/components/history/BatchOperationsBar.kt`: IconButton size(36.dp).
+- `ui/screens/calorie/FoodLogScreen.kt`: clickable emoji Surface size(36.dp).
+
+Impact:
+Harder touch interaction and accessibility failure risk.
+
+Fix:
+48dp minimum interactive hit target while visual icon can remain smaller.
+
+
+### P3-01 — Dead QuickAction LOG_MEAL filter
+Manifest declares LOG_MEAL but QuickActionReceiver immediately returns unless action == LOG_WATER.
+
+Fix:
+Remove LOG_MEAL and stale TODO until the feature is real.
+
+
+### P3-02 — Production repo contains obsolete implementation artifacts
+Root/current tree:
+- WHO_Health_Tracker_Full_Implementation_Handoff.txt
+- prompt_to_build_this_app
+- extract_handoff.py
+- app/src/layout/widget_health_large.xml (outside src/main/res/layout)
+
+These are development/handoff artifacts, not product source. The handoff specifically describes an old candidate state and can mislead future reviewers. `app/src/layout` is not the normal Android resource directory.
+
+Recommended:
+Delete after one reference search and keep only useful durable product/security/release docs.
+
+
+## G. Runtime Risks / Unverified Issues
+======================================
+
+Do not classify these as confirmed defects without device evidence:
+
+1. Firebase AI model availability / quota / region / App Check enforcement.
+   Runtime verification required.
+
+2. Release Play Integrity App Check registration/enforcement.
+   Firebase Console verification required.
+
+3. Health Connect behavior with permission denial, revocation, multiple providers and exact OEM/provider data.
+   Device verification required.
+
+4. Weight read lookback.
+   Health Connect generally limits history prior to permission grant unless history permission is granted. Current app intentionally does not request READ_HEALTH_DATA_HISTORY. Test UX when no recent weight exists.
+
+5. Widget rendering/refresh after reboot and launcher process death.
+   OEM launcher verification required.
+
+6. Alarm delivery under Doze/battery restrictions.
+   Device/OEM verification required.
+
+7. Edge-to-edge on API 26 through API 36.
+   Visual verification required.
+
+8. Predictive back / back-stack feel on API 35/36.
+   Device verification required.
+
+9. Large-font clipping at 1.3x, 1.5x and 2.0x.
+   UI testing required.
+
+10. TalkBack semantics and focus order across deep calculator screens.
+    Accessibility testing required.
+
+11. Startup cost of Firebase.initialize + AppCheck initialization in Application.onCreate.
+    Macrobenchmark required; static inspection cannot quantify first-frame delay.
+
+12. Memory usage during PDF/image export and long AI conversations.
+    Runtime profiling required.
+
+13. Database migration from actual historical release APK/data.
+    MigrationTestHelper + restored database required.
+
+14. Analytics cold-start opt-out and opt-out-after-opt-in behavior in Firebase DebugView.
+    Console/device verification required.
+
+15. Lock-screen/widget privacy on OEM implementations.
+    Device verification required.
+
+
+## H. Medical Accuracy Audit
+============================
+
+External primary/authoritative references used for this review:
+- WHO adult BMI references and obesity fact sheet.
+- 2025 AHA/ACC adult high blood pressure guideline.
+- 2017 ACC/AHA guideline clarification that mixed SBP/DBP categories use the higher category.
+- Alberti et al. 2009 harmonized metabolic syndrome statement, Circulation, DOI 10.1161/CIRCULATIONAHA.109.192644, PMID 19805654.
+- National Academies / Institute of Medicine Dietary Reference Intakes for Water.
+- Original named equations/publications where represented by the code (Mifflin-St Jeor, Harris-Benedict, Mosteller, etc.).
+
+### BMI
+
+Files:
+`data/calculator/MedicalCalculationPolicy.kt`
+`BmiCalculator`
+
+Formula:
+BMI = weightKg / heightM²
+
+Inputs:
+adult weight and height.
+
+Units:
+kg, cm converted to m.
+
+Classification:
+<16 severe thinness
+16–16.9 moderate thinness
+17–18.4 mild thinness
+18.5–24.9 reference range
+25–29.9 overweight
+30–34.9 obesity I
+35–39.9 obesity II
+>=40 obesity III.
+
+Assessment:
+Mathematically correct for adult BMI and consistent with WHO adult reference bands.
+App must continue to explain that BMI is a screening/reference measure, not individual body composition or diagnosis.
+
+Recommendation:
+KEEP math. Keep adult-only guard and limitation wording. Never market the app itself as “WHO certified/WHO standard”.
+
+
+### BMR
+
+File:
+`data/calculator/BMRCalculator.kt`
+
+Equations represented:
+- Harris-Benedict original
+- revised Harris-Benedict / Roza-Shizgal
+- Mifflin-St Jeor
+- WHO/FAO/UNU age bands
+- Katch-McArdle
+- Cunningham.
+
+Assessment:
+The encoded equations are broadly consistent with the named equations.
+Main current defect is input-range inconsistency between validator and calculation functions.
+
+Limitations:
+- prediction equations estimate resting energy expenditure/BMR; individual error can be substantial.
+- Katch/Cunningham reliability depends on body-fat estimate quality.
+- adult UI should not imply metabolic measurement.
+
+Recommendation:
+Unify ranges and call outputs “estimated BMR/resting energy”.
+
+
+### TDEE / calorie estimate
+
+File:
+`domain/usecase/CalorieCalculatorUseCase.kt`
+
+Formula:
+BMR × activity multiplier.
+TEF is displayed but intentionally not added again.
+
+Assessment:
+The prior double-counting error appears corrected.
+
+Important caveat:
+1200 kcal female / 1500 kcal male floors are product safety heuristics, not universal clinical thresholds. They should not be described as a guideline that is safe for every adult.
+
+Recommendation:
+Use language such as “app minimum guardrail; individualized energy needs can differ” and avoid pregnancy/eating-disorder personalization.
+
+
+### Hydration
+
+File:
+`data/model/WaterIntakeData.kt`
+Object:
+WaterIntakeCalculator
+
+Baseline:
+female 2200 ml beverages/day
+male 3000 ml beverages/day.
+
+Reference:
+National Academies total-water AI is ~2.7 L women and ~3.7 L men for young adults, with approximately 2.2 L / 3.0 L from beverages in the cited population.
+
+Assessment:
+The baseline is defensible as a population starting point, not a universal prescription.
+
+Problem:
++250/+500/+750 ml activity and +250/+500 ml climate modifiers are app-specific fixed increments and are not established by the referenced baseline.
+
+Recommendation:
+Label modifiers clearly as simple planning adjustments/heuristics or remove them from evidence-based claims. Pregnancy/breastfeeding/illness correctly avoids a false fixed addition.
+
+
+### Ideal Body Weight
+
+File:
+`domain/usecase/IBWCalculatorUseCase.kt`
+
+Equations:
+Devine, Robinson, Miller, Hamwi, Broca plus BMI reference range.
+
+Assessment:
+Named formulas are historical estimates and should not be treated as a target prescription.
+
+Confirmed issue:
+For <60 inches, app-created proportional scaling is substituted while retaining historical formula labels.
+
+Recommendation:
+Do not extrapolate under the formula name. Return “not applicable in this range” and keep the BMI reference interval available.
+
+
+### WHR / WHtR / waist
+
+File:
+`data/model/WhrResult.kt`
+
+WHR action points:
+male 0.90
+female 0.85.
+
+WHtR:
+0.5 action point.
+
+Assessment:
+The main action points are defensible as population screening references.
+Confirmed wording issue: current “At action point” band starts below the actual action point.
+
+Recommendation:
+Change to below vs at/above or call the sub-threshold band “near action point — app-defined context”.
+
+
+### BSA
+
+File:
+`calculator/BSACalculator.kt`
+
+Formulas:
+Du Bois & Du Bois
+Mosteller
+Haycock
+Gehan & George
+Boyd
+Fujimoto
+Takahira
+Shuter & Aslani.
+
+Assessment:
+Core equations appear mathematically consistent with their named historical formulas.
+Current result model explicitly says not clinically validated and “not a medication-dose instruction,” which is appropriate.
+
+Recommendation:
+KEEP equations; avoid “best formula” claims unless specific population/source is substantiated. BSA must never independently recommend medication dosage.
+
+
+### Blood pressure
+
+File:
+`data/model/BloodPressureModels.kt`
+
+Intended framework:
+AHA-style adult reference.
+
+Current 2025 AHA categories:
+Normal: <120 AND <80
+Elevated: 120–129 AND <80
+Stage 1: 130–139 OR 80–89
+Stage 2: >=140 OR >=90
+
+Confirmed bug:
+Low-BP check happens before the higher-category result and can misclassify 150/55.
+
+Recommendation:
+Fix ordering immediately. Continue to say one reading does not establish diagnosis and repeated careful readings matter.
+
+
+### Metabolic syndrome
+
+Files:
+`calculator/MetabolicSyndromeCalculator.kt`
+`calculator/MetabolicSyndromeStandards.kt`
+
+Harmonized markers:
+- waist circumference, population/ethnicity appropriate
+- triglycerides >=150 mg/dL OR treatment
+- HDL below sex-specific threshold OR treatment
+- BP >=130/85 OR antihypertensive treatment
+- fasting glucose >=100 mg/dL OR treatment.
+
+Confirmed bug:
+“waist medication” is treated as a substitute for waist criterion.
+
+Recommendation:
+Delete that medication input. Keep screen described as an informational screening reference. Do not claim WHO diagnosis. The current code’s refusal to fabricate a historical WHO result from missing clinical/laboratory components is good.
+
+
+### Heart-rate zones
+
+File:
+`util/HeartRateZoneCalculator.kt`
+
+Formulas:
+220-age, Tanaka, Gulati, Karvonen/HRR and custom MHR.
+
+Assessment:
+Core percentage-zone math is reasonable as an estimate.
+Concern:
+recommended-duration strings and strong purpose claims are not tied to individualized fitness/medical evaluation.
+
+Recommendation:
+Rename as example session context, reduce prescriptive language, and advise users with relevant conditions to use professional guidance.
+
+
+### VO2 estimate
+
+File:
+`util/VO2MaxCalculator.kt`
+
+Formula:
+15.3 × (maxHR / restingHR), represented as Uth-style estimate.
+
+Positive:
+Result explicitly says it is not a laboratory VO2 max measurement.
+
+Concern:
+hardcoded age/sex classification bands, percentile values, “fitness age,” and recovery-HR labels are not accompanied by a sufficiently traceable authoritative source in the inspected code.
+Examples of overly strong copy:
+“Elite-level recovery”
+“will improve”
+fixed percentile mapping.
+
+Recommendation:
+Either attach a clearly named validated source and test every band, or remove fitness-age/percentile/recovery-quality labels from the consumer result. Keep the raw estimate with a limitation statement.
+
+
+### Macros
+
+File:
+`domain/usecase/MacroCalculatorUseCase.kt`
+
+Math:
+calories-to-grams conversions are correct.
+Saturated-fat guide uses <=10% of energy.
+Protein and fiber values are planning heuristics.
+
+Recommendation:
+Use “planning estimate/range,” not personalized recommendation. Avoid presenting keto/high-protein presets as medically appropriate for everyone.
+
+
+### Wellness Score
+
+File:
+`util/HealthScoreCalculator.kt`
+
+Assessment:
+Good correction. The score now measures data availability/logging consistency, not whether BMI/BP/etc. are medically “healthy.”
+It includes `isClinicallyValidated=false` and explicit non-diagnostic methodology.
+
+Recommendation:
+KEEP.
+
+
+### Standalone body-fat/body-composition estimator
+
+No `BodyFatCalculator` symbol was found in the current default-branch code search. Body-fat percentage is accepted as an input in some energy equations; do not claim a verified standalone body-fat measurement feature from this audit.
+
+
+## I. Health Safety & Trust Audit
+================================
+
+Good safety patterns:
+- AI system instruction says no diagnosis/prescription/med changes.
+- Wellness Score is nonclinical.
+- BSA says not a dosing instruction.
+- metabolic output says screening rather than diagnosis.
+- pregnancy/breastfeeding hydration path avoids fixed personalized prescription.
+- export provenance includes wellness/non-diagnostic language.
+- privacy policy states the app is not a medical device.
+
+Remaining trust risks:
+1. BP mixed-reading misclassification can invert interpretation.
+2. Metabolic waist-medication toggle creates an invalid medical criterion.
+3. IBW invented extrapolation carries named-equation authority.
+4. VO2 “fitness age” and percentile can look more clinically validated than they are.
+5. hydration modifiers look more precise than their evidence.
+6. old repository artifacts still contain historical “WHO Standard” language.
+7. “Health Metrics Tracker” should be the only consumer-facing brand.
+
+Recommended safety voice:
+- “reference range,” “estimate,” “screening marker,” “recorded reading”
+- avoid “you have,” “you are suffering from,” “diagnosed,” “cured,” “guaranteed”
+- severe BP/symptom guidance should encourage repeat measurement and urgent/professional care where appropriate, not assert diagnosis.
+
+
+## J. UI/UX Audit
+================
+
+Primary navigation:
+Current Home / Track / Calculators / Insights / Profile structure is stronger than calculator-heavy navigation and should be preserved.
+
+Onboarding:
+The current three-step/first-action approach is directionally good.
+Runtime QA still needed for process death, back behavior and 2x font.
+
+Home:
+Improved compact hierarchy should be retained.
+Problems inherited from data:
+- step value can be wrong due Health Connect raw summing.
+- calorie “today” can be stale after midnight.
+- profile/global logs can mismatch when family profiles are switched.
+
+Track:
+Clear functional grouping.
+Avoid adding more trackers merely for breadth.
+
+Calculators:
+Good to expose methodology/limitations before/around result.
+Deep calculator screens still have inconsistent styling and excessive educational density in places.
+
+Insights:
+Deterministic local insights are a strong differentiator.
+Do not display health-causal explanations (“because you…”) when the engine only sees correlations/logging.
+
+Profile:
+Major product issue is not visual—it is data isolation.
+Until isolation is real, remove ProfileSwitcherBar and profile-share summary across family profiles.
+
+Settings:
+Privacy/analytics/Health Connect controls are valuable.
+Keep destructive actions clearly separated and explicit.
+
+AI Assistant:
+Current disclosure/context card is good.
+Live sent-message bug is highly visible and should be fixed.
+Do not add more decorative AI effects/gradients.
+
+Reports:
+Keep provenance/disclaimer compact, not repeated every few lines.
+Fix CSV before encouraging export.
+
+General AI-generated/overdesigned feel:
+Some deep screens still use many emojis, local feature colors, rounded surfaces and verbose cards.
+Goal should be one hero surface at most, restrained semantic colors, strong typography and progressive disclosure.
+
+Specific verified interactive target problems:
+- BatchOperationsBar 36dp IconButton -> 48dp target.
+- FoodLogScreen 36dp clickable emoji -> 48dp target.
+
+Large font:
+RUNTIME VERIFICATION REQUIRED. Several deep screens are large/complex enough that 1.5–2.0x clipping risk should be treated as open until tested.
+
+
+## K. Design System Audit
+=========================
+
+Centralized assets exist:
+`ui/theme/Color.kt`
+Material typography/theme files
+shared surface/card/components.
+
+Good:
+- semantic HealthColors exist.
+- explicit light/dark pairs exist.
+- newer primary surfaces use theme roles.
+
+Fragmentation:
+- Color.kt itself acknowledges compatibility/legacy aliases.
+- several older calculator/education screens still use direct Color(0x...) literals.
+- HeartRateZoneCalculator and VO2MaxCalculator even embed Compose Color in domain-ish result models.
+- emoji/icon strings are present in models and feature copy.
+
+Recommendation:
+Do not rebuild the theme.
+Incrementally migrate high-traffic deep screens to:
+- MaterialTheme.colorScheme
+- semantic HealthColors for interpretation
+- one shared spacing scale
+- 48dp controls
+- vector icons instead of emoji where the emoji is purely decorative.
+
+Architecture recommendation:
+Move presentation color/icon choices out of calculation models when those models are next touched, but do not block launch solely for this cleanup.
+
+
+## L. Performance Audit
+=======================
+
+Good:
+- Room database is lazy in Application.
+- many refreshed screens use collectAsStateWithLifecycle.
+- no current default-branch search result for GlobalScope or runBlocking.
+- release minification/resource shrinking enabled.
+- Health Connect history is bounded.
+- AI prompt and recent dialogue are bounded.
+
+High-impact improvement:
+Health Connect step aggregation. It fixes correctness and reduces raw-record/rate-limit pressure.
+
+Potential runtime performance issues:
+1. Firebase.initialize + App Check in Application.onCreate.
+   Measure with Macrobenchmark; do not guess.
+
+2. Large NavGraph and giant screens.
+   Mostly maintainability/compile cost until profiling proves runtime cost.
+
+3. AI streaming:
+   `responseText += chunk` repeatedly reallocates String. Low-to-medium concern because message lengths are bounded; StringBuilder can be used if profiling warrants.
+
+4. Export:
+   Large PDF/image/history export should be profiled for memory and cancellation.
+
+5. Compose:
+   Continue lifecycle-aware collection migration only where actual ordinary collectAsState remains in live UI. Do not mechanically rewrite every composable.
+
+6. LazyColumn keys:
+   Verify high-churn history/chat lists use stable keys. Chat currently uses `items(messages)` without a stable persistent key because ChatMessage has no ID; long conversations can benefit from a stable ID model.
+
+
+## M. Database & Data Integrity
+===============================
+
+AppDatabase:
+version 16
+exportSchema=true.
+
+Entities include:
+- history
+- blood pressure
+- water calculation/log
+- water gamification
+- urine color
+- favorite quote
+- weight
+- family profile
+- milestones/records
+- reminders
+- weekly report
+- AI chat
+- step history.
+
+Migrations:
+13→14
+14→15 chat_messages
+15→16 step_history.
+
+Positive:
+No fallbackToDestructiveMigration in current AppDatabase path.
+Schema 15 and 16 are exported.
+
+Critical design flaw:
+Most health entities are not profile-scoped while multiple profiles are exposed.
+
+Migration risk:
+Old versions below 13 are not covered in the current migration chain.
+Whether that matters depends on which database versions were ever distributed to users.
+RUNTIME VERIFICATION REQUIRED.
+
+Required before release:
+- determine oldest real production/closed-test DB version.
+- add migration fixtures.
+- test every supported old version -> 16.
+- test interrupted process/reopen.
+- test duplicate migration behavior.
+
+Data consistency:
+Health history stores `detailsJson` with mixed historical formats. Parsing must be robust before relying on it for exports/analytics.
+
+Do not add a destructive migration to “solve” release pressure.
+
+
+## N. Health Connect Audit
+==========================
+
+Permissions:
+- READ_STEPS
+- READ_WEIGHT
+No write permissions.
+
+This minimal scope is GOOD and should remain.
+
+Feature availability:
+HealthConnectClient.getSdkStatus is used.
+Permissions are checked.
+
+Steps:
+Current implementation is incorrect for a cumulative multi-source total because it reads raw StepsRecord and sums records.
+Android documentation currently says to use aggregate() for StepsRecord to avoid double counting.
+Fix is mandatory.
+
+Local step cache:
+StepHistoryEntry uses dayStartMillis primary key and source/syncedAt.
+This is a sensible resilience model.
+
+History:
+App intentionally does not request READ_HEALTH_DATA_HISTORY.
+Keep that privacy-minimal choice unless a visible feature genuinely needs older historical data.
+
+Weight:
+Latest weight read is read-only and transient.
+User remains in control of whether it is copied to local tracker.
+Good.
+
+Timezone:
+Per-day step aggregation should use local day start/end, not group by record.startTime.
+
+Revocation/denial:
+Code generally returns safe null/empty states.
+Need device QA for partial permission state.
+
+Play implications:
+Declare the actual Health Connect data types/use and Health app feature categories in Play Console. Do not request more health permissions simply to enrich analytics.
+
+
+## O. AI Wellness Assistant Audit
+=================================
+
+Data flow:
+
+Local user text
+  -> AiPromptPolicy validation
+  -> optional bounded recent dialogue
+  -> optional consented app context
+       -> bounded recent weight/water summary
+       -> excludes names, notes and raw entries
+  -> prompt delimiters / wellness instructions
+  -> Firebase AI Logic / Gemini
+  -> streamed model response
+  -> AiResponseSafety sanitization
+  -> UI
+  -> final assistant message stored in local Room
+
+What leaves device:
+- user AI message text
+- recent chat excerpts included by prompt construction
+- optional bounded weight/water summary only when context sharing is enabled.
+
+What should NOT leave:
+- names
+- notes
+- raw full logs
+- Health Connect step records
+- arbitrary calculator history
+- analytics health values.
+
+Strengths:
+- disclosure before use.
+- separate context-sharing control.
+- 2000-character input bound.
+- rapid local request gate.
+- prompt delimiters.
+- emergency phrase detection.
+- deterministic response screen.
+- HTTPS-only links.
+- local clear-conversation action.
+- no health values in product analytics.
+
+Confirmed functional defect:
+Sent user bubble is not appended to `_messages`.
+
+Safety tests still needed:
+- chest pain
+- stroke signs
+- severe bleeding
+- suicidal intent
+- overdose
+- medication stop/change request
+- insulin/dose question
+- pregnancy
+- child/pediatric advice
+- eating-disorder / extreme restriction
+- severely abnormal BP
+- prompt injection
+- long URLs/markdown
+- model refusal/error/timeout
+- network drop during stream.
+
+Prompt-injection note:
+Delimiters are useful but not a security boundary. The assistant must assume user text can influence a model; deterministic output policy and server/provider safety remain important.
+
+Streaming safety risk:
+A partial sentence may render before a regex matches the completed unsafe phrase. Consider buffering at sentence boundaries for medically sensitive action advice, or final-only display for high-risk classifications.
+
+Rate limiting:
+1.5-second local delay is UX control, not abuse prevention. Quotas/App Check must be enforced externally.
+
+
+## P. Security Audit
+===================
+
+### Good / KEEP
+- cleartext network disabled.
+- FileProvider exported=false.
+- narrow FileProvider paths.
+- automatic backup disabled.
+- release App Check uses Play Integrity.
+- debug App Check isolated to debug source set.
+- mutating water widget action receiver private.
+- reminder receivers private.
+- PendingIntent use inspected in BP/weight paths is immutable.
+- deep-entry navigation allow-listed.
+- analytics closed by default.
+- crash log stored in app-private files/diagnostics, not shared FileProvider path.
+- release signing secrets externalized.
+
+### Firebase Android key
+`app/google-services.json` contains normal Firebase Android client configuration.
+This is not equivalent to a server secret. Nevertheless:
+- restrict the provisioned key to required Firebase APIs in Google Cloud where applicable.
+- use Android application restrictions if supported/appropriate for the key.
+- monitor misuse.
+- rotate if an actual unrestricted credential is exposed.
+EXTERNAL CONFIGURATION.
+
+### Exported widget components
+AppWidgetProviders/config activities are exported as required by Android widget flows.
+Security QA:
+validate invalid/missing appWidgetId and avoid any arbitrary intent-driven data mutation.
+
+### Screenshots
+No global FLAG_SECURE behavior was verified.
+This is a product privacy choice, not automatically a vulnerability.
+Optional “hide sensitive screens in recents/screenshots” can be considered if user demand supports it.
+
+### Local DB encryption
+Current private Room database is sandbox-protected but not database-level encrypted.
+Privacy copy correctly should not claim SQLCipher/encrypted DB unless implemented.
+
+No evidence-based Critical remote exploit was confirmed in the current source reviewed.
+
+
+## Q. Privacy & Data-Flow Audit
+===============================
+
+| Data | Collected | Stored where | Leaves device? | Third party | User control | Delete |
+|---|---|---|---|---|---|---|
+| Name/profile | optional | FamilyProfile Room + legacy DataStore | not by default | none | edit | Clear All Data |
+| DOB/age | optional | profile stores | not by default | none | edit | Clear All Data |
+| sex/gender field | optional | profile stores/history context | not by default | none | edit | Clear All Data |
+| height | optional | profile/history | export if user chooses | share target | edit | clear/delete |
+| weight | optional | Room + profile | optional AI summary with consent; user export | Firebase AI only if context consent | log/delete/context toggle | clear |
+| waist/hip | calculator input/history | Room history | user export only | share target | delete history | clear |
+| BP | user log | Room | user export/share only | share target | delete | clear |
+| water | Room | Room | optional AI summary with context consent | Firebase AI | log/delete/context toggle | clear |
+| calorie/food | SharedPreferences JSON | app-private prefs | not by default | none | edit/delete depending UI | clear |
+| notes | local tracker/history | Room/prefs | user export if selected | user-selected share app | user controlled | clear |
+| Steps | optional Health Connect | recent aggregate cache in Room | no app-defined third-party transfer | Health Connect local/provider layer | permission revoke | clear local cache / revoke |
+| HC weight | optional | transient + only saved if user chooses | no automatic third party | Health Connect | permission revoke | clear/revoke |
+| AI prompt | user-entered | chat Room | YES when sending | Firebase AI/Gemini | disclosure/clear | clear local chat; provider processing governed externally |
+| AI context | optional | constructed in memory | YES only if context consent enabled | Firebase AI/Gemini | separate toggle | disable context |
+| Analytics metadata | optional | Firebase service when opted in | YES | Firebase Analytics | opt-in/out | provider retention/config |
+| Export files | user-requested | cache/exports | only if user shares/saves | selected app/provider | explicit share | cache/app-data clear |
+| crash diagnostics | automatic on fatal create path | files/diagnostics | no verified automatic upload | none | app data clear | clear |
+
+Important privacy discrepancy:
+The multi-profile UI implies person-level separation that the data schema does not provide. This is currently the biggest privacy trust gap.
+
+Privacy policy:
+Current `docs/privacy.html` is materially improved and accurately says health metrics are local by default, Health Connect is optional read-only, AI messages are processed by Firebase AI, analytics is optional, and Room is not claimed to be DB-level encrypted.
+
+Before publication:
+Update policy after the multi-profile decision and ensure wording exactly matches the final shipped build.
+
+
+## R. Analytics Audit
+====================
+
+Event architecture:
+`ProductAnalyticsEvent`
+Examples include app open, onboarding, surface/calculator/tracker opens/completions, Health Connect connection, insight open, AI open, report export and reminder enable.
+
+Privacy policy in code:
+`ProductAnalyticsPolicy` allows only event-specific fixed-vocabulary parameters.
+
+Explicitly forbidden parameter names include:
+value, result, score, bmi, bmr, tdee, weight, height, waist, hip, systolic, diastolic, pulse, heart_rate, body_fat, calories, water_ml, steps, sleep, note, message, prompt, response, profile, user_id, email.
+
+Assessment:
+Strong design. KEEP.
+
+Runtime verification:
+- fresh install: Firebase Analytics collection must be disabled before consent.
+- opt in: approved events appear.
+- inspect all params.
+- opt out: no later app-defined events.
+- uninstall/reset and reinstall: defaults closed.
+
+Do not add “helpful” health numeric dimensions to analytics.
+
+
+## S. Notifications & Widgets
+=============================
+
+Current fixes worth preserving:
+- private explicit alarm/action receivers.
+- Android 13+ notification permission gate.
+- no fabricated meal/medication quick actions in receiver.
+- water mutation waits for persistence.
+- private notification visibility.
+- boot restoration.
+- AppEntryRouteResolver navigation.
+- widget mutation through private WaterWidgetActionReceiver.
+
+Remaining issues:
+1. BP daily alarm uses setInexactRepeating/24h. Move to one-shot local-time scheduling.
+2. Manifest retains dead LOG_MEAL action.
+3. Device/OEM tests required for Doze, reboot, app update, notification denial.
+4. Widget privacy cannot be universally redacted by app; disclose that widgets can display selected data on launcher surfaces.
+5. Validate medium/small water add actions after process death and DB failure.
+6. Validate invalid/deleted profile handling after multi-profile is disabled/scoped.
+
+
+## T. Reports / Export / Sharing
+================================
+
+Good:
+- FileProvider grant is read-only and narrow.
+- export temp directory is cache/exports.
+- JSON metadata includes app name/package/disclaimer.
+- CSV has a real quote/newline escape helper.
+- ExportDisclosurePolicy provides provenance.
+- sharing adds FLAG_GRANT_READ_URI_PERMISSION.
+- no automatic cloud backup/restore is advertised.
+
+Confirmed:
+Per-calculator CSV schema mismatch. Fix before public export.
+
+History parsing:
+JSONObject should replace manual JSON splitting.
+
+Additional tests:
+- comma
+- double quote
+- CR/LF
+- emoji/unicode
+- pipes
+- colon in note/value
+- huge history
+- empty history
+- null category
+- timezone date
+- every calculator type.
+
+Sensitive files:
+Keep cache cleanup available; consider scheduled cleanup only if evidence shows accumulation.
+
+
+## U. Accessibility Audit
+=========================
+
+Static positives:
+- many icon buttons have contentDescription.
+- decorative AI dialog icon uses null description correctly.
+- 48dp AI send/link actions.
+- Material 3 components provide baseline semantics.
+
+Confirmed issues:
+- BatchOperationsBar 36dp IconButton.
+- FoodLog clickable emoji 36dp.
+
+Testing gap:
+androidTest only contains a basic ExampleInstrumentedTest in the inspected current tree. There is no evidence of a meaningful Compose accessibility suite.
+
+Required device matrix:
+Font 1.0x
+Font 1.3x
+Font 1.5x
+Font 2.0x
+TalkBack
+Switch Access/basic keyboard where applicable
+Light/dark
+high contrast if device supports
+animation scale 0
+small phone
+landscape.
+
+Checklist:
+- touch targets >=48dp
+- headings/semantics
+- selected state on tabs/chips
+- slider stateDescription/value
+- charts have text equivalent
+- color never sole status cue
+- icon-only actions named
+- focus order follows layout
+- error messages associated with field
+- destructive confirmation readable
+- no fixed-height text containers clipping at 2x.
+
+
+## V. Architecture & Maintainability
+====================================
+
+Current strengths:
+- domain policies increasingly exist for calculation/safety rules.
+- repositories separate many data operations.
+- Hilt is present.
+- important privacy/security policies are centralized.
+- tests cover many pure policies.
+
+Debt:
+1. Hilt + `HealthCalculatorApp` service locator.
+2. `notification` vs `notifications`.
+3. `presentation` vs `ui/screens`.
+4. `domain/usecase` vs `domain/usecases`.
+5. some ViewModels manually instantiate databases/repositories.
+6. profile data duplicated between FamilyProfile Room and ProfileDataStore.
+7. food log remains SharedPreferences JSON while health history largely uses Room.
+8. NavGraph is large.
+9. deep calculator screens/models embed UI Color/emoji concerns.
+
+Recommendation:
+Do not do a mass package migration before release.
+First remove duplicated sources of truth that cause correctness issues, especially profile state.
+
+
+## W. Dependencies & Build Configuration
+========================================
+
+Classification:
+
+✅ Required/currently justified:
+- Compose/Material3
+- Navigation
+- Lifecycle Compose
+- Room
+- DataStore
+- Hilt
+- Health Connect
+- Firebase AI
+- App Check
+- Core Splash
+- Coil where image loading is used
+- test libs.
+
+⚠️ Review, not emergency-upgrade:
+- Kotlin 2.0.21
+- Compose BOM 2024.11
+- lifecycle/navigation/Room
+- Hilt 2.51.1
+These are older than the newest ecosystem releases in 2026, but the current build is green. Major upgrades should be isolated after launch-hardening.
+
+⚠️ Architecture review:
+- Gson plus org.json usage means multiple serialization styles.
+- WorkManager dependency should be confirmed against actual live workers before considering removal.
+
+🔐 Security-sensitive:
+- Firebase AI
+- Firebase Analytics
+- App Check
+- google-services configuration.
+They need console restrictions/configuration, not dependency removal.
+
+Build:
+- API 36 target meets the current Google Play requirement effective Aug 31 2026 for new apps and app updates.
+- R8/shrink enabled.
+- lint strict.
+- JDK 17.
+- release secrets external.
+- verifyPlayReleaseSigning exists.
+
+Do not commit keystore/passwords.
+
+
+## X. Testing Quality
+====================
+
+Good JVM test areas observed in current test tree/history:
+- medical calculator accuracy
+- AI prompt policy/safety/context
+- analytics policy
+- navigation structure
+- Health Connect permission scope
+- step trend/history repository
+- export disclosure
+- product/store/growth policy
+- monetization policy
+- engagement policy.
+
+What these tests do well:
+They catch deterministic policy regressions and several formula boundaries.
+
+False-confidence risk:
+CI green is heavily JVM/static. It does not prove Android component integration.
+
+Major missing layer:
+`app/src/androidTest/...` currently exposes only ExampleInstrumentedTest in the inspected tree.
+
+Required instrumentation:
+1. Room migration tests.
+2. database/profile isolation tests.
+3. Compose route smoke tests.
+4. accessibility semantics/touch-target tests.
+5. FileProvider export share test.
+6. Health Connect fake/provider integration where feasible.
+7. notification intent/deep-link test.
+8. widget config/update basic test.
+
+Risk-based priority:
+P1 medical/data fixes need unit tests immediately.
+Migration + profile isolation need instrumentation before enabling multi-profile again.
+
+
+## Y. CI/CD
+===========
+
+Workflow:
+`.github/workflows/android.yml`
+
+Current gate:
+✅ unit tests
+✅ lintRelease
+✅ debug APK
+✅ release APK
+✅ release AAB
+
+JDK:
+17
+
+Memory:
+4 GB Gradle JVM configuration in CI.
+
+Assessment:
+Good, appropriately simple.
+
+Recommended additions only:
+1. Add `verifyPlayReleaseSigning` to an actual release/publish workflow, NOT normal PR CI.
+2. Add connected/instrumentation tests only when a stable emulator job is available; do not make flaky emulator tests block every trivial docs commit immediately.
+3. Optional dependency/security scanning can be a scheduled job, not an elaborate release blocker.
+
+Do not upload the whole source tree as a CI artifact. That old audit branch behavior was temporary and should not be merged.
+
+
+## Z. Google Play Readiness
+============================
+
+### Code-ready / substantially ready
+- targetSdk 36
+- compileSdk 36
+- minSdk 26
+- release R8/resource shrink
+- strict release lint
+- AAB builds in CI
+- privacy page exists
+- consumer brand Health Metrics Tracker
+- Health Connect permissions are read-only/minimal
+- analytics opt-in
+- App Check release provider
+- Clear All Data
+- no automatic Android backup.
+
+### Not code-ready because P1 fixes remain
+- multi-profile isolation
+- Health Connect steps aggregation
+- BP mixed-category classification
+- metabolic waist-medication criterion
+- AI live chat user bubble
+- CSV filtered export
+- IBW unsupported extrapolation.
+
+### Requires Play Console
+- Play App Signing / upload key
+- Health apps declaration
+- Data Safety
+- Health Connect permission/use declarations
+- content rating
+- app access if any
+- target audience
+- privacy policy URL
+- support contact/URL
+- store listing
+- screenshots
+- feature graphic
+- testing track
+- production rollout.
+
+Current Play policy:
+Health/medical apps must complete the Health apps declaration and provide a public privacy policy. Non-medical-device health apps with medical functionality should include a clear app-description disclaimer that the app is not a medical device and does not diagnose, treat, cure or prevent a medical condition.
+
+Likely declaration categories based on actual features:
+- Activity & Fitness
+- Nutrition & Weight Management
+and any additional Play form categories that exactly match BP/wellness functionality.
+Do not guess declarations in the console; answer based on the form shown at submission time.
+
+### Requires Firebase / Google Cloud
+- App Check Play Integrity registration and enforcement
+- Firebase AI service/model availability/quota
+- analytics configuration/retention/access if analytics is enabled
+- API key restrictions/monitoring.
+
+### Requires developer/product-owner action
+- store screenshots/feature graphic
+- final public copy
+- upload signing key
+- closed-test QA
+- final publish approval.
+
+
+## AA. Product & Feature Recommendations
+========================================
+
+1. Actual core value proposition
+A privacy-conscious local wellness tracker that combines transparent formula-based calculators, simple daily tracking, optional read-only Health Connect and optional consented AI.
+
+2. Who should use it
+Adults who want a private personal wellness journal/calculator without making a medical diagnosis claim.
+
+3. Is it trying to do too much?
+Somewhat. The strongest product is calculators + a few daily trackers + explainable trends. Multi-profile, broad education, VO2 gamification, many widgets and future premium scaffolding add surface area.
+
+4. Strongest features
+- local-first data posture
+- transparent calculators
+- water/weight/BP tracking
+- read-only Health Connect
+- deterministic insights
+- explicit AI consent
+- export provenance.
+
+5. Weak/redundant
+- current multi-profile implementation
+- fitness age/percentile extras
+- repeated education cards
+- multiple overlapping history/tracking representations.
+
+6. Remove/hide
+- multi-profile UI until isolation is complete
+- unsupported/unsourced health precision
+- stale repo handoff/prompt files
+- dead LOG_MEAL filter.
+
+7. Missing
+- real device QA
+- migration testing
+- profile-scoped data if multi-profile returns
+- accessibility tests
+- closed-test feedback loop.
+
+8. Why someone returns
+Fast daily logging plus useful week-over-week explanations.
+
+9. Why someone uninstalls
+Too much visual/text density, inaccurate values, intrusive reminders, or lack of trust that one profile is private from another.
+
+10. Differentiator
+Not “more calculators.” Differentiation is transparent, privacy-first, low-pressure wellness tracking with no-account local behavior and optional integrations.
+
+Must Have:
+- P1 correctness
+- one-profile safe launch
+- closed test
+- privacy/Play declarations.
+
+High Value:
+- better data trends
+- robust exports
+- accessibility
+- gentle feature-led reminders.
+
+Nice to Have:
+- profile-scoped multi-user after a tested migration
+- richer charts
+- convenience premium later.
+
+Avoid:
+- ads around sensitive health results
+- paywalling deletion/export/basic safety
+- aggressive streak pressure
+- extra Health Connect permissions without a feature
+- generic “AI doctor” branding
+- WHO certification/endorsement claims.
+
+
+## AB. KEEP AS-IS
+=================
+
+Do not rewrite these without a concrete regression:
+
+1. app/src/main/res/xml/file_paths.xml narrow paths.
+2. network_security_config cleartext=false.
+3. FullAppDataResetter OS-level full reset.
+4. AppEntryRouteResolver allow-list approach.
+5. MainActivity current external-entry/onboarding ordering.
+6. BroadcastReceiver async/goAsync helper pattern.
+7. private water widget action receiver.
+8. NotificationPermission gate.
+9. private notification lock-screen visibility.
+10. ProductAnalyticsPolicy allowlist/denylist.
+11. Firebase Analytics default-off adapter behavior.
+12. debug/release App Check source-set separation.
+13. only READ_STEPS and READ_WEIGHT Health Connect scope.
+14. AI disclosure + separate context-sharing consent.
+15. HTTPS-only model links.
+16. ExportDisclosurePolicy/provenance.
+17. external release signing credential design.
+18. release lint + APK/AAB CI gates.
+19. Wellness Score nonclinical framing.
+20. Health Metrics Tracker consumer-facing name.
+
+
+## AC. Production Scorecard
+===========================
+
+Core functionality:        7.5/10
+Most major flows exist and CI builds, but AI live chat and exports have user-visible defects.
+
+Reliability:               7.0/10
+Receiver/deep-link work improved; midnight rollover, profile state and migration/device behavior remain.
+
+Medical accuracy:          6.5/10
+Many equations are corrected/tested; BP mixed reading, metabolic waist medication and IBW extrapolation are serious.
+
+Health safety:             7.5/10
+Good disclaimers/AI guardrails; some outputs still overstate evidence.
+
+UI/UX:                     7.0/10
+Primary surfaces improved; deep feature inconsistency and data-state issues remain.
+
+Visual design:             7.0/10
+Strong central theme, but legacy vibrant/emoji-heavy screens remain.
+
+Performance:               7.5/10
+No major static leak pattern found; Health Connect raw read and startup need runtime measurement.
+
+Battery efficiency:        7.5/10
+Inexact scheduling and bounded work are reasonable; alarm/Doze behavior needs device QA.
+
+Security:                  8.0/10
+Good FileProvider/network/AppCheck/export boundaries; external Firebase configuration remains.
+
+Privacy:                   6.5/10
+Default-local posture is good, but multi-profile non-isolation is a major trust failure.
+
+Architecture:              6.5/10
+Scalable enough, but duplicated DI/packages/sources of truth.
+
+Maintainability:           6.5/10
+Many policies/tests exist; repo contains large legacy surfaces and obsolete handoff artifacts.
+
+Accessibility:             5.5/10
+Material baseline plus some content descriptions, but confirmed small targets and no meaningful instrumentation suite.
+
+Testing:                   6.5/10
+Useful JVM policy tests; device/migration/UI layers are thin.
+
+CI/CD:                     8.5/10
+Current build gate is strong and green.
+
+Play Store readiness:      7.0/10
+Modern SDK and policy foundation, but P1 fixes + console/signing/assets remain.
+
+Product differentiation:  7.0/10
+Privacy/transparency can differentiate; generic feature breadth alone cannot.
+
+OVERALL:                   7.0/10
+
+
+## AD. P0–P3 Master Backlog
+===========================
+
+No evidence-based P0 crash/data-corruption/remote-critical vulnerability was confirmed in the current master during this audit.
+
+| ID | Priority | Category | Finding | Evidence/File | User Impact | Difficulty | Recommended Action |
+|---|---|---|---|---|---|---|---|
+| P1-01 | P1 | Privacy/Data | Multi-profile records global | FamilyProfileRepository, WeightEntry, HistoryEntry, WaterIntakeLog | cross-profile disclosure | High | hide now; profileId migration later |
+| P1-02 | P1 | Health Connect | raw StepsRecord summing | HealthConnectManager.readStepsHistory | wrong steps/trends | Medium | aggregate COUNT_TOTAL |
+| P1-03 | P1 | Medical | 150/55 can become hypotension | BloodPressureCalculator.categorize | misleading BP output | Low | reorder classification |
+| P1-04 | P1 | Medical | waist medication counts as waist marker | Metabolic calculators | false screen result | Medium | remove field/toggle |
+| P1-05 | P1 | AI/UX | sent user bubble missing | AiCoachViewModel.sendMessage | broken conversation | Low | append state |
+| P1-06 | P1 | Export | typed CSV mismatches values/header | CsvExportHelper | corrupt/misleading CSV | Low | universal deterministic schema |
+| P1-07 | P1 | Medical trust | invented IBW <60in scaling | IBWCalculatorUseCase | false formula authority | Medium | unavailable/result redesign |
+| P2-01 | P2 | Data | fragile details parser | HistoryExtensions.parseDetails | export/history corruption | Low | JSONObject first |
+| P2-02 | P2 | Data | food midnight rollover screen-triggered | FoodLogRepository | stale “today” | Medium | central day-aware source |
+| P2-03 | P2 | Medical | BMR validator mismatch | BMRCalculator | inconsistent validation | Low | shared ranges |
+| P2-04 | P2 | Medical UX | WHR label below threshold | WhrResult.classifyWhr | misleading wording | Low | rename/reclassify |
+| P2-05 | P2 | Reminders | repeating BP alarm local-time drift | BpNotificationHelper | reminder at wrong local time | Medium | one-shot reschedule |
+| P2-06 | P2 | DB | no proven migration below v13 | AppDatabase | upgrade failure risk | Medium | release-history + migration tests |
+| P2-07 | P2 | Accessibility | 36dp interactive controls | BatchOperationsBar/FoodLogScreen | difficult touch | Low | 48dp hit targets |
+| P2-08 | P2 | Medical trust | VO2 bands/fitness age insufficiently sourced | VO2MaxCalculator | false precision | Medium | source or remove |
+| P2-09 | P2 | Health trust | fixed hydration modifiers | WaterIntakeData | false precision | Low | label heuristic |
+| P2-10 | P2 | Performance | startup Firebase/AppCheck unmeasured | HealthCalculatorApp | possible slow first frame | Medium | Macrobenchmark |
+| P3-01 | P3 | Manifest | dead LOG_MEAL action | AndroidManifest/QuickActionReceiver | maintenance confusion | Low | delete |
+| P3-02 | P3 | Repo | stale handoff/prompt/extractor | root files | source-of-truth confusion | Low | delete |
+| P3-03 | P3 | Repo | app/src/layout orphan resource | widget_health_large.xml | dead code | Low | delete after reference check |
+| P3-04 | P3 | Architecture | notification/notifications split | packages | navigation/maintenance cost | Medium | consolidate later |
+| P3-05 | P3 | Architecture | Hilt + service locator | HealthCalculatorApp | duplicate ownership | Medium | migrate incrementally |
+
+
+## AE. Implementation Roadmap
+==============================
+
+### Phase 0 — P1 privacy, medical and correctness blockers
+Objective:
+Make outputs and person-level data behavior trustworthy.
+
+Sequence:
+1. Disable multi-profile switch/add/share UI.
+2. Fix Health Connect daily aggregate.
+3. Fix BP classification ordering.
+4. remove waist-medication metabolic criterion.
+5. fix AI user-message live state.
+6. fix filtered CSV schema.
+7. add regression tests.
+
+Dependencies:
+None beyond current master.
+
+Regression risks:
+profile UI changes; metabolic call sites; Health Connect API compile imports.
+
+Completion:
+CI green + focused tests + device smoke for Health Connect/AI.
+
+
+### Phase 1 — Medical evidence cleanup
+Objective:
+Remove unsupported precision.
+
+Items:
+- IBW short-height behavior.
+- VO2 classification/fitness-age/recovery copy.
+- WHR near-threshold wording.
+- hydration modifier labeling.
+- BMR range consistency.
+- heart-rate duration wording.
+
+Completion:
+Every calculator has formula/source/limits + boundary tests.
+
+
+### Phase 2 — Data robustness and source of truth
+Objective:
+Ensure history/day/profile state survives time and process changes.
+
+Items:
+- JSONObject history parser.
+- day-aware food log.
+- verify oldest Room version.
+- migration tests.
+- decide final one-profile data source.
+- eliminate legacy profile divergence incrementally.
+
+Completion:
+process-death/day-boundary/migration tests pass.
+
+
+### Phase 3 — Accessibility and device QA
+Objective:
+Make current UI usable, not just compilable.
+
+Items:
+- 48dp interactive targets.
+- TalkBack.
+- font 1.0/1.3/1.5/2.0.
+- light/dark.
+- API 26/33/34/35/36.
+- landscape/small phone.
+- edge-to-edge/back.
+
+Completion:
+device matrix signed off; no blocking accessibility defects.
+
+
+### Phase 4 — Background reliability and performance
+Objective:
+Stable reminders/widgets/startup.
+
+Items:
+- BP one-shot local-time alarm.
+- TIMEZONE/TIME_SET restoration if required.
+- Doze/reboot/widget QA.
+- Macrobenchmark startup.
+- profile slow paths and export memory profile.
+
+Completion:
+defined battery/first-frame target met on representative device.
+
+
+### Phase 5 — Repo/release hardening
+Objective:
+Prepare a clean release candidate.
+
+Items:
+- remove stale root artifacts.
+- close old hardening PR.
+- dependency review without risky mass upgrades.
+- signed release AAB.
+- Play declarations.
+- Firebase configuration.
+- closed test.
+
+Completion:
+signed closed-test build, policy forms complete, no P1/P2 release blockers.
+
+### Later — Profile-scoped multi-user v17
+Only after migration design/tests:
+- add profileId to every profile-owned table.
+- deterministic migration of existing rows.
+- FK/index strategy.
+- DAO filters.
+- export/widget/AI/insight scoping.
+- re-enable profile switcher.
+- full migration + isolation tests.
+
+
+## AF. Exact Code/Patches
+=========================
+
+IMPORTANT:
+These patches are prepared against the audited current master structure. The current unmodified master already passes CI. After applying any patch, rerun the exact current CI gate. For the multi-profile and metabolic changes, search all call sites before commit because those are cross-file APIs.
+
+
+## CHANGE P1-02
+
+### Priority
+P1
+
+### Problem
+Health Connect step totals use raw StepsRecord summing instead of the recommended cumulative aggregation.
+
+### Existing file
+`app/src/main/java/com/health/calculator/bmi/tracker/data/healthconnect/HealthConnectManager.kt`
+
+### Action
+MODIFY
+
+### Why
+Avoid duplicate source counting and slice by local calendar day.
+
+### Implementation — complete replacement file
+
+```kotlin
+package com.health.calculator.bmi.tracker.data.healthconnect
+
+import android.content.Context
+import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.request.AggregateRequest
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
+@Singleton
+class HealthConnectManager @Inject constructor(
+    @ApplicationContext
+    private val context: Context
+) {
+    private val healthConnectClient by lazy {
+        HealthConnectClient.getOrCreate(context)
+    }
+
+    val permissions: Set<String> = HealthConnectPermissionPolicy.stepsRead
+    val weightPermissions: Set<String> = HealthConnectPermissionPolicy.weightRead
+
+    private val _isSupported = MutableStateFlow(
+        HealthConnectClient.getSdkStatus(context) == HealthConnectClient.SDK_AVAILABLE
+    )
+    val isSupported: StateFlow<Boolean> = _isSupported
+
+    suspend fun hasAllPermissions(
+        requiredPermissions: Set<String> = permissions
+    ): Boolean {
+        if (!isSupported.value) return false
+
+        return try {
+            val granted = healthConnectClient
+                .permissionController
+                .getGrantedPermissions()
+            granted.containsAll(requiredPermissions)
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    suspend fun readDailySteps(): Long {
+        val today = LocalDate.now(ZoneId.systemDefault())
+        return readStepsHistory(days = 1)
+            .firstOrNull { it.date == today }
+            ?.steps
+            ?: 0L
+    }
+
+    /**
+     * Returns local-calendar-day step totals using Health Connect aggregation.
+     *
+     * StepsRecord is cumulative data. Health Connect's aggregation API applies
+     * its duplicate/source handling and is preferred over manually summing raw
+     * records from multiple providers.
+     */
+    suspend fun readStepsHistory(days: Int = 30): List<HealthConnectStepsDay> {
+        if (!isSupported.value || !hasAllPermissions()) return emptyList()
+
+        // Without READ_HEALTH_DATA_HISTORY this feature deliberately stays
+        // within a recent window. Do not expand permissions silently.
+        val safeDays = days.coerceIn(1, 30)
+        val zone = ZoneId.systemDefault()
+        val today = LocalDate.now(zone)
+        val now = Instant.now()
+
+        return try {
+            (safeDays - 1 downTo 0).mapNotNull { offset ->
+                val date = today.minusDays(offset.toLong())
+                val start = date.atStartOfDay(zone).toInstant()
+                val naturalEnd = date
+                    .plusDays(1)
+                    .atStartOfDay(zone)
+                    .toInstant()
+                val end = if (date == today) now else naturalEnd
+
+                if (!end.isAfter(start)) {
+                    null
+                } else {
+                    val aggregate = healthConnectClient.aggregate(
+                        AggregateRequest(
+                            metrics = setOf(StepsRecord.COUNT_TOTAL),
+                            timeRangeFilter = TimeRangeFilter.between(start, end)
+                        )
+                    )
+
+                    HealthConnectStepsDay(
+                        date = date,
+                        steps = (aggregate[StepsRecord.COUNT_TOTAL] ?: 0L)
+                            .coerceAtLeast(0L)
+                    )
+                }
+            }
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
+
+    suspend fun readLatestWeight(): HealthConnectWeight? {
+        if (!isSupported.value || !hasAllPermissions(weightPermissions)) return null
+
+        val end = Instant.now()
+        val start = end.minus(365, ChronoUnit.DAYS)
+
+        return try {
+            val result = healthConnectClient.readRecords(
+                ReadRecordsRequest(
+                    recordType = WeightRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(start, end)
+                )
+            )
+
+            result.records
+                .maxByOrNull { it.time }
+                ?.let { record ->
+                    val kilograms = record.weight.inKilograms
+                    if (kilograms.isFinite() && kilograms > 0.0) {
+                        HealthConnectWeight(
+                            kilograms = kilograms,
+                            timestampMillis = record.time.toEpochMilli()
+                        )
+                    } else {
+                        null
+                    }
+                }
+        } catch (_: Exception) {
+            null
+        }
+    }
+}
+
+data class HealthConnectWeight(
+    val kilograms: Double,
+    val timestampMillis: Long
+)
+
+data class HealthConnectStepsDay(
+    val date: LocalDate,
+    val steps: Long
+)
+```
+
+### Verification
+`./gradlew test lintRelease assembleDebug assembleRelease bundleRelease`
+
+Device:
+compare one day with phone-only and phone+watch Health Connect totals.
+
+### Expected result
+Daily app totals match Health Connect aggregate behavior and do not manually double count provider records.
+
+
+## CHANGE P1-03
+
+### Priority
+P1
+
+### Existing file
+`app/src/main/java/com/health/calculator/bmi/tracker/data/model/BloodPressureModels.kt`
+
+### Action
+MODIFY
+
+### Implementation — replace `categorize`
+
+```kotlin
+fun categorize(systolic: Int, diastolic: Int): BpCategory {
+    if (systolic >= 180 || diastolic >= 120) {
+        return BpCategory.HYPERTENSIVE_CRISIS
+    }
+
+    // Use the higher category when systolic and diastolic differ.
+    if (systolic >= 140 || diastolic >= 90) {
+        return if (systolic >= 140 && diastolic < 90) {
+            BpCategory.ISOLATED_SYSTOLIC
+        } else {
+            BpCategory.GRADE_1_HYPERTENSION
+        }
+    }
+
+    if (systolic in 130..139 || diastolic in 80..89) {
+        return BpCategory.HIGH_NORMAL
+    }
+
+    if (systolic in 120..129 && diastolic < 80) {
+        return BpCategory.NORMAL
+    }
+
+    // Only use the low-reading descriptor after ruling out a higher category.
+    if (systolic < 90 || diastolic < 60) {
+        return BpCategory.HYPOTENSION
+    }
+
+    return BpCategory.OPTIMAL
+}
+```
+
+### Test additions
+Add to MedicalCalculatorAccuracyTest:
+
+```kotlin
+@Test
+fun bloodPressureAlwaysUsesHigherCategoryForMixedReadings() {
+    assertEquals(
+        BpCategory.ISOLATED_SYSTOLIC,
+        BloodPressureCalculator.categorize(150, 55)
+    )
+    assertEquals(
+        BpCategory.HIGH_NORMAL,
+        BloodPressureCalculator.categorize(135, 55)
+    )
+    assertEquals(
+        BpCategory.NORMAL,
+        BloodPressureCalculator.categorize(125, 55)
+    )
+    assertEquals(
+        BpCategory.HYPOTENSION,
+        BloodPressureCalculator.categorize(85, 55)
+    )
+}
+```
+
+### Expected result
+A low diastolic value no longer masks a high systolic category.
+
+
+## CHANGE P1-04
+
+### Priority
+P1
+
+### Problem
+Invalid waist-medication criterion.
+
+### Existing files
+- calculator/MetabolicSyndromeCalculator.kt
+- calculator/MetabolicSyndromeStandards.kt
+- ui/screens/metabolicsyndrome/MetabolicSyndromeViewModel.kt
+- metabolic input screen(s)
+- tests.
+
+### Action
+MODIFY
+
+### Exact semantic patch
+
+In `MetabolicSyndromeCalculator.evaluate`:
+DELETE parameter:
+```kotlin
+onWaistMedication: Boolean,
+```
+
+REPLACE:
+```kotlin
+val waistMet = waistCm >= waistThreshold || onWaistMedication
+```
+WITH:
+```kotlin
+val waistMet = waistCm >= waistThreshold
+```
+
+REPLACE the waist criterion's medication field with:
+```kotlin
+isOnMedication = false
+```
+
+In `MetabolicSyndromeStandards.evaluateAllStandards`:
+DELETE:
+```kotlin
+onWaistMedication: Boolean,
+```
+
+DELETE every `waistMedication = onWaistMedication` argument.
+
+In `buildFiveMarkerResult`, DELETE:
+```kotlin
+waistMedication: Boolean,
+```
+
+REPLACE:
+```kotlin
+waistCm >= waistThreshold || waistMedication
+```
+WITH:
+```kotlin
+waistCm >= waistThreshold
+```
+
+In `MetabolicSyndromeViewModel`:
+DELETE state:
+```kotlin
+val onWaistMedication: Boolean = false,
+```
+
+DELETE:
+```kotlin
+fun updateWaistMedication(value: Boolean) { ... }
+```
+
+Remove the corresponding waist-medication UI control.
+
+### Required search before commit
+`rg "onWaistMedication|waistMedication" app/src`
+
+Expected result: zero production references.
+
+### Test
+Create a below-threshold waist case where all medication fields supported by the criteria are false and assert the waist criterion is false.
+
+### Expected result
+Only measured waist circumference can satisfy the waist criterion.
+
+
+## CHANGE P1-05
+
+### Priority
+P1
+
+### Existing file
+`ui/screens/aicoach/AiCoachViewModel.kt`
+
+### Action
+MODIFY
+
+### Implementation — exact replacement inside `activeRequest = viewModelScope.launch { ... }`
+
+Replace the beginning of the launch body through prompt construction with:
+
+```kotlin
+activeRequest = viewModelScope.launch {
+    messagesLoaded.await()
+
+    // Capture prior dialogue before adding the current message so the current
+    // user text is not duplicated in the prompt history.
+    val priorMessages = _messages.value
+        .filter { !it.isLoading && it.text.isNotBlank() }
+        .takeLast(6)
+        .map { it.isUser to it.text }
+
+    val userMessage = ChatMessage(
+        text = validation.normalizedText,
+        isUser = true
+    )
+
+    chatDao.insertMessage(
+        ChatMessageEntity(
+            text = validation.normalizedText,
+            isUser = true
+        )
+    )
+
+    _messages.value = _messages.value +
+        userMessage +
+        ChatMessage(
+            text = "",
+            isUser = false,
+            isLoading = true
+        )
+
+    try {
+        if (!geminiHelper.isNetworkAvailable()) {
+            throw AiCoachException(
+                message = "No network connection.",
+                reason = AiCoachFailureReason.NETWORK
+            )
+        }
+
+        val prompt = if (isContextSharingEnabled.value) {
+            val optionalContext = buildOptionalContext()
+            AiPromptPolicy.buildModelPrompt(
+                validation.normalizedText,
+                optionalContext,
+                priorMessages
+            )
+        } else {
+            AiPromptPolicy.buildModelPrompt(
+                validation.normalizedText,
+                recentDialogue = priorMessages
+            )
+        }
+
+        var responseText = ""
+        geminiHelper.generateContentStream(prompt).collect { chunk ->
+            responseText += chunk
+            updateAssistantBubble(
+                text = AiResponseSafety.sanitizeStreaming(responseText),
+                isLoading = false
+            )
+        }
+
+        val safeResponse = AiResponseSafety.sanitize(
+            responseText,
+            validation.potentiallyUrgent
+        )
+        updateAssistantBubble(
+            text = safeResponse,
+            isLoading = false
+        )
+        chatDao.insertMessage(
+            ChatMessageEntity(
+                text = safeResponse,
+                isUser = false
+            )
+        )
+        _canRetry.value = false
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: AiCoachException) {
+        lastFailedPrompt = validation.normalizedText
+        _notice.value = failureMessage(e.reason)
+        _canRetry.value = true
+        updateAssistantBubble(
+            text = context.getString(R.string.ai_coach_error),
+            isLoading = false,
+            isError = true
+        )
+    } catch (_: Exception) {
+        lastFailedPrompt = validation.normalizedText
+        _notice.value = failureMessage(AiCoachFailureReason.UNKNOWN)
+        _canRetry.value = true
+        updateAssistantBubble(
+            text = context.getString(R.string.ai_coach_error),
+            isLoading = false,
+            isError = true
+        )
+    } finally {
+        _isTyping.value = false
+    }
+}
+```
+
+### Verification
+Send a message while online and offline.
+The user bubble must appear immediately in both cases.
+Recreate the Activity and verify no duplication.
+
+
+## CHANGE P1-06
+
+### Priority
+P1
+
+### Existing file
+`data/export/CsvExportHelper.kt`
+
+### Action
+MODIFY
+
+### Why
+Use one deterministic schema until explicit type-key mappings exist.
+
+### Implementation
+Use this universal header in both `exportAll` and `exportByCalculator`:
+
+```kotlin
+private const val UNIVERSAL_HEADER =
+    "Calculator Type,Date,Time,Primary Value,Unit,Category," +
+        "Detail 1 Key,Detail 1 Value,Detail 2 Key,Detail 2 Value," +
+        "Detail 3 Key,Detail 3 Value,Note"
+```
+
+Replace `exportByCalculator` body with:
+
+```kotlin
+fun exportByCalculator(
+    entries: List<HistoryDisplayEntry>,
+    calculatorType: CalculatorType,
+    onProgress: (Float) -> Unit
+): File {
+    val filtered = entries.filter { it.calculatorType == calculatorType }
+    val exportDir = File(context.cacheDir, "exports").apply { mkdirs() }
+    val timestamp = SimpleDateFormat(
+        "yyyyMMdd_HHmmss",
+        Locale.getDefault()
+    ).format(Date())
+    val file = File(
+        exportDir,
+        "${calculatorType.shortName}_Data_$timestamp.csv"
+    )
+
+    onProgress(0.1f)
+
+    BufferedWriter(FileWriter(file)).use { writer ->
+        writeMetadata(writer)
+        writer.write(UNIVERSAL_HEADER)
+        writer.newLine()
+
+        val total = filtered.size
+        filtered.forEachIndexed { index, entry ->
+            writer.write(buildCsvRow(entry))
+            writer.newLine()
+
+            if (total > 0) {
+                onProgress(0.1f + 0.85f * (index + 1) / total)
+            }
+        }
+    }
+
+    onProgress(1f)
+    return file
+}
+```
+
+Update `escapeCsv`:
+
+```kotlin
+private fun escapeCsv(value: String): String {
+    return if (
+        value.contains(",") ||
+        value.contains("\"") ||
+        value.contains("\n") ||
+        value.contains("\r")
+    ) {
+        "\"${value.replace("\"", "\"\"")}\""
+    } else {
+        value
+    }
+}
+```
+
+Delete `buildTypedCsvRow` and `getHeadersForType` once no longer referenced.
+
+### Verification
+For every CalculatorType:
+- export at least one row.
+- parse with a CSV parser.
+- assert header field count == every row field count.
+
+
+## CHANGE P2-01
+
+### Priority
+P2
+
+### Existing file
+`data/model/HistoryExtensions.kt`
+
+### Action
+MODIFY
+
+### Implementation — replace `parseDetails`
+
+Add:
+```kotlin
+import org.json.JSONObject
+```
+
+Use:
+
+```kotlin
+private fun parseDetails(raw: String?): Map<String, String> {
+    val text = raw?.trim().orEmpty()
+    if (text.isEmpty()) return emptyMap()
+
+    if (text.startsWith("{") && text.endsWith("}")) {
+        return runCatching {
+            val objectValue = JSONObject(text)
+            val result = linkedMapOf<String, String>()
+            val keys = objectValue.keys()
+
+            while (keys.hasNext()) {
+                val key = keys.next()
+                val value = objectValue.opt(key)
+                result[key] = if (
+                    value == null ||
+                    value == JSONObject.NULL
+                ) {
+                    ""
+                } else {
+                    value.toString()
+                }
+            }
+
+            result
+        }.getOrElse {
+            emptyMap()
+        }
+    }
+
+    // Compatibility for the historical key:value|key:value representation.
+    if ("|" in text) {
+        return text
+            .split("|")
+            .mapNotNull { pair ->
+                val parts = pair.split(":", limit = 2)
+                if (parts.size == 2) {
+                    parts[0].trim() to parts[1].trim()
+                } else {
+                    null
+                }
+            }
+            .toMap()
+    }
+
+    return emptyMap()
+}
+```
+
+### Verification
+Tests with:
+- JSON value containing comma
+- colon
+- pipe
+- escaped quote
+- null
+- legacy pipe format.
+
+
+## CHANGE P2-03
+
+### Priority
+P2
+
+### Existing file
+`data/calculator/BMRCalculator.kt`
+
+### Action
+MODIFY
+
+### Implementation
+
+Inside Katch/Cunningham branches replace the current body-fat condition with:
+
+```kotlin
+if (bodyFatPercentage !in 2f..75f) return null
+```
+
+Replace `validateHeight` with:
+
+```kotlin
+fun validateHeight(heightCm: Float): String? {
+    return when {
+        !heightCm.isFinite() -> "Please enter a valid height"
+        heightCm < 100f -> "Height must be at least 100 cm for this adult estimate"
+        heightCm > 250f -> "Height must be 250 cm or below for this estimate"
+        else -> null
+    }
+}
+```
+
+Replace `validateBodyFat` with:
+
+```kotlin
+fun validateBodyFat(
+    percentage: Float,
+    isRequired: Boolean
+): String? {
+    if (!isRequired) return null
+
+    return when {
+        !percentage.isFinite() -> "Please enter a valid body fat percentage"
+        percentage < 2f -> "Body fat percentage must be at least 2%"
+        percentage > 75f -> "Body fat percentage must be 75% or below"
+        else -> null
+    }
+}
+```
+
+### Verification
+1.9 and 75.1 reject.
+2.0 and 75.0 accept.
+
+
+## CHANGE P1-01 — immediate safe mitigation
+
+### Priority
+P1
+
+### Problem
+Multi-profile feature promises isolation the database does not implement.
+
+### Action
+Temporarily make the production UI single-profile until a profileId migration is shipped.
+
+### Existing file
+`presentation/profile/ProfileScreen.kt`
+
+REMOVE the `ProfileSwitcherBar(...)` block.
+
+REMOVE the “Share Profile” menu item that calls:
+```kotlin
+multiProfileViewModel.showShareDialog()
+```
+because the current health overview is global.
+
+Keep ordinary current-profile editing.
+
+### Existing file
+`data/repository/FamilyProfileRepository.kt`
+
+Ensure migration creates one active FamilyProfile even if legacy profile fields are empty. Replace `migrateFromDataStore` with:
+
+```kotlin
+suspend fun migrateFromDataStore() {
+    val count = familyProfileDao.getProfileCount().first()
+    if (count > 0) return
+
+    val oldProfile = oldProfileRepository.profileFlow.first()
+    val hasLegacyData =
+        oldProfile.heightCm > 0 ||
+        oldProfile.weightKg > 0 ||
+        oldProfile.displayName.isNotBlank()
+
+    val family = if (hasLegacyData) {
+        FamilyProfile.fromProfileData(
+            profile = oldProfile,
+            color = ProfileColor.BLUE.colorValue,
+            isActive = true,
+            sortOrder = 0
+        )
+    } else {
+        FamilyProfile(
+            displayName = "",
+            profileColor = ProfileColor.BLUE.colorValue,
+            isActive = true,
+            sortOrder = 0
+        )
+    }
+
+    familyProfileDao.insertProfile(family)
+}
+```
+
+### Existing file
+`presentation/profile/ProfileViewModel.kt`
+
+In `saveWeightLog`, after logging weight, update the active FamilyProfile as well as the legacy compatibility store:
+
+```kotlin
+val activeProfile = familyProfileRepository.activeProfile.first()
+if (activeProfile != null) {
+    familyProfileRepository.updateProfile(
+        activeProfile.copy(weightKg = weightKg)
+    )
+}
+
+profileRepository.saveProfile(
+    _uiState.value.profile.copy(
+        weightKg = weightKg.toFloat()
+    )
+)
+```
+
+### Why this is a mitigation, not the final architecture
+It prevents the UI from promising per-person data isolation while preserving existing profile data. The long-term solution is a tested Room migration adding profileId to profile-owned health tables.
+
+### Verification
+Only one profile editing surface should be exposed in release.
+Existing logs remain accessible and are not deleted.
+
+
+## CHANGE P3-01 / P3-02
+
+### Priority
+P3
+
+### Manifest cleanup
+In AndroidManifest QuickActionReceiver intent filter, keep only:
+
+```xml
+<intent-filter>
+    <action android:name="LOG_WATER" />
+</intent-filter>
+```
+
+### Repository cleanup
+After confirming no production references, DELETE:
+- `WHO_Health_Tracker_Full_Implementation_Handoff.txt`
+- `prompt_to_build_this_app`
+- `extract_handoff.py`
+- `app/src/layout/widget_health_large.xml`
+
+Why safe:
+- current implementation source is already in app/src/main.
+- root handoff is an obsolete candidate document.
+- extractor exists only to reconstruct that handoff.
+- prompt is development history, not production input.
+- `app/src/layout` is outside the Android `src/main/res/layout` resource root.
+
+Before delete:
+`rg "WHO_Health_Tracker_Full_Implementation_Handoff|extract_handoff|widget_health_large" .`
+
+
+## CHANGE P2-07
+
+### Priority
+P2
+
+### Existing file
+`ui/components/history/BatchOperationsBar.kt`
+
+Change interactive IconButton sizing from:
+```kotlin
+Modifier.size(36.dp)
+```
+to:
+```kotlin
+Modifier.size(48.dp)
+```
+
+Keep the icon itself visually smaller with:
+```kotlin
+Modifier.size(20.dp)
+```
+inside the button if needed.
+
+### Existing file
+`ui/screens/calorie/FoodLogScreen.kt`
+
+For clickable emoji choices, make the interactive Surface 48dp:
+```kotlin
+modifier = Modifier
+    .size(48.dp)
+    .clickable { onUpdateEmoji(emoji) }
+```
+
+The glyph can stay visually 20–24sp.
+
+### Verification
+Compose UI test/assert touch bounds where practical; manually test TalkBack.
+
+
+## CHANGE P1-07 — recommended model-level direction, not a blind one-line formula patch
+
+Do NOT simply keep multiplying formula bases for height/60.
+
+Short-term conservative option:
+If the current result UI cannot represent unavailable formulas, block named historical formula output below 60 inches and explain why.
+
+A better production change is:
+- make Devine/Robinson/Miller/Hamwi values nullable or wrap in `FormulaEstimate(valueKg, available, limitation)`;
+- below supported range return unavailable for those historical formulas;
+- continue showing BMI-based reference range;
+- add tests.
+
+This is intentionally specified as a model/UI change rather than pretending an invented formula is medically valid.
+
+
+## AG. Test & Verification Plan
+===============================
+
+### Current verified CI
+✅ test
+✅ lintRelease
+✅ assembleDebug
+✅ assembleRelease
+✅ bundleRelease
+
+### After Phase 0 patches
+Run:
+`./gradlew test --stacktrace`
+`./gradlew lintRelease --stacktrace`
+`./gradlew assembleDebug --stacktrace`
+`./gradlew assembleRelease --stacktrace`
+`./gradlew bundleRelease --stacktrace`
+
+### Medical boundary matrix
+
+BMI:
+zero, negative, NaN, height zero, 18.49/18.5, 24.9/25.0, 29.9/30, 34.9/35, 39.9/40.
+
+BMR:
+age 17/18/120/121; height 99.9/100/250/250.1; body fat 1.9/2/75/75.1.
+
+BP:
+59/30 invalid boundaries if UI supports.
+Mixed categories:
+150/55
+135/55
+125/55
+85/95
+179/120
+180/119.
+Systolic <= diastolic validation.
+
+WHR:
+male 0.899/0.900
+female 0.849/0.850
+WHtR 0.499/0.500
+invalid zero/negative.
+
+Metabolic:
+every threshold immediately below/at/above.
+No waist-medication field.
+Medication alternatives only for supported four components.
+
+BSA:
+zero/negative/NaN; published example values for every equation; unit conversion.
+
+IBW:
+height boundary; below 60in handling; formula provenance.
+
+Heart rate:
+age 17/18/120/121
+resting HR >= MHR
+custom MHR bounds
+Karvonen boundaries.
+
+VO2:
+invalid RHR/MHR; if bands remain, independently test every age/sex boundary against cited source.
+
+Hydration:
+gender baseline, modifiers, max clamp, pregnancy/breastfeeding “no automatic adjustment”.
+
+Calorie/macros:
+age/body-fat boundaries, activity multiplier, percent sum exactly 100, extreme calorie input, no TEF double count.
+
+### Room
+- build fixture DB from each actually shipped schema version.
+- MigrationTestHelper to v16.
+- verify row counts/content.
+- verify no data loss.
+- future v17 profile migration must test ownership assignment.
+
+### Multi-profile future
+- A/B independent weight, water, BP, food, calculator history, reports, insights, widgets, AI context.
+- deletion of B must not affect A.
+- exports must be scoped.
+- active profile after restart.
+
+### Health Connect
+- no provider
+- unsupported SDK
+- permission denied
+- steps only
+- weight only
+- both
+- revoke while app open
+- phone only
+- watch only
+- phone + watch
+- midnight
+- timezone change
+- DST day
+- no records
+- huge source history.
+
+### AI
+- user bubble immediate
+- offline
+- timeout
+- rate limit
+- cancellation
+- process recreation
+- clear conversation
+- prompt injection
+- diagnosis
+- med start/stop/dose
+- emergency
+- pregnancy
+- pediatric
+- eating disorder/extreme restriction
+- suicide/self-harm
+- malicious/non-HTTPS links.
+
+### Export
+- all calculator types
+- CSV quoting
+- JSON escaped chars
+- PDF empty/large
+- FileProvider URI
+- share grant
+- cache cleanup
+- Unicode.
+
+### Accessibility
+- 1x/1.3x/1.5x/2x
+- TalkBack
+- 48dp controls
+- chart text equivalents
+- focus order
+- selected-state semantics
+- dark/light contrast.
+
+### Android version/device matrix
+API 26
+API 33
+API 34
+API 35
+API 36
+small phone
+normal phone
+large phone
+landscape
+one representative Samsung/OEM device if available.
+
+
+## AH. Final Release Checklist
+==============================
+
+CODE BLOCKERS
+[ ] P1-01 multi-profile disabled or fully scoped
+[ ] P1-02 Health Connect steps aggregate fixed
+[ ] P1-03 BP mixed category fixed
+[ ] P1-04 waist-medication criterion removed
+[ ] P1-05 AI user bubble fixed
+[ ] P1-06 CSV schema fixed
+[ ] P1-07 unsupported IBW extrapolation resolved
+[ ] history parser corrected
+[ ] BMR ranges aligned
+[ ] accessibility critical touch targets fixed
+[ ] current CI all green after patches
+
+DEVICE QA
+[ ] API 26 smoke
+[ ] API 33 notification permission
+[ ] API 34/35 background behavior
+[ ] API 36 edge-to-edge/back
+[ ] Health Connect multiple-source steps
+[ ] weight permission flow
+[ ] reboot/reminders/widgets
+[ ] dark/light
+[ ] 2x font
+[ ] TalkBack
+[ ] process death
+[ ] midnight rollover
+
+DATABASE
+[ ] oldest shipped DB version identified
+[ ] migration fixtures pass
+[ ] no destructive migration
+[ ] existing user data preserved
+
+PRIVACY/SECURITY
+[ ] public privacy policy matches final build
+[ ] local DB not falsely called encrypted
+[ ] AI transfer disclosed
+[ ] optional analytics disclosed
+[ ] API key restrictions checked
+[ ] App Check release enforced
+[ ] no signing secret committed
+[ ] export files limited to intended paths
+
+HEALTH SAFETY
+[ ] all formula sources named
+[ ] no WHO endorsement/certification implication
+[ ] app description: not a medical device / no diagnosis-treatment-cure-prevention claim
+[ ] severe BP wording reviewed
+[ ] pregnancy/children/medication boundaries reviewed
+[ ] AI safety test matrix passes
+
+PLAY CONSOLE
+[ ] Health apps declaration
+[ ] Data Safety
+[ ] Health Connect declaration
+[ ] privacy URL
+[ ] content rating
+[ ] target audience
+[ ] app access
+[ ] support contact
+[ ] app icon
+[ ] adaptive icon
+[ ] 1024x500 feature graphic
+[ ] screenshots
+[ ] store title/short/full description
+[ ] release notes
+[ ] Play App Signing/upload key
+[ ] closed testing
+[ ] pre-launch report reviewed
+[ ] staged production rollout plan
+
+FIREBASE
+[ ] correct Android app/package registered
+[ ] Play Integrity App Check configured
+[ ] Firebase AI Logic enabled
+[ ] selected model is available in target region/project
+[ ] quotas/billing understood
+[ ] analytics remains default off
+[ ] analytics event access/retention configured if used
+
+REPOSITORY HYGIENE
+[ ] obsolete handoff deleted
+[ ] prompt_to_build_this_app removed from production repo
+[ ] extract_handoff.py removed
+[ ] orphan app/src/layout resource removed
+[ ] old audit-hardening PR closed, not merged
+[ ] master protection/required CI retained
+
+FINAL RELEASE DECISION
+======================
+
+Current master as audited:
+NOT YET READY FOR PUBLIC PRODUCTION RELEASE.
+
+Reason:
+The build pipeline is healthy, but there are unresolved P1 issues involving health-data correctness, medical interpretation, cross-profile privacy, AI conversation behavior and export integrity.
+
+After Phase 0 plus targeted medical/data QA:
+The project can become a credible closed-test/release candidate without a full rewrite.
+
+The most important strategic constraint:
+Do not add more features until correctness, profile privacy, Health Connect aggregation, medical classifications and real-device QA are complete.
+
+
+APPENDIX A — Hardening branch comparison
+========================================
+
+Branch: audit-hardening-2026-09-05
+PR #1: “Audit hardening and launch readiness”
+State: open draft
+Changed files: 1
+Purpose of the one change:
+temporary upload-artifact source snapshot in Android CI.
+
+Conclusion:
+- It is based on an old master.
+- It contains no set of production fixes that current master needs.
+- Current master has progressed far beyond it.
+- Do not merge it.
+- Close/delete it after preserving this audit report if desired.
+
+
+APPENDIX B — Documentation truth check
+======================================
+
+PHASE_PROGRESS.md contains many historical “Complete” statements.
+
+What is independently verified now:
+- current master CI test/lint/debug/release/AAB gates PASS.
+- several named hardening changes are actually present in source.
+- current Health Metrics Tracker branding is present.
+
+What documentation still overstates:
+- “complete” cannot mean runtime/device-complete while its own later sections say device/onboarding/Health Connect QA remains open.
+- medical “complete” is contradicted by the BP mixed-category bug, metabolic waist-medication criterion and IBW short-height extrapolation.
+- privacy “complete” is contradicted by multi-profile global health records.
+
+Recommended documentation state:
+Keep PHASE_PROGRESS only as a changelog/history.
+Add a short RELEASE_STATUS.md whose source of truth is:
+- current open P1/P2 issues
+- latest tested commit SHA
+- current CI
+- external console blockers.
+
+Delete the obsolete root implementation handoff so it cannot be mistaken for current code.
+
+
+APPENDIX C — External evidence references
+=========================================
+
+1. World Health Organization — adult BMI / obesity and overweight references.
+   Adult overweight >=25, obesity >=30; detailed historical adult bands align with the app’s BMI categories.
+
+2. 2025 AHA/ACC Guideline for Prevention, Detection, Evaluation and Management of High Blood Pressure in Adults.
+   Normal <120/<80; Elevated 120–129 and <80; Stage 1 130–139 or 80–89; Stage 2 >=140 or >=90.
+
+3. 2017 ACC/AHA adult BP guideline.
+   Explicitly states that if systolic and diastolic fall into two categories, use the higher category.
+
+4. Android Developers — Health Connect “Read raw data” / StepsRecord guidance, current 2026 documentation.
+   For cumulative StepsRecord, use aggregate() rather than readRecords() to avoid double counting and improve accuracy.
+
+5. Alberti KGMM et al. Harmonizing the metabolic syndrome. Circulation. 2009;120:1640-1645.
+   DOI: 10.1161/CIRCULATIONAHA.109.192644
+   PMID: 19805654.
+
+6. Institute of Medicine / National Academies. Dietary Reference Intakes for Water, Potassium, Sodium, Chloride, and Sulfate.
+   Total water AI ~3.7 L men / 2.7 L women (young adults); observed beverage/drinking-water contribution ~3.0 L / 2.2 L.
+
+7. Google Play Health Content and Services policy, current 2026.
+   Health apps require Health apps declaration and public privacy policy; non-medical-device apps with medical functionality require clear non-medical-device/non-diagnostic wording.
+
+8. Google Play target API requirement, effective 2026-08-31.
+   New apps and app updates for Android mobile must target Android 16 / API 36 or higher.
+   Current project targetSdk 36 satisfies this requirement.
